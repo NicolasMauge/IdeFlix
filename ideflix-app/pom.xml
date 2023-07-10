@@ -11,6 +11,7 @@
     <modules>
         <module>domaine</module>
         <module>exposition</module>
+        <module>application</module>
     </modules>
 
     <properties>
@@ -22,7 +23,7 @@
         <jwt.version>4.4.0</jwt.version>
         <postgressql.version>42.5.4</postgressql.version>
         <flyway.version>6.0.8</flyway.version>
-<!--        <jaxb.version>2.3.1</jaxb.version>-->
+        <!--        <jaxb.version>2.3.1</jaxb.version>-->
         <springframework.version>5.3.28</springframework.version>
     </properties>
 
@@ -68,11 +69,11 @@
                 <version>${flyway.version}</version>
             </dependency>
 
-<!--            <dependency>-->
-<!--                <groupId>javax.xml.bind</groupId>-->
-<!--                <artifactId>jaxb-api</artifactId>-->
-<!--                <version>${jaxb.version}</version>-->
-<!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>javax.xml.bind</groupId>-->
+            <!--                <artifactId>jaxb-api</artifactId>-->
+            <!--                <version>${jaxb.version}</version>-->
+            <!--            </dependency>-->
 
             <dependency>
                 <groupId>io.springfox</groupId>
