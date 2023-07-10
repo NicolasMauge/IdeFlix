@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>domaine</module>
+        <module>exposition</module>
     </modules>
 
     <properties>
