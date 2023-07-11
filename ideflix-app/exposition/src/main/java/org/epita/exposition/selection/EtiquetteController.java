@@ -1,7 +1,9 @@
 package org.epita.exposition.selection;
 
 import org.epita.application.selection.EtiquetteService;
+import org.epita.application.utilisateur.UtilisateurService;
 import org.epita.domaine.selection.EtiquetteEntity;
+import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,9 +13,11 @@ import java.util.Optional;
 @RequestMapping("/etiquette")
 public class EtiquetteController {
     EtiquetteService etiquetteService;
+    UtilisateurService utilisateurService;
 
-    public EtiquetteController(EtiquetteService etiquetteService) {
+    public EtiquetteController(EtiquetteService etiquetteService, UtilisateurService utilisateurService) {
         this.etiquetteService = etiquetteService;
+        this.utilisateurService = utilisateurService;
     }
 
     @PostMapping
@@ -34,6 +38,17 @@ public class EtiquetteController {
     @DeleteMapping("/{id}")
     public void supprimerEtiquetteParId(Long id) {
         this.etiquetteService.supprimerEtiquetteParId(id);
+    }
+
+    @GetMapping("/utilisateur/{id}")
+    public List<EtiquetteEntity> trouverEtiquetteParUtilisateur(@PathVariable("id") Long id) {
+        Optional<UtilisateurEntity> utilisateurEntityOptional = this.utilisateurService.trouverUtilisateurParId(id);
+        if(utilisateurEntityOptional.isPresent()) {
+            return this.etiquetteService.trouverEtiquetteParUtilisateur(utilisateurEntityOptional.get());
+        } else {
+            // il faudra une classe exception ici EntityNotFoundException
+            return null;
+        }
     }
 }
 
