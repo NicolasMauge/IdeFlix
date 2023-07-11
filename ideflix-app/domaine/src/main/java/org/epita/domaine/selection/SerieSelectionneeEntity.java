@@ -4,14 +4,14 @@ import javax.persistence.Entity;
 import java.time.LocalDate;
 
 @Entity
-public class SerieSelectionnee extends MediaSelectionne {
+public class SerieSelectionneeEntity extends MediaSelectionneEntity {
     private LocalDate dateModification;
     private int numeroSaison;
     private String idTmdbSaison;
     private int numeroEpisode;
     private String idTmdbEpisode;
 
-    public SerieSelectionnee() {
+    public SerieSelectionneeEntity() {
     }
 
     public LocalDate getDateModification() {

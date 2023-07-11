@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class MediaAudioVisuel {
+public abstract class MediaAudioVisuelEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,9 +26,9 @@ public abstract class MediaAudioVisuel {
     private int noteTmdb;
 
     @OneToMany
-    private List<Genre> genreList;
+    private List<GenreEntity> genreEntityList;
 
-    public MediaAudioVisuel() {
+    public MediaAudioVisuelEntity() {
     }
 
     public Long getId() {
@@ -95,11 +95,11 @@ public abstract class MediaAudioVisuel {
         this.noteTmdb = noteTmdb;
     }
 
-    public List<Genre> getGenreList() {
-        return genreList;
+    public List<GenreEntity> getGenreList() {
+        return genreEntityList;
     }
 
-    public void setGenreList(List<Genre> genreList) {
-        this.genreList = genreList;
+    public void setGenreList(List<GenreEntity> genreEntityList) {
+        this.genreEntityList = genreEntityList;
     }
 }

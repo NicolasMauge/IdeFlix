@@ -1,6 +1,6 @@
 package org.epita.domaine.selection;
 
-public enum StatutMedia {
+public enum StatutMediaEntity {
     EN_COURS,
     ABANDONNE,
     A_VOIR,
