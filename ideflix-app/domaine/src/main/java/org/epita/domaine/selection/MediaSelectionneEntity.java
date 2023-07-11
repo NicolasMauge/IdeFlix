@@ -20,7 +20,7 @@ public abstract class MediaSelectionneEntity {
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate dateSelection;
 
-    @OneToMany
+    @ManyToMany
     private List<EtiquetteEntity> etiquetteEntityList;
 
     private StatutMediaEntity statutMediaEntity;
