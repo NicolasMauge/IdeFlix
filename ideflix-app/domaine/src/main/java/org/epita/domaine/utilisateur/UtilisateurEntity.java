@@ -1,5 +1,7 @@
 package org.epita.domaine.utilisateur;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -11,6 +13,7 @@ public class UtilisateurEntity {
 
     private String email;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate dateCreation;
 
     @OneToOne
