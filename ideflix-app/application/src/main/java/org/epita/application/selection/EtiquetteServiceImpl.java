@@ -1,6 +1,7 @@
 package org.epita.application.selection;
 
 import org.epita.domaine.selection.EtiquetteEntity;
+import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.selection.EtiquetteRepository;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,10 @@ public class EtiquetteServiceImpl implements EtiquetteService {
     @Override
     public void supprimerEtiquetteParId(Long id) {
         this.etiquetteRepository.deleteById(id);
+    }
+
+    @Override
+    public List<EtiquetteEntity> trouverEtiquetteParUtilisateur(UtilisateurEntity utilisateurEntity) {
+        return this.etiquetteRepository.findByUtilisateur(utilisateurEntity);
     }
 }
