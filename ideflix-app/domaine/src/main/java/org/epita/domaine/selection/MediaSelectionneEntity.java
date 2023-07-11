@@ -1,6 +1,8 @@
 package org.epita.domaine.selection;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.epita.domaine.media.MediaAudioVisuelEntity;
+import org.epita.domaine.utilisateur.UtilisateurEntity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -22,6 +24,12 @@ public abstract class MediaSelectionneEntity {
     private List<EtiquetteEntity> etiquetteEntityList;
 
     private StatutMediaEntity statutMediaEntity;
+
+    @OneToOne
+    private MediaAudioVisuelEntity mediaAudioVisuelEntity;
+
+    @ManyToOne
+    private UtilisateurEntity utilisateurEntity;
 
     public MediaSelectionneEntity() {
     }
@@ -50,19 +58,35 @@ public abstract class MediaSelectionneEntity {
         this.dateSelection = dateSelection;
     }
 
-    public List<EtiquetteEntity> getEtiquetteList() {
+    public List<EtiquetteEntity> getEtiquetteEntityList() {
         return etiquetteEntityList;
     }
 
-    public void setEtiquetteList(List<EtiquetteEntity> etiquetteEntityList) {
+    public void setEtiquetteEntityList(List<EtiquetteEntity> etiquetteEntityList) {
         this.etiquetteEntityList = etiquetteEntityList;
     }
 
-    public StatutMediaEntity getStatutMedia() {
+    public StatutMediaEntity getStatutMediaEntity() {
         return statutMediaEntity;
     }
 
-    public void setStatutMedia(StatutMediaEntity statutMediaEntity) {
+    public void setStatutMediaEntity(StatutMediaEntity statutMediaEntity) {
         this.statutMediaEntity = statutMediaEntity;
+    }
+
+    public MediaAudioVisuelEntity getMediaAudioVisuelEntity() {
+        return mediaAudioVisuelEntity;
+    }
+
+    public void setMediaAudioVisuelEntity(MediaAudioVisuelEntity mediaAudioVisuelEntity) {
+        this.mediaAudioVisuelEntity = mediaAudioVisuelEntity;
+    }
+
+    public UtilisateurEntity getUtilisateurEntity() {
+        return utilisateurEntity;
+    }
+
+    public void setUtilisateurEntity(UtilisateurEntity utilisateurEntity) {
+        this.utilisateurEntity = utilisateurEntity;
     }
 }
