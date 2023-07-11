@@ -1,4 +1,4 @@
-package org.epita.domaine;
+package org.epita.domaine.media;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
