@@ -14,6 +14,8 @@ public class PreferencesUtilisateur {
     @OneToMany
     private List<Genre> genreList;
 
+    private String pseudo;
+
     public PreferencesUtilisateur() {
     }
 
@@ -31,5 +33,13 @@ public class PreferencesUtilisateur {
 
     public void setGenreList(List<Genre> genreList) {
         this.genreList = genreList;
+    }
+
+    public String getPseudo() {
+        return pseudo;
+    }
+
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
     }
 }
