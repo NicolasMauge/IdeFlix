@@ -38,6 +38,6 @@ public class SerieSelectionneeServiceImpl implements SerieSelectionneeService {
 
     @Override
     public List<SerieSelectionneeEntity> trouverSerieParUtilisateur(UtilisateurEntity utilisateurEntity) {
-        return this.serieSelectionneeRepository.findByUtilisateur(utilisateurEntity);
+        return this.serieSelectionneeRepository.findByUtilisateurEntity(utilisateurEntity);
     }
 }

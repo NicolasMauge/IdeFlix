@@ -38,6 +38,6 @@ public class EtiquetteServiceImpl implements EtiquetteService {
 
     @Override
     public List<EtiquetteEntity> trouverEtiquetteParUtilisateur(UtilisateurEntity utilisateurEntity) {
-        return this.etiquetteRepository.findByUtilisateur(utilisateurEntity);
+        return this.etiquetteRepository.findByUtilisateurEntity(utilisateurEntity);
     }
 }

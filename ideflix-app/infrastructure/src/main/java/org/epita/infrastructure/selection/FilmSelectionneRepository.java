@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface FilmSelectionneRepository extends JpaRepository<FilmSelectionneEntity, Long> {
-    List<FilmSelectionneEntity> findByUtilisateur(UtilisateurEntity utilisateurEntity);
+    List<FilmSelectionneEntity> findByUtilisateurEntity(UtilisateurEntity utilisateurEntity);
 }

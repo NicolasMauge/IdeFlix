@@ -38,6 +38,6 @@ public class FilmSelectionneServiceImpl implements FilmSelectionneService {
 
     @Override
     public List<FilmSelectionneEntity> trouverFilmSelectionneeParUtilisateur(UtilisateurEntity utilisateurEntity) {
-        return this.filmSelectionneRepository.findByUtilisateur(utilisateurEntity);
+        return this.filmSelectionneRepository.findByUtilisateurEntity(utilisateurEntity);
     }
 }
