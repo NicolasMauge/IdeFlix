@@ -1,10 +1,17 @@
 package org.epita.ideflixiam.application;
 
+import org.epita.ideflixiam.domaine.Role;
 import org.epita.ideflixiam.domaine.UtilisateurIam;
 import org.epita.ideflixiam.infrastructure.UtilisateurIamRepository;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static org.epita.ideflixiam.application.Util.ROLE_ADMIN;
+import static org.epita.ideflixiam.application.Util.ROLE_UTILISATEUR_STANDARD;
+
+@Service
 public class UtilisateurIamServiceImpl implements UtilisateurIamService {
 
     UtilisateurIamRepository utilisateurIamRepository;
@@ -15,7 +22,20 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
 
     @Override
     public UtilisateurIam creerUtilisateurIam(UtilisateurIam nouvelUtilisateurIam) {
-        return utilisateurIamRepository.save(nouvelUtilisateurIam);
+
+        if (utilisateurIamRepository.getUtilisateurIamByEmail(nouvelUtilisateurIam.getEmail()) == null) {
+
+            if (nouvelUtilisateurIam.getListeRoles().size() == 0) {
+                List<Role> listRoles = new ArrayList<Role>();
+                listRoles.add(new Role(ROLE_UTILISATEUR_STANDARD));
+
+                nouvelUtilisateurIam.setListeRoles(listRoles);
+            }
+
+            return utilisateurIamRepository.save(nouvelUtilisateurIam);
+        } else {
+            return null; // TODO existe déjà
+        }
     }
 
     @Override
@@ -24,7 +44,7 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
     }
 
     @Override
-    public List<UtilisateurIam> recupererAllUtilisateurIam() {
+    public List<UtilisateurIam> recupererTousUtilisateurIam() {
 
         return utilisateurIamRepository.findAll();
     }

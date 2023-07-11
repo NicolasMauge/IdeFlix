@@ -11,7 +11,7 @@ public interface UtilisateurIamService {
     UtilisateurIam recupererUtilisateurIamParEmail(String email);
 
 
-    List<UtilisateurIam> recupererAllUtilisateurIam();
+    List<UtilisateurIam> recupererTousUtilisateurIam();
 
 
     UtilisateurIam mettreAJourUtilisateurIam(UtilisateurIam utilisateurIam);
