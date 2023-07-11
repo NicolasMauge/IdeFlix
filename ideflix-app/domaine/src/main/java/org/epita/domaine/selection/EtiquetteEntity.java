@@ -1,9 +1,8 @@
 package org.epita.domaine.selection;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.epita.domaine.utilisateur.UtilisateurEntity;
+
+import javax.persistence.*;
 
 @Entity
 public class EtiquetteEntity {
@@ -12,6 +11,9 @@ public class EtiquetteEntity {
     private Long id;
 
     private String nomTag;
+
+    @OneToOne
+    private UtilisateurEntity utilisateurEntity;
 
     public EtiquetteEntity() {
     }
@@ -30,5 +32,13 @@ public class EtiquetteEntity {
 
     public void setNomTag(String nomTag) {
         this.nomTag = nomTag;
+    }
+
+    public UtilisateurEntity getUtilisateurEntity() {
+        return utilisateurEntity;
+    }
+
+    public void setUtilisateurEntity(UtilisateurEntity utilisateurEntity) {
+        this.utilisateurEntity = utilisateurEntity;
     }
 }
