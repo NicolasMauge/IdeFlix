@@ -12,6 +12,7 @@
         <module>domaine</module>
         <module>exposition</module>
         <module>application</module>
+        <module>infrastructure</module>
     </modules>
 
     <properties>
