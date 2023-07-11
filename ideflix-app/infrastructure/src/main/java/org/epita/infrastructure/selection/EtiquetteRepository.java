@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface EtiquetteRepository extends JpaRepository<EtiquetteEntity, Long> {
-    List<EtiquetteEntity> findByUtilisateur(UtilisateurEntity utilisateurEntity);
+    List<EtiquetteEntity> findByUtilisateurEntity(UtilisateurEntity utilisateurEntity);
 }
