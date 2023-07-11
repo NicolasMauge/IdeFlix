@@ -16,7 +16,7 @@ public class UtilisateurEntity {
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate dateCreation;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private PreferencesUtilisateurEntity preferencesUtilisateurEntity;
 
     public UtilisateurEntity() {
