@@ -4,14 +4,14 @@ import javax.persistence.Entity;
 import java.time.LocalDate;
 
 @Entity
-public class SerieSelectionne extends MediaSelectionne {
+public class SerieSelectionnee extends MediaSelectionne {
     private LocalDate dateModification;
     private int numeroSaison;
     private String idTmdbSaison;
     private int numeroEpisode;
-    private String getIdTmdbEpisode;
+    private String idTmdbEpisode;
 
-    public SerieSelectionne() {
+    public SerieSelectionnee() {
     }
 
     public LocalDate getDateModification() {
@@ -46,11 +46,11 @@ public class SerieSelectionne extends MediaSelectionne {
         this.numeroEpisode = numeroEpisode;
     }
 
-    public String getGetIdTmdbEpisode() {
-        return getIdTmdbEpisode;
+    public String getIdTmdbEpisode() {
+        return idTmdbEpisode;
     }
 
-    public void setGetIdTmdbEpisode(String getIdTmdbEpisode) {
-        this.getIdTmdbEpisode = getIdTmdbEpisode;
+    public void setIdTmdbEpisode(String idTmdbEpisode) {
+        this.idTmdbEpisode = idTmdbEpisode;
     }
 }
