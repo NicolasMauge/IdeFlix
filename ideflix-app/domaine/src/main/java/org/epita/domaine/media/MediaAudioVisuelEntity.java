@@ -28,7 +28,7 @@ public abstract class MediaAudioVisuelEntity {
 
     private int noteTmdb;
 
-    @OneToMany
+    @ManyToMany
     private List<GenreEntity> genreEntityList;
 
     public MediaAudioVisuelEntity() {
