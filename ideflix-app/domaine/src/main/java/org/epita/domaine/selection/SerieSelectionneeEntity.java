@@ -1,10 +1,13 @@
 package org.epita.domaine.selection;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Entity;
 import java.time.LocalDate;
 
 @Entity
 public class SerieSelectionneeEntity extends MediaSelectionneEntity {
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate dateModification;
     private int numeroSaison;
     private String idTmdbSaison;
