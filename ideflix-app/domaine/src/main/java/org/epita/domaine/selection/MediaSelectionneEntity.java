@@ -1,5 +1,7 @@
 package org.epita.domaine.selection;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -13,6 +15,7 @@ public abstract class MediaSelectionneEntity {
 
     private Boolean avisPouce;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate dateSelection;
 
     @OneToMany

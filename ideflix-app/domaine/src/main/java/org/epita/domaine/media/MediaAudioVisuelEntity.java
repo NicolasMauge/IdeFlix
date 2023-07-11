@@ -1,5 +1,7 @@
 package org.epita.domaine.media;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -15,6 +17,7 @@ public abstract class MediaAudioVisuelEntity {
 
     private String titre;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate dateSortie;
 
     private int duree;
