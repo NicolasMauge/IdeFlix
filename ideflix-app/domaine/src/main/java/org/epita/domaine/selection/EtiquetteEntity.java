@@ -6,14 +6,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Etiquette {
+public class EtiquetteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nomTag;
 
-    public Etiquette() {
+    public EtiquetteEntity() {
     }
 
     public Long getId() {

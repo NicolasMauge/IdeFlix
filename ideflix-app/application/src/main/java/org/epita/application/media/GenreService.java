@@ -1,15 +1,16 @@
 package org.epita.application.media;
 
-import org.epita.domaine.media.Genre;
+import org.epita.domaine.media.GenreEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GenreService {
-    void creerGenre(Genre genre);
+    void creerGenre(GenreEntity genreEntity);
 
-    Genre trouverGenreParId(Long id);
+    Optional<GenreEntity> trouverGenreParId(Long id);
 
-    List<Genre> trouverTousLesGenres();
+    List<GenreEntity> trouverTousLesGenres();
 
-    void supprimerGenre(Genre genre);
+    void supprimerGenreParId(Long id);
 }
