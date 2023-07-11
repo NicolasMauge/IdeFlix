@@ -12,6 +12,7 @@ public class IdeflixIamMain {
 
         System.out.println("========================================================================================");
         System.out.println(" Démarrage Ideflix IAM");
+        System.out.println("http://localhost:8080/swagger-ui/");
         System.out.println("========================================================================================");
         System.out.println("");
 
