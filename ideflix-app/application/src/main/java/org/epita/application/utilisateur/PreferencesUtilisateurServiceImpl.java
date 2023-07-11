@@ -2,10 +2,12 @@ package org.epita.application.utilisateur;
 
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.infrastructure.utilisateur.PreferencesUtilisateurRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class PreferencesUtilisateurServiceImpl implements PreferencesUtilisateurService {
     PreferencesUtilisateurRepository preferencesUtilisateurRepository;
 
