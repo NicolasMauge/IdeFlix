@@ -4,10 +4,10 @@ package org.epita.domaine.media;
 import javax.persistence.Entity;
 
 @Entity
-public class Serie extends MediaAudioVisuel {
+public class SerieEntity extends MediaAudioVisuelEntity {
     private int nombreSaisons;
 
-    public Serie() {
+    public SerieEntity() {
     }
 
     public int getNombreSaisons() {

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-public class Utilisateur {
+public class UtilisateurEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,9 +14,9 @@ public class Utilisateur {
     private LocalDate dateCreation;
 
     @OneToOne
-    private PreferencesUtilisateur preferencesUtilisateur;
+    private PreferencesUtilisateurEntity preferencesUtilisateurEntity;
 
-    public Utilisateur() {
+    public UtilisateurEntity() {
     }
 
     public Long getId() {
@@ -43,11 +43,11 @@ public class Utilisateur {
         this.dateCreation = dateCreation;
     }
 
-    public PreferencesUtilisateur getPreferencesUtilisateur() {
-        return preferencesUtilisateur;
+    public PreferencesUtilisateurEntity getPreferencesUtilisateur() {
+        return preferencesUtilisateurEntity;
     }
 
-    public void setPreferencesUtilisateur(PreferencesUtilisateur preferencesUtilisateur) {
-        this.preferencesUtilisateur = preferencesUtilisateur;
+    public void setPreferencesUtilisateur(PreferencesUtilisateurEntity preferencesUtilisateurEntity) {
+        this.preferencesUtilisateurEntity = preferencesUtilisateurEntity;
     }
 }

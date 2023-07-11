@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Genre {
+public class GenreEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,7 +15,7 @@ public class Genre {
 
     private String nomGenre;
 
-    public Genre() {
+    public GenreEntity() {
     }
 
     public Long getId() {

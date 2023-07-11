@@ -1,26 +1,29 @@
 package org.epita.domaine.selection;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class MediaSelectionne {
+public abstract class MediaSelectionneEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Boolean avisPouce;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate dateSelection;
 
     @OneToMany
-    private List<Etiquette> etiquetteList;
+    private List<EtiquetteEntity> etiquetteEntityList;
 
-    private StatutMedia statutMedia;
+    private StatutMediaEntity statutMediaEntity;
 
-    public MediaSelectionne() {
+    public MediaSelectionneEntity() {
     }
 
     public Long getId() {
@@ -47,19 +50,19 @@ public abstract class MediaSelectionne {
         this.dateSelection = dateSelection;
     }
 
-    public List<Etiquette> getEtiquetteList() {
-        return etiquetteList;
+    public List<EtiquetteEntity> getEtiquetteList() {
+        return etiquetteEntityList;
     }
 
-    public void setEtiquetteList(List<Etiquette> etiquetteList) {
-        this.etiquetteList = etiquetteList;
+    public void setEtiquetteList(List<EtiquetteEntity> etiquetteEntityList) {
+        this.etiquetteEntityList = etiquetteEntityList;
     }
 
-    public StatutMedia getStatutMedia() {
-        return statutMedia;
+    public StatutMediaEntity getStatutMedia() {
+        return statutMediaEntity;
     }
 
-    public void setStatutMedia(StatutMedia statutMedia) {
-        this.statutMedia = statutMedia;
+    public void setStatutMedia(StatutMediaEntity statutMediaEntity) {
+        this.statutMediaEntity = statutMediaEntity;
     }
 }

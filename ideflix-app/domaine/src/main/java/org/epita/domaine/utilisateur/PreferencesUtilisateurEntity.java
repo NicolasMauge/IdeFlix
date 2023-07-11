@@ -1,22 +1,22 @@
 package org.epita.domaine.utilisateur;
 
-import org.epita.domaine.media.Genre;
+import org.epita.domaine.media.GenreEntity;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class PreferencesUtilisateur {
+public class PreferencesUtilisateurEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToMany
-    private List<Genre> genreList;
+    private List<GenreEntity> genreEntityList;
 
     private String pseudo;
 
-    public PreferencesUtilisateur() {
+    public PreferencesUtilisateurEntity() {
     }
 
     public Long getId() {
@@ -27,12 +27,12 @@ public class PreferencesUtilisateur {
         this.id = id;
     }
 
-    public List<Genre> getGenreList() {
-        return genreList;
+    public List<GenreEntity> getGenreList() {
+        return genreEntityList;
     }
 
-    public void setGenreList(List<Genre> genreList) {
-        this.genreList = genreList;
+    public void setGenreList(List<GenreEntity> genreEntityList) {
+        this.genreEntityList = genreEntityList;
     }
 
     public String getPseudo() {
