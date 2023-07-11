@@ -1,7 +1,9 @@
 package org.epita.exposition.selection;
 
 import org.epita.application.selection.FilmSelectionneService;
+import org.epita.application.utilisateur.UtilisateurService;
 import org.epita.domaine.selection.FilmSelectionneEntity;
+import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,9 +13,11 @@ import java.util.Optional;
 @RequestMapping("filmselectionne")
 public class FilmSelectionneController {
     FilmSelectionneService filmSelectionneService;
+    UtilisateurService utilisateurService;
 
-    public FilmSelectionneController(FilmSelectionneService filmSelectionneService) {
+    public FilmSelectionneController(FilmSelectionneService filmSelectionneService, UtilisateurService utilisateurService) {
         this.filmSelectionneService = filmSelectionneService;
+        this.utilisateurService = utilisateurService;
     }
 
     @PostMapping
@@ -34,5 +38,16 @@ public class FilmSelectionneController {
     @DeleteMapping("/{id}")
     public void supprimerFilmSelectionneParId(@PathVariable("id") Long id) {
         this.filmSelectionneService.supprimerFilmSelectionneParId(id);
+    }
+
+    @GetMapping("/utilisateur/{id}")
+    public List<FilmSelectionneEntity> trouverFilmSelectionneeParUtilisateur(@PathVariable("id") Long id) {
+        Optional<UtilisateurEntity> utilisateurEntityOptional = this.utilisateurService.trouverUtilisateurParId(id);
+        if(utilisateurEntityOptional.isPresent()) {
+            return this.filmSelectionneService.trouverFilmSelectionneeParUtilisateur(utilisateurEntityOptional.get());
+        } else {
+            // il faudra une classe exception ici EntityNotFoundException
+            return null;
+        }
     }
 }

@@ -1,6 +1,7 @@
 package org.epita.application.selection;
 
 import org.epita.domaine.selection.FilmSelectionneEntity;
+import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.selection.FilmSelectionneRepository;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,10 @@ public class FilmSelectionneServiceImpl implements FilmSelectionneService {
     @Override
     public void supprimerFilmSelectionneParId(Long id) {
         this.filmSelectionneRepository.deleteById(id);
+    }
+
+    @Override
+    public List<FilmSelectionneEntity> trouverFilmSelectionneeParUtilisateur(UtilisateurEntity utilisateurEntity) {
+        return this.filmSelectionneRepository.findByUtilisateur(utilisateurEntity);
     }
 }
