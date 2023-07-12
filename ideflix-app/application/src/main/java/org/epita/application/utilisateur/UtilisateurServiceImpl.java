@@ -1,5 +1,6 @@
 package org.epita.application.utilisateur;
 
+import org.epita.domaine.common.ResourceNotFoundException;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.utilisateur.UtilisateurRepository;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,12 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
     @Override
-    public Optional<UtilisateurEntity> trouverUtilisateurParId(Long id) {
-        return this.utilisateurRepository.findById(id);
+    public UtilisateurEntity trouverUtilisateurParId(Long id) {
+        Optional<UtilisateurEntity> utilisateurEntityOptional = this.utilisateurRepository.findById(id);
+        if(utilisateurEntityOptional.isPresent()) {
+            return utilisateurEntityOptional.get();
+        }
+        throw new ResourceNotFoundException("Utilisateur non trouvé");
     }
 
     @Override

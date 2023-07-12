@@ -19,6 +19,15 @@ public class PreferencesUtilisateurEntity {
     public PreferencesUtilisateurEntity() {
     }
 
+    public PreferencesUtilisateurEntity(List<GenreEntity> genreEntityList, String pseudo) {
+        this.genreEntityList = genreEntityList;
+        this.pseudo = pseudo;
+    }
+
+    public PreferencesUtilisateurEntity(String pseudo) {
+        this.pseudo = pseudo;
+    }
+
     public Long getId() {
         return id;
     }

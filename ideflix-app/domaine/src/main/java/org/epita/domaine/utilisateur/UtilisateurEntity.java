@@ -22,6 +22,17 @@ public class UtilisateurEntity {
     public UtilisateurEntity() {
     }
 
+    public UtilisateurEntity(String email, LocalDate dateCreation, PreferencesUtilisateurEntity preferencesUtilisateurEntity) {
+        this.email = email;
+        this.dateCreation = dateCreation;
+        this.preferencesUtilisateurEntity = preferencesUtilisateurEntity;
+    }
+
+    public UtilisateurEntity(String email, LocalDate dateCreation) {
+        this.email = email;
+        this.dateCreation = dateCreation;
+    }
+
     public Long getId() {
         return id;
     }

@@ -2,9 +2,7 @@ package org.epita.exposition.selection;
 
 import org.epita.application.selection.SerieSelectionneeService;
 import org.epita.application.utilisateur.UtilisateurService;
-import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.epita.domaine.selection.SerieSelectionneeEntity;
-import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,12 +41,7 @@ public class SerieSelectionneeController {
 
     @GetMapping("/utilisateur/{id}")
     public List<SerieSelectionneeEntity> trouverFilmSelectionneeParUtilisateur(@PathVariable("id") Long id) {
-        Optional<UtilisateurEntity> utilisateurEntityOptional = this.utilisateurService.trouverUtilisateurParId(id);
-        if(utilisateurEntityOptional.isPresent()) {
-            return this.serieSelectionneeService.trouverSerieParUtilisateur(utilisateurEntityOptional.get());
-        } else {
-            // il faudra une classe exception ici EntityNotFoundException
-            return null;
-        }
+        return this.serieSelectionneeService
+                .trouverSerieParUtilisateur(this.utilisateurService.trouverUtilisateurParId(id));
     }
 }
