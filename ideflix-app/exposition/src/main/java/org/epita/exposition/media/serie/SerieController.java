@@ -1,4 +1,4 @@
-package org.epita.exposition.media;
+package org.epita.exposition.media.serie;
 
 import org.epita.application.media.SerieService;
 import org.epita.domaine.media.SerieEntity;
