@@ -1,0 +1,32 @@
+<div class="container">
+
+  <form [formGroup]="loginForm" (submit)="onSubmitForm($event)">
+
+    <h1>Se Connecter</h1>
+
+    <div class="mb-3">
+      <label for="email-id" class="form-label">Votre Email</label>
+      <input id="email-id" formControlName="email" type="text" class="form-control">
+      <p *ngIf="loginForm.controls['email'].hasError('required') && isFormSubmitted"
+         class="error">Veuillez renseigner une adresse mail</p>
+
+      <p *ngIf="loginForm.controls['email'].hasError('email') && isFormSubmitted"
+         class="error">Veuillez renseignez un email valide</p>
+    </div>
+
+
+    <div class="mb-3">
+      <label for="pwd-id" class="form-label">Votre password</label>
+      <input id="pwd-id" formControlName="password" type="password" class="form-control">
+      <p *ngIf="loginForm.controls['password'].hasError('required') && isFormSubmitted"
+         class="error">Veuillez renseigner un mot de passe</p>
+
+      <p *ngIf="loginForm.controls['password'].hasError('pattern') && isFormSubmitted"
+         class="error">Veuillez renseigner un mot de passe valide</p>
+    </div>
+
+    <button class="btn btn-light">Se Connecter</button>
+
+
+  </form>
+</div>
