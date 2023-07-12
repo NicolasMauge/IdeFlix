@@ -1,4 +1,4 @@
-package org.epita.application.selection;
+package org.epita.application.selection.serieselectionnee;
 
 import org.epita.domaine.selection.SerieSelectionneeEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface SerieSelectionneeService {
     void creerSerieSelectionnee(SerieSelectionneeEntity serieSelectionneeEntity);
 
-    Optional<SerieSelectionneeEntity> trouverSerieSelectionneeParId(Long id);
+    SerieSelectionneeEntity trouverSerieSelectionneeParId(Long id);
 
     List<SerieSelectionneeEntity> trouverToutesLesSeriesSelectionnees();
 

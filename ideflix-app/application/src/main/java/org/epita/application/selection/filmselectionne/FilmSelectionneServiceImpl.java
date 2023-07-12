@@ -1,5 +1,7 @@
-package org.epita.application.selection;
+package org.epita.application.selection.filmselectionne;
 
+import org.epita.domaine.common.EntityNotFoundException;
+import org.epita.domaine.selection.EtiquetteEntity;
 import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.selection.FilmSelectionneRepository;
@@ -22,8 +24,12 @@ public class FilmSelectionneServiceImpl implements FilmSelectionneService {
     }
 
     @Override
-    public Optional<FilmSelectionneEntity> trouverFilmSelectionneParId(Long id) {
-        return this.filmSelectionneRepository.findById(id);
+    public FilmSelectionneEntity trouverFilmSelectionneParId(Long id) {
+        Optional<FilmSelectionneEntity> filmSelectionneEntityOptional = this.filmSelectionneRepository.findById(id);
+        if(filmSelectionneEntityOptional.isPresent()) {
+            return filmSelectionneEntityOptional.get();
+        }
+        throw new EntityNotFoundException("Film Sélectionné non trouvé");
     }
 
     @Override

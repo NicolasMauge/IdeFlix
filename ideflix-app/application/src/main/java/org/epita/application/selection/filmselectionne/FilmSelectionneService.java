@@ -1,4 +1,4 @@
-package org.epita.application.selection;
+package org.epita.application.selection.filmselectionne;
 
 import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface FilmSelectionneService {
     void creerFilmSelectionne(FilmSelectionneEntity filmSelectionneEntity);
 
-    Optional<FilmSelectionneEntity> trouverFilmSelectionneParId(Long id);
+    FilmSelectionneEntity trouverFilmSelectionneParId(Long id);
 
     List<FilmSelectionneEntity> trouverTousLesFilmsSelectionnes();
 

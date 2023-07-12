@@ -1,5 +1,6 @@
-package org.epita.application.selection;
+package org.epita.application.selection.serieselectionnee;
 
+import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.selection.SerieSelectionneeEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.selection.SerieSelectionneeRepository;
@@ -22,8 +23,12 @@ public class SerieSelectionneeServiceImpl implements SerieSelectionneeService {
     }
 
     @Override
-    public Optional<SerieSelectionneeEntity> trouverSerieSelectionneeParId(Long id) {
-        return this.serieSelectionneeRepository.findById(id);
+    public SerieSelectionneeEntity trouverSerieSelectionneeParId(Long id) {
+        Optional<SerieSelectionneeEntity> serieSelectionneeEntityOptional = this.serieSelectionneeRepository.findById(id);
+        if(serieSelectionneeEntityOptional.isPresent()) {
+            return serieSelectionneeEntityOptional.get();
+        }
+        throw new EntityNotFoundException("Série Sélectionnée non trouvée");
     }
 
     @Override

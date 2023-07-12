@@ -1,6 +1,6 @@
 package org.epita.exposition.selection;
 
-import org.epita.application.selection.SerieSelectionneeService;
+import org.epita.application.selection.serieselectionnee.SerieSelectionneeService;
 import org.epita.application.utilisateur.utilisateur.UtilisateurService;
 import org.epita.domaine.selection.SerieSelectionneeEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,7 @@ public class SerieSelectionneeController {
     }
 
     @GetMapping("/{id}")
-    public Optional<SerieSelectionneeEntity> trouverSerieSelectionneeParId(@PathVariable("id") Long id) {
+    public SerieSelectionneeEntity trouverSerieSelectionneeParId(@PathVariable("id") Long id) {
         return this.serieSelectionneeService.trouverSerieSelectionneeParId(id);
     }
 
