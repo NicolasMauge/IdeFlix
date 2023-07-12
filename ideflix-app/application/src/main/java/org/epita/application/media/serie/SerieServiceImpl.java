@@ -1,5 +1,7 @@
-package org.epita.application.media;
+package org.epita.application.media.serie;
 
+import org.epita.domaine.common.EntityNotFoundException;
+import org.epita.domaine.media.FilmEntity;
 import org.epita.domaine.media.SerieEntity;
 import org.epita.infrastructure.media.SerieRepository;
 import org.springframework.stereotype.Service;
@@ -21,8 +23,12 @@ public class SerieServiceImpl implements SerieService {
     }
 
     @Override
-    public Optional<SerieEntity> trouverSerieParId(Long id) {
-        return this.serieRepository.findById(id);
+    public SerieEntity trouverSerieParId(Long id) {
+        Optional<SerieEntity> serieEntityOptional = this.serieRepository.findById(id);
+        if(serieEntityOptional.isPresent()) {
+            return serieEntityOptional.get();
+        }
+        throw new EntityNotFoundException("Série non trouvée");
     }
 
     @Override

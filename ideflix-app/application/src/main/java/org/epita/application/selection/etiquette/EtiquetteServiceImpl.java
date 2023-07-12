@@ -1,5 +1,8 @@
-package org.epita.application.selection;
+package org.epita.application.selection.etiquette;
 
+import org.epita.application.selection.etiquette.EtiquetteService;
+import org.epita.domaine.common.EntityNotFoundException;
+import org.epita.domaine.media.SerieEntity;
 import org.epita.domaine.selection.EtiquetteEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.selection.EtiquetteRepository;
@@ -22,8 +25,12 @@ public class EtiquetteServiceImpl implements EtiquetteService {
     }
 
     @Override
-    public Optional<EtiquetteEntity> trouverEtiquetteParId(Long id) {
-        return this.etiquetteRepository.findById(id);
+    public EtiquetteEntity trouverEtiquetteParId(Long id) {
+        Optional<EtiquetteEntity> etiquetteEntityOptional = this.etiquetteRepository.findById(id);
+        if(etiquetteEntityOptional.isPresent()) {
+            return etiquetteEntityOptional.get();
+        }
+        throw new EntityNotFoundException("Etiquette non trouvée");
     }
 
     @Override

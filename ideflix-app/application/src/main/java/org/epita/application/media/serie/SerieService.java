@@ -1,4 +1,4 @@
-package org.epita.application.media;
+package org.epita.application.media.serie;
 
 import org.epita.domaine.media.SerieEntity;
 
@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface SerieService {
     void creerSerie(SerieEntity serieEntity);
 
-    Optional<SerieEntity> trouverSerieParId(Long id);
+    SerieEntity trouverSerieParId(Long id);
 
     List<SerieEntity> trouverToutesLesSeries();
 

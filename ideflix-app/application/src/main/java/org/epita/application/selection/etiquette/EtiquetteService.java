@@ -1,4 +1,4 @@
-package org.epita.application.selection;
+package org.epita.application.selection.etiquette;
 
 import org.epita.domaine.selection.EtiquetteEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface EtiquetteService {
     void creerEtiquette(EtiquetteEntity etiquetteEntity);
 
-    Optional<EtiquetteEntity> trouverEtiquetteParId(Long id);
+    EtiquetteEntity trouverEtiquetteParId(Long id);
 
     List<EtiquetteEntity> trouverToutesLesEtiquettes();
 

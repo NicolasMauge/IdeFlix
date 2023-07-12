@@ -1,5 +1,6 @@
 package org.epita.exposition.media.film;
 
+import org.epita.application.media.genre.GenreService;
 import org.epita.domaine.media.FilmEntity;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.exposition.common.Mapper;
@@ -10,7 +11,13 @@ import java.util.List;
 
 @Component
 public class FilmMapper extends Mapper<FilmEntity, FilmDto> {
-    Mapper<GenreEntity, GenreDto> genreMapper;
+    private Mapper<GenreEntity, GenreDto> genreMapper;
+    private GenreService genreService;
+
+    public FilmMapper(Mapper<GenreEntity, GenreDto> genreMapper, GenreService genreService) {
+        this.genreMapper = genreMapper;
+        this.genreService = genreService;
+    }
 
     @Override
     public FilmDto mapEntityToDto(FilmEntity input) {
@@ -27,6 +34,7 @@ public class FilmMapper extends Mapper<FilmEntity, FilmDto> {
 
     @Override
     public FilmEntity mapDtoToEntity(FilmDto input) {
+        // TODO : risque sur la complétude de la base Genre par rapport aux données envoyées
         return new FilmEntity(
                 input.getIdTmdb(),
                 input.getTitre(),
