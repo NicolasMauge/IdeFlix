@@ -2,6 +2,7 @@ package org.epita.exposition.media.genre;
 
 import org.epita.application.media.GenreServiceImpl;
 import org.epita.domaine.media.GenreEntity;
+import org.epita.exposition.common.Mapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.Optional;
 @RequestMapping("/genre")
 public class GenreController {
     private GenreServiceImpl genreService;
-    private GenreMapper genreMapper;
+    private Mapper<GenreEntity, GenreDto> genreMapper;
 
     public GenreController(GenreServiceImpl genreService, GenreMapper genreMapper) {
         this.genreService = genreService;
@@ -19,18 +20,24 @@ public class GenreController {
     }
 
     @PostMapping
-    public void creerGenre(@RequestBody GenreEntity genreEntity) {
-        this.genreService.creerGenre(genreEntity);
+    public void creerGenre(@RequestBody GenreDto genreDto) {
+        this.genreService
+                .creerGenre(
+                        this.genreMapper.mapDtoToEntity(genreDto));
     }
 
     @GetMapping("/{id}")
-    public Optional<GenreEntity> trouverGenreParId(@PathVariable("id") Long id) {
-        return this.genreService.trouverGenreParId(id);
+    public GenreDto trouverGenreParId(@PathVariable("id") Long id) {
+        return this.genreMapper
+            .mapEntityToDto(
+                this.genreService.trouverGenreParId(id));
     }
 
     @GetMapping
-    public List<GenreEntity> trouverTousLesGenres(){
-        return this.genreService.trouverTousLesGenres();
+    public List<GenreDto> trouverTousLesGenres(){
+        return this.genreMapper
+                .mapListEntityToDto(
+                        this.genreService.trouverTousLesGenres());
     }
 
     @DeleteMapping("/{id}")

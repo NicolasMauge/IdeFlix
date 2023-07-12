@@ -1,6 +1,6 @@
 package org.epita.application.utilisateur;
 
-import org.epita.domaine.common.ResourceNotFoundException;
+import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.utilisateur.UtilisateurRepository;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         if(utilisateurEntityOptional.isPresent()) {
             return utilisateurEntityOptional.get();
         }
-        throw new ResourceNotFoundException("Utilisateur non trouvé");
+        throw new EntityNotFoundException("Utilisateur non trouvé");
     }
 
     @Override

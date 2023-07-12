@@ -1,6 +1,6 @@
 package org.epita.application.utilisateur;
 
-import org.epita.domaine.common.ResourceNotFoundException;
+import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.infrastructure.utilisateur.PreferencesUtilisateurRepository;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class PreferencesUtilisateurServiceImpl implements PreferencesUtilisateur
         if(preferencesUtilisateurEntityOptional.isPresent()) {
             return preferencesUtilisateurEntityOptional.get();
         }
-        throw new ResourceNotFoundException("Préférence utilisateur non trouvée");
+        throw new EntityNotFoundException("Préférence utilisateur non trouvée");
     }
 
     @Override
