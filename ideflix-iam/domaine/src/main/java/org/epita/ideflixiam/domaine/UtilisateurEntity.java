@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class UtilisateurIamEntity {
+public class UtilisateurEntity {
     @Id
     @Column(unique = true)
     private String email;
@@ -17,16 +17,16 @@ public class UtilisateurIamEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<RoleEntity> listeRoleEntities;
 
-    public UtilisateurIamEntity() {
+    public UtilisateurEntity() {
     }
 
-    public UtilisateurIamEntity(String nom, String prenom, String email) {
+    public UtilisateurEntity(String nom, String prenom, String email) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
     }
 
-    public UtilisateurIamEntity(String nom, String prenom, String email, String motDePasse, List<RoleEntity> listeRoleEntities) {
+    public UtilisateurEntity(String nom, String prenom, String email, String motDePasse, List<RoleEntity> listeRoleEntities) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;

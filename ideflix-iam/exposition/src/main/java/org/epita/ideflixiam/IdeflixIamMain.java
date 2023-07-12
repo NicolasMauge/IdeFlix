@@ -1,12 +1,11 @@
 package org.epita.ideflixiam;
 
-import org.epita.ideflixiam.exposition.utilisateuriam.UtilisateurIamController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import static org.epita.ideflixiam.common.ConstanteUtile.SECRET_IAM;
 
 @SpringBootApplication
 public class IdeflixIamMain {
@@ -18,12 +17,8 @@ public class IdeflixIamMain {
         SpringApplication.run(IdeflixIamMain.class, args);
 
         logger.info("==========================================================");
-        logger.info(" Démarrage Ideflix IAM");
-        logger.info(" http://localhost:8080/api/v1/iam/swagger-ui/");
+        logger.info("= Démarrage Ideflix IAM                                  =");
+        logger.info("= http://localhost:8080/api/v1/iam/swagger-ui/           =");
         logger.info("==========================================================");
-
-        logger.debug("Secret IAM : " + SECRET_IAM);
-
-
     }
 }

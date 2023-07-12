@@ -1,21 +1,21 @@
-package org.epita.ideflixiam.exposition.utilisateuriam;
+package org.epita.ideflixiam.exposition.utilisateur;
 
-public class UtilisateurIamEntreeDto {
+public class UtilisateurSimpleDto {
+
 
     private String nom;
     private String prenom;
     private String email;
 
-    private String motDePasse;
 
-    public UtilisateurIamEntreeDto() {
+    public UtilisateurSimpleDto() {
+
     }
 
-    public UtilisateurIamEntreeDto(String nom, String prenom, String email, String motDePasse) {
+    public UtilisateurSimpleDto(String nom, String prenom, String email) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
-        this.motDePasse = motDePasse;
     }
 
     public String getNom() {
@@ -40,13 +40,5 @@ public class UtilisateurIamEntreeDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getMotDePasse() {
-        return motDePasse;
-    }
-
-    public void setMotDePasse(String motDePasse) {
-        this.motDePasse = motDePasse;
     }
 }
