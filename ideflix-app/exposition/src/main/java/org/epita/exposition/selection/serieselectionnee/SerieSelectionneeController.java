@@ -2,7 +2,10 @@ package org.epita.exposition.selection.serieselectionnee;
 
 import org.epita.application.selection.serieselectionnee.SerieSelectionneeService;
 import org.epita.application.utilisateur.utilisateur.UtilisateurService;
+import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.epita.domaine.selection.SerieSelectionneeEntity;
+import org.epita.exposition.common.Mapper;
+import org.epita.exposition.selection.filmselectionne.FilmSelectionneDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,27 +14,37 @@ import java.util.Optional;
 @RestController
 @RequestMapping("serieselectionnee")
 public class SerieSelectionneeController {
-    SerieSelectionneeService serieSelectionneeService;
-    UtilisateurService utilisateurService;
+    private SerieSelectionneeService serieSelectionneeService;
+    private UtilisateurService utilisateurService;
+    private Mapper<SerieSelectionneeEntity, SerieSelectionneeDto> serieSelectionneeMapper;
 
-    public SerieSelectionneeController(SerieSelectionneeService serieSelectionneeService, UtilisateurService utilisateurService) {
+    public SerieSelectionneeController(SerieSelectionneeService serieSelectionneeService, UtilisateurService utilisateurService, Mapper<SerieSelectionneeEntity, SerieSelectionneeDto> serieSelectionneeMapper) {
         this.serieSelectionneeService = serieSelectionneeService;
         this.utilisateurService = utilisateurService;
+        this.serieSelectionneeMapper = serieSelectionneeMapper;
     }
 
     @PostMapping
-    public void creerSerieSelectionnee(@RequestBody SerieSelectionneeEntity serieSelectionneeEntity) {
-        this.serieSelectionneeService.creerSerieSelectionnee(serieSelectionneeEntity);
+    public void creerSerieSelectionnee(@RequestBody SerieSelectionneeDto serieSelectionneeDto) {
+        this.serieSelectionneeService
+                .creerSerieSelectionnee(
+                        this.serieSelectionneeMapper.mapDtoToEntity(serieSelectionneeDto));
     }
 
     @GetMapping("/{id}")
-    public SerieSelectionneeEntity trouverSerieSelectionneeParId(@PathVariable("id") Long id) {
-        return this.serieSelectionneeService.trouverSerieSelectionneeParId(id);
+    public SerieSelectionneeDto trouverSerieSelectionneeParId(@PathVariable("id") Long id) {
+        return this.serieSelectionneeMapper
+                .mapEntityToDto(
+                    this.serieSelectionneeService
+                            .trouverSerieSelectionneeParId(id));
     }
 
     @GetMapping
-    public List<SerieSelectionneeEntity> trouverToutesLesSeriesSelectionnees() {
-        return  this.serieSelectionneeService.trouverToutesLesSeriesSelectionnees();
+    public List<SerieSelectionneeDto> trouverToutesLesSeriesSelectionnees() {
+        return this.serieSelectionneeMapper
+                .mapListEntityToDto(
+                    this.serieSelectionneeService
+                            .trouverToutesLesSeriesSelectionnees());
     }
 
     @DeleteMapping("{id}")
@@ -40,8 +53,12 @@ public class SerieSelectionneeController {
     }
 
     @GetMapping("/utilisateur/{id}")
-    public List<SerieSelectionneeEntity> trouverFilmSelectionneeParUtilisateur(@PathVariable("id") Long id) {
-        return this.serieSelectionneeService
-                .trouverSerieParUtilisateur(this.utilisateurService.trouverUtilisateurParId(id));
+    public List<SerieSelectionneeDto> trouverFilmSelectionneeParUtilisateur(@PathVariable("id") Long id) {
+        return this.serieSelectionneeMapper
+                .mapListEntityToDto(
+                    this.serieSelectionneeService
+                        .trouverSerieParUtilisateur(
+                                this.utilisateurService
+                                        .trouverUtilisateurParId(id)));
     }
 }
