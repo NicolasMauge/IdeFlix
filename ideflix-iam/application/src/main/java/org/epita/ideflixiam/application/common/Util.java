@@ -1,4 +1,4 @@
-package org.epita.ideflixiam.application;
+package org.epita.ideflixiam.application.common;
 
 public class Util {
 

@@ -24,6 +24,7 @@
         <springboot.version>2.7.13</springboot.version>
         <postgresql.version>42.5.4</postgresql.version>
         <springfox.version>3.0.0</springfox.version>
+        <java-jwt.version>4.4.0</java-jwt.version>
     </properties>
 
     <dependencyManagement>
@@ -108,6 +109,13 @@
                 <artifactId>infrastructure</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${java-jwt.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

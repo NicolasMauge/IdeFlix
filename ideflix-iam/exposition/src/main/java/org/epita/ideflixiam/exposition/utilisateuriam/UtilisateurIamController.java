@@ -1,14 +1,16 @@
 package org.epita.ideflixiam.exposition.utilisateuriam;
 
-import org.epita.ideflixiam.application.UtilisateurIamService;
+import org.epita.ideflixiam.application.utilisateuriam.UtilisateurIamService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.epita.ideflixiam.application.common.Util.ROLE_UTILISATEUR_STANDARD;
+
 @RestController
-@RequestMapping("/api/v1/iam/utilisateur-iam")
+@RequestMapping
 public class UtilisateurIamController {
 
     Logger logger = LoggerFactory.getLogger(UtilisateurIamController.class);
@@ -21,26 +23,29 @@ public class UtilisateurIamController {
         this.utilisateurIamConvertisseur = utilisateurIamConvertisseur;
     }
 
-    @PostMapping
-    public UtilisateurIamDto creerUtilisateurIam(@RequestBody UtilisateurIamDetailDto utilisateurIamDetailDto) {
 
-        logger.debug("Creation utilisateur : " + utilisateurIamDetailDto.getEmail());
+    @PostMapping("/utilisateur-iam")
+    public UtilisateurIamSimpleDto creerUtilisateurIam(@RequestBody UtilisateurIamEntreeDto utilisateurIamEntreeDto) {
 
-        return utilisateurIamConvertisseur.convertirEntiteVersDto(
+        logger.debug("Creation utilisateur : " + utilisateurIamEntreeDto.getEmail());
+
+        return utilisateurIamConvertisseur.convertirEntiteVersSimpleDto(
                 utilisateurIamService.creerUtilisateurIam(
-                        utilisateurIamConvertisseur.convertirDetailDtoVersEntite(utilisateurIamDetailDto)));
+                        utilisateurIamConvertisseur.convertirDetailDtoVersEntite(utilisateurIamEntreeDto,
+                                ROLE_UTILISATEUR_STANDARD))
+        );
 
     }
 
-    @GetMapping
-    public List<UtilisateurIamDto> lireUtilisateursIam() {
+    @GetMapping("/admin")
+    public List<UtilisateurIamDetailDto> lireUtilisateursIam() {
 
         logger.debug("Récupération de tous utilisateurs");
 
         return utilisateurIamService
                 .recupererTousUtilisateurIam()
                 .stream()
-                .map(utilisateurIam -> utilisateurIamConvertisseur.convertirEntiteVersDto(utilisateurIam))
+                .map(utilisateurIam -> utilisateurIamConvertisseur.convertirEntiteVersDetailDto(utilisateurIam))
                 .toList();
 
     }

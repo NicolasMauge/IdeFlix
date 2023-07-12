@@ -1,12 +1,12 @@
 package org.epita.ideflixiam.infrastructure;
 
-import org.epita.ideflixiam.domaine.UtilisateurIam;
+import org.epita.ideflixiam.domaine.UtilisateurIamEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UtilisateurIamRepository extends JpaRepository<UtilisateurIam, Long> {
+public interface UtilisateurIamRepository extends JpaRepository<UtilisateurIamEntity, String> {
 
-    UtilisateurIam getUtilisateurIamByEmail(String email);
+    UtilisateurIamEntity findByEmail(String email);
 
 }

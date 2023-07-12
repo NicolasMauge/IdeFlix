@@ -1,25 +1,21 @@
 package org.epita.ideflixiam.exposition.utilisateuriam;
 
-import org.epita.ideflixiam.exposition.role.RoleDto;
+public class UtilisateurIamSimpleDto {
 
-import java.util.List;
-
-public class UtilisateurIamDetailDto {
 
     private String nom;
     private String prenom;
     private String email;
 
-    private List<RoleDto> listeRoles;
 
-    public UtilisateurIamDetailDto() {
+    public UtilisateurIamSimpleDto() {
+
     }
 
-    public UtilisateurIamDetailDto(String nom, String prenom, String email, List<RoleDto> listeRoles) {
+    public UtilisateurIamSimpleDto(String nom, String prenom, String email) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
-        this.listeRoles = listeRoles;
     }
 
     public String getNom() {
@@ -44,13 +40,5 @@ public class UtilisateurIamDetailDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public List<RoleDto> getListeRoles() {
-        return listeRoles;
-    }
-
-    public void setListeRoles(List<RoleDto> listeRoles) {
-        this.listeRoles = listeRoles;
     }
 }

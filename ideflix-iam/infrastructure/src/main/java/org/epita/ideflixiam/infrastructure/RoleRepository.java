@@ -1,12 +1,12 @@
 package org.epita.ideflixiam.infrastructure;
 
-import org.epita.ideflixiam.domaine.Role;
+import org.epita.ideflixiam.domaine.RoleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Long> {
+public interface RoleRepository extends JpaRepository<RoleEntity, Long> {
 
-    Role getRoleByNomRole(String nomRole);
+    RoleEntity findRoleByNomRole(String nomRole);
 
 }
