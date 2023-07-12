@@ -33,4 +33,12 @@ public class PreferencesUtilisateurDto {
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
     }
+
+    public List<GenreDto> getGenreList() {
+        return genreList;
+    }
+
+    public void setGenreList(List<GenreDto> genreList) {
+        this.genreList = genreList;
+    }
 }
