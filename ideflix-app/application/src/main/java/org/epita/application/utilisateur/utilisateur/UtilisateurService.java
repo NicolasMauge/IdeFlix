@@ -1,4 +1,4 @@
-package org.epita.application.utilisateur;
+package org.epita.application.utilisateur.utilisateur;
 
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import java.util.List;

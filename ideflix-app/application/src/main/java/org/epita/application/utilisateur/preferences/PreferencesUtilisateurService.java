@@ -1,4 +1,4 @@
-package org.epita.application.utilisateur;
+package org.epita.application.utilisateur.preferences;
 
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import java.util.List;

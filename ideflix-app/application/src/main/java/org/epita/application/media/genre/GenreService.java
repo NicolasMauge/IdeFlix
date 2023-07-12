@@ -1,4 +1,4 @@
-package org.epita.application.media;
+package org.epita.application.media.genre;
 
 import org.epita.domaine.media.GenreEntity;
 

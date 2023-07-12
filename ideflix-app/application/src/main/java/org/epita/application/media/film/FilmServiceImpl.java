@@ -1,6 +1,8 @@
-package org.epita.application.media;
+package org.epita.application.media.film;
 
+import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.media.FilmEntity;
+import org.epita.domaine.media.GenreEntity;
 import org.epita.infrastructure.media.FilmRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +23,12 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public Optional<FilmEntity> trouverFilmParId(Long id) {
-        return this.filmRepository.findById(id);
+    public FilmEntity trouverFilmParId(Long id) {
+        Optional<FilmEntity> filmEntityOptional = this.filmRepository.findById(id);
+        if(filmEntityOptional.isPresent()) {
+            return filmEntityOptional.get();
+        }
+        throw new EntityNotFoundException("Film non trouvé");
     }
 
     @Override

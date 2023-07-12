@@ -1,6 +1,6 @@
 package org.epita.exposition.utilisateur.preferences;
 
-import org.epita.application.utilisateur.PreferencesUtilisateurService;
+import org.epita.application.utilisateur.preferences.PreferencesUtilisateurService;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.exposition.common.Mapper;
 import org.slf4j.Logger;

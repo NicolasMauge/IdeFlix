@@ -1,12 +1,11 @@
 package org.epita.exposition.media.genre;
 
-import org.epita.application.media.GenreServiceImpl;
+import org.epita.application.media.genre.GenreServiceImpl;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.exposition.common.Mapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/genre")

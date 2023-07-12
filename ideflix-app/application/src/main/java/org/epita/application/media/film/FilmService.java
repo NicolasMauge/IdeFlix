@@ -1,4 +1,4 @@
-package org.epita.application.media;
+package org.epita.application.media.film;
 
 import org.epita.domaine.media.FilmEntity;
 
@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface FilmService {
     void creerFilm(FilmEntity filmEntity);
 
-    Optional<FilmEntity> trouverFilmParId(Long id);
+    FilmEntity trouverFilmParId(Long id);
 
     List<FilmEntity> trouverTousLesFilms();
 

@@ -1,7 +1,7 @@
 package org.epita.exposition.selection;
 
 import org.epita.application.selection.FilmSelectionneService;
-import org.epita.application.utilisateur.UtilisateurService;
+import org.epita.application.utilisateur.utilisateur.UtilisateurService;
 import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.springframework.web.bind.annotation.*;
 

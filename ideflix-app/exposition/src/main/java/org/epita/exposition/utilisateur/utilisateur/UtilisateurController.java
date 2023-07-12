@@ -1,6 +1,6 @@
 package org.epita.exposition.utilisateur.utilisateur;
 
-import org.epita.application.utilisateur.UtilisateurService;
+import org.epita.application.utilisateur.utilisateur.UtilisateurService;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.exposition.common.Mapper;
 import org.springframework.web.bind.annotation.*;
