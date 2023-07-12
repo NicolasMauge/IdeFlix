@@ -1,9 +1,12 @@
 package org.epita.domaine.selection;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.epita.domaine.media.MediaAudioVisuelEntity;
+import org.epita.domaine.utilisateur.UtilisateurEntity;
 
 import javax.persistence.Entity;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class SerieSelectionneeEntity extends MediaSelectionneEntity {
@@ -16,6 +19,17 @@ public class SerieSelectionneeEntity extends MediaSelectionneEntity {
 
     public SerieSelectionneeEntity() {
     }
+
+    public SerieSelectionneeEntity(Boolean avisPouce, LocalDate dateSelection, List<EtiquetteEntity> etiquetteEntityList, StatutMediaEntity statutMediaEntity, MediaAudioVisuelEntity mediaAudioVisuelEntity, UtilisateurEntity utilisateurEntity,
+                                 LocalDate dateModification, int numeroSaison, String idTmdbSaison, int numeroEpisode, String idTmdbEpisode) {
+        super(avisPouce, dateSelection, etiquetteEntityList, statutMediaEntity, mediaAudioVisuelEntity, utilisateurEntity);
+        this.dateModification = dateModification;
+        this.numeroSaison = numeroSaison;
+        this.idTmdbSaison = idTmdbSaison;
+        this.numeroEpisode = numeroEpisode;
+        this.idTmdbEpisode = idTmdbEpisode;
+    }
+
 
     public LocalDate getDateModification() {
         return dateModification;

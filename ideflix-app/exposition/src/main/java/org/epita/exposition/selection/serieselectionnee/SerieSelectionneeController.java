@@ -1,4 +1,4 @@
-package org.epita.exposition.selection;
+package org.epita.exposition.selection.serieselectionnee;
 
 import org.epita.application.selection.serieselectionnee.SerieSelectionneeService;
 import org.epita.application.utilisateur.utilisateur.UtilisateurService;
