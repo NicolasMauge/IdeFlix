@@ -12,16 +12,19 @@ import java.util.List;
 public class UtilisateurController {
     private UtilisateurService utilisateurService;
     private Mapper<UtilisateurEntity, UtilisateurDto> utilisateurMapper;
+    private Mapper<UtilisateurEntity, UtilisateurEtPrefDto> utilisateurEtPrefMapper;
 
-    public UtilisateurController(UtilisateurService utilisateurService, UtilisateurMapper utilisateurMapper) {
+    public UtilisateurController(UtilisateurService utilisateurService, Mapper<UtilisateurEntity, UtilisateurDto> utilisateurMapper, Mapper<UtilisateurEntity, UtilisateurEtPrefDto> utilisateurEtPrefMapper) {
         this.utilisateurService = utilisateurService;
         this.utilisateurMapper = utilisateurMapper;
+        this.utilisateurEtPrefMapper = utilisateurEtPrefMapper;
     }
 
     @PostMapping
-    public void creerUtilisateur(@RequestBody UtilisateurDto utilisateurDto) {
+    public void creerUtilisateur(@RequestBody UtilisateurEtPrefDto utilisateurEtPrefDto) {
         this.utilisateurService
-                .creerUtilisateur(this.utilisateurMapper.mapDtoToEntity(utilisateurDto));
+                .creerUtilisateur(this.utilisateurEtPrefMapper
+                        .mapDtoToEntity(utilisateurEtPrefDto));
     }
 
     @GetMapping("/{id}")
@@ -39,5 +42,13 @@ public class UtilisateurController {
     @DeleteMapping("/{id}")
     void supprimerUtilisateurParId(@PathVariable("id") Long id) {
         this.utilisateurService.supprimerUtilisateurParId(id);
+    }
+
+    @GetMapping("/etpref/{id}")
+    public UtilisateurEtPrefDto trouverUtilisateurAvecPrefParId(@PathVariable("id") Long id) {
+        return this.utilisateurEtPrefMapper
+                .mapEntityToDto(
+                    this.utilisateurService
+                            .trouverUtilisateurParId(id));
     }
 }
