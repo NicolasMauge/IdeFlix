@@ -1,6 +1,7 @@
 package org.epita.ideflixiam.exposition.utilisateur;
 
 import org.epita.ideflixiam.application.utilisateur.UtilisateurService;
+import org.epita.ideflixiam.domaine.UtilisateurEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,7 +57,7 @@ public class UtilisateurController {
     @GetMapping("/admin/utilisateurs")
     public List<UtilisateurDetailDto> lireUtilisateurs() {
 
-        logger.debug("Récupération de tous utilisateurs");
+        logger.debug("IAM - Récupération de tous utilisateurs");
 
         return utilisateurService
                 .recupererUtilisateurs()
@@ -64,6 +65,19 @@ public class UtilisateurController {
                 .map(utilisateur -> utilisateurConvertisseur.convertirEntiteVersDetailDto(utilisateur))
                 .toList();
 
+    }
+
+    @DeleteMapping("/admin/utilisateurs/{email}")
+    public void deleteUser(@PathVariable("email") String email) {
+        logger.debug("IAM - Suppression de " + email);
+
+        UtilisateurEntity utilisateur = utilisateurService.recupererUtilisateurParEmail(email);
+
+        if (utilisateur == null) {
+            logger.debug("IAM - Echec suppression de " + email + ". L'utilisateur n'existe pas.");
+        } else {
+            utilisateurService.supprimerUtilisateur(utilisateur);
+        }
     }
 
 

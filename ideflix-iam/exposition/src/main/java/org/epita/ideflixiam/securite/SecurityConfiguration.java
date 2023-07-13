@@ -53,7 +53,7 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/utilisateur").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1/iam/utilisateur").permitAll()
-                .anyRequest().denyAll()
+                //.anyRequest().denyAll() // commenter pour que le swagger soit accessible
                 .and()
                 .addFilter(
                         new JWTAuthenticationManager(
