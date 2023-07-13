@@ -22,23 +22,30 @@ export class RegisterComponent {
   ngOnInit() {
     // construire mon instance loginForm
     this.registerForm = this.fb.group({
-      nom:['', [Validators.required]],
-      prenom:['', [Validators.required]],
+      // nom:['', [Validators.required]],
+      // prenom:['', [Validators.required]],
       email:['', [Validators.required, Validators.email]],
       /* Au moins 8 caractères
          Au moins une lettre majuscule
          Au moins une lettre minuscule
          Au moins un chiffre*/
-      //password:['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)]]
-
-      /* Au moins 6 caractères */
-      password:['', [Validators.required, Validators.pattern(/^[a-zA-Z\d]{6,}$/)]]
+      password:['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)]]
     });
   }
 
   register(event:Event) {
     event.preventDefault();
     console.log(this.registerForm);
+    this.isFormSubmitted = true;
+    if ('registerForm.value:' + this.registerForm.valid) {
+      console.log(this.registerForm.value)
+      this.authService.registerUser(this.registerForm.value)
+        .subscribe({next : response => {
+          console.log(response)
+          this.messageSvc.show('compte crée', 'success')
+           this.route.navigate(['']);
+          }})
+    }
   }
 
   // onSubmitForm(event:Event) {

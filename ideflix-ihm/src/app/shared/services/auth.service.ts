@@ -40,9 +40,9 @@ export class AuthService {
       )
   }
 
-  registerUser(credentials : Credentials):Observable<any>{
+  registerUser(data:any):Observable<any>{
     let endpoint = '/users/register';
-    return this.http.post<any>(this.USER_API + endpoint, credentials)
+    return this.http.post<any>(this.USER_API + endpoint, data)
   }
 
 }

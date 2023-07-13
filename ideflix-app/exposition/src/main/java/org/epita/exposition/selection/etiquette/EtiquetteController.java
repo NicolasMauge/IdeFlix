@@ -44,7 +44,7 @@ public class EtiquetteController {
     }
 
     @DeleteMapping("/{id}")
-    public void supprimerEtiquetteParId(Long id) {
+    public void supprimerEtiquetteParId(@PathVariable("id") Long id) {
         this.etiquetteService.supprimerEtiquetteParId(id);
     }
 
