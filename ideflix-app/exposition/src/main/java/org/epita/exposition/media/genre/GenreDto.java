@@ -1,29 +1,16 @@
-package org.epita.domaine.media;
+package org.epita.exposition.media.genre;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Entity
-public class GenreEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class GenreDto {
     private Long id;
 
     private String idTmdb;
 
     private String nomGenre;
 
-    public GenreEntity() {
+    public GenreDto() {
     }
 
-    public GenreEntity(String idTmdb, String nomGenre) {
-        this.idTmdb = idTmdb;
-        this.nomGenre = nomGenre;
-    }
-
-    public GenreEntity(Long id, String idTmdb, String nomGenre) {
+    public GenreDto(Long id, String idTmdb, String nomGenre) {
         this.id = id;
         this.idTmdb = idTmdb;
         this.nomGenre = nomGenre;

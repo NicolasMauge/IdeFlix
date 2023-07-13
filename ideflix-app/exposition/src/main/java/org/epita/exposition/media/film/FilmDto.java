@@ -1,40 +1,27 @@
-package org.epita.domaine.media;
+package org.epita.exposition.media.film;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.epita.domaine.media.GenreEntity;
+import org.epita.exposition.media.genre.GenreDto;
 
-import javax.persistence.*;
+import javax.persistence.ManyToMany;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class MediaAudioVisuelEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class FilmDto {
     private String idTmdb;
-
     private String titre;
-
-    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate dateSortie;
-
     private int duree;
-
     private String cheminAffichePortrait;
-
     private String cheminAffichePaysage;
-
     private int noteTmdb;
+    private List<GenreDto> genreList;
 
-    @ManyToMany
-    private List<GenreEntity> genreEntityList;
-
-    public MediaAudioVisuelEntity() {
+    public FilmDto() {
     }
 
-    public MediaAudioVisuelEntity(String idTmdb, String titre, LocalDate dateSortie, int duree, String cheminAffichePortrait, String cheminAffichePaysage, int noteTmdb, List<GenreEntity> genreEntityList) {
+    public FilmDto(String idTmdb, String titre, LocalDate dateSortie, int duree, String cheminAffichePortrait, String cheminAffichePaysage, int noteTmdb, List<GenreDto> genreList) {
         this.idTmdb = idTmdb;
         this.titre = titre;
         this.dateSortie = dateSortie;
@@ -42,27 +29,7 @@ public abstract class MediaAudioVisuelEntity {
         this.cheminAffichePortrait = cheminAffichePortrait;
         this.cheminAffichePaysage = cheminAffichePaysage;
         this.noteTmdb = noteTmdb;
-        this.genreEntityList = genreEntityList;
-    }
-
-    public MediaAudioVisuelEntity(Long id, String idTmdb, String titre, LocalDate dateSortie, int duree, String cheminAffichePortrait, String cheminAffichePaysage, int noteTmdb, List<GenreEntity> genreEntityList) {
-        this.id = id;
-        this.idTmdb = idTmdb;
-        this.titre = titre;
-        this.dateSortie = dateSortie;
-        this.duree = duree;
-        this.cheminAffichePortrait = cheminAffichePortrait;
-        this.cheminAffichePaysage = cheminAffichePaysage;
-        this.noteTmdb = noteTmdb;
-        this.genreEntityList = genreEntityList;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.genreList = genreList;
     }
 
     public String getIdTmdb() {
@@ -109,8 +76,8 @@ public abstract class MediaAudioVisuelEntity {
         return cheminAffichePaysage;
     }
 
-    public void setCheminAffichePaysage(String getCheminAffichePaysage) {
-        this.cheminAffichePaysage = getCheminAffichePaysage;
+    public void setCheminAffichePaysage(String cheminAffichePaysage) {
+        this.cheminAffichePaysage = cheminAffichePaysage;
     }
 
     public int getNoteTmdb() {
@@ -121,11 +88,11 @@ public abstract class MediaAudioVisuelEntity {
         this.noteTmdb = noteTmdb;
     }
 
-    public List<GenreEntity> getGenreList() {
-        return genreEntityList;
+    public List<GenreDto> getGenreList() {
+        return genreList;
     }
 
-    public void setGenreList(List<GenreEntity> genreEntityList) {
-        this.genreEntityList = genreEntityList;
+    public void setGenreList(List<GenreDto> genreList) {
+        this.genreList = genreList;
     }
 }
