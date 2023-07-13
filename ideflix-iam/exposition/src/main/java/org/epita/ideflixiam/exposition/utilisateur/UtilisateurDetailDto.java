@@ -2,6 +2,7 @@ package org.epita.ideflixiam.exposition.utilisateur;
 
 import org.epita.ideflixiam.exposition.role.RoleDto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class UtilisateurDetailDto {

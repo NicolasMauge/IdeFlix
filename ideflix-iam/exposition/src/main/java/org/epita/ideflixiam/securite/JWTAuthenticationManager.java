@@ -84,7 +84,11 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
                 .withArrayClaim("roles", roles.toArray(new String[roles.size()]))
                 .sign(Algorithm.HMAC256(this.SECRET_IAM));
         response.addHeader("Authorization", "Bearer " + jwt); // on passe par le body car on ne sait pas lire le header depuis Angular
-
+        response.getWriter().println("{\"email\":\""
+                + springUser.getUsername()
+                + "\", "
+                + "\"jwt\":\"" + jwt
+                + "\" }");
     }
 
 

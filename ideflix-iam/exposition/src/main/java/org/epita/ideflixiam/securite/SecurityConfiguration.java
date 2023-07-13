@@ -16,9 +16,12 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import javax.sql.DataSource;
 
+import static org.epita.ideflixiam.application.common.Util.ROLE_ADMIN;
+
 
 @Configuration
 public class SecurityConfiguration {
+
 
     private final static Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
     @Value("${org.epita.ideflixiam.secretiam}")
@@ -28,6 +31,21 @@ public class SecurityConfiguration {
     private DataSource dataSource;
     @Value("${server.servlet.context-path}")
     private String contextPath;
+
+    private static final String[] SWAGGER_WHITELIST = {
+            // -- Swagger UI v2
+//            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+//            "/swagger-ui.html",
+//            "/webjars/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+            // other public endpoints of your API may be appended to this array
+    };
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -43,17 +61,19 @@ public class SecurityConfiguration {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         logger.debug("IAM, chemin par défaut des end-points : " + contextPath);
 
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/swagger-ui/").permitAll()
-                .antMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
+                .antMatchers(HttpMethod.GET, SWAGGER_WHITELIST).permitAll()
+//                .antMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/utilisateur").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1/iam/utilisateur").permitAll()
-                //.anyRequest().denyAll() // commenter pour que le swagger soit accessible
+                .antMatchers(SWAGGER_WHITELIST).hasRole(ROLE_ADMIN.substring("ROLE_".length()))
+                .anyRequest().denyAll() // commenter pour que le swagger soit accessible
                 .and()
                 .addFilter(
                         new JWTAuthenticationManager(
@@ -62,7 +82,6 @@ public class SecurityConfiguration {
                                                 AuthenticationConfiguration.class)), this.SECRET_IAM
                         )
                 )
-
                 //.antMatchers(HttpMethod.POST, "/utilisateur").permitAll()
 //                .antMatchers(HttpMethod.POST, "/admin/utilisateurs").hasRole(ROLE_ADMIN)
 //                .antMatchers(HttpMethod.GET).permitAll()

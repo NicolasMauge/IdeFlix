@@ -7,15 +7,17 @@ public class UtilisateurSimpleDto {
     private String prenom;
     private String email;
 
+    private String dateCreation;
 
     public UtilisateurSimpleDto() {
 
     }
 
-    public UtilisateurSimpleDto(String nom, String prenom, String email) {
+    public UtilisateurSimpleDto(String nom, String prenom, String email, String dateCreation) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
+        this.dateCreation = dateCreation;
     }
 
     public String getNom() {
@@ -40,5 +42,13 @@ public class UtilisateurSimpleDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(String dateCreation) {
+        this.dateCreation = dateCreation;
     }
 }

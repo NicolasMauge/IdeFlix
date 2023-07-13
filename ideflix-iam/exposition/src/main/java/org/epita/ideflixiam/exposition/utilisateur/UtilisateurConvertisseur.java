@@ -6,6 +6,7 @@ import org.epita.ideflixiam.domaine.UtilisateurEntity;
 import org.epita.ideflixiam.exposition.role.RoleConvertisseur;
 import org.springframework.stereotype.Component;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +32,14 @@ public class UtilisateurConvertisseur {
 
     public UtilisateurSimpleDto convertirEntiteVersSimpleDto(UtilisateurEntity utilisateurEntity) {
 
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String dateCreation = utilisateurEntity.getDateCreation().format(dateTimeFormatter);
+
+
         return new UtilisateurSimpleDto(utilisateurEntity.getNom(),
                 utilisateurEntity.getPrenom(),
-                utilisateurEntity.getEmail());
+                utilisateurEntity.getEmail(),
+                dateCreation);
     }
 
 
