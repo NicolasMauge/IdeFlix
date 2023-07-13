@@ -35,12 +35,6 @@ public class UtilisateurController {
         this.utilisateurService = utilisateurService;
         this.utilisateurConvertisseur = utilisateurConvertisseur;
 
-//        // s'assurer que le compte admin existe, sinon, le créer :
-//        UtilisateurEntity utilisateur = utilisateurService.recupererUtilisateurParEmail(emailAdmin);
-//        if (utilisateur == null) {
-//            logger.debug("Création du premier administrateur");
-//            utilisateurService.creerPremierAdministrateur(nomAdmin, prenomAdmin, emailAdmin, motDePasseAdmin);
-//        }
     }
 
 

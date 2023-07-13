@@ -21,12 +21,13 @@ import javax.sql.DataSource;
 public class SecurityConfiguration {
 
     private final static Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
+    @Value("${org.epita.ideflixiam.secretiam}")
+    public String SECRET_IAM;
     BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private DataSource dataSource;
     @Value("${server.servlet.context-path}")
     private String contextPath;
-
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -58,7 +59,8 @@ public class SecurityConfiguration {
                         new JWTAuthenticationManager(
                                 authenticationManager(
                                         http.getSharedObject(
-                                                AuthenticationConfiguration.class)))
+                                                AuthenticationConfiguration.class)), this.SECRET_IAM
+                        )
                 )
 
                 //.antMatchers(HttpMethod.POST, "/utilisateur").permitAll()

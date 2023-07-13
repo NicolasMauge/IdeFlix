@@ -26,12 +26,14 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
     private final static Logger logger = LoggerFactory.getLogger(JWTAuthenticationManager.class);
     private final AuthenticationManager authenticationManager;
 
-    @Value("${org.epita.ideflixiam.secretiam}")
+    //@Value("${org.epita.ideflixiam.secretiam}")
     public String SECRET_IAM;
 
-    public JWTAuthenticationManager(AuthenticationManager authenticationManager) {
+    public JWTAuthenticationManager(AuthenticationManager authenticationManager, String secretIam) {
         this.authenticationManager = authenticationManager;
+        this.SECRET_IAM = secretIam;
     }
+
 
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response)
@@ -81,7 +83,8 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
         String jwt = JWT.create().withSubject(springUser.getUsername())
                 .withArrayClaim("roles", roles.toArray(new String[roles.size()]))
                 .sign(Algorithm.HMAC256(this.SECRET_IAM));
-        response.addHeader("Authorization", "Bearer" + jwt);
+        response.addHeader("Authorization", "Bearer " + jwt); // on passe par le body car on ne sait pas lire le header depuis Angular
+
     }
 
 
