@@ -1,14 +1,20 @@
 package org.epita.exposition.utilisateur.preferences;
 
+import org.epita.application.media.genre.GenreService;
 import org.epita.application.utilisateur.preferences.PreferencesUtilisateurService;
+import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.exposition.common.Mapper;
+import org.epita.exposition.media.genre.GenreDto;
 import org.epita.exposition.utilisateur.utilisateur.UtilisateurEtPrefDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -17,11 +23,15 @@ public class PreferencesUtilisateurController {
     static final Logger logger = LoggerFactory.getLogger(PreferencesUtilisateurController.class);
 
     private PreferencesUtilisateurService preferencesUtilisateurService;
+    private GenreService genreService;
     private Mapper<PreferencesUtilisateurEntity, PreferencesUtilisateurDto> preferencesUtilisateurMapper;
+    private Mapper<GenreEntity, GenreDto> genreMapper;
 
-    public PreferencesUtilisateurController(PreferencesUtilisateurService preferencesUtilisateurService, PreferencesUtilisateurMapper preferencesUtilisateurMapper) {
+    public PreferencesUtilisateurController(PreferencesUtilisateurService preferencesUtilisateurService, GenreService genreService, Mapper<PreferencesUtilisateurEntity, PreferencesUtilisateurDto> preferencesUtilisateurMapper, Mapper<GenreEntity, GenreDto> genreMapper) {
         this.preferencesUtilisateurService = preferencesUtilisateurService;
+        this.genreService = genreService;
         this.preferencesUtilisateurMapper = preferencesUtilisateurMapper;
+        this.genreMapper = genreMapper;
     }
 
     @PostMapping
@@ -39,6 +49,22 @@ public class PreferencesUtilisateurController {
                         .creerPreferencesUtilisateur(
                                 this.preferencesUtilisateurMapper
                                         .mapDtoToEntity(p)));
+    }
+
+    @PostMapping("/addgenre/{id}/{genreid}")
+    public void ajouterGenrePourId(@PathVariable("id") Long id, @PathVariable("genreid") Long genreId)  {
+        PreferencesUtilisateurEntity preferencesUtilisateurEntity = preferencesUtilisateurService.trouverPreferencesUtilisateurParId(id);
+
+        if(preferencesUtilisateurEntity.getGenreList().size()==0) {
+            GenreEntity genreEntity = genreService.trouverGenreParId(genreId);
+            List<GenreEntity> genreEntityList = new ArrayList<>();
+            genreEntityList.add(genreEntity);
+
+            preferencesUtilisateurEntity.setGenreList(genreEntityList);
+            preferencesUtilisateurService.creerPreferencesUtilisateur(preferencesUtilisateurEntity);
+        } else {
+
+        }
     }
 
     @GetMapping("/{id}")

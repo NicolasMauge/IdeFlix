@@ -13,7 +13,7 @@ public class PreferencesUtilisateurEntity {
 
     private String pseudo;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany
     private List<GenreEntity> genreEntityList;
 
     public PreferencesUtilisateurEntity() {
