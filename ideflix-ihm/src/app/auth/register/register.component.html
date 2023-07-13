@@ -1,7 +1,41 @@
-<form>
-  <div>
-    <label>Votre nom</label>
-  </div>
+
+  <form [formGroup]="registerForm" (submit)="register($event)">
+
+    <div class="mb-3">
+      <label for="nom-id" class="form-label">Votre nom</label>
+      <input id="nom-id" formControlName="nom" type="text" class="form-control">
+      <p *ngIf="registerForm.controls['nom'].hasError('required') && isFormSubmitted"
+         class="error">Veuillez renseigner un nom</p>
+    </div>
+
+    <div class="mb-3">
+      <label for="prenom-id" class="form-label">Votre prénom</label>
+      <input id="prenom-id" formControlName="prenom" type="text" class="form-control">
+      <p *ngIf="registerForm.controls['nom'].hasError('required') && isFormSubmitted"
+         class="error">Veuillez renseigner un prénom</p>
+    </div>
+
+    <div class="mb-3">
+      <label for="email-id" class="form-label">Votre Email</label>
+      <input id="email-id" formControlName="email" type="text" class="form-control">
+      <p *ngIf="registerForm.controls['email'].hasError('required') && isFormSubmitted"
+         class="error">Veuillez renseigner une adresse mail</p>
+
+      <p *ngIf="registerForm.controls['email'].hasError('email') && isFormSubmitted"
+         class="error">Veuillez renseignez un email valide</p>
+    </div>
+
+
+    <div class="mb-3">
+      <label for="pwd-id" class="form-label">Votre password</label>
+      <input id="pwd-id" formControlName="password" type="password" class="form-control">
+      <p *ngIf="registerForm.controls['password'].hasError('required') && isFormSubmitted"
+         class="error">Veuillez renseigner un mot de passe</p>
+
+      <p *ngIf="registerForm.controls['password'].hasError('pattern') && isFormSubmitted"
+         class="error">Veuillez renseigner un mot de passe valide</p>
+    </div>
+
+  <button type="submit" class="btn btn-light">S'inscrire</button>
 
 </form>
-

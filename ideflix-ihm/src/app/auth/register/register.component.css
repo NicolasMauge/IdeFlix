@@ -1,0 +1,26 @@
+label,
+input {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input {
+  margin-bottom: 10px;
+}
+
+
+form  {
+  width: 30%;
+  margin: 200px;
+}
+
+div {
+  margin-bottom: 20px;
+}
+
+
+p.error {
+  color:rgb(247, 10, 10);
+  font-size: 85%;
+  margin: 0;
+}
