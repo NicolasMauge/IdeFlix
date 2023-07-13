@@ -4,45 +4,46 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class UtilisateurIam {
+public class UtilisateurEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true)
+    private String email;
 
     private String nom;
     private String prenom;
-    private String email;
 
     private String motDePasse;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Role> listeRoles;
+    private boolean isActif;
 
-    public UtilisateurIam() {
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    private List<RoleEntity> listeRoleEntities;
+
+    public UtilisateurEntity() {
     }
 
-    public UtilisateurIam(String nom, String prenom, String email) {
+    public UtilisateurEntity(String nom, String prenom, String email) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
+        this.isActif = true;
     }
 
-    public UtilisateurIam(String nom, String prenom, String email, String motDePasse, List<Role> listeRoles) {
+    public UtilisateurEntity(String nom, String prenom, String email, String motDePasse, List<RoleEntity> listeRoleEntities) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.motDePasse = motDePasse;
-        this.listeRoles = listeRoles;
+        this.listeRoleEntities = listeRoleEntities;
+        this.isActif = true;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
+    public UtilisateurEntity(Long id) {
         this.id = id;
     }
-
 
     public String getNom() {
         return nom;
@@ -76,11 +77,11 @@ public class UtilisateurIam {
         this.motDePasse = motDePasse;
     }
 
-    public List<Role> getListeRoles() {
-        return listeRoles;
+    public List<RoleEntity> getListeRoles() {
+        return listeRoleEntities;
     }
 
-    public void setListeRoles(List<Role> listeRoles) {
-        this.listeRoles = listeRoles;
+    public void setListeRoles(List<RoleEntity> listeRoleEntities) {
+        this.listeRoleEntities = listeRoleEntities;
     }
 }

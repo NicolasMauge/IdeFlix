@@ -1,12 +1,9 @@
 package org.epita.ideflixiam.domaine;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-public class Role {
+public class RoleEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,10 +11,14 @@ public class Role {
 
     private String nomRole;
 
-    public Role() {
+//    @ManyToMany(mappedBy = "listeRoles")
+//    private List<UtilisateurIam> listeUtilisateursIam;
+
+
+    public RoleEntity() {
     }
 
-    public Role(String nomRole) {
+    public RoleEntity(String nomRole) {
         this.nomRole = nomRole;
     }
 
