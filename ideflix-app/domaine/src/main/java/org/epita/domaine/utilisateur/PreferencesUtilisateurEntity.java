@@ -11,13 +11,24 @@ public class PreferencesUtilisateurEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany
-    private List<GenreEntity> genreEntityList;
-
     private String pseudo;
+
+    @ManyToMany
+    private List<GenreEntity> genreEntityList;
 
     public PreferencesUtilisateurEntity() {
     }
+
+    public PreferencesUtilisateurEntity(Long id, String pseudo, List<GenreEntity> genreEntityList) {
+        this.id = id;
+        this.pseudo = pseudo;
+        this.genreEntityList = genreEntityList;
+    }
+
+/*
+    public PreferencesUtilisateurEntity(String pseudo) {
+        this.pseudo = pseudo;
+    }*/
 
     public Long getId() {
         return id;

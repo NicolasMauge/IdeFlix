@@ -1,16 +1,16 @@
 package org.epita.ideflixiam.exposition.role;
 
-import org.epita.ideflixiam.domaine.Role;
+import org.epita.ideflixiam.domaine.RoleEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RoleConvertisseur {
 
-    public RoleDto convertirRoleVersRoleDto(Role role) {
-        return new RoleDto(role.getNomRole());
+    public RoleDto convertirRoleVersRoleDto(RoleEntity roleEntity) {
+        return new RoleDto(roleEntity.getNomRole());
     }
 
-    public Role convertirRoleDtoVersRole(RoleDto roleDto) {
-        return new Role(roleDto.getNomRole());
+    public RoleEntity convertirRoleDtoVersRole(RoleDto roleDto) {
+        return new RoleEntity(roleDto.getNomRole());
     }
 }

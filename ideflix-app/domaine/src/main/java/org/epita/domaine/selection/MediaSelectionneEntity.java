@@ -34,6 +34,25 @@ public abstract class MediaSelectionneEntity {
     public MediaSelectionneEntity() {
     }
 
+    public MediaSelectionneEntity(Boolean avisPouce, LocalDate dateSelection, List<EtiquetteEntity> etiquetteEntityList, StatutMediaEntity statutMediaEntity, MediaAudioVisuelEntity mediaAudioVisuelEntity, UtilisateurEntity utilisateurEntity) {
+        this.avisPouce = avisPouce;
+        this.dateSelection = dateSelection;
+        this.etiquetteEntityList = etiquetteEntityList;
+        this.statutMediaEntity = statutMediaEntity;
+        this.mediaAudioVisuelEntity = mediaAudioVisuelEntity;
+        this.utilisateurEntity = utilisateurEntity;
+    }
+
+    public MediaSelectionneEntity(Long id, Boolean avisPouce, LocalDate dateSelection, List<EtiquetteEntity> etiquetteEntityList, StatutMediaEntity statutMediaEntity, MediaAudioVisuelEntity mediaAudioVisuelEntity, UtilisateurEntity utilisateurEntity) {
+        this.id = id;
+        this.avisPouce = avisPouce;
+        this.dateSelection = dateSelection;
+        this.etiquetteEntityList = etiquetteEntityList;
+        this.statutMediaEntity = statutMediaEntity;
+        this.mediaAudioVisuelEntity = mediaAudioVisuelEntity;
+        this.utilisateurEntity = utilisateurEntity;
+    }
+
     public Long getId() {
         return id;
     }
