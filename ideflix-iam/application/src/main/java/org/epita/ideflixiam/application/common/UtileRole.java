@@ -1,6 +1,6 @@
 package org.epita.ideflixiam.application.common;
 
-public class Util {
+public class UtileRole {
 
 
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
