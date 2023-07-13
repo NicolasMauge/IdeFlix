@@ -1,19 +1,13 @@
 package org.epita.ideflixiam.exposition.utilisateur;
 
-import org.epita.ideflixiam.application.common.Util;
 import org.epita.ideflixiam.application.utilisateur.UtilisateurService;
-import org.epita.ideflixiam.domaine.UtilisateurEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.web.bind.annotation.*;
 
-import javax.management.relation.Role;
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.epita.ideflixiam.application.common.Util.ROLE_ADMIN;
 import static org.epita.ideflixiam.application.common.Util.ROLE_UTILISATEUR;
 
 @RestController
@@ -54,6 +48,8 @@ public class UtilisateurController {
     public UtilisateurSimpleDto creerUtilisateur(@RequestBody UtilisateurEntreeDto utilisateurEntreeDto) {
 
         logger.debug("Creation utilisateur : " + utilisateurEntreeDto.getEmail());
+
+        utilisateurService.verifieQueIamEstInitialisee(nomAdmin, prenomAdmin, emailAdmin, motDePasseAdmin);
 
         return utilisateurConvertisseur.convertirEntiteVersSimpleDto(
                 utilisateurService.creerUtilisateur(

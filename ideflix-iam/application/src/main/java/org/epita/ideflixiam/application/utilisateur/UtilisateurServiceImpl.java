@@ -40,8 +40,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         if (utilisateurRepository.findByEmail(nouvelUtilisateurEntity.getEmail()) == null) {
 
             if (nouvelUtilisateurEntity.getListeRoles().size() == 0) {
+                logger.debug("IAM - Préparation de l'utilisateur standard " + nouvelUtilisateurEntity.getEmail());
                 List<RoleEntity> listRoleEntities = new ArrayList<RoleEntity>();
-                listRoleEntities.add(new RoleEntity(ROLE_UTILISATEUR));
+                RoleEntity roleUtilisateur = roleRepository.findRoleByNomRole(ROLE_UTILISATEUR);
+
+                listRoleEntities.add(roleUtilisateur);
 
                 nouvelUtilisateurEntity.setListeRoles(listRoleEntities);
             }
@@ -50,9 +53,9 @@ public class UtilisateurServiceImpl implements UtilisateurService {
             nouvelUtilisateurEntity.setMotDePasse(motDePasseChiffre); // on met le mot de passe haché avant sauvegarde
 
 
-            logger.debug("Création de l'utilisateur IAM " + nouvelUtilisateurEntity.getEmail());
+            logger.debug("IAM - Création de l'utilisateur " + nouvelUtilisateurEntity.getEmail());
 
-            // TODO appeler ideflix-app
+            // TODO appeler ideflix-app ?
 
             return utilisateurRepository.save(nouvelUtilisateurEntity);
         } else {
@@ -87,22 +90,36 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
     @Override
-    public void creerPremierAdministrateur(String nomAdmin, String prenomAdmin, String emailAdmin, String motDePasseAdmin) {
-        List<RoleEntity> listeRole = new ArrayList<>();
+    public void verifieQueIamEstInitialisee(String nomAdmin, String prenomAdmin, String emailAdmin, String motDePasseAdmin) {
 
-        RoleEntity roleAdmin = roleRepository.findRoleByNomRole(Util.ROLE_ADMIN);
-        if (roleAdmin == null)
-            roleAdmin = new RoleEntity(Util.ROLE_ADMIN);
+        if (utilisateurRepository.findByEmail(emailAdmin) == null) {
+            // Si le premier administrateur n'existe pas, on le crée ainsi que les rôles.
+            // (si le premier admin existe, c'est que les rôles sont déjà créés)
 
-        RoleEntity roleUtilisateur = roleRepository.findRoleByNomRole(ROLE_UTILISATEUR);
-        if (roleUtilisateur == null)
-            roleUtilisateur = new RoleEntity(ROLE_UTILISATEUR);
+            List<RoleEntity> listeRole = new ArrayList<>();
 
-        listeRole.add(roleAdmin);
-        listeRole.add(roleUtilisateur);
+            logger.debug("IAM - creation du premier administrateur");
 
-        UtilisateurEntity utilisateur = new UtilisateurEntity(nomAdmin, prenomAdmin, emailAdmin, motDePasseAdmin, listeRole);
+            RoleEntity roleAdmin = roleRepository.findRoleByNomRole(Util.ROLE_ADMIN);
+            if (roleAdmin == null) {
+                logger.debug("IAM - Le role admin n'existe pas --> création");
+                roleAdmin = new RoleEntity(Util.ROLE_ADMIN);
+                roleRepository.save(roleAdmin);
+            }
 
-        creerUtilisateur(utilisateur);
+            RoleEntity roleUtilisateur = roleRepository.findRoleByNomRole(ROLE_UTILISATEUR);
+            if (roleUtilisateur == null) {
+                logger.debug("IAM - le role utilisateur n'existe pas --> création");
+                roleUtilisateur = new RoleEntity(ROLE_UTILISATEUR);
+                roleRepository.save(roleUtilisateur);
+            }
+
+            listeRole.add(roleAdmin);
+            listeRole.add(roleUtilisateur);
+
+            UtilisateurEntity utilisateur = new UtilisateurEntity(nomAdmin, prenomAdmin, emailAdmin, motDePasseAdmin, listeRole);
+
+            creerUtilisateur(utilisateur);
+        }
     }
 }

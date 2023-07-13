@@ -31,7 +31,7 @@ public class UtilisateurDetailsService implements UserDetailsService {
         UtilisateurEntity utilisateur = utilisateurRepository.findByEmail(username);
 
         if (utilisateur == null) {
-            logger.debug("utilisateur " + username + " introuvable.");
+            logger.debug("IAM - utilisateur " + username + " introuvable.");
 
             // TODO
             return null;

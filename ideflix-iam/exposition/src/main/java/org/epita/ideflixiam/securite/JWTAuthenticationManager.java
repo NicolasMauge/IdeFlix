@@ -37,6 +37,7 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
                                                 HttpServletResponse response)
             throws AuthenticationException {
 
+
         ObjectMapper mapper = new ObjectMapper();
         UtilisateurEntreeDto utilisateurDto = null;
 
@@ -45,9 +46,16 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
             // vers un objet java en utilisant Jackson
             utilisateurDto = mapper
                     .readValue(request.getInputStream(), UtilisateurEntreeDto.class);
+
+            logger.debug("IAM - attemptAuthentification : " + utilisateurDto.getEmail());
+
         } catch (IOException e) {
+            logger.debug("IAM - Exception attemptAuthentification");
             throw new RuntimeException(e);
         }
+
+
+        logger.debug("IAM - Authentification de " + utilisateurDto.getEmail());
 
         return authenticationManager
                 .authenticate(
@@ -68,7 +76,7 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
             roles.add(au.getAuthority());
         });
 
-        logger.debug("SECRET_IAM = " + this.SECRET_IAM);
+        logger.debug("IAM - SECRET_IAM = " + this.SECRET_IAM);
 
         String jwt = JWT.create().withSubject(springUser.getUsername())
                 .withArrayClaim("roles", roles.toArray(new String[roles.size()]))

@@ -19,7 +19,7 @@ public interface UtilisateurService {
 
     void supprimerUtilisateur(UtilisateurEntity utilisateurEntity);
 
-    void creerPremierAdministrateur(String nomAdmin, String prenomAdmin, String emailAdmin, String motDePasseAdmin);
+    void verifieQueIamEstInitialisee(String nomAdmin, String prenomAdmin, String emailAdmin, String motDePasseAdmin);
 
 
 }

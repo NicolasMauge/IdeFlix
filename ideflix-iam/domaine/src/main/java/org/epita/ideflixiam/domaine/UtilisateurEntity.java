@@ -6,6 +6,9 @@ import java.util.List;
 @Entity
 public class UtilisateurEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(unique = true)
     private String email;
 
@@ -14,7 +17,9 @@ public class UtilisateurEntity {
 
     private String motDePasse;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    private boolean isActif;
+
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<RoleEntity> listeRoleEntities;
 
     public UtilisateurEntity() {
@@ -24,6 +29,7 @@ public class UtilisateurEntity {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
+        this.isActif = true;
     }
 
     public UtilisateurEntity(String nom, String prenom, String email, String motDePasse, List<RoleEntity> listeRoleEntities) {
@@ -32,8 +38,12 @@ public class UtilisateurEntity {
         this.email = email;
         this.motDePasse = motDePasse;
         this.listeRoleEntities = listeRoleEntities;
+        this.isActif = true;
     }
 
+    public UtilisateurEntity(Long id) {
+        this.id = id;
+    }
 
     public String getNom() {
         return nom;

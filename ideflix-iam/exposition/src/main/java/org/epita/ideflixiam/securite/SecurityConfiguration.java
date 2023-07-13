@@ -76,11 +76,21 @@ public class SecurityConfiguration {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
+        logger.debug("IAM - configureGlobal : récupération des données d'authentification en base");
+
+        final String requeteUtilisateur = "select email,mot_de_passe, is_actif from utilisateur_entity where email=? ";
+
+        final String requeteRoles = "SELECT u.email, r.nom_role FROM utilisateur_entity u " +
+                "JOIN utilisateur_entity_liste_role_entities ur ON u.id = ur.utilisateur_entity_id " +
+                "JOIN role_entity r ON ur.liste_role_entities_id = r.id " +
+                "WHERE u.email = ? ";
+
+
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(new BCryptPasswordEncoder())
-                .usersByUsernameQuery("select email,mot_de_passe from utilisateur_entity where email=? ")
-                .authoritiesByUsernameQuery("select u.email, r.nom_role from utilisateur_entity u join utilisateur_entity_liste_role_entities j on u.email=j.utilisateur_entity_email join role_entity r on j.liste_role_entities_id=r.id where u.email=? ");
+                .usersByUsernameQuery(requeteUtilisateur)
+                .authoritiesByUsernameQuery(requeteRoles);
 
     }
 
