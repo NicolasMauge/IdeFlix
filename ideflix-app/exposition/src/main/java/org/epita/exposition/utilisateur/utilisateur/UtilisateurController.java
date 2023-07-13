@@ -6,6 +6,7 @@ import org.epita.exposition.common.Mapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/utilisateur")
@@ -25,6 +26,16 @@ public class UtilisateurController {
         this.utilisateurService
                 .creerUtilisateur(this.utilisateurEtPrefMapper
                         .mapDtoToEntity(utilisateurEtPrefDto));
+    }
+
+    @PostMapping("/masse")
+    public void creerPlusieursUtilisateurs(@RequestBody List<UtilisateurEtPrefDto> utilisateurEtPrefDtoList) {
+        utilisateurEtPrefDtoList
+                .stream()
+                .forEach(u -> this.utilisateurService
+                                    .creerUtilisateur(
+                                            this.utilisateurEtPrefMapper
+                                                .mapDtoToEntity(u)));
     }
 
     @GetMapping("/{id}")
