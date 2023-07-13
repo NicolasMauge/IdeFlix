@@ -29,6 +29,7 @@ public class UtilisateurEtPrefMapper extends Mapper<UtilisateurEntity, Utilisate
     @Override
     public UtilisateurEntity mapDtoToEntity(UtilisateurEtPrefDto input) {
         return new UtilisateurEntity(
+                input.getId(),
                 input.getEmail(),
                 input.getNom(),
                 input.getPrenom(),

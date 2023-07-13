@@ -25,6 +25,7 @@ public class UtilisateurMapper extends Mapper<UtilisateurEntity, UtilisateurDto>
     @Override
     public UtilisateurEntity mapDtoToEntity(UtilisateurDto input) {
         return new UtilisateurEntity(
+                input.getId(),
                 input.getEmail(),
                 input.getNom(),
                 input.getPrenom(),
