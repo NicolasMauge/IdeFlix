@@ -11,23 +11,24 @@ public class PreferencesUtilisateurEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String pseudo;
+
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<GenreEntity> genreEntityList;
-
-    private String pseudo;
 
     public PreferencesUtilisateurEntity() {
     }
 
-    public PreferencesUtilisateurEntity(Long id, List<GenreEntity> genreEntityList, String pseudo) {
+    public PreferencesUtilisateurEntity(Long id, String pseudo, List<GenreEntity> genreEntityList) {
         this.id = id;
-        this.genreEntityList = genreEntityList;
         this.pseudo = pseudo;
+        this.genreEntityList = genreEntityList;
     }
 
+/*
     public PreferencesUtilisateurEntity(String pseudo) {
         this.pseudo = pseudo;
-    }
+    }*/
 
     public Long getId() {
         return id;
