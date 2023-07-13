@@ -54,16 +54,21 @@ public class PreferencesUtilisateurController {
     @PostMapping("/addgenre/{id}/{genreid}")
     public void ajouterGenrePourId(@PathVariable("id") Long id, @PathVariable("genreid") Long genreId)  {
         PreferencesUtilisateurEntity preferencesUtilisateurEntity = preferencesUtilisateurService.trouverPreferencesUtilisateurParId(id);
+        List<GenreEntity> genreEntityList = preferencesUtilisateurEntity.getGenreList();
         GenreEntity genreEntity = genreService.trouverGenreParId(genreId);
 
-        if(preferencesUtilisateurEntity.getGenreList().size()==0) {
-            List<GenreEntity> genreEntityList = new ArrayList<>();
+        if(genreEntityList.size()==0) {
             genreEntityList.add(genreEntity);
 
             preferencesUtilisateurEntity.setGenreList(genreEntityList);
             preferencesUtilisateurService.creerPreferencesUtilisateur(preferencesUtilisateurEntity);
         } else {
-            List<GenreEntity> genreEntityList =
+            if(!genreEntityList.contains(genreEntity)) {
+                genreEntityList.add(genreEntity);
+
+                preferencesUtilisateurEntity.setGenreList(genreEntityList);
+                preferencesUtilisateurService.creerPreferencesUtilisateur(preferencesUtilisateurEntity);
+            }
         }
     }
 
