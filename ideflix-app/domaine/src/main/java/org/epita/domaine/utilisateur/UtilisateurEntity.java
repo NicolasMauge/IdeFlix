@@ -13,6 +13,10 @@ public class UtilisateurEntity {
 
     private String email;
 
+    private String nom;
+
+    private String prenom;
+
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate dateCreation;
 
@@ -22,8 +26,10 @@ public class UtilisateurEntity {
     public UtilisateurEntity() {
     }
 
-    public UtilisateurEntity(String email, LocalDate dateCreation, PreferencesUtilisateurEntity preferencesUtilisateurEntity) {
+    public UtilisateurEntity(String email, String nom, String prenom, LocalDate dateCreation, PreferencesUtilisateurEntity preferencesUtilisateurEntity) {
         this.email = email;
+        this.nom = nom;
+        this.prenom = prenom;
         this.dateCreation = dateCreation;
         this.preferencesUtilisateurEntity = preferencesUtilisateurEntity;
     }
@@ -49,6 +55,22 @@ public class UtilisateurEntity {
         this.email = email;
     }
 
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
     public LocalDate getDateCreation() {
         return dateCreation;
     }
@@ -57,11 +79,11 @@ public class UtilisateurEntity {
         this.dateCreation = dateCreation;
     }
 
-    public PreferencesUtilisateurEntity getPreferencesUtilisateur() {
+    public PreferencesUtilisateurEntity getPreferencesUtilisateurEntity() {
         return preferencesUtilisateurEntity;
     }
 
-    public void setPreferencesUtilisateur(PreferencesUtilisateurEntity preferencesUtilisateurEntity) {
+    public void setPreferencesUtilisateurEntity(PreferencesUtilisateurEntity preferencesUtilisateurEntity) {
         this.preferencesUtilisateurEntity = preferencesUtilisateurEntity;
     }
 }

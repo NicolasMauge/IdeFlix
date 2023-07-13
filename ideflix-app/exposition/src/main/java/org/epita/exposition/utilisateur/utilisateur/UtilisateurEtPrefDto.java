@@ -10,6 +10,10 @@ public class UtilisateurEtPrefDto {
 
     private String email;
 
+    private String nom;
+
+    private String prenom;
+
     private LocalDate dateCreation;
 
     private PreferencesUtilisateurDto preferencesUtilisateur;
@@ -17,9 +21,11 @@ public class UtilisateurEtPrefDto {
     public UtilisateurEtPrefDto() {
     }
 
-    public UtilisateurEtPrefDto(Long id, String email, LocalDate dateCreation, PreferencesUtilisateurDto preferencesUtilisateur) {
+    public UtilisateurEtPrefDto(Long id, String email, String nom, String prenom, LocalDate dateCreation, PreferencesUtilisateurDto preferencesUtilisateur) {
         this.id = id;
         this.email = email;
+        this.nom = nom;
+        this.prenom = prenom;
         this.dateCreation = dateCreation;
         this.preferencesUtilisateur = preferencesUtilisateur;
     }
@@ -38,6 +44,22 @@ public class UtilisateurEtPrefDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
     }
 
     public LocalDate getDateCreation() {

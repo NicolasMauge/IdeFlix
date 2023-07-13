@@ -19,8 +19,10 @@ public class UtilisateurEtPrefMapper extends Mapper<UtilisateurEntity, Utilisate
         return new UtilisateurEtPrefDto(
                 input.getId(),
                 input.getEmail(),
+                input.getNom(),
+                input.getPrenom(),
                 input.getDateCreation(),
-                this.preferencesUtilisateurMapper.mapEntityToDto(input.getPreferencesUtilisateur())
+                this.preferencesUtilisateurMapper.mapEntityToDto(input.getPreferencesUtilisateurEntity())
         );
     }
 
@@ -28,6 +30,8 @@ public class UtilisateurEtPrefMapper extends Mapper<UtilisateurEntity, Utilisate
     public UtilisateurEntity mapDtoToEntity(UtilisateurEtPrefDto input) {
         return new UtilisateurEntity(
                 input.getEmail(),
+                input.getNom(),
+                input.getPrenom(),
                 input.getDateCreation(),
                 this.preferencesUtilisateurMapper.mapDtoToEntity(input.getPreferencesUtilisateur())
         );

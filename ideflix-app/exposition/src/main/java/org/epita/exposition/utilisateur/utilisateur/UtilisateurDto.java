@@ -7,14 +7,20 @@ public class UtilisateurDto {
 
     private String email;
 
+    private String nom;
+
+    private String prenom;
+
     private LocalDate dateCreation;
 
     public UtilisateurDto() {
     }
 
-    public UtilisateurDto(Long id, String email, LocalDate dateCreation) {
+    public UtilisateurDto(Long id, String email, String nom, String prenom, LocalDate dateCreation) {
         this.id = id;
         this.email = email;
+        this.nom = nom;
+        this.prenom = prenom;
         this.dateCreation = dateCreation;
     }
 
@@ -32,6 +38,22 @@ public class UtilisateurDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
     }
 
     public LocalDate getDateCreation() {
