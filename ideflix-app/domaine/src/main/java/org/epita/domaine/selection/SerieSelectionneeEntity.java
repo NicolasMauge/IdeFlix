@@ -30,6 +30,16 @@ public class SerieSelectionneeEntity extends MediaSelectionneEntity {
         this.idTmdbEpisode = idTmdbEpisode;
     }
 
+    public SerieSelectionneeEntity(Long id, Boolean avisPouce, LocalDate dateSelection, List<EtiquetteEntity> etiquetteEntityList, StatutMediaEntity statutMediaEntity, MediaAudioVisuelEntity mediaAudioVisuelEntity, UtilisateurEntity utilisateurEntity,
+                                   LocalDate dateModification, int numeroSaison, String idTmdbSaison, int numeroEpisode, String idTmdbEpisode) {
+        super(id, avisPouce, dateSelection, etiquetteEntityList, statutMediaEntity, mediaAudioVisuelEntity, utilisateurEntity);
+        this.dateModification = dateModification;
+        this.numeroSaison = numeroSaison;
+        this.idTmdbSaison = idTmdbSaison;
+        this.numeroEpisode = numeroEpisode;
+        this.idTmdbEpisode = idTmdbEpisode;
+    }
+
 
     public LocalDate getDateModification() {
         return dateModification;

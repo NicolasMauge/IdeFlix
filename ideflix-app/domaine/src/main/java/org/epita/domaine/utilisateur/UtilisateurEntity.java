@@ -26,7 +26,8 @@ public class UtilisateurEntity {
     public UtilisateurEntity() {
     }
 
-    public UtilisateurEntity(String email, String nom, String prenom, LocalDate dateCreation, PreferencesUtilisateurEntity preferencesUtilisateurEntity) {
+    public UtilisateurEntity(Long id, String email, String nom, String prenom, LocalDate dateCreation, PreferencesUtilisateurEntity preferencesUtilisateurEntity) {
+        this.id = id;
         this.email = email;
         this.nom = nom;
         this.prenom = prenom;

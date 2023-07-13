@@ -3,6 +3,7 @@ package org.epita.exposition.utilisateur.preferences;
 import org.epita.application.utilisateur.preferences.PreferencesUtilisateurService;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.exposition.common.Mapper;
+import org.epita.exposition.utilisateur.utilisateur.UtilisateurEtPrefDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,16 @@ public class PreferencesUtilisateurController {
         this.preferencesUtilisateurService
                 .creerPreferencesUtilisateur(
                         this.preferencesUtilisateurMapper.mapDtoToEntity(preferencesUtilisateurDto));
+    }
+
+    @PostMapping("/masse")
+    public void creerPlusieursPréférences(@RequestBody List<PreferencesUtilisateurDto> preferencesUtilisateurDtoList) {
+        preferencesUtilisateurDtoList
+                .stream()
+                .forEach(p -> this.preferencesUtilisateurService
+                        .creerPreferencesUtilisateur(
+                                this.preferencesUtilisateurMapper
+                                        .mapDtoToEntity(p)));
     }
 
     @GetMapping("/{id}")

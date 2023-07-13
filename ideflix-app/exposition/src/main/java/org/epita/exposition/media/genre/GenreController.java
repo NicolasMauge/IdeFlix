@@ -3,6 +3,7 @@ package org.epita.exposition.media.genre;
 import org.epita.application.media.genre.GenreServiceImpl;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.exposition.common.Mapper;
+import org.epita.exposition.utilisateur.utilisateur.UtilisateurEtPrefDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,16 @@ public class GenreController {
         this.genreService
                 .creerGenre(
                         this.genreMapper.mapDtoToEntity(genreDto));
+    }
+
+    @PostMapping("/masse")
+    public void creerPlusieursGenres(@RequestBody List<GenreDto> genreDtoList) {
+        genreDtoList
+                .stream()
+                .forEach(g -> this.genreService
+                        .creerGenre(
+                                this.genreMapper
+                                        .mapDtoToEntity(g)));
     }
 
     @GetMapping("/{id}")

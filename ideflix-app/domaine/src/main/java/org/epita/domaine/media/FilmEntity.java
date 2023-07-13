@@ -13,4 +13,8 @@ public class FilmEntity extends MediaAudioVisuelEntity {
     public FilmEntity(String idTmdb, String titre, LocalDate dateSortie, int duree, String cheminAffichePortrait, String cheminAffichePaysage, int noteTmdb, List<GenreEntity> genreEntityList) {
         super(idTmdb, titre, dateSortie, duree, cheminAffichePortrait, cheminAffichePaysage, noteTmdb, genreEntityList);
     }
+
+    public FilmEntity(Long id, String idTmdb, String titre, LocalDate dateSortie, int duree, String cheminAffichePortrait, String cheminAffichePaysage, int noteTmdb, List<GenreEntity> genreEntityList) {
+        super(id, idTmdb, titre, dateSortie, duree, cheminAffichePortrait, cheminAffichePaysage, noteTmdb, genreEntityList);
+    }
 }

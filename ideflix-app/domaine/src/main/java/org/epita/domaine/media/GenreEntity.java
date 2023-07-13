@@ -23,6 +23,12 @@ public class GenreEntity {
         this.nomGenre = nomGenre;
     }
 
+    public GenreEntity(Long id, String idTmdb, String nomGenre) {
+        this.id = id;
+        this.idTmdb = idTmdb;
+        this.nomGenre = nomGenre;
+    }
+
     public Long getId() {
         return id;
     }

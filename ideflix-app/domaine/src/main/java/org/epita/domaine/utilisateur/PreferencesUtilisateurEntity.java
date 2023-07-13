@@ -11,7 +11,7 @@ public class PreferencesUtilisateurEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<GenreEntity> genreEntityList;
 
     private String pseudo;
@@ -19,7 +19,8 @@ public class PreferencesUtilisateurEntity {
     public PreferencesUtilisateurEntity() {
     }
 
-    public PreferencesUtilisateurEntity(List<GenreEntity> genreEntityList, String pseudo) {
+    public PreferencesUtilisateurEntity(Long id, List<GenreEntity> genreEntityList, String pseudo) {
+        this.id = id;
         this.genreEntityList = genreEntityList;
         this.pseudo = pseudo;
     }

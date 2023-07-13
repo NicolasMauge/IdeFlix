@@ -23,6 +23,9 @@ public class PreferencesUtilisateurMapper extends Mapper<PreferencesUtilisateurE
 
     @Override
     public PreferencesUtilisateurEntity mapDtoToEntity(PreferencesUtilisateurDto input) {
-        return new PreferencesUtilisateurEntity(input.getPseudo());
+        return new PreferencesUtilisateurEntity(
+                input.getId(),
+                genreMapper.mapListDtoToEntity(input.getGenreList()),
+                input.getPseudo());
     }
 }

@@ -45,6 +45,18 @@ public abstract class MediaAudioVisuelEntity {
         this.genreEntityList = genreEntityList;
     }
 
+    public MediaAudioVisuelEntity(Long id, String idTmdb, String titre, LocalDate dateSortie, int duree, String cheminAffichePortrait, String cheminAffichePaysage, int noteTmdb, List<GenreEntity> genreEntityList) {
+        this.id = id;
+        this.idTmdb = idTmdb;
+        this.titre = titre;
+        this.dateSortie = dateSortie;
+        this.duree = duree;
+        this.cheminAffichePortrait = cheminAffichePortrait;
+        this.cheminAffichePaysage = cheminAffichePaysage;
+        this.noteTmdb = noteTmdb;
+        this.genreEntityList = genreEntityList;
+    }
+
     public Long getId() {
         return id;
     }

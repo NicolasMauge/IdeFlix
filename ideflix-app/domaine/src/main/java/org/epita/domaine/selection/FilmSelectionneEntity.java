@@ -15,4 +15,8 @@ public class FilmSelectionneEntity extends MediaSelectionneEntity {
     public FilmSelectionneEntity(Boolean avisPouce, LocalDate dateSelection, List<EtiquetteEntity> etiquetteEntityList, StatutMediaEntity statutMediaEntity, MediaAudioVisuelEntity mediaAudioVisuelEntity, UtilisateurEntity utilisateurEntity) {
         super(avisPouce, dateSelection, etiquetteEntityList, statutMediaEntity, mediaAudioVisuelEntity, utilisateurEntity);
     }
+
+    public FilmSelectionneEntity(Long id, Boolean avisPouce, LocalDate dateSelection, List<EtiquetteEntity> etiquetteEntityList, StatutMediaEntity statutMediaEntity, MediaAudioVisuelEntity mediaAudioVisuelEntity, UtilisateurEntity utilisateurEntity) {
+        super(id, avisPouce, dateSelection, etiquetteEntityList, statutMediaEntity, mediaAudioVisuelEntity, utilisateurEntity);
+    }
 }

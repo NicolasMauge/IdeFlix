@@ -23,6 +23,12 @@ public class EtiquetteEntity {
         this.utilisateurEntity = utilisateurEntity;
     }
 
+    public EtiquetteEntity(Long id, String nomTag, UtilisateurEntity utilisateurEntity) {
+        this.id = id;
+        this.nomTag = nomTag;
+        this.utilisateurEntity = utilisateurEntity;
+    }
+
     public Long getId() {
         return id;
     }
