@@ -24,3 +24,16 @@ p.error {
   font-size: 85%;
   margin: 0;
 }
+
+.validation-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: green;
+}
+
+.input-group-text {
+  border: none; /* Supprime le cadre par défaut */
+  background-color: white;
+}
