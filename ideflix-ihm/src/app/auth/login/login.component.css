@@ -17,3 +17,15 @@ p.error {
   font-size: 85%;
   margin: 0;
 }
+
+ul.password-indicator {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+ul.password-indicator li:before {
+  content: '\2022'; /* Utilise le caractère unicode du cercle plein pour représenter la puce */
+  color: #007bff; /* Couleur de la puce */
+  font-size: 8px; /* Taille de la puce */
+  margin-right: 8px; /* Marge entre la puce et le texte */
+}

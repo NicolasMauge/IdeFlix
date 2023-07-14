@@ -22,20 +22,47 @@
          class="error">Veuillez renseigner une adresse mail</p>
 
       <p *ngIf="registerForm.controls['email'].hasError('email') && isFormSubmitted"
-         class="error">Veuillez renseignez un email valide</p>
+         class="error">Veuillez renseigner un email valide</p>
     </div>
 
 
     <div class="mb-3">
-      <label for="pwd-id" class="form-label">Votre password</label>
+      <label for="pwd-id" class="form-label">Votre mot de passe</label>
+      <div>
+        <ul class="password-indicator">
+          <li>Le mot de passe doit contenir au moins 8 caractères.</li>
+          <li>Le mot de passe doit contenir au moins une lettre majuscule.</li>
+          <li>Le mot de passe doit contenir au moins une lettre minuscule.</li>
+          <li>Le mot de passe doit contenir au moins un chiffre.</li>
+          <li>Le mot de passe doit contenir au moins un caractère spécial.</li>
+        </ul>
+      </div>
       <input id="pwd-id" formControlName="password" type="password" class="form-control">
-      <p *ngIf="registerForm.controls['password'].hasError('required') && isFormSubmitted"
+      <div *ngIf="registerForm.controls['password'].invalid && (registerForm.controls['password'].dirty || registerForm.controls['password'].touched)">
+
+        <p *ngIf="registerForm.controls['password'].hasError('required') && isFormSubmitted"
          class="error">Veuillez renseigner un mot de passe</p>
 
-      <p *ngIf="registerForm.controls['password'].hasError('pattern') && isFormSubmitted"
+        <p *ngIf="registerForm.controls['password'].hasError('minlength') && isFormSubmitted"
+         class="error">le mot de passe doit contenir 8 caractères minimum</p>
+
+        <p *ngIf="registerForm.controls['password'].hasError('pattern') && isFormSubmitted"
          class="error">Veuillez renseigner un mot de passe valide</p>
+      </div>
     </div>
 
-  <button type="submit" class="btn btn-light">S'inscrire</button>
+    <div class="mb-3">
+        <label for="confirmPassword">Confirmez le mot de passe</label>
+        <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword">
+
+        <p *ngIf="registerForm.controls['confirmPassword'].hasError('required') && isFormSubmitted"
+         class="error">Veuillez confirmer le mot de passe</p>
+
+        <div *ngIf="registerForm.controls['confirmPassword'].hasError('mismatch') && (registerForm.controls['confirmPassword'].dirty || registerForm.controls['confirmPassword'].touched)">
+          Les mots de passe ne correspondent pas.
+        </div>
+    </div>
+
+  <button type="submit" class="btn btn-light" [disabled]="registerForm.invalid" >S'inscrire</button>
 
 </form>

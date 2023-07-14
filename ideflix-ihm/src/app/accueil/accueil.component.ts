@@ -10,7 +10,6 @@ import {MenuService} from "../shared/services/menu.service";
 export class AccueilComponent implements OnInit{
 
   constructor(private menuService: MenuService) {
-    console.log('menu', this)
   }
 
   ngOnInit() {

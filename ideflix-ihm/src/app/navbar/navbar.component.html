@@ -1,24 +1,10 @@
 
-<div class="navbar">
 
-  <div class="container-fluid">
+<div class="container">
+  <div class="navbar sticky-top">
 
-<!--      <a class="navbar-brand" href="#">Mon Application</a>-->
-
-      <a class="navbar-brand" href="#">
-        <div>
-          <img
-            width="40"
-            alt="idefix logo"
-            src="assets/images/logo_idefix.jpg"
-            class="d-inline-block align-text-top">
-          IDEFLIX
-        </div>
-      </a>
-
-      <div>
-        <p>Bienvenue !!</p>
-      </div>
+<!--      <div class="container-fluid">-->
+    <div class="container-fluid justify-content-around">
 
         <div class="dropdown" *ngIf="!hideMenu">
           <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -31,9 +17,29 @@
           </ul>
         </div>
 
-  </div>
+        <a class="navbar-brand" href="#">
+          <div>
+            <img
+              width="40"
+              alt="idefix logo"
+              src="assets/images/logo_idefix.jpg"
+              class="d-inline-block align-text-top">
+            IDEFLIX
+          </div>
+        </a>
 
+        <div>
+          <p>Bienvenue !!</p>
+        </div>
+
+
+      </div>
+
+  </div>
 </div>
+
+
+
 
 
 <!-- barre de navigation -->

@@ -20,9 +20,6 @@
       <input id="pwd-id" formControlName="password" type="password" class="form-control">
       <p *ngIf="loginForm.controls['password'].hasError('required') && isFormSubmitted"
          class="error">Veuillez renseigner un mot de passe</p>
-
-      <p *ngIf="loginForm.controls['password'].hasError('pattern') && isFormSubmitted"
-         class="error">Veuillez renseigner un mot de passe valide</p>
     </div>
 
     <button class="btn btn-light">Se Connecter</button>
