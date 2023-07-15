@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../shared/services/auth.service";
 import {MessageService} from "../../shared/services/message.service";
 import {Router} from "@angular/router";
+import {MenuService} from "../../shared/services/menu.service";
 
 @Component({
   selector: 'app-register',
@@ -17,9 +18,12 @@ export class RegisterComponent  {
   constructor(private fb: FormBuilder,
               private authService: AuthService,
               private messageSvc: MessageService,
-              private route: Router) {}
+              private route: Router,
+              private menuService: MenuService) {}
 
   ngOnInit() {
+    // pas de MENU sur page de login
+    this.menuService.hideMenu = true;
     // construire mon instance loginForm
     this.registerForm = this.fb.group({
       // nom:['', [Validators.required]],
@@ -42,11 +46,14 @@ export class RegisterComponent  {
     const password = registerForm.get('password')?.value;
     const confirmPassword = registerForm.get('confirmPassword')?.value;
 
-    if (password !== confirmPassword) {
+    console.log('confirmPassword: ' + confirmPassword);
+
+    if ( password && confirmPassword && password !== confirmPassword) {
       registerForm.get('confirmPassword')?.setErrors({ mismatch: true });
     } else {
       registerForm.get('confirmPassword')?.setErrors(null);
     }
+    console.log(registerForm.get('confirmPassword'));
   }
 
   register(event:Event) {

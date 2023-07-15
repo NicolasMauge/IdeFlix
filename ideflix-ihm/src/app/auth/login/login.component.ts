@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../shared/services/auth.service";
 import {MessageService} from "../../shared/services/message.service";
 import {Router} from "@angular/router";
+import {MenuService} from "../../shared/services/menu.service";
 
 @Component({
   selector: 'app-login',
@@ -18,10 +19,13 @@ export class LoginComponent {
   constructor(private fb: FormBuilder,
               private authService: AuthService,
               private messageSvc: MessageService,
-              private route: Router) {}
+              private route: Router,
+              private menuService: MenuService) {}
 
 
   ngOnInit() {
+    // pas de MENU sur page de login
+    this.menuService.hideMenu = true;
     // construire mon instance loginForm
     this.loginForm = this.fb.group({
       email:['', [Validators.required, Validators.email]],
