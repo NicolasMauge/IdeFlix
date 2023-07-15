@@ -12,6 +12,7 @@ import {HttpClientModule} from "@angular/common/http";
 import { LoginComponent } from './auth/login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MaListeComponent } from './MaListe/ma-liste/ma-liste.component';
+import { PrintImgPipe } from './shared/pipes/print-img.pipe';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { MaListeComponent } from './MaListe/ma-liste/ma-liste.component';
     RegisterComponent,
     AccueilComponent,
     NavbarComponent,
-    MaListeComponent
+    MaListeComponent,
+    PrintImgPipe
   ],
   imports: [
     BrowserModule,
