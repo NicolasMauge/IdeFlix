@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NavbarComponent} from "../navbar/navbar.component";
 import {MenuService} from "../shared/services/menu.service";
-import {AuthService} from "../shared/services/auth.service";
 
 @Component({
   selector: 'app-accueil',
