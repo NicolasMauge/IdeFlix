@@ -22,7 +22,7 @@ export class RegisterComponent  {
               private menuService: MenuService) {}
 
   ngOnInit() {
-    // pas de MENU sur page de login
+    // pas de MENU sur page de création de compte
     this.menuService.hideMenu = true;
     // construire mon instance loginForm
     this.registerForm = this.fb.group({
@@ -70,7 +70,7 @@ export class RegisterComponent  {
         .subscribe({next : response => {
           console.log(response)
           this.messageSvc.show('Compte créé', 'success')
-           this.route.navigate(['']);
+            this.route.navigate(['/search']); //TODO redirigé vers la page des préférences
           }})
       // pour remettre le formulaire à blanc - nettoyer les champs
       this.isFormSubmitted= false;

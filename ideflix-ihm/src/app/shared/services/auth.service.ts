@@ -46,6 +46,13 @@ export class AuthService {
   registerUser(data:any):Observable<any>{
     let endpoint = '/users/register';
     return this.http.post<any>(this.USER_API + endpoint, data)
+      .pipe(
+        tap({
+          next : (response) => {
+            this._isAuthenticated = true;
+          }
+        })
+      )
   }
 
 
