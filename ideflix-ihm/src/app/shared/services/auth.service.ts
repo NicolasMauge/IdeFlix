@@ -15,8 +15,8 @@ interface Credentials {
 export class AuthService {
 
   USER_API = environment.USER_SERVER;
-
   token!: string;
+  private _isAuthenticated: boolean = false;
 
   constructor(private http: HttpClient,
               private messageSvc: MessageService) {}
@@ -36,6 +36,9 @@ export class AuthService {
               }
             }
           },
+          next : (response) => {
+            this._isAuthenticated = true;
+          }
         })
       )
   }
@@ -45,4 +48,13 @@ export class AuthService {
     return this.http.post<any>(this.USER_API + endpoint, data)
   }
 
+
+  logout() {
+    this._isAuthenticated = false;
+  }
+
+
+  isAuthenticatedUser(): boolean {
+    return this._isAuthenticated;
+  }
 }

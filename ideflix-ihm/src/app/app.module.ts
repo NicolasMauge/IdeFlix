@@ -13,6 +13,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MaListeComponent } from './MaListe/ma-liste/ma-liste.component';
 import { PrintImgPipe } from './shared/pipes/print-img.pipe';
+import { MediaListComponent } from './media-list/media-list.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { PrintImgPipe } from './shared/pipes/print-img.pipe';
     AccueilComponent,
     NavbarComponent,
     MaListeComponent,
-    PrintImgPipe
+    PrintImgPipe,
+    MediaListComponent
   ],
   imports: [
     BrowserModule,
