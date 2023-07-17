@@ -1,19 +1,18 @@
 package org.epita.application.media.film;
 
-import org.epita.application.media.genre.GenreService;
-import org.epita.application.media.genre.GenreServiceImpl;
 import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.media.FilmEntity;
 import org.epita.domaine.media.GenreEntity;
+import org.epita.domaine.selection.SerieSelectionneeEntity;
 import org.epita.infrastructure.media.FilmRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FilmServiceImpl.class})
 public class FilmServiceTest {
     @Autowired
@@ -33,7 +32,7 @@ public class FilmServiceTest {
 
     FilmEntity film;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         // définition de genres
         List<GenreEntity> genreEntityList = new ArrayList<>();
@@ -64,7 +63,7 @@ public class FilmServiceTest {
     }
 
     @Test
-    public void trouverGenreParId_shoudl_return_1_element() {
+    public void trouverFilmParId_should_return_1_element() {
         // When
         final FilmEntity expected = this.filmService.trouverFilmParId(1L);
 
@@ -94,9 +93,13 @@ public class FilmServiceTest {
         assertThat(trouves).hasSize(2);
     }
 
-    @Test(expected = EntityNotFoundException.class)
-    public void trouverGenreParId_should_throw_exception() {
-        // When
-        final FilmEntity expected = this.filmService.trouverFilmParId(10L);
+    @Test
+    public void trouverFilmParId_should_throw_exception() {
+        EntityNotFoundException thrown = Assertions.assertThrows(EntityNotFoundException.class, () -> {
+            // When
+            final FilmEntity expected = this.filmService.trouverFilmParId(10L);
+        });
+
+        Assertions.assertEquals("Film non trouvé", thrown.getMessage());
     }
 }

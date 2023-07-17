@@ -1,18 +1,17 @@
 package org.epita.application.media.serie;
 
 import org.epita.domaine.common.EntityNotFoundException;
-import org.epita.domaine.media.FilmEntity;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.media.SerieEntity;
 import org.epita.infrastructure.media.SerieRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {SerieServiceImpl.class})
 public class SerieServiceTest {
     @Autowired
@@ -33,7 +32,7 @@ public class SerieServiceTest {
 
     SerieEntity serie;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         // définition de genres
         List<GenreEntity> genreEntityList = new ArrayList<>();
@@ -58,13 +57,13 @@ public class SerieServiceTest {
     }
 
     @Test
-    public void creerFilm_should_call_save_repository_1_time() {
+    public void creerSerie_should_call_save_repository_1_time() {
         // Then
         verify(repositoryMock, times(1)).save(serie);
     }
 
     @Test
-    public void trouverGenreParId_shoudl_return_1_element() {
+    public void trouverSerieParId_shoudl_return_1_element() {
         // When
         final SerieEntity expected = this.serieService.trouverSerieParId(1L);
 
@@ -73,7 +72,7 @@ public class SerieServiceTest {
     }
 
     @Test
-    public void trouverTousLesFilms_should_return_2_elements() {
+    public void trouverToutesLesSeries_should_return_2_elements() {
         // Given
         SerieEntity serie2 = new SerieEntity();
         serie2.setId(2L);
@@ -94,9 +93,13 @@ public class SerieServiceTest {
         assertThat(trouves).hasSize(2);
     }
 
-    @Test(expected = EntityNotFoundException.class)
-    public void trouverGenreParId_should_throw_exception() {
-        // When
-        final SerieEntity expected = this.serieService.trouverSerieParId(10L);
+    @Test
+    public void trouverSerieParId_should_throw_exception() {
+        EntityNotFoundException thrown = Assertions.assertThrows(EntityNotFoundException.class, () -> {
+            // When
+            final SerieEntity expected = this.serieService.trouverSerieParId(10L);
+        });
+
+        Assertions.assertEquals("Série non trouvée", thrown.getMessage());
     }
 }

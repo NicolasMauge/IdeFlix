@@ -2,16 +2,17 @@ package org.epita.application.media.genre;
 
 
 import org.epita.domaine.common.EntityNotFoundException;
+import org.epita.domaine.media.FilmEntity;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.infrastructure.media.GenreRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {GenreServiceImpl.class})
 public class GenreServiceTest {
     @Autowired
@@ -31,7 +32,7 @@ public class GenreServiceTest {
 
     private GenreEntity genre;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         genre = new GenreEntity();
         genre.setId(1L);
@@ -80,9 +81,14 @@ public class GenreServiceTest {
         assertThat(trouves).hasSize(2);
     }
 
-    @Test(expected = EntityNotFoundException.class)
+    @Test
     public void trouverGenreParId_should_throw_exception() {
-        // When
-        final GenreEntity expected = this.genreService.trouverGenreParId(10L);
+        EntityNotFoundException thrown = Assertions.assertThrows(EntityNotFoundException.class, () -> {
+            // When
+            final GenreEntity expected = this.genreService.trouverGenreParId(10L);
+        });
+
+        Assertions.assertEquals("Genre sélectionné non trouvé", thrown.getMessage());
+
     }
 }

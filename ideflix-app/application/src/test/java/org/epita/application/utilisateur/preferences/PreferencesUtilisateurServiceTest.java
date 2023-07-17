@@ -1,18 +1,17 @@
 package org.epita.application.utilisateur.preferences;
 
-import org.epita.application.media.serie.SerieServiceImpl;
 import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.infrastructure.utilisateur.PreferencesUtilisateurRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = { PreferencesUtilisateurServiceImpl.class })
 public class PreferencesUtilisateurServiceTest {
     @Autowired
@@ -33,7 +33,7 @@ public class PreferencesUtilisateurServiceTest {
 
     PreferencesUtilisateurEntity preferencesUtilisateur;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         preferencesUtilisateur = new PreferencesUtilisateurEntity();
         preferencesUtilisateur.setId(1L);
@@ -100,9 +100,13 @@ public class PreferencesUtilisateurServiceTest {
         assertThat(trouves).hasSize(2);
     }
 
-    @Test(expected = EntityNotFoundException.class)
+    @Test
     public void trouverPreferencesUtilisateurParId_should_throw_exception() {
-        // When
-        final PreferencesUtilisateurEntity expected = this.preferencesUtilisateurService.trouverPreferencesUtilisateurParId(10L);
+        EntityNotFoundException thrown = Assertions.assertThrows(EntityNotFoundException.class, () -> {
+            // When
+            final PreferencesUtilisateurEntity expected = this.preferencesUtilisateurService.trouverPreferencesUtilisateurParId(10L);
+        });
+
+        Assertions.assertEquals("Préférence utilisateur non trouvée", thrown.getMessage());
     }
 }

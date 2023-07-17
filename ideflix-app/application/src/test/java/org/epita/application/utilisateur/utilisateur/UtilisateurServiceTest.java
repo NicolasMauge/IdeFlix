@@ -1,18 +1,19 @@
 package org.epita.application.utilisateur.utilisateur;
 
-import org.epita.application.media.serie.SerieServiceImpl;
+
 import org.epita.domaine.common.EntityNotFoundException;
+import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.utilisateur.UtilisateurRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = { UtilisateurServiceImpl.class })
 public class UtilisateurServiceTest {
     @Autowired
@@ -32,7 +33,7 @@ public class UtilisateurServiceTest {
 
     UtilisateurEntity utilisateur;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         utilisateur = new UtilisateurEntity();
         utilisateur.setId(1L);
@@ -106,9 +107,13 @@ public class UtilisateurServiceTest {
         assertThat(trouves).hasSize(2);
     }
 
-    @Test(expected = EntityNotFoundException.class)
+    @Test
     public void trouverUtilisateurParId_should_throw_exception() {
-        // When
-        final UtilisateurEntity expected = this.utilisateurService.trouverUtilisateurParId(10L);
+        EntityNotFoundException thrown = Assertions.assertThrows(EntityNotFoundException.class, () -> {
+            // When
+            final UtilisateurEntity expected = this.utilisateurService.trouverUtilisateurParId(10L);
+        });
+
+        Assertions.assertEquals("Utilisateur non trouvé", thrown.getMessage());
     }
 }

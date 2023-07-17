@@ -3,14 +3,16 @@ package org.epita.application.selection.filmselectionne;
 import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.selection.EtiquetteEntity;
 import org.epita.domaine.selection.FilmSelectionneEntity;
+import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.selection.FilmSelectionneRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +22,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FilmSelectionneServiceImpl.class})
-public class FilmSelectionneeServiceTest {
+public class FilmSelectionneServiceTest {
     @Autowired
     FilmSelectionneService filmSelectionneService;
 
@@ -31,7 +33,7 @@ public class FilmSelectionneeServiceTest {
 
     FilmSelectionneEntity filmSelectionne;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         // définition des étiquettes
         EtiquetteEntity etiquette = new EtiquetteEntity();
@@ -46,14 +48,21 @@ public class FilmSelectionneeServiceTest {
         entityList.add(etiquette);
         entityList.add(etiquette2);
 
+        // définition de l'utilisateur
+        UtilisateurEntity utilisateurEntity = new UtilisateurEntity();
+        utilisateurEntity.setId(1L);
+        utilisateurEntity.setEmail("test@test.com");
+
         // définition du film sélectionné utilisé pour les test
         filmSelectionne = new FilmSelectionneEntity();
         filmSelectionne.setId(1L);
         filmSelectionne.setEtiquetteEntityList(entityList);
+        filmSelectionne.setUtilisateurEntity(utilisateurEntity);
 
         filmSelectionneService.creerFilmSelectionne(filmSelectionne);
 
         when(repositoryMock.findById(1L)).thenReturn(Optional.of(filmSelectionne));
+        when(repositoryMock.findByUtilisateurEntity(utilisateurEntity)).thenReturn(List.of(filmSelectionne));
     }
 
     @Test
@@ -63,7 +72,7 @@ public class FilmSelectionneeServiceTest {
     }
 
     @Test
-    public void trouverGenreParId_shoudl_return_1_element() {
+    public void trouverFilmSelectionneParId_shoudl_return_1_element() {
         // When
         final FilmSelectionneEntity expected = this.filmSelectionneService.trouverFilmSelectionneParId(1L);
 
@@ -72,7 +81,7 @@ public class FilmSelectionneeServiceTest {
     }
 
     @Test
-    public void trouverTousLesFilms_should_return_2_elements() {
+    public void trouverTousLesFilmsSelectionnes_should_return_2_elements() {
         // Given
         FilmSelectionneEntity filmSelectionne2 = new FilmSelectionneEntity();
         filmSelectionne2.setId(2L);
@@ -93,9 +102,13 @@ public class FilmSelectionneeServiceTest {
         assertThat(trouves).hasSize(2);
     }
 
-    @Test(expected = EntityNotFoundException.class)
-    public void trouverGenreParId_should_throw_exception() {
-        // When
-        final FilmSelectionneEntity expected = this.filmSelectionneService.trouverFilmSelectionneParId(10L);
+    @Test
+    public void trouverFilmSelectionneParId_should_throw_exception() {
+        EntityNotFoundException thrown = Assertions.assertThrows(EntityNotFoundException.class, () -> {
+            // When
+            final FilmSelectionneEntity expected = this.filmSelectionneService.trouverFilmSelectionneParId(10L);
+        });
+
+        Assertions.assertEquals("Film sélectionné non trouvé", thrown.getMessage());
     }
 }
