@@ -1,6 +1,7 @@
 package org.epita.application.utilisateur.utilisateur;
 
 import org.epita.application.media.film.FilmService;
+import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.utilisateur.UtilisateurRepository;
 import org.junit.Before;
@@ -38,6 +39,12 @@ public class UtilisateurServiceTest {
         utilisateur.setEmail("test@test.com");
         utilisateur.setNom("Nom");
         utilisateur.setPrenom("Prénom");
+
+        PreferencesUtilisateurEntity preferencesUtilisateurEntity = new PreferencesUtilisateurEntity();
+        preferencesUtilisateurEntity.setPseudo("pseudo 1");
+
+        utilisateur.setPreferencesUtilisateurEntity(preferencesUtilisateurEntity);
+
         utilisateurService.creerUtilisateur(utilisateur);
 
         when(utilisateurRepositoryMock.findById(1L)).thenReturn(Optional.of(utilisateur));
