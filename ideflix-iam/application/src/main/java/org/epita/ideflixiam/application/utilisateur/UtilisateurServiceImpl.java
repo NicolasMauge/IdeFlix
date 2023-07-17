@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.epita.ideflixiam.application.common.UtileRole.ROLE_UTILISATEUR;
 
@@ -38,9 +39,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
     @Override
-    public UtilisateurEntity creerUtilisateur(UtilisateurEntity nouvelUtilisateurEntity) {
+    public UtilisateurEntity creerUtilisateur(final UtilisateurEntity nouvelUtilisateurEntity) throws UtilisateurExistantDejaException {
 
-        if (utilisateurRepository.findByEmail(nouvelUtilisateurEntity.getEmail()) == null) {
+        Optional<UtilisateurEntity> utilisateurEntityOptional = utilisateurRepository.findByEmail(nouvelUtilisateurEntity.getEmail());
+
+        if (utilisateurEntityOptional.isEmpty()) {
 
             if (nouvelUtilisateurEntity.getListeRoles().size() == 0) {
                 logger.debug("IAM - Préparation de l'utilisateur standard " + nouvelUtilisateurEntity.getEmail());
@@ -62,12 +65,16 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
             return utilisateurRepository.save(nouvelUtilisateurEntity);
         } else {
-            throw new UtilisateurExistantDejaException("L'utilisateur " + nouvelUtilisateurEntity.getEmail() + " existe déjà");
+            //throw new UtilisateurExistantDejaException("L'utilisateur " + nouvelUtilisateurEntity.getEmail() + " existe déjà");
+            // Pour des raisons de sécurité, on va ignorer la demande de recréation en renvoyant les données
+            // attendues/imaginée par un éventuel fraudeur.
+            // Le mot de passe de l'utilisateur n'est donc pas changé
+            return nouvelUtilisateurEntity;
         }
     }
 
     @Override
-    public UtilisateurEntity recupererUtilisateurParEmail(String email) {
+    public UtilisateurEntity recupererUtilisateurParEmail(final String email) throws UtilisateurInexistantException {
         return utilisateurRepository
                 .findByEmail(email)
                 .orElseThrow(() -> new UtilisateurInexistantException("Utilisateur ou mot de passe erroné"));
@@ -95,7 +102,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public void verifieQueIamEstInitialisee(String nomAdmin, String prenomAdmin, String emailAdmin, String motDePasseAdmin) {
 
-        if (utilisateurRepository.findByEmail(emailAdmin) == null) {
+        if (utilisateurRepository.findByEmail(emailAdmin).isEmpty()) {
             // Si le premier administrateur n'existe pas, on le crée ainsi que les rôles.
             // (si le premier admin existe, c'est que les rôles sont déjà créés)
 

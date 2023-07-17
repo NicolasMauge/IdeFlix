@@ -27,10 +27,10 @@ public class JWTVerify extends OncePerRequestFilter {
 
     private final static Logger logger = LoggerFactory.getLogger(JWTVerify.class);
 
-    @Value("${org.epita.ideflixiam.secretiam}")
-    public String SECRET_IAM;
+    private final String SECRET_IAM;
 
-    public JWTVerify() {
+    public JWTVerify(String secretIam) {
+        this.SECRET_IAM = secretIam;
     }
 
     @Override

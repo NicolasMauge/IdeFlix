@@ -3,11 +3,14 @@ package org.epita.ideflixiam.securite;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import org.epita.ideflixiam.application.common.ErreurFormatLoginException;
+import org.epita.ideflixiam.application.common.IdeFlixIamException;
+import org.epita.ideflixiam.application.common.UtilisateurInexistantException;
 import org.epita.ideflixiam.application.utilisateur.UtilisateurService;
 import org.epita.ideflixiam.domaine.UtilisateurEntity;
 import org.epita.ideflixiam.exposition.utilisateur.UtilisateurController;
@@ -36,12 +39,9 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
 
     private final static Logger logger = LoggerFactory.getLogger(JWTAuthenticationManager.class);
     private final AuthenticationManager authenticationManager;
-
-    private String SECRET_IAM;
-
-    private UtilisateurService utilisateurService;
-
     UtilisateurConvertisseur utilisateurConvertisseur;
+    private String SECRET_IAM;
+    private UtilisateurService utilisateurService;
 
     public JWTAuthenticationManager(AuthenticationManager authenticationManager,
                                     String secretIam,
@@ -100,15 +100,23 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
 
         logger.debug("IAM - " + springUser.getUsername() + " connecté avec succès.");
 
-        UtilisateurEntity utilisateur = utilisateurService.recupererUtilisateurParEmail(springUser.getUsername());
+
+        UtilisateurEntity utilisateur = null;
+        try {
+            utilisateur = utilisateurService.recupererUtilisateurParEmail(springUser.getUsername());
+        } catch (UtilisateurInexistantException e) {
+            throw new IdeFlixIamException("Utilisateur ou mot passe erroné");
+        }
 
         UtilisateurReponseLoginDto utilisateurReponseLoginDto = utilisateurConvertisseur.convertirEntiteVersReponseLoginDto(utilisateur, jwt);
 
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+
         String json = ow.writeValueAsString(utilisateurReponseLoginDto);
 
         response.getWriter()
                 .println(json);
+
     }
 
 

@@ -1,6 +1,8 @@
 package org.epita.ideflixiam.exposition.utilisateur;
 
 import io.swagger.annotations.*;
+import org.epita.ideflixiam.application.common.IdeFlixIamException;
+import org.epita.ideflixiam.application.common.UtilisateurInexistantException;
 import org.epita.ideflixiam.application.utilisateur.UtilisateurService;
 import org.epita.ideflixiam.domaine.UtilisateurEntity;
 import org.slf4j.Logger;
@@ -55,7 +57,7 @@ public class UtilisateurController {
             @ApiResponse(code = 400, message = "Requête erronée.")
     })
     @PostMapping("/utilisateur")
-    public ResponseEntity<UtilisateurSimpleDto> creerUtilisateur(@RequestBody UtilisateurEntreeDto utilisateurEntreeDto) {
+    public ResponseEntity<UtilisateurSimpleDto> creerUtilisateur(@RequestBody UtilisateurEntreeDto utilisateurEntreeDto) throws IdeFlixIamException {
 
         logger.debug("Creation utilisateur : " + utilisateurEntreeDto.getEmail());
 
@@ -71,8 +73,6 @@ public class UtilisateurController {
 
     }
 
-
-    // opérations pour administrateur :
 
     @ApiOperation(value = "Récupérer la liste des utilisateurs", nickname = "getUtilisateurs", notes = "Cette ressource permet à un administrateur de récupérer la liste des utilisateurs", response = UtilisateurDetailDto.class)
     @GetMapping("/admin/utilisateurs")
@@ -102,13 +102,13 @@ public class UtilisateurController {
     })
     @ApiParam(name = "Email", type = "String", value = "Email of the user to be deleted.", allowableValues = "john.doe@example.org", required = true)
     @ApiImplicitParam(name = "Authorization", value = "JWT", required = true, dataTypeClass = String.class, example = "Bearer efdmlkjoij651.rqrgq.fqfe6f5")
-    public void delUtilisateur(@PathVariable("email") String email) {
+    public void delUtilisateur(@PathVariable("email") String email) throws UtilisateurInexistantException {
         logger.debug("IAM - Suppression de " + email);
 
         UtilisateurEntity utilisateur = utilisateurService.recupererUtilisateurParEmail(email);
 
         if (utilisateur == null) {
-            logger.debug("IAM - Echec suppression de " + email + ". L'utilisateur n'existe pas.");
+            throw new UtilisateurInexistantException("IAM - Echec suppression de " + email + ". L'utilisateur n'existe pas.");
         } else {
             utilisateurService.supprimerUtilisateur(utilisateur);
         }

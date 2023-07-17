@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.sql.DataSource;
 
@@ -67,15 +68,21 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         logger.debug("IAM, chemin par défaut des end-points : " + contextPath);
 
+        final String roleAdmin = ROLE_ADMIN.substring("ROLE_".length());
+
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, SWAGGER_WHITELIST).permitAll()
 //                .antMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/utilisateur").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/v1/iam/utilisateur").permitAll()
-                .antMatchers(SWAGGER_WHITELIST).hasRole(ROLE_ADMIN.substring("ROLE_".length()))
+//                .antMatchers(HttpMethod.POST, "/api/v1/iam/utilisateur").permitAll()
+                .antMatchers(SWAGGER_WHITELIST).hasRole(roleAdmin)
+                .antMatchers(HttpMethod.GET, "/admin/utilisateurs").hasRole(roleAdmin)
+                .antMatchers(HttpMethod.DELETE, "/admin/utilisateurs/*").hasRole(roleAdmin)
+                .antMatchers(HttpMethod.DELETE, "/admin/utilisateurs/**").hasRole(roleAdmin)
                 .anyRequest().denyAll() // commenter pour que le swagger soit accessible
                 .and()
+                .addFilterBefore(new JWTVerify(this.SECRET_IAM), UsernamePasswordAuthenticationFilter.class)
                 .addFilter(
                         new JWTAuthenticationManager(
                                 authenticationManager(
@@ -86,7 +93,6 @@ public class SecurityConfiguration {
                                 utilisateurConvertisseur)
                 )
                 //.antMatchers(HttpMethod.POST, "/utilisateur").permitAll()
-//                .antMatchers(HttpMethod.POST, "/admin/utilisateurs").hasRole(ROLE_ADMIN)
 //                .antMatchers(HttpMethod.GET).permitAll()
                 //.antMatchers(HttpMethod.GET).hasRole("USER")
                 //.anyRequest().denyAll()
