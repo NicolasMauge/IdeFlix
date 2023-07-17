@@ -23,7 +23,6 @@ import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { UtilisateurServiceImpl.class })
-@ContextConfiguration(classes = {UtilisateurServiceImpl.class})
 public class UtilisateurServiceTest {
     @Autowired
     UtilisateurService utilisateurService;

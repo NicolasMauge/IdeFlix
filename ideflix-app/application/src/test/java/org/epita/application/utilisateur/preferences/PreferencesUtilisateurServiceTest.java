@@ -24,7 +24,6 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { PreferencesUtilisateurServiceImpl.class })
-@ContextConfiguration(classes = {PreferencesUtilisateurServiceImpl.class})
 public class PreferencesUtilisateurServiceTest {
     @Autowired
     PreferencesUtilisateurService preferencesUtilisateurService;

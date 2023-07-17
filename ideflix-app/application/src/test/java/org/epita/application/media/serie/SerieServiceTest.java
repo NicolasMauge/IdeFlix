@@ -23,8 +23,7 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {SerieService.class})
-@ContextConfiguration(classes = {SerieServiceImpl.class})
+@SpringBootTest(classes = {SerieServiceImpl.class})
 public class SerieServiceTest {
     @Autowired
     SerieService serieService;

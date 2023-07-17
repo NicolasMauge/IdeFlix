@@ -23,8 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {FilmService.class})
-@ContextConfiguration(classes = {FilmServiceImpl.class})
+@SpringBootTest(classes = {FilmServiceImpl.class})
 public class FilmServiceTest {
     @Autowired
     FilmService filmService;

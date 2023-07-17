@@ -21,8 +21,7 @@ import java.util.Optional;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {GenreService.class})
-@ContextConfiguration(classes = {GenreServiceImpl.class})
+@SpringBootTest(classes = {GenreServiceImpl.class})
 public class GenreServiceTest {
     @Autowired
     private GenreService genreService;

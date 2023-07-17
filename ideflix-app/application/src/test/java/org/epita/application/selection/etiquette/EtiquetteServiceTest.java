@@ -23,8 +23,7 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {EtiquetteService.class})
-@ContextConfiguration(classes = {EtiquetteServiceImpl.class})
+@SpringBootTest(classes = {EtiquetteServiceImpl.class})
 public class EtiquetteServiceTest {
     @Autowired
     EtiquetteService etiquetteService;
@@ -36,7 +35,7 @@ public class EtiquetteServiceTest {
 
     @Before
     public void setUp() {
-        // définition du film utilisé pour les test
+        // définition de l'étiquette utilisée pour les test
         etiquette = new EtiquetteEntity();
         etiquette.setId(1L);
         etiquette.setNomTag("tag 1");
