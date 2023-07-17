@@ -9,11 +9,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class PreferencesUtilisateurMapper extends Mapper<PreferencesUtilisateurEntity, PreferencesUtilisateurDto> {
     private GenreMapper genreMapper;
-    private PreferencesUtilisateurService preferencesUtilisateurService;
 
-    public PreferencesUtilisateurMapper(GenreMapper genreMapper, PreferencesUtilisateurService preferencesUtilisateurService) {
+    public PreferencesUtilisateurMapper(GenreMapper genreMapper) {
         this.genreMapper = genreMapper;
-        this.preferencesUtilisateurService = preferencesUtilisateurService;
     }
 
     @Override

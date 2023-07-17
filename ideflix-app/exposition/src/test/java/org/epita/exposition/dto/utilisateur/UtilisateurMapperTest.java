@@ -1,6 +1,5 @@
 package org.epita.exposition.dto.utilisateur;
 
-import org.assertj.core.api.Assert;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.exposition.common.Mapper;
@@ -18,10 +17,10 @@ import java.time.LocalDate;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = { UtilisateurMapper.class})
-@ContextConfiguration(classes = {UtilisateurMapper.class})
+@ContextConfiguration(classes = {})
 public class UtilisateurMapperTest {
     @Autowired
-    UtilisateurMapper mapper;
+    Mapper<UtilisateurEntity, UtilisateurDto> mapper;
 
     @Test
     public void mapEntityToDto() {
@@ -43,11 +42,20 @@ public class UtilisateurMapperTest {
         UtilisateurDto utilisateurDto = mapper.mapEntityToDto(utilisateur);
 
         // Then
-        assertThat(utilisateurDto.getId()).isEqualTo(1L);
-        assertThat(utilisateurDto.getEmail()).isEqualTo("email");
-        assertThat(utilisateurDto.getPrenom()).isEqualTo("prenom");
-        assertThat(utilisateurDto.getNom()).isEqualTo("nom");
-        assertThat(utilisateurDto.getDateCreation()).isEqualTo(LocalDate.of(2023, 07, 17));
+        assertThat(utilisateurDto.getId())
+                .isEqualTo(utilisateur.getId());
+
+        assertThat(utilisateurDto.getEmail())
+                .isEqualTo(utilisateur.getEmail());
+
+        assertThat(utilisateurDto.getPrenom())
+                .isEqualTo(utilisateur.getPrenom());
+
+        assertThat(utilisateurDto.getNom())
+                .isEqualTo(utilisateur.getNom());
+
+        assertThat(utilisateurDto.getDateCreation())
+                .isEqualTo(utilisateur.getDateCreation());
     }
 
     @Test
@@ -65,11 +73,22 @@ public class UtilisateurMapperTest {
         UtilisateurEntity utilisateur = mapper.mapDtoToEntity(utilisateurDto);
 
         // Then
-        assertThat(utilisateur.getId()).isEqualTo(1L);
-        assertThat(utilisateur.getEmail()).isEqualTo("email");
-        assertThat(utilisateur.getPrenom()).isEqualTo("prenom");
-        assertThat(utilisateur.getNom()).isEqualTo("nom");
-        assertThat(utilisateur.getDateCreation()).isEqualTo(LocalDate.of(2023, 07, 17));
-        assertThat(utilisateur.getPreferencesUtilisateurEntity()).isEqualTo(null);
+        assertThat(utilisateur.getId())
+                .isEqualTo(utilisateurDto.getId());
+
+        assertThat(utilisateur.getEmail())
+                .isEqualTo(utilisateurDto.getEmail());
+
+        assertThat(utilisateur.getPrenom())
+                .isEqualTo(utilisateurDto.getPrenom());
+
+        assertThat(utilisateur.getNom())
+                .isEqualTo(utilisateurDto.getNom());
+
+        assertThat(utilisateur.getDateCreation())
+                .isEqualTo(utilisateurDto.getDateCreation());
+
+        assertThat(utilisateur.getPreferencesUtilisateurEntity())
+                .isEqualTo(null);
     }
 }
