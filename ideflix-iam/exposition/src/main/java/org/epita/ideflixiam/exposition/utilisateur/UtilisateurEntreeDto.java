@@ -1,11 +1,17 @@
 package org.epita.ideflixiam.exposition.utilisateur;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class UtilisateurEntreeDto {
 
+    @Schema(name = "Nom de l'utilisateur", example = "Dupont", required = true)
     private String nom;
+    @Schema(name = "Prénom de l'utilisateur", example = "Charles", required = true)
     private String prenom;
+    @Schema(name = "Email de l'utilisateur", example = "charles.dupont@example.org", required = true)
     private String email;
 
+    @Schema(name = "Mot de passe de l'utilisateur", example = "F6565q-(SSskjk5jnkj)CBS.", required = true)
     private String motDePasse;
 
     public UtilisateurEntreeDto() {

@@ -1,6 +1,10 @@
 package org.epita.ideflixiam.exceptions;
 
 import org.epita.ideflixiam.application.common.RoleInexistantException;
+<<<<<<< HEAD
+=======
+import org.epita.ideflixiam.application.common.UtilisateurExistantDejaException;
+>>>>>>> develop
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -22,5 +26,19 @@ public class GestionnaireExceptions { // aka GlobalExceptionHandler
                 .body(messageExceptionDto);
     }
 
+<<<<<<< HEAD
+=======
+    @ExceptionHandler(UtilisateurExistantDejaException.class)
+    public ResponseEntity<MessageExceptionDto> handleUtilisateurExistantDejaException(UtilisateurExistantDejaException exception) {
+        MessageExceptionDto messageExceptionDto = new MessageExceptionDto("La syntaxe de la requête mais l'email est déjà utilisé.",
+                exception.getMessage(),
+                LocalDateTime.now());
+
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN) // le 403 peut aussi servir pour les doublons.
+                .body(messageExceptionDto);
+    }
+
+>>>>>>> develop
 
 }

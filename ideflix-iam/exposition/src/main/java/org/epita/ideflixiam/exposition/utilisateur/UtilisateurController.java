@@ -41,7 +41,13 @@ public class UtilisateurController {
 
     }
 
-
+    /**
+     * Cette méthode permet de s'enrôler comme utilisateur standard quand on n'est pas connecté.
+     * (L'email ne doit pas être déjà associé à un autre compte).
+     *
+     * @param : UtilisateurEntreeDto
+     * @return : UtilisateurSimpleDto
+     */
     @ApiOperation(value = "Créer un utilisateur standard.", nickname = "creerUtilisateur", notes = "Lors du premier appel, l'administrateur est créé selon les données fournies dans le fichier de configuration utilisé au démarrage d'IdeFlix-IAM.", response = UtilisateurSimpleDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Non utilisé."),
