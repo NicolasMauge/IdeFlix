@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import {MediaModel} from "../shared/models/media.model";
+import {Subscription} from "rxjs";
+import {MenuService} from "../shared/services/menu.service";
+import {MediaMaListeService} from "../shared/services/media-ma-liste.service";
 
 @Component({
   selector: 'app-media-list',
@@ -6,5 +10,26 @@ import { Component } from '@angular/core';
   styleUrls: ['./media-list.component.css']
 })
 export class MediaListComponent {
+
+  medias: MediaModel[] = [];
+  sub!: Subscription;
+
+  constructor(private menuService: MenuService,
+              private mediaSvc: MediaMaListeService ) {
+  }
+
+  ngOnInit() {
+    this.menuService.hideMenu = false;
+
+    // requête GET à TMDB pour récupérer la liste des films
+    this.mediaSvc.getMoviesFromApi();
+
+    //abonnement à la source service.movies$  via un subscribe
+    this.sub = this.mediaSvc.movies$.subscribe( (data: MediaModel[]) => this.medias = data);
+  }
+
+  ngOnDestroy(){
+    this.sub.unsubscribe
+  }
 
 }
