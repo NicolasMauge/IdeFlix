@@ -3,6 +3,7 @@ package org.epita.application.selection.filmselectionne;
 import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.selection.EtiquetteEntity;
 import org.epita.domaine.selection.FilmSelectionneEntity;
+import org.epita.domaine.selection.SerieSelectionneeEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.selection.FilmSelectionneRepository;
 import org.junit.jupiter.api.Assertions;
@@ -33,6 +34,8 @@ public class FilmSelectionneServiceTest {
 
     FilmSelectionneEntity filmSelectionne;
 
+    UtilisateurEntity utilisateur;
+
     @BeforeEach
     public void setUp() {
         // définition des étiquettes
@@ -49,20 +52,20 @@ public class FilmSelectionneServiceTest {
         entityList.add(etiquette2);
 
         // définition de l'utilisateur
-        UtilisateurEntity utilisateurEntity = new UtilisateurEntity();
-        utilisateurEntity.setId(1L);
-        utilisateurEntity.setEmail("test@test.com");
+        utilisateur = new UtilisateurEntity();
+        utilisateur.setId(1L);
+        utilisateur.setEmail("test@test.com");
 
         // définition du film sélectionné utilisé pour les test
         filmSelectionne = new FilmSelectionneEntity();
         filmSelectionne.setId(1L);
         filmSelectionne.setEtiquetteEntityList(entityList);
-        filmSelectionne.setUtilisateurEntity(utilisateurEntity);
+        filmSelectionne.setUtilisateurEntity(utilisateur);
 
         filmSelectionneService.creerFilmSelectionne(filmSelectionne);
 
         when(repositoryMock.findById(1L)).thenReturn(Optional.of(filmSelectionne));
-        when(repositoryMock.findByUtilisateurEntity(utilisateurEntity)).thenReturn(List.of(filmSelectionne));
+        when(repositoryMock.findByUtilisateurEntity(utilisateur)).thenReturn(List.of(filmSelectionne));
     }
 
     @Test
@@ -110,5 +113,14 @@ public class FilmSelectionneServiceTest {
         });
 
         Assertions.assertEquals("Film sélectionné non trouvé", thrown.getMessage());
+    }
+
+    @Test
+    public void trouverFilmSelectionneParUtilisateur_should_return_1_element() {
+        // When
+        final List<FilmSelectionneEntity> expected = this.filmSelectionneService.trouverFilmSelectionneeParUtilisateur(utilisateur);
+
+        // Then
+        assertThat(expected).isEqualTo(List.of(filmSelectionne));
     }
 }
