@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FilmMapper.class})
@@ -29,22 +28,14 @@ public class FilmMapperTest {
     private Mapper<FilmEntity, FilmDto> mapper;
 
     @Test
-    public void mapEntityToDto() {
+    public void should_return_mapEntityToDto() {
         // Given
         // Liste de genres
-        GenreEntity genreEntity = new GenreEntity();
-        genreEntity.setId(1L);
-        genreEntity.setNomGenre("nom genre");
-        genreEntity.setIdTmdb("1535-Dfetf432");
-
-        GenreEntity genreEntity2 = new GenreEntity();
-        genreEntity2.setId(2L);
-        genreEntity2.setNomGenre("nom genre 2");
-        genreEntity2.setIdTmdb("675-dfg-456");
-
         List<GenreEntity> genreEntityList = new ArrayList<>();
-        genreEntityList.add(genreEntity);
-        genreEntityList.add(genreEntity2);
+        genreEntityList.add(
+                new GenreEntity(1L, "1535-Dfetf432", "nom genre"));
+        genreEntityList.add(
+                new GenreEntity(2L, "675-dfg-456", "nom genre 2"));
 
         // Films
         FilmEntity filmEntity = new FilmEntity();
@@ -55,6 +46,7 @@ public class FilmMapperTest {
         filmEntity.setCheminAffichePaysage("chemin paysage");
         filmEntity.setCheminAffichePortrait("chemin portrait");
         filmEntity.setIdTmdb("123-DFG-567");
+        filmEntity.setNoteTmdb(4);
         filmEntity.setGenreList(genreEntityList);
 
         // When
@@ -80,27 +72,22 @@ public class FilmMapperTest {
         assertThat(filmDto.getIdTmdb())
                 .isEqualTo(filmEntity.getIdTmdb());
 
+        assertThat(filmDto.getNoteTmdb())
+                .isEqualTo(filmEntity.getNoteTmdb());
+
         assertThat(filmDto.getGenreList().size())
                 .isEqualTo(filmEntity.getGenreList().size());
     }
 
     @Test
-    public void mapDtoToEntity() {
+    public void should_return_mapDtoToEntity() {
         // Given
         // Liste de genres
-        GenreDto genreDto = new GenreDto();
-        genreDto.setId(1L);
-        genreDto.setNomGenre("nom genre");
-        genreDto.setIdTmdb("1535-Dfetf432");
-
-        GenreDto genreDto2 = new GenreDto();
-        genreDto2.setId(2L);
-        genreDto2.setNomGenre("nom genre 2");
-        genreDto2.setIdTmdb("675-dfg-456");
-
         List<GenreDto> genreEntityList = new ArrayList<>();
-        genreEntityList.add(genreDto);
-        genreEntityList.add(genreDto2);
+        genreEntityList
+                .add(new GenreDto(1L, "1535-Dfetf432", "nom genre"));
+        genreEntityList.add(
+                new GenreDto(2L, "675-dfg-456", "nom genre 2"));
 
         // Films
         FilmDto filmDto = new FilmDto();
@@ -110,6 +97,7 @@ public class FilmMapperTest {
         filmDto.setCheminAffichePaysage("chemin paysage");
         filmDto.setCheminAffichePortrait("chemin portrait");
         filmDto.setIdTmdb("123-DFG-567");
+        filmDto.setNoteTmdb(4);
         filmDto.setGenreList(genreEntityList);
 
         // When
@@ -134,6 +122,9 @@ public class FilmMapperTest {
 
         assertThat(filmEntity.getIdTmdb())
                 .isEqualTo(filmDto.getIdTmdb());
+
+        assertThat(filmEntity.getNoteTmdb())
+                .isEqualTo(filmDto.getNoteTmdb());
 
         assertThat(filmEntity.getGenreList().size())
                 .isEqualTo(filmDto.getGenreList().size());

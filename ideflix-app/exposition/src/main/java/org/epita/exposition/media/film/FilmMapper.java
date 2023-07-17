@@ -1,13 +1,10 @@
 package org.epita.exposition.media.film;
 
-import org.epita.application.media.genre.GenreService;
 import org.epita.domaine.media.FilmEntity;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.exposition.common.Mapper;
 import org.epita.exposition.media.genre.GenreDto;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class FilmMapper extends Mapper<FilmEntity, FilmDto> {

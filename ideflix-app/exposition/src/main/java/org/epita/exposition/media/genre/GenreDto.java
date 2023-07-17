@@ -2,9 +2,7 @@ package org.epita.exposition.media.genre;
 
 public class GenreDto {
     private Long id;
-
     private String idTmdb;
-
     private String nomGenre;
 
     public GenreDto() {

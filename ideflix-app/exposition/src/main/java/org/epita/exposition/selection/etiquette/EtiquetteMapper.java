@@ -10,11 +10,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class EtiquetteMapper extends Mapper<EtiquetteEntity, EtiquetteDto> {
     private Mapper<UtilisateurEntity, UtilisateurDto> mapper;
-    private UtilisateurService utilisateurService;
 
-    public EtiquetteMapper(Mapper<UtilisateurEntity, UtilisateurDto> mapper, UtilisateurService utilisateurService) {
+    public EtiquetteMapper(Mapper<UtilisateurEntity, UtilisateurDto> mapper) {
         this.mapper = mapper;
-        this.utilisateurService = utilisateurService;
     }
 
     @Override
@@ -26,11 +24,11 @@ public class EtiquetteMapper extends Mapper<EtiquetteEntity, EtiquetteDto> {
 
     @Override
     public EtiquetteEntity mapDtoToEntity(EtiquetteDto input) {
-        // il faut aller chercher l'utilisateur déjà existant correspondant à l'id renseigné
-        UtilisateurEntity utilisateurEntity = this.utilisateurService.trouverUtilisateurParId(input.getIdUtilisateur());
+        UtilisateurEntity utilisateur = new UtilisateurEntity();
+        utilisateur.setId(input.getIdUtilisateur());
 
         return new EtiquetteEntity(
                 input.getNomTag(),
-                utilisateurEntity);
+                utilisateur);
     }
 }

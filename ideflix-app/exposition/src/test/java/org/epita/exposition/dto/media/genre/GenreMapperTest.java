@@ -21,12 +21,9 @@ public class GenreMapperTest {
     private Mapper<GenreEntity, GenreDto> mapper;
 
     @Test
-    public void mapEntityToDto() {
+    public void should_return_mapEntityToDto() {
         // Given
-        GenreEntity genreEntity = new GenreEntity();
-        genreEntity.setId(1L);
-        genreEntity.setNomGenre("nom genre");
-        genreEntity.setIdTmdb("1535-Dfetf432");
+        GenreEntity genreEntity = new GenreEntity(1L, "1535-Dfetf432", "nom genre");
 
         // When
         GenreDto genreDto = this.mapper.mapEntityToDto(genreEntity);
@@ -43,12 +40,9 @@ public class GenreMapperTest {
     }
 
     @Test
-    public void mapDtoToEntity() {
+    public void should_return_mapDtoToEntity() {
         // Given
-        GenreDto genreDto = new GenreDto();
-        genreDto.setId(1L);
-        genreDto.setNomGenre("nom genre");
-        genreDto.setIdTmdb("1535-Dfetf432");
+        GenreDto genreDto = new GenreDto(1L, "1535-Dfetf432", "nom genre");
 
         // When
         GenreEntity genreEntity = this.mapper.mapDtoToEntity(genreDto);

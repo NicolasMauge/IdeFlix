@@ -2,14 +2,11 @@ package org.epita.exposition.selection.serieselectionnee;
 
 import org.epita.application.selection.serieselectionnee.SerieSelectionneeService;
 import org.epita.application.utilisateur.utilisateur.UtilisateurService;
-import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.epita.domaine.selection.SerieSelectionneeEntity;
 import org.epita.exposition.common.Mapper;
-import org.epita.exposition.selection.filmselectionne.FilmSelectionneDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("serieselectionnee")

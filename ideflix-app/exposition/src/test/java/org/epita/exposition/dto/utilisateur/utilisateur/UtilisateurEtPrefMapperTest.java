@@ -31,7 +31,7 @@ public class UtilisateurEtPrefMapperTest {
     private Mapper<UtilisateurEntity, UtilisateurEtPrefDto> mapper;
 
     @Test
-    public void mapEntityToDto() {
+    public void should_return_mapEntityToDto() {
         // Given
         // Preferences Utilisateurs
         PreferencesUtilisateurEntity preferencesUtilisateurEntity = new PreferencesUtilisateurEntity();
@@ -71,7 +71,7 @@ public class UtilisateurEtPrefMapperTest {
     }
 
     @Test
-    public void mapDtoToEntity() {
+    public void should_return_mapDtoToEntity() {
         // Given
         // Preferences Utilisateurs
         PreferencesUtilisateurDto preferencesUtilisateurDto = new PreferencesUtilisateurDto();

@@ -13,4 +13,6 @@ public interface SerieService {
     List<SerieEntity> trouverToutesLesSeries();
 
     void supprimerSerieParId(Long id);
+
+    SerieEntity trouverSerieParIdTmdb(String idTmdb);
 }
