@@ -14,6 +14,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { MaListeComponent } from './MaListe/ma-liste/ma-liste.component';
 import { PrintImgPipe } from './shared/pipes/print-img.pipe';
 import { MediaListComponent } from './media-list/media-list.component';
+import { SearchbarComponent } from './searchbar/searchbar.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { MediaListComponent } from './media-list/media-list.component';
     NavbarComponent,
     MaListeComponent,
     PrintImgPipe,
-    MediaListComponent
+    MediaListComponent,
+    SearchbarComponent
   ],
   imports: [
     BrowserModule,
