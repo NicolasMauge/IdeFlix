@@ -26,8 +26,8 @@ export class RegisterComponent  {
     this.menuService.hideMenu = true;
     // construire mon instance loginForm
     this.registerForm = this.fb.group({
-      // nom:['', [Validators.required]],
-      // prenom:['', [Validators.required]],
+      nom:['', [Validators.required]],
+      prenom:['', [Validators.required]],
       email:['', [Validators.required, Validators.email]],
     //   (?=.*[a-z]) : Au moins une lettre minuscule.
     // (?=.*[A-Z]) : Au moins une lettre majuscule.

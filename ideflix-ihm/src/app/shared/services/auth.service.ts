@@ -44,7 +44,7 @@ export class AuthService {
   }
 
   registerUser(data:any):Observable<any>{
-    let endpoint = '/users/register';
+    let endpoint = '/iam/utilisateur';
     return this.http.post<any>(this.USER_API + endpoint, data)
       .pipe(
         tap({
