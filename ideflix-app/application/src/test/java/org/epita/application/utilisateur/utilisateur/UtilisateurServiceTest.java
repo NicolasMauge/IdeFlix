@@ -1,5 +1,6 @@
 package org.epita.application.utilisateur.utilisateur;
 
+import org.epita.application.media.serie.SerieServiceImpl;
 import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
@@ -10,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -21,12 +23,13 @@ import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { UtilisateurServiceImpl.class })
+@ContextConfiguration(classes = {UtilisateurServiceImpl.class})
 public class UtilisateurServiceTest {
     @Autowired
     UtilisateurService utilisateurService;
 
     @MockBean
-    UtilisateurRepository utilisateurRepositoryMock;
+    UtilisateurRepository repositoryMock;
 
     UtilisateurEntity utilisateur;
 
@@ -45,8 +48,8 @@ public class UtilisateurServiceTest {
 
         utilisateurService.creerUtilisateur(utilisateur);
 
-        when(utilisateurRepositoryMock.findById(1L)).thenReturn(Optional.of(utilisateur));
-        when(utilisateurRepositoryMock.findByEmail(utilisateur.getEmail())).thenReturn(Optional.of(utilisateur));
+        when(repositoryMock.findById(1L)).thenReturn(Optional.of(utilisateur));
+        when(repositoryMock.findByEmail(utilisateur.getEmail())).thenReturn(Optional.of(utilisateur));
     }
 
     @Test
@@ -56,7 +59,7 @@ public class UtilisateurServiceTest {
         // When
 
         // Then
-        verify(utilisateurRepositoryMock,times(1)).save(utilisateur);
+        verify(repositoryMock,times(1)).save(utilisateur);
     }
 
     @Test
@@ -95,13 +98,13 @@ public class UtilisateurServiceTest {
         utilisateurs.add(utilisateur);
         utilisateurs.add(utilisateur_2);
 
-        when(utilisateurRepositoryMock.findAll()).thenReturn(utilisateurs);
+        when(repositoryMock.findAll()).thenReturn(utilisateurs);
 
         // When
-        final List<UtilisateurEntity> utilisateurEntityList = this.utilisateurService.trouverTousLesUtilisateurs();
+        final List<UtilisateurEntity> trouves = this.utilisateurService.trouverTousLesUtilisateurs();
 
         // Then
-        assertThat(utilisateurEntityList).hasSize(2);
+        assertThat(trouves).hasSize(2);
     }
 
     @Test(expected = EntityNotFoundException.class)

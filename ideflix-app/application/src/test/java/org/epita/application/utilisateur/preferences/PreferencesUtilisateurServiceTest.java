@@ -1,6 +1,6 @@
 package org.epita.application.utilisateur.preferences;
 
-import org.epita.application.media.genre.GenreService;
+import org.epita.application.media.serie.SerieServiceImpl;
 import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -23,12 +24,13 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { PreferencesUtilisateurServiceImpl.class })
+@ContextConfiguration(classes = {PreferencesUtilisateurServiceImpl.class})
 public class PreferencesUtilisateurServiceTest {
     @Autowired
     PreferencesUtilisateurService preferencesUtilisateurService;
 
     @MockBean
-    PreferencesUtilisateurRepository preferencesUtilisateurRepositoryMock;
+    PreferencesUtilisateurRepository repositoryMock;
 
     PreferencesUtilisateurEntity preferencesUtilisateur;
 
@@ -44,16 +46,16 @@ public class PreferencesUtilisateurServiceTest {
         genre.setNomGenre("genre 1");
         genreEntityList.add(genre);
 
-        GenreEntity genre_2 = new GenreEntity();
-        genre_2.setId(2L);
-        genre_2.setNomGenre("genre 2");
-        genreEntityList.add(genre_2);
+        GenreEntity genre2 = new GenreEntity();
+        genre2.setId(2L);
+        genre2.setNomGenre("genre 2");
+        genreEntityList.add(genre2);
 
         preferencesUtilisateur.setGenreList(genreEntityList);
 
         preferencesUtilisateurService.creerPreferencesUtilisateur(preferencesUtilisateur);
 
-        when(preferencesUtilisateurRepositoryMock.findById(1L)).thenReturn(Optional.of(preferencesUtilisateur));
+        when(repositoryMock.findById(1L)).thenReturn(Optional.of(preferencesUtilisateur));
     }
 
     @Test
@@ -63,7 +65,7 @@ public class PreferencesUtilisateurServiceTest {
         // When
 
         // Then
-        verify(preferencesUtilisateurRepositoryMock,times(1)).save(preferencesUtilisateur);
+        verify(repositoryMock,times(1)).save(preferencesUtilisateur);
     }
 
     @Test
@@ -90,13 +92,13 @@ public class PreferencesUtilisateurServiceTest {
         preferencesUtilisateurList.add(preferencesUtilisateur);
         preferencesUtilisateurList.add(preferencesUtilisateur2);
 
-        when(preferencesUtilisateurRepositoryMock.findAll()).thenReturn(preferencesUtilisateurList);
+        when(repositoryMock.findAll()).thenReturn(preferencesUtilisateurList);
 
         // When
-        final List<PreferencesUtilisateurEntity> preferencesUtilisateurEntityList = this.preferencesUtilisateurService.trouverToutesLesPreferencesUtilisateurs();
+        final List<PreferencesUtilisateurEntity> trouves = this.preferencesUtilisateurService.trouverToutesLesPreferencesUtilisateurs();
 
         // Then
-        assertThat(preferencesUtilisateurEntityList).hasSize(2);
+        assertThat(trouves).hasSize(2);
     }
 
     @Test(expected = EntityNotFoundException.class)

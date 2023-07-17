@@ -28,7 +28,7 @@ public class GenreServiceTest {
     private GenreService genreService;
 
     @MockBean
-    private GenreRepository genreRepositoryMock;
+    private GenreRepository repositoryMock;
 
     private GenreEntity genre;
 
@@ -40,13 +40,13 @@ public class GenreServiceTest {
 
         genreService.creerGenre(genre);
 
-        when(genreRepositoryMock.findById(1L)).thenReturn(Optional.of(genre));
+        when(repositoryMock.findById(1L)).thenReturn(Optional.of(genre));
     }
 
     @Test
     public void creerGenre_should_call_save_repository_1_time() {
         // Then
-        verify(genreRepositoryMock, times(1)).save(genre);
+        verify(repositoryMock, times(1)).save(genre);
     }
 
     @Test
@@ -72,13 +72,13 @@ public class GenreServiceTest {
         genreList.add(genre);
         genreList.add(genre2);
 
-        when(genreRepositoryMock.findAll()).thenReturn(genreList);
+        when(repositoryMock.findAll()).thenReturn(genreList);
 
         // When
-        final List<GenreEntity> genreTrouves = this.genreService.trouverTousLesGenres();
+        final List<GenreEntity> trouves = this.genreService.trouverTousLesGenres();
 
         // Then
-        assertThat(genreTrouves).hasSize(2);
+        assertThat(trouves).hasSize(2);
     }
 
     @Test(expected = EntityNotFoundException.class)
