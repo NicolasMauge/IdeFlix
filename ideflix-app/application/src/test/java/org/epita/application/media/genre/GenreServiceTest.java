@@ -1,6 +1,7 @@
 package org.epita.application.media.genre;
 
 
+import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.infrastructure.media.GenreRepository;
 import org.junit.Before;
@@ -78,5 +79,11 @@ public class GenreServiceTest {
 
         // Then
         assertThat(genreTrouves).hasSize(2);
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void trouverGenreParId_should_throw_exception() {
+        // When
+        final GenreEntity expected = this.genreService.trouverGenreParId(10L);
     }
 }

@@ -1,6 +1,7 @@
 package org.epita.application.utilisateur.preferences;
 
 import org.epita.application.media.genre.GenreService;
+import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.infrastructure.utilisateur.PreferencesUtilisateurRepository;
@@ -96,5 +97,11 @@ public class PreferencesUtilisateurServiceTest {
 
         // Then
         assertThat(preferencesUtilisateurEntityList).hasSize(2);
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void trouverPreferencesUtilisateurParId_should_throw_exception() {
+        // When
+        final PreferencesUtilisateurEntity expected = this.preferencesUtilisateurService.trouverPreferencesUtilisateurParId(10L);
     }
 }

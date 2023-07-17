@@ -1,5 +1,6 @@
 package org.epita.application.utilisateur.utilisateur;
 
+import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.utilisateur.UtilisateurRepository;
@@ -103,4 +104,9 @@ public class UtilisateurServiceTest {
         assertThat(utilisateurEntityList).hasSize(2);
     }
 
+    @Test(expected = EntityNotFoundException.class)
+    public void trouverUtilisateurParId_should_throw_exception() {
+        // When
+        final UtilisateurEntity expected = this.utilisateurService.trouverUtilisateurParId(10L);
+    }
 }
