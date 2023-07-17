@@ -8,6 +8,8 @@ public interface UtilisateurService {
 
     UtilisateurEntity trouverUtilisateurParId(Long id);
 
+    UtilisateurEntity trouverUtilisateurParEmail(String email);
+
     List<UtilisateurEntity> trouverTousLesUtilisateurs();
 
     void supprimerUtilisateurParId(Long id);

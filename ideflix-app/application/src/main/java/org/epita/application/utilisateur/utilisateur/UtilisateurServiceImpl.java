@@ -31,6 +31,15 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
     @Override
+    public UtilisateurEntity trouverUtilisateurParEmail(String email) {
+        Optional<UtilisateurEntity> utilisateurEntityOptional = this.utilisateurRepository.findByEmail(email);
+        if(utilisateurEntityOptional.isPresent()) {
+            return utilisateurEntityOptional.get();
+        }
+        throw new EntityNotFoundException("Utilisateur non trouvé");
+    }
+
+    @Override
     public List<UtilisateurEntity> trouverTousLesUtilisateurs() {
         return this.utilisateurRepository.findAll();
     }
