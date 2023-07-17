@@ -1,10 +1,7 @@
 package org.epita.exposition.media.film;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.epita.domaine.media.GenreEntity;
 import org.epita.exposition.media.genre.GenreDto;
 
-import javax.persistence.ManyToMany;
 import java.time.LocalDate;
 import java.util.List;
 
