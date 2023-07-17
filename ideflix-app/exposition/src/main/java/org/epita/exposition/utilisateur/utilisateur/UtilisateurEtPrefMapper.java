@@ -4,6 +4,8 @@ import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.exposition.common.Mapper;
 import org.epita.exposition.utilisateur.preferences.PreferencesUtilisateurDto;
+import org.epita.exposition.utilisateur.preferences.PreferencesUtilisateurMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component

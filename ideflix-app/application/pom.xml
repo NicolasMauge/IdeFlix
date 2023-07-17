@@ -29,6 +29,19 @@
             <artifactId>infrastructure</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <!-- pour les tests -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>
