@@ -26,7 +26,7 @@
         <springfox.version>3.0.0</springfox.version>
         <java-jwt.version>4.4.0</java-jwt.version>
         <junit.version>5.9.3</junit.version>
-        <assertj.version>3.9.24</assertj.version>
+        <assertj.version>3.24.2</assertj.version>
     </properties>
 
     <dependencyManagement>
