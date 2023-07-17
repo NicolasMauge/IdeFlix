@@ -1,14 +1,16 @@
 package org.epita.ideflixiam.application.utilisateur;
 
+import org.epita.ideflixiam.application.common.UtilisateurExistantDejaException;
+import org.epita.ideflixiam.application.common.UtilisateurInexistantException;
 import org.epita.ideflixiam.domaine.UtilisateurEntity;
 
 import java.util.List;
 
 public interface UtilisateurService {
 
-    UtilisateurEntity creerUtilisateur(UtilisateurEntity nouvelUtilisateurEntity);
+    UtilisateurEntity creerUtilisateur(UtilisateurEntity nouvelUtilisateurEntity) throws UtilisateurExistantDejaException;
 
-    UtilisateurEntity recupererUtilisateurParEmail(String email);
+    UtilisateurEntity recupererUtilisateurParEmail(String email) throws UtilisateurInexistantException;
 
 
     List<UtilisateurEntity> recupererUtilisateurs();

@@ -1,5 +1,6 @@
 package org.epita.ideflixiam.application.utilisateur;
 
+import org.epita.ideflixiam.application.common.UtilisateurInexistantException;
 import org.epita.ideflixiam.domaine.UtilisateurEntity;
 import org.epita.ideflixiam.infrastructure.UtilisateurRepository;
 import org.slf4j.Logger;
@@ -28,24 +29,14 @@ public class UtilisateurDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UtilisateurEntity utilisateur = utilisateurRepository.findByEmail(username);
+        UtilisateurEntity utilisateur = utilisateurRepository.findByEmail(username).orElseThrow(() -> new UtilisateurInexistantException("Utilisateur ou mot de passe erroné"));
 
-        if (utilisateur == null) {
-            logger.debug("IAM - utilisateur " + username + " introuvable.");
+        List<GrantedAuthority> authorities = utilisateur
+                .getListeRoles()
+                .stream()
+                .map(role -> (GrantedAuthority) new SimpleGrantedAuthority(role.getNomRole()))
+                .toList();
 
-            // TODO
-            return null;
-        } else {
-
-            List<GrantedAuthority> authorities = utilisateur
-                    .getListeRoles()
-                    .stream()
-                    .map(role -> (GrantedAuthority) new SimpleGrantedAuthority(role.getNomRole()))
-                    .toList();
-
-            return new User(utilisateur.getEmail(), utilisateur.getMotDePasse(), authorities);
-        }
-
-
+        return new User(utilisateur.getEmail(), utilisateur.getMotDePasse(), authorities);
     }
 }

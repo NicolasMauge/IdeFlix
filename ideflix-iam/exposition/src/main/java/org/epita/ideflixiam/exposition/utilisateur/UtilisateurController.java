@@ -1,6 +1,8 @@
 package org.epita.ideflixiam.exposition.utilisateur;
 
 import io.swagger.annotations.*;
+import org.epita.ideflixiam.application.common.IdeFlixIamException;
+import org.epita.ideflixiam.application.common.UtilisateurInexistantException;
 import org.epita.ideflixiam.application.utilisateur.UtilisateurService;
 import org.epita.ideflixiam.domaine.UtilisateurEntity;
 import org.slf4j.Logger;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.epita.ideflixiam.application.common.Util.ROLE_UTILISATEUR;
+import static org.epita.ideflixiam.application.common.UtileRole.ROLE_UTILISATEUR;
 
 @RestController
 @RequestMapping
@@ -41,7 +43,13 @@ public class UtilisateurController {
 
     }
 
-
+    /**
+     * Cette méthode permet de s'enrôler comme utilisateur standard quand on n'est pas connecté.
+     * (L'email ne doit pas être déjà associé à un autre compte).
+     *
+     * @param : UtilisateurEntreeDto
+     * @return : UtilisateurSimpleDto
+     */
     @ApiOperation(value = "Créer un utilisateur standard.", nickname = "creerUtilisateur", notes = "Lors du premier appel, l'administrateur est créé selon les données fournies dans le fichier de configuration utilisé au démarrage d'IdeFlix-IAM.", response = UtilisateurSimpleDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Non utilisé."),
@@ -49,7 +57,7 @@ public class UtilisateurController {
             @ApiResponse(code = 400, message = "Requête erronée.")
     })
     @PostMapping("/utilisateur")
-    public ResponseEntity<UtilisateurSimpleDto> creerUtilisateur(@RequestBody UtilisateurEntreeDto utilisateurEntreeDto) {
+    public ResponseEntity<UtilisateurSimpleDto> creerUtilisateur(@RequestBody UtilisateurEntreeDto utilisateurEntreeDto) throws IdeFlixIamException {
 
         logger.debug("Creation utilisateur : " + utilisateurEntreeDto.getEmail());
 
@@ -66,15 +74,13 @@ public class UtilisateurController {
     }
 
 
-    // opérations pour administrateur :
-
     @ApiOperation(value = "Récupérer la liste des utilisateurs", nickname = "getUtilisateurs", notes = "Cette ressource permet à un administrateur de récupérer la liste des utilisateurs", response = UtilisateurDetailDto.class)
     @GetMapping("/admin/utilisateurs")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK, voici la liste."),
             @ApiResponse(code = 403, message = "Requête interdite.")
     })
-    @ApiImplicitParam(name = "Authorization", value = "JWT", required = true, allowEmptyValue = false, dataTypeClass = String.class, example = "Bearer efdmlkjoij651.rqrgq.fqfe6f5")
+    @ApiImplicitParam(name = "Authorization", value = "JWT", required = true, dataTypeClass = String.class, example = "Bearer efdmlkjoij651.rqrgq.fqfe6f5")
     public List<UtilisateurDetailDto> getUtilisateurs() {
 
         logger.debug("IAM - Récupération de tous utilisateurs");
@@ -95,14 +101,14 @@ public class UtilisateurController {
             @ApiResponse(code = 403, message = "Requête interdite.")
     })
     @ApiParam(name = "Email", type = "String", value = "Email of the user to be deleted.", allowableValues = "john.doe@example.org", required = true)
-    @ApiImplicitParam(name = "Authorization", value = "JWT", required = true, allowEmptyValue = false, dataTypeClass = String.class, example = "Bearer efdmlkjoij651.rqrgq.fqfe6f5")
-    public void delUtilisateur(@PathVariable("email") String email) {
+    @ApiImplicitParam(name = "Authorization", value = "JWT", required = true, dataTypeClass = String.class, example = "Bearer efdmlkjoij651.rqrgq.fqfe6f5")
+    public void delUtilisateur(@PathVariable("email") String email) throws UtilisateurInexistantException {
         logger.debug("IAM - Suppression de " + email);
 
         UtilisateurEntity utilisateur = utilisateurService.recupererUtilisateurParEmail(email);
 
         if (utilisateur == null) {
-            logger.debug("IAM - Echec suppression de " + email + ". L'utilisateur n'existe pas.");
+            throw new UtilisateurInexistantException("IAM - Echec suppression de " + email + ". L'utilisateur n'existe pas.");
         } else {
             utilisateurService.supprimerUtilisateur(utilisateur);
         }

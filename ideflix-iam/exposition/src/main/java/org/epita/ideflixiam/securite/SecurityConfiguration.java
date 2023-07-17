@@ -1,5 +1,7 @@
 package org.epita.ideflixiam.securite;
 
+import org.epita.ideflixiam.application.utilisateur.UtilisateurService;
+import org.epita.ideflixiam.exposition.utilisateur.UtilisateurConvertisseur;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +15,11 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.sql.DataSource;
 
-import static org.epita.ideflixiam.application.common.Util.ROLE_ADMIN;
+import static org.epita.ideflixiam.application.common.UtileRole.ROLE_ADMIN;
 
 
 @Configuration
@@ -24,36 +27,35 @@ public class SecurityConfiguration {
 
 
     private final static Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
+    private static final String[] SWAGGER_WHITELIST = {
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+    };
     @Value("${org.epita.ideflixiam.secretiam}")
     public String SECRET_IAM;
-    BCryptPasswordEncoder passwordEncoder;
+    //BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private DataSource dataSource;
     @Value("${server.servlet.context-path}")
     private String contextPath;
 
-    private static final String[] SWAGGER_WHITELIST = {
-            // -- Swagger UI v2
-//            "/v2/api-docs",
-            "/swagger-resources",
-            "/swagger-resources/**",
-            "/configuration/ui",
-            "/configuration/security",
-//            "/swagger-ui.html",
-//            "/webjars/**",
-            // -- Swagger UI v3 (OpenAPI)
-            "/v3/api-docs/**",
-            "/swagger-ui/**"
-            // other public endpoints of your API may be appended to this array
-    };
+    @Autowired
+    UtilisateurService utilisateurService;
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        if (this.passwordEncoder == null) {
-            this.passwordEncoder = new BCryptPasswordEncoder();
-        }
-        return this.passwordEncoder;
-    }
+    @Autowired
+    UtilisateurConvertisseur utilisateurConvertisseur;
+
+//    @Bean
+//    public BCryptPasswordEncoder passwordEncoder() {
+//        if (this.passwordEncoder == null) {
+//            this.passwordEncoder = new BCryptPasswordEncoder();
+//        }
+//        return this.passwordEncoder;
+//    }
 
     @Bean
     public AuthenticationManager authenticationManager(
@@ -66,24 +68,31 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         logger.debug("IAM, chemin par défaut des end-points : " + contextPath);
 
+        final String roleAdmin = ROLE_ADMIN.substring("ROLE_".length());
+
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, SWAGGER_WHITELIST).permitAll()
 //                .antMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/utilisateur").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/v1/iam/utilisateur").permitAll()
-                .antMatchers(SWAGGER_WHITELIST).hasRole(ROLE_ADMIN.substring("ROLE_".length()))
+//                .antMatchers(HttpMethod.POST, "/api/v1/iam/utilisateur").permitAll()
+                .antMatchers(SWAGGER_WHITELIST).hasRole(roleAdmin)
+                .antMatchers(HttpMethod.GET, "/admin/utilisateurs").hasRole(roleAdmin)
+                .antMatchers(HttpMethod.DELETE, "/admin/utilisateurs/*").hasRole(roleAdmin)
+                .antMatchers(HttpMethod.DELETE, "/admin/utilisateurs/**").hasRole(roleAdmin)
                 .anyRequest().denyAll() // commenter pour que le swagger soit accessible
                 .and()
+                .addFilterBefore(new JWTVerify(this.SECRET_IAM), UsernamePasswordAuthenticationFilter.class)
                 .addFilter(
                         new JWTAuthenticationManager(
                                 authenticationManager(
                                         http.getSharedObject(
-                                                AuthenticationConfiguration.class)), this.SECRET_IAM
-                        )
+                                                AuthenticationConfiguration.class)),
+                                this.SECRET_IAM,
+                                utilisateurService,
+                                utilisateurConvertisseur)
                 )
                 //.antMatchers(HttpMethod.POST, "/utilisateur").permitAll()
-//                .antMatchers(HttpMethod.POST, "/admin/utilisateurs").hasRole(ROLE_ADMIN)
 //                .antMatchers(HttpMethod.GET).permitAll()
                 //.antMatchers(HttpMethod.GET).hasRole("USER")
                 //.anyRequest().denyAll()

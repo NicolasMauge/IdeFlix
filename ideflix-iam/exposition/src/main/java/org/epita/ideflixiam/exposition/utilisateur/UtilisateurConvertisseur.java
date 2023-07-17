@@ -48,7 +48,6 @@ public class UtilisateurConvertisseur {
         List<RoleEntity> roleEntityList = new ArrayList<>();
 
         RoleEntity roleEntity = roleService.recupererRoleParNomRole(roleName);
-        // TODO gérer ici une exception si on ne trouve pas le rôle
 
         roleEntityList.add(roleEntity);
 
@@ -72,4 +71,20 @@ public class UtilisateurConvertisseur {
                         .toList());
 
     }
+
+
+    public UtilisateurReponseLoginDto convertirEntiteVersReponseLoginDto(UtilisateurEntity utilisateurEntity, String jwt) {
+
+        return new UtilisateurReponseLoginDto(utilisateurEntity.getNom(),
+                utilisateurEntity.getPrenom(),
+                utilisateurEntity.getEmail(),
+                utilisateurEntity.getListeRoles()
+                        .stream()
+                        .map(role -> roleConvertisseur.convertirRoleVersRoleDto(role))
+                        .toList(),
+                jwt);
+
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package org.epita.ideflixiam.application.role;
 
+import org.epita.ideflixiam.application.common.RoleInexistantException;
 import org.epita.ideflixiam.domaine.RoleEntity;
 import org.epita.ideflixiam.infrastructure.RoleRepository;
 import org.slf4j.Logger;
@@ -19,6 +20,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleEntity recupererRoleParNomRole(String nomRole) {
 
-        return roleRepository.findRoleByNomRole(nomRole);
+        final RoleEntity role = roleRepository.findRoleByNomRole(nomRole);
+        if (role == null) {
+            throw new RoleInexistantException("Le rôle " + nomRole + " n'existe pas");
+        }
+
+        return role;
     }
 }

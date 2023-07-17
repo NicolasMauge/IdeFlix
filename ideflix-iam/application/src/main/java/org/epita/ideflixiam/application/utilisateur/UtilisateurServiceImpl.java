@@ -1,6 +1,8 @@
 package org.epita.ideflixiam.application.utilisateur;
 
-import org.epita.ideflixiam.application.common.Util;
+import org.epita.ideflixiam.application.common.UtileRole;
+import org.epita.ideflixiam.application.common.UtilisateurExistantDejaException;
+import org.epita.ideflixiam.application.common.UtilisateurInexistantException;
 import org.epita.ideflixiam.domaine.RoleEntity;
 import org.epita.ideflixiam.domaine.UtilisateurEntity;
 import org.epita.ideflixiam.infrastructure.RoleRepository;
@@ -14,8 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.epita.ideflixiam.application.common.Util.ROLE_UTILISATEUR;
+import static org.epita.ideflixiam.application.common.UtileRole.ROLE_UTILISATEUR;
 
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService {
@@ -29,19 +32,22 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     BCryptPasswordEncoder passwordEncoder;
 
     public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository,
-                                  RoleRepository roleRepository) {
+                                  RoleRepository roleRepository
+    ) {
         this.utilisateurRepository = utilisateurRepository;
         this.roleRepository = roleRepository;
     }
 
     @Override
-    public UtilisateurEntity creerUtilisateur(UtilisateurEntity nouvelUtilisateurEntity) {
+    public UtilisateurEntity creerUtilisateur(final UtilisateurEntity nouvelUtilisateurEntity) throws UtilisateurExistantDejaException {
 
-        if (utilisateurRepository.findByEmail(nouvelUtilisateurEntity.getEmail()) == null) {
+        Optional<UtilisateurEntity> utilisateurEntityOptional = utilisateurRepository.findByEmail(nouvelUtilisateurEntity.getEmail());
+
+        if (utilisateurEntityOptional.isEmpty()) {
 
             if (nouvelUtilisateurEntity.getListeRoles().size() == 0) {
                 logger.debug("IAM - Préparation de l'utilisateur standard " + nouvelUtilisateurEntity.getEmail());
-                List<RoleEntity> listRoleEntities = new ArrayList<RoleEntity>();
+                List<RoleEntity> listRoleEntities = new ArrayList<>();
                 RoleEntity roleUtilisateur = roleRepository.findRoleByNomRole(ROLE_UTILISATEUR);
 
                 listRoleEntities.add(roleUtilisateur);
@@ -59,15 +65,19 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
             return utilisateurRepository.save(nouvelUtilisateurEntity);
         } else {
-            logger.debug("L'utilisateur " + nouvelUtilisateurEntity.getEmail() + " existe déjà");
-
-            return null; // TODO existe déjà (erreur 400 ?)
+            //throw new UtilisateurExistantDejaException("L'utilisateur " + nouvelUtilisateurEntity.getEmail() + " existe déjà");
+            // Pour des raisons de sécurité, on va ignorer la demande de recréation en renvoyant les données
+            // attendues/imaginée par un éventuel fraudeur.
+            // Le mot de passe de l'utilisateur n'est donc pas changé
+            return nouvelUtilisateurEntity;
         }
     }
 
     @Override
-    public UtilisateurEntity recupererUtilisateurParEmail(String email) {
-        return utilisateurRepository.findByEmail(email);
+    public UtilisateurEntity recupererUtilisateurParEmail(final String email) throws UtilisateurInexistantException {
+        return utilisateurRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new UtilisateurInexistantException("Utilisateur ou mot de passe erroné"));
     }
 
     @Override
@@ -92,7 +102,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public void verifieQueIamEstInitialisee(String nomAdmin, String prenomAdmin, String emailAdmin, String motDePasseAdmin) {
 
-        if (utilisateurRepository.findByEmail(emailAdmin) == null) {
+        if (utilisateurRepository.findByEmail(emailAdmin).isEmpty()) {
             // Si le premier administrateur n'existe pas, on le crée ainsi que les rôles.
             // (si le premier admin existe, c'est que les rôles sont déjà créés)
 
@@ -100,10 +110,10 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
             logger.debug("IAM - creation du premier administrateur");
 
-            RoleEntity roleAdmin = roleRepository.findRoleByNomRole(Util.ROLE_ADMIN);
+            RoleEntity roleAdmin = roleRepository.findRoleByNomRole(UtileRole.ROLE_ADMIN);
             if (roleAdmin == null) {
                 logger.debug("IAM - Le role admin n'existe pas --> création");
-                roleAdmin = new RoleEntity(Util.ROLE_ADMIN);
+                roleAdmin = new RoleEntity(UtileRole.ROLE_ADMIN);
                 roleRepository.save(roleAdmin);
             }
 
