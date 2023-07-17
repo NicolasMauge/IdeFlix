@@ -1,10 +1,8 @@
 package org.epita.exposition.selection.filmselectionne;
 
 import org.epita.application.media.film.FilmService;
-import org.epita.application.selection.filmselectionne.FilmSelectionneService;
 import org.epita.application.utilisateur.utilisateur.UtilisateurService;
 import org.epita.domaine.media.FilmEntity;
-import org.epita.domaine.media.MediaAudioVisuelEntity;
 import org.epita.domaine.selection.EtiquetteEntity;
 import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
@@ -26,37 +24,29 @@ public class FilmSelectionneMapper extends Mapper<FilmSelectionneEntity, FilmSel
 
     @Override
     public FilmSelectionneDto mapEntityToDto(FilmSelectionneEntity input) {
-        // on aplatit la table FilmSelectionne pour tout mettre dans le même objet
-        // cela permet d'éviter notamment les problèmes de constructeur sur la classe abstraite
         return new FilmSelectionneDto(
+                input.getId(),
                 input.getAvisPouce(),
                 input.getDateSelection(),
                 etiquetteMapper.mapListEntityToDto(input.getEtiquetteEntityList()),
                 input.getStatutMediaEntity(),
-                input.getMediaAudioVisuelEntity().getId(),
                 input.getMediaAudioVisuelEntity().getIdTmdb(),
-                input.getMediaAudioVisuelEntity().getTitre(),
-                input.getMediaAudioVisuelEntity().getDateSortie(),
-                input.getMediaAudioVisuelEntity().getDuree(),
-                input.getMediaAudioVisuelEntity().getCheminAffichePortrait(),
-                input.getMediaAudioVisuelEntity().getCheminAffichePaysage(),
-                input.getMediaAudioVisuelEntity().getNoteTmdb(),
                 input.getUtilisateurEntity().getId()
         );
     }
 
     @Override
     public FilmSelectionneEntity mapDtoToEntity(FilmSelectionneDto input) {
-        FilmEntity filmEntity = this.filmService.trouverFilmParId(input.getIdFilm());
-        UtilisateurEntity utilisateurEntity = this.utilisateurService.trouverUtilisateurParId(input.getIdUtilisateur());
+        FilmEntity film = this.filmService.trouverFilmParIdTmdb(input.getIdTmdb());
+        UtilisateurEntity utilisateur = this.utilisateurService.trouverUtilisateurParId(input.getIdUtilisateur());
 
         return new FilmSelectionneEntity(
                 input.getAvisPouce(),
                 input.getDateSelection(),
                 etiquetteMapper.mapListDtoToEntity(input.getEtiquetteList()),
                 input.getStatutMedia(),
-                (MediaAudioVisuelEntity) filmEntity,
-                utilisateurEntity
+                film,
+                utilisateur
         );
     }
 }

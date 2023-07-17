@@ -40,4 +40,13 @@ public class SerieServiceImpl implements SerieService {
     public void supprimerSerieParId(Long id) {
         this.serieRepository.deleteById(id);
     }
+
+    @Override
+    public SerieEntity trouverSerieParIdTmdb(String idTmdb) {
+        Optional<SerieEntity> serieEntityOptional = this.serieRepository.findByIdTmdb(idTmdb);
+        if(serieEntityOptional.isPresent()) {
+            return serieEntityOptional.get();
+        }
+        throw new EntityNotFoundException("Série non trouvée");
+    }
 }

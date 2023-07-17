@@ -13,4 +13,6 @@ public interface FilmService {
     List<FilmEntity> trouverTousLesFilms();
 
     void supprimerFilmParId(Long id);
+
+    FilmEntity trouverFilmParIdTmdb(String idTmdb);
 }

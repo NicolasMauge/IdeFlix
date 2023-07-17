@@ -28,22 +28,14 @@ public class FilmMapperTest {
     private Mapper<FilmEntity, FilmDto> mapper;
 
     @Test
-    public void mapEntityToDto() {
+    public void should_return_mapEntityToDto() {
         // Given
         // Liste de genres
-        GenreEntity genreEntity = new GenreEntity();
-        genreEntity.setId(1L);
-        genreEntity.setNomGenre("nom genre");
-        genreEntity.setIdTmdb("1535-Dfetf432");
-
-        GenreEntity genreEntity2 = new GenreEntity();
-        genreEntity2.setId(2L);
-        genreEntity2.setNomGenre("nom genre 2");
-        genreEntity2.setIdTmdb("675-dfg-456");
-
         List<GenreEntity> genreEntityList = new ArrayList<>();
-        genreEntityList.add(genreEntity);
-        genreEntityList.add(genreEntity2);
+        genreEntityList.add(
+                new GenreEntity(1L, "1535-Dfetf432", "nom genre"));
+        genreEntityList.add(
+                new GenreEntity(2L, "675-dfg-456", "nom genre 2"));
 
         // Films
         FilmEntity filmEntity = new FilmEntity();
@@ -88,22 +80,14 @@ public class FilmMapperTest {
     }
 
     @Test
-    public void mapDtoToEntity() {
+    public void should_return_mapDtoToEntity() {
         // Given
         // Liste de genres
-        GenreDto genreDto = new GenreDto();
-        genreDto.setId(1L);
-        genreDto.setNomGenre("nom genre");
-        genreDto.setIdTmdb("1535-Dfetf432");
-
-        GenreDto genreDto2 = new GenreDto();
-        genreDto2.setId(2L);
-        genreDto2.setNomGenre("nom genre 2");
-        genreDto2.setIdTmdb("675-dfg-456");
-
         List<GenreDto> genreEntityList = new ArrayList<>();
-        genreEntityList.add(genreDto);
-        genreEntityList.add(genreDto2);
+        genreEntityList
+                .add(new GenreDto(1L, "1535-Dfetf432", "nom genre"));
+        genreEntityList.add(
+                new GenreDto(2L, "675-dfg-456", "nom genre 2"));
 
         // Films
         FilmDto filmDto = new FilmDto();
