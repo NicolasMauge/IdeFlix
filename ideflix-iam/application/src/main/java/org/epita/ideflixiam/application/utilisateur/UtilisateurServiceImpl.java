@@ -2,6 +2,7 @@ package org.epita.ideflixiam.application.utilisateur;
 
 import org.epita.ideflixiam.application.common.UtileRole;
 import org.epita.ideflixiam.application.common.UtilisateurExistantDejaException;
+import org.epita.ideflixiam.application.common.UtilisateurInexistantException;
 import org.epita.ideflixiam.domaine.RoleEntity;
 import org.epita.ideflixiam.domaine.UtilisateurEntity;
 import org.epita.ideflixiam.infrastructure.RoleRepository;
@@ -61,14 +62,15 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
             return utilisateurRepository.save(nouvelUtilisateurEntity);
         } else {
-            logger.debug("L'utilisateur " + nouvelUtilisateurEntity.getEmail() + " existe déjà");
             throw new UtilisateurExistantDejaException("L'utilisateur " + nouvelUtilisateurEntity.getEmail() + " existe déjà");
         }
     }
 
     @Override
     public UtilisateurEntity recupererUtilisateurParEmail(String email) {
-        return utilisateurRepository.findByEmail(email);
+        return utilisateurRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new UtilisateurInexistantException("Utilisateur ou mot de passe erroné"));
     }
 
     @Override

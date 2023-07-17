@@ -22,9 +22,7 @@ public class RoleServiceImpl implements RoleService {
 
         final RoleEntity role = roleRepository.findRoleByNomRole(nomRole);
         if (role == null) {
-            logger.error("Le rôle " + nomRole + " n'existe pas");
             throw new RoleInexistantException("Le rôle " + nomRole + " n'existe pas");
-
         }
 
         return role;

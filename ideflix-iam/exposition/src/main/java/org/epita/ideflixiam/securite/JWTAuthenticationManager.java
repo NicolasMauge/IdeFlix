@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import org.epita.ideflixiam.application.common.ErreurFormatLoginException;
 import org.epita.ideflixiam.application.utilisateur.UtilisateurService;
 import org.epita.ideflixiam.domaine.UtilisateurEntity;
 import org.epita.ideflixiam.exposition.utilisateur.UtilisateurController;
@@ -67,15 +68,11 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
             utilisateurDto = mapper
                     .readValue(request.getInputStream(), UtilisateurEntreeDto.class);
 
-            logger.debug("IAM - attemptAuthentification : " + utilisateurDto.getEmail());
+            //logger.debug("IAM - attemptAuthentification : " + utilisateurDto.getEmail());
 
         } catch (IOException e) {
-            logger.debug("IAM - Exception attemptAuthentification");
-            throw new RuntimeException(e);
+            throw new ErreurFormatLoginException("Echec de lecture du JSON fourni en entrée.");
         }
-
-
-        logger.debug("IAM - Authentification de " + utilisateurDto.getEmail());
 
         return authenticationManager
                 .authenticate(
