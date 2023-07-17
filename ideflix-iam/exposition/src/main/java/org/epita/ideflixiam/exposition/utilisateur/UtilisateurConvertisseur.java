@@ -48,7 +48,6 @@ public class UtilisateurConvertisseur {
         List<RoleEntity> roleEntityList = new ArrayList<>();
 
         RoleEntity roleEntity = roleService.recupererRoleParNomRole(roleName);
-        // TODO gérer ici une exception si on ne trouve pas le rôle
 
         roleEntityList.add(roleEntity);
 

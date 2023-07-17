@@ -3,9 +3,12 @@ package org.epita.ideflixiam.securite;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.epita.ideflixiam.application.utilisateur.UtilisateurService;
+import org.epita.ideflixiam.domaine.UtilisateurEntity;
 import org.epita.ideflixiam.exposition.utilisateur.UtilisateurEntreeDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,10 +26,12 @@ import java.util.List;
 
 public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilter {
 
+//    @Autowired
+//    UtilisateurService utilisateurService;
+
     private final static Logger logger = LoggerFactory.getLogger(JWTAuthenticationManager.class);
     private final AuthenticationManager authenticationManager;
 
-    //@Value("${org.epita.ideflixiam.secretiam}")
     public String SECRET_IAM;
 
     public JWTAuthenticationManager(AuthenticationManager authenticationManager, String secretIam) {
@@ -84,11 +89,19 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
                 .withArrayClaim("roles", roles.toArray(new String[roles.size()]))
                 .sign(Algorithm.HMAC256(this.SECRET_IAM));
         response.addHeader("Authorization", "Bearer " + jwt); // on passe par le body car on ne sait pas lire le header depuis Angular
-        response.getWriter().println("{\"email\":\""
-                + springUser.getUsername()
-                + "\", "
-                + "\"jwt\":\"" + jwt
-                + "\" }");
+
+        logger.debug("IAM - " + springUser.getUsername() + " connecté avec succès.");
+        logger.debug("IAM - " + springUser.toString());
+
+        //UtilisateurEntity utilisateur = utilisateurService.recupererUtilisateurParEmail(springUser.getUsername());
+
+        response.getWriter()
+                .println("{\n"
+//                        + "    \"nom\":\"" + utilisateur.getNom() + "\",\n"
+//                        + "    \"prenom\":\"" + utilisateur.getPrenom() + "\",\n"
+                        + "    \"email\":\"" + springUser.getUsername() + "\",\n"
+                        + "    \"jwt\":\"" + jwt + "\"\n"
+                        + "}");
     }
 
 

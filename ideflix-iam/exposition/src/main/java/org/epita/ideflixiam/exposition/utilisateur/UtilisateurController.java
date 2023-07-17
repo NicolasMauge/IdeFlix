@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.epita.ideflixiam.application.common.Util.ROLE_UTILISATEUR;
+import static org.epita.ideflixiam.application.common.UtileRole.ROLE_UTILISATEUR;
 
 @RestController
 @RequestMapping
@@ -41,7 +41,13 @@ public class UtilisateurController {
 
     }
 
-
+    /**
+     * Cette méthode permet de s'enrôler comme utilisateur standard quand on n'est pas connecté.
+     * (L'email ne doit pas être déjà associé à un autre compte).
+     *
+     * @param : UtilisateurEntreeDto
+     * @return : UtilisateurSimpleDto
+     */
     @ApiOperation(value = "Créer un utilisateur standard.", nickname = "creerUtilisateur", notes = "Lors du premier appel, l'administrateur est créé selon les données fournies dans le fichier de configuration utilisé au démarrage d'IdeFlix-IAM.", response = UtilisateurSimpleDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Non utilisé."),
@@ -74,7 +80,7 @@ public class UtilisateurController {
             @ApiResponse(code = 200, message = "OK, voici la liste."),
             @ApiResponse(code = 403, message = "Requête interdite.")
     })
-    @ApiImplicitParam(name = "Authorization", value = "JWT", required = true, allowEmptyValue = false, dataTypeClass = String.class, example = "Bearer efdmlkjoij651.rqrgq.fqfe6f5")
+    @ApiImplicitParam(name = "Authorization", value = "JWT", required = true, dataTypeClass = String.class, example = "Bearer efdmlkjoij651.rqrgq.fqfe6f5")
     public List<UtilisateurDetailDto> getUtilisateurs() {
 
         logger.debug("IAM - Récupération de tous utilisateurs");
@@ -95,7 +101,7 @@ public class UtilisateurController {
             @ApiResponse(code = 403, message = "Requête interdite.")
     })
     @ApiParam(name = "Email", type = "String", value = "Email of the user to be deleted.", allowableValues = "john.doe@example.org", required = true)
-    @ApiImplicitParam(name = "Authorization", value = "JWT", required = true, allowEmptyValue = false, dataTypeClass = String.class, example = "Bearer efdmlkjoij651.rqrgq.fqfe6f5")
+    @ApiImplicitParam(name = "Authorization", value = "JWT", required = true, dataTypeClass = String.class, example = "Bearer efdmlkjoij651.rqrgq.fqfe6f5")
     public void delUtilisateur(@PathVariable("email") String email) {
         logger.debug("IAM - Suppression de " + email);
 
