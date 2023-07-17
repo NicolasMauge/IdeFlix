@@ -71,4 +71,20 @@ public class UtilisateurConvertisseur {
                         .toList());
 
     }
+
+
+    public UtilisateurReponseLoginDto convertirEntiteVersReponseLoginDto(UtilisateurEntity utilisateurEntity, String jwt) {
+
+        return new UtilisateurReponseLoginDto(utilisateurEntity.getNom(),
+                utilisateurEntity.getPrenom(),
+                utilisateurEntity.getEmail(),
+                utilisateurEntity.getListeRoles()
+                        .stream()
+                        .map(role -> roleConvertisseur.convertirRoleVersRoleDto(role))
+                        .toList(),
+                jwt);
+
+    }
+
+
 }

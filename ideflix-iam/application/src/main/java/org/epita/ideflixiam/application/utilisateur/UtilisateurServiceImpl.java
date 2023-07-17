@@ -30,7 +30,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     BCryptPasswordEncoder passwordEncoder;
 
     public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository,
-                                  RoleRepository roleRepository) {
+                                  RoleRepository roleRepository
+    ) {
         this.utilisateurRepository = utilisateurRepository;
         this.roleRepository = roleRepository;
     }
@@ -62,8 +63,6 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         } else {
             logger.debug("L'utilisateur " + nouvelUtilisateurEntity.getEmail() + " existe déjà");
             throw new UtilisateurExistantDejaException("L'utilisateur " + nouvelUtilisateurEntity.getEmail() + " existe déjà");
-
-            return null; // TODO existe déjà (erreur 400 ?)
         }
     }
 

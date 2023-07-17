@@ -1,5 +1,7 @@
 package org.epita.ideflixiam.securite;
 
+import org.epita.ideflixiam.application.utilisateur.UtilisateurService;
+import org.epita.ideflixiam.exposition.utilisateur.UtilisateurConvertisseur;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +26,6 @@ public class SecurityConfiguration {
 
 
     private final static Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
-    @Value("${org.epita.ideflixiam.secretiam}")
-    public String SECRET_IAM;
-    BCryptPasswordEncoder passwordEncoder;
-    @Autowired
-    private DataSource dataSource;
-    @Value("${server.servlet.context-path}")
-    private String contextPath;
-
     private static final String[] SWAGGER_WHITELIST = {
             "/swagger-resources",
             "/swagger-resources/**",
@@ -40,14 +34,27 @@ public class SecurityConfiguration {
             "/v3/api-docs/**",
             "/swagger-ui/**"
     };
+    @Value("${org.epita.ideflixiam.secretiam}")
+    public String SECRET_IAM;
+    //BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private DataSource dataSource;
+    @Value("${server.servlet.context-path}")
+    private String contextPath;
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        if (this.passwordEncoder == null) {
-            this.passwordEncoder = new BCryptPasswordEncoder();
-        }
-        return this.passwordEncoder;
-    }
+    @Autowired
+    UtilisateurService utilisateurService;
+
+    @Autowired
+    UtilisateurConvertisseur utilisateurConvertisseur;
+
+//    @Bean
+//    public BCryptPasswordEncoder passwordEncoder() {
+//        if (this.passwordEncoder == null) {
+//            this.passwordEncoder = new BCryptPasswordEncoder();
+//        }
+//        return this.passwordEncoder;
+//    }
 
     @Bean
     public AuthenticationManager authenticationManager(
@@ -73,8 +80,10 @@ public class SecurityConfiguration {
                         new JWTAuthenticationManager(
                                 authenticationManager(
                                         http.getSharedObject(
-                                                AuthenticationConfiguration.class)), this.SECRET_IAM
-                        )
+                                                AuthenticationConfiguration.class)),
+                                this.SECRET_IAM,
+                                utilisateurService,
+                                utilisateurConvertisseur)
                 )
                 //.antMatchers(HttpMethod.POST, "/utilisateur").permitAll()
 //                .antMatchers(HttpMethod.POST, "/admin/utilisateurs").hasRole(ROLE_ADMIN)

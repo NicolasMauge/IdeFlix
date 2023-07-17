@@ -2,10 +2,17 @@ package org.epita.ideflixiam.securite;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import org.epita.ideflixiam.application.utilisateur.UtilisateurService;
 import org.epita.ideflixiam.domaine.UtilisateurEntity;
+import org.epita.ideflixiam.exposition.utilisateur.UtilisateurController;
+import org.epita.ideflixiam.exposition.utilisateur.UtilisateurConvertisseur;
 import org.epita.ideflixiam.exposition.utilisateur.UtilisateurEntreeDto;
+import org.epita.ideflixiam.exposition.utilisateur.UtilisateurReponseLoginDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +36,20 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
     private final static Logger logger = LoggerFactory.getLogger(JWTAuthenticationManager.class);
     private final AuthenticationManager authenticationManager;
 
-    public String SECRET_IAM;
+    private String SECRET_IAM;
 
-    public JWTAuthenticationManager(AuthenticationManager authenticationManager, String secretIam) {
+    private UtilisateurService utilisateurService;
+
+    UtilisateurConvertisseur utilisateurConvertisseur;
+
+    public JWTAuthenticationManager(AuthenticationManager authenticationManager,
+                                    String secretIam,
+                                    UtilisateurService utilisateurService,
+                                    UtilisateurConvertisseur utilisateurConvertisseur) {
         this.authenticationManager = authenticationManager;
         this.SECRET_IAM = secretIam;
+        this.utilisateurService = utilisateurService;
+        this.utilisateurConvertisseur = utilisateurConvertisseur;
     }
 
 
@@ -80,25 +96,22 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
             roles.add(au.getAuthority());
         });
 
-        logger.debug("IAM - SECRET_IAM = " + this.SECRET_IAM);
-
         String jwt = JWT.create().withSubject(springUser.getUsername())
                 .withArrayClaim("roles", roles.toArray(new String[roles.size()]))
                 .sign(Algorithm.HMAC256(this.SECRET_IAM));
         response.addHeader("Authorization", "Bearer " + jwt); // on passe par le body car on ne sait pas lire le header depuis Angular
 
         logger.debug("IAM - " + springUser.getUsername() + " connecté avec succès.");
-        logger.debug("IAM - " + springUser.toString());
 
-        //UtilisateurEntity utilisateur = utilisateurService.recupererUtilisateurParEmail(springUser.getUsername());
+        UtilisateurEntity utilisateur = utilisateurService.recupererUtilisateurParEmail(springUser.getUsername());
+
+        UtilisateurReponseLoginDto utilisateurReponseLoginDto = utilisateurConvertisseur.convertirEntiteVersReponseLoginDto(utilisateur, jwt);
+
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(utilisateurReponseLoginDto);
 
         response.getWriter()
-                .println("{\n"
-//                        + "    \"nom\":\"" + utilisateur.getNom() + "\",\n"
-//                        + "    \"prenom\":\"" + utilisateur.getPrenom() + "\",\n"
-                        + "    \"email\":\"" + springUser.getUsername() + "\",\n"
-                        + "    \"jwt\":\"" + jwt + "\"\n"
-                        + "}");
+                .println(json);
     }
 
 
