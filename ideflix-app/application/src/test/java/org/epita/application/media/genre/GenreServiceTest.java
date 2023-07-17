@@ -1,0 +1,82 @@
+package org.epita.application.media.genre;
+
+
+import org.epita.domaine.media.GenreEntity;
+import org.epita.infrastructure.media.GenreRepository;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.mockito.Mockito.*;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {GenreService.class})
+@ContextConfiguration(classes = {GenreServiceImpl.class})
+public class GenreServiceTest {
+    @Autowired
+    private GenreService genreService;
+
+    @MockBean
+    private GenreRepository genreRepositoryMock;
+
+    private GenreEntity genre;
+
+    @Before
+    public void setUp() {
+        genre = new GenreEntity();
+        genre.setId(1L);
+        genre.setNomGenre("genre 1");
+
+        genreService.creerGenre(genre);
+
+        when(genreRepositoryMock.findById(1L)).thenReturn(Optional.of(genre));
+    }
+
+    @Test
+    public void creerGenre_should_call_save_repository_1_time() {
+        // Then
+        verify(genreRepositoryMock, times(1)).save(genre);
+    }
+
+    @Test
+    public void trouverGenreParId_shoudl_return_1_element() {
+        // When
+        final GenreEntity expected = this.genreService.trouverGenreParId(1L);
+
+        // Then
+        assertThat(expected).isEqualTo(genre);
+    }
+
+    @Test
+    public void trouverTousLesGenres_should_return_2_elements() {
+        // Given
+        GenreEntity genre2 = new GenreEntity();
+        genre2.setId(1L);
+        genre2.setNomGenre("genre 2");
+
+        genreService.creerGenre(genre2);
+
+        List<GenreEntity> genreList = new ArrayList<>();
+
+        genreList.add(genre);
+        genreList.add(genre2);
+
+        when(genreRepositoryMock.findAll()).thenReturn(genreList);
+
+        // When
+        final List<GenreEntity> genreTrouves = this.genreService.trouverTousLesGenres();
+
+        // Then
+        assertThat(genreTrouves).hasSize(2);
+    }
+}

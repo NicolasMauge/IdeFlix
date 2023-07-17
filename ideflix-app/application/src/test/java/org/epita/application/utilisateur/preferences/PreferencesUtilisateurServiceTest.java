@@ -1,12 +1,9 @@
 package org.epita.application.utilisateur.preferences;
 
-import org.epita.application.utilisateur.utilisateur.UtilisateurService;
-import org.epita.application.utilisateur.utilisateur.UtilisateurServiceImpl;
+import org.epita.application.media.genre.GenreService;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
-import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.utilisateur.PreferencesUtilisateurRepository;
-import org.epita.infrastructure.utilisateur.UtilisateurRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

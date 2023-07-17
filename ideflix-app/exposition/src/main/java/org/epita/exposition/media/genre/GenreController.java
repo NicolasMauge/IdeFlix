@@ -1,5 +1,6 @@
 package org.epita.exposition.media.genre;
 
+import org.epita.application.media.genre.GenreService;
 import org.epita.application.media.genre.GenreServiceImpl;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.exposition.common.Mapper;
@@ -11,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/genre")
 public class GenreController {
-    private GenreServiceImpl genreService;
+    private GenreService genreService;
     private Mapper<GenreEntity, GenreDto> genreMapper;
 
     public GenreController(GenreServiceImpl genreService, GenreMapper genreMapper) {
