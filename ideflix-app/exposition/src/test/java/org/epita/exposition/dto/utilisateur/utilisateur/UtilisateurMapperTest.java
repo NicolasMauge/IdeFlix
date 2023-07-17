@@ -1,4 +1,4 @@
-package org.epita.exposition.dto.utilisateur;
+package org.epita.exposition.dto.utilisateur.utilisateur;
 
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
@@ -20,7 +20,7 @@ import java.time.LocalDate;
 @ContextConfiguration(classes = {})
 public class UtilisateurMapperTest {
     @Autowired
-    Mapper<UtilisateurEntity, UtilisateurDto> mapper;
+    private Mapper<UtilisateurEntity, UtilisateurDto> mapper;
 
     @Test
     public void mapEntityToDto() {

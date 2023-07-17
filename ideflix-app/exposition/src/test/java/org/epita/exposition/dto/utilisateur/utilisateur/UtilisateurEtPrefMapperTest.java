@@ -1,4 +1,4 @@
-package org.epita.exposition.dto.utilisateur;
+package org.epita.exposition.dto.utilisateur.utilisateur;
 
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = {PreferencesUtilisateurMapper.class, GenreMapper.class})
 public class UtilisateurEtPrefMapperTest {
     @Autowired
-    Mapper<UtilisateurEntity, UtilisateurEtPrefDto> mapper;
+    private Mapper<UtilisateurEntity, UtilisateurEtPrefDto> mapper;
 
     @Test
     public void mapEntityToDto() {
