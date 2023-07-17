@@ -44,6 +44,12 @@ public class UtilisateurController {
                 .mapEntityToDto(this.utilisateurService.trouverUtilisateurParId(id));
     }
 
+    @GetMapping("/email/{email}")
+    public UtilisateurDto trouverUtilisateurParEmail(@PathVariable("email") String email) {
+        return this.utilisateurMapper
+                .mapEntityToDto(this.utilisateurService.trouverUtilisateurParEmail(email));
+    }
+
     @GetMapping
     public List<UtilisateurDto> trouverTousLesUtilisateurs() {
         return this.utilisateurMapper

@@ -29,7 +29,7 @@ public class FilmSelectionneServiceImpl implements FilmSelectionneService {
         if(filmSelectionneEntityOptional.isPresent()) {
             return filmSelectionneEntityOptional.get();
         }
-        throw new EntityNotFoundException("Film Sélectionné non trouvé");
+        throw new EntityNotFoundException("Film sélectionné non trouvé");
     }
 
     @Override

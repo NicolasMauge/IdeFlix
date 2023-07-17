@@ -12,11 +12,9 @@ import java.util.List;
 @Component
 public class FilmMapper extends Mapper<FilmEntity, FilmDto> {
     private Mapper<GenreEntity, GenreDto> genreMapper;
-    private GenreService genreService;
 
-    public FilmMapper(Mapper<GenreEntity, GenreDto> genreMapper, GenreService genreService) {
+    public FilmMapper(Mapper<GenreEntity, GenreDto> genreMapper) {
         this.genreMapper = genreMapper;
-        this.genreService = genreService;
     }
 
     @Override

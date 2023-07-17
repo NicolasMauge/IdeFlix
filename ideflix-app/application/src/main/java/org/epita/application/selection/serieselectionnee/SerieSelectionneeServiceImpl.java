@@ -28,7 +28,7 @@ public class SerieSelectionneeServiceImpl implements SerieSelectionneeService {
         if(serieSelectionneeEntityOptional.isPresent()) {
             return serieSelectionneeEntityOptional.get();
         }
-        throw new EntityNotFoundException("Série Sélectionnée non trouvée");
+        throw new EntityNotFoundException("Série sélectionnée non trouvée");
     }
 
     @Override
