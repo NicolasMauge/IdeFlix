@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {MediaModel} from "../shared/models/media.model";
 import {Subscription} from "rxjs";
 import {MenuService} from "../shared/services/menu.service";
-import {MediaMaListeService} from "../shared/services/media-ma-liste.service";
+import {MediaService} from "../shared/services/media.service";
 
 @Component({
   selector: 'app-media-list',
@@ -15,7 +15,7 @@ export class MediaListComponent {
   sub!: Subscription;
 
   constructor(private menuService: MenuService,
-              private mediaSvc: MediaMaListeService ) {
+              private mediaSvc: MediaService ) {
   }
 
   ngOnInit() {

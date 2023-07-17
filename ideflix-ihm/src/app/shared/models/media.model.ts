@@ -10,6 +10,8 @@ interface Genre {
 //   name: string;
 // }
 
+
+
 export class MediaModel {
 
   // cette classe sert :

@@ -7,7 +7,7 @@ import { AccueilComponent } from './accueil/accueil.component';
 import {AppRoutingModule} from "./app-routing.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { LoginComponent } from './auth/login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -15,6 +15,9 @@ import { MaListeComponent } from './MaListe/ma-liste/ma-liste.component';
 import { PrintImgPipe } from './shared/pipes/print-img.pipe';
 import { MediaListComponent } from './media-list/media-list.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
+import { FilterMaListePipe } from './shared/pipes/filter-ma-liste.pipe';
+import { ValuesFromKeyPipe } from './shared/pipes/values-from-key.pipe';
+import { MaListeFiltreComponent } from './MaListe/ma-liste-filtre/ma-liste-filtre.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,10 @@ import { SearchbarComponent } from './searchbar/searchbar.component';
     MaListeComponent,
     PrintImgPipe,
     MediaListComponent,
-    SearchbarComponent
+    SearchbarComponent,
+    FilterMaListePipe,
+    ValuesFromKeyPipe,
+    MaListeFiltreComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +40,8 @@ import { SearchbarComponent } from './searchbar/searchbar.component';
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

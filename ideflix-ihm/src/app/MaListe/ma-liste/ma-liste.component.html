@@ -5,6 +5,8 @@
   <div class = "pt-3 pb-5">
     <h1 class="text-center text-white">Ma Liste de films et séries</h1>
 
+    <app-ma-liste-filtre></app-ma-liste-filtre>
+
     <ul class="row">
 <!--      <li  [routerLink]="['/detail', movie.id ]"  class="card bg-dark col-12 col-md-3" *ngFor="let movie of movies">-->
 <!--        <img [title]="movie.resume" [src]="movie.image_landscape | printImg" [alt]="movie.titre">-->
@@ -14,7 +16,7 @@
 <!--        </div>-->
 <!--      </li>-->
 
-      <div *ngFor="let media of medias" class="cole-12 col-md-3">
+      <div *ngFor="let media of medias" class="col-12 col-md-3">
         <div class="card">
           <img [title]="media.resume" [src]="media.image_landscape | printImg" [alt]="media.titre">
           <div class="card-body">
