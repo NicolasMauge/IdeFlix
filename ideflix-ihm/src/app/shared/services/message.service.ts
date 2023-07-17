@@ -15,7 +15,7 @@ export class MessageService {
       cssClass = 'message-error'
     }
     if (type == 'success'){
-      cssClass = 'message-info'
+      cssClass = 'message-success'
     }
     if (type == 'info') {
       cssClass = 'message-info'
@@ -24,7 +24,7 @@ export class MessageService {
       panelClass: cssClass,
       duration : 10000,
       horizontalPosition: 'center',
-      verticalPosition: 'top'
+      verticalPosition: 'bottom'
     });
   }
 }

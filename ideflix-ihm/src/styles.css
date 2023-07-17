@@ -9,20 +9,40 @@ body {
   background-color: #230d25;
   color : white;
 }
-html, body { height: 100%; }
+html, body { height: 100%}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .message-error {
-  --mdc-snackbar-container-color: #d04a4a;
+  --mdc-snackbar-container-color: #ec4141;
 }
 
 .message-success {
-  --mdc-snackbar-container-color: #33c733;
+  --mdc-snackbar-container-color: #809d51;
 }
 
 .message-info {
-  --mdc-snackbar-container-color: #00c4ff;
+  --mdc-snackbar-container-color: #7979a8;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 8px 0;
+}
+
+p {
+  margin: 0;
+}
+
+/*.content {*/
+/*  display: flex;*/
+/*  margin: 82px auto 32px;*/
+/*  padding: 0 16px;*/
+/*  max-width: 960px;*/
+/*  flex-direction: column;*/
+/*  align-items: center;*/
+/*}*/

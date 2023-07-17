@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../shared/services/auth.service";
 import {MessageService} from "../../shared/services/message.service";
 import {Router} from "@angular/router";
+import {MenuService} from "../../shared/services/menu.service";
 
 @Component({
   selector: 'app-login',
@@ -18,21 +19,18 @@ export class LoginComponent {
   constructor(private fb: FormBuilder,
               private authService: AuthService,
               private messageSvc: MessageService,
-              private route: Router) {}
+              private route: Router,
+              private menuService: MenuService) {}
 
 
   ngOnInit() {
+    // pas de MENU sur page de login
+    this.menuService.hideMenu = true;
     // construire mon instance loginForm
     this.loginForm = this.fb.group({
       email:['', [Validators.required, Validators.email]],
-      /* Au moins 8 caractères
-         Au moins une lettre majuscule
-         Au moins une lettre minuscule
-         Au moins un chiffre*/
-      //password:['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)]]
-
       /* Au moins 6 caractères */
-      password:['', [Validators.required, Validators.pattern(/^[a-zA-Z\d]{6,}$/)]]
+      password:['', [Validators.required]]
     });
   }
 
@@ -54,7 +52,7 @@ export class LoginComponent {
               // afficher un message de succès ('vous êtes connecté(e)!')
               this.messageSvc.show('Connexion réussie !', 'success')
               //rediriger l'utilisateur vers la page list
-              this.route.navigate(['']);
+              this.route.navigate(['/maListe']);
             },
             // error: error => {
             //   console.log('Erreur lors de la requête :', error);
@@ -66,9 +64,6 @@ export class LoginComponent {
       // pour remettre le formulaire à blanc - nettoyer les champs
       this.isFormSubmitted= false;
       this.loginForm.reset();
-      // si non valide, afficher les erreurs
-    } else {
-
     }
 
   }
