@@ -81,12 +81,12 @@ public class FilmServiceTest {
 
         filmService.creerFilm(film2);
 
-        List<FilmEntity> filmEntities = new ArrayList<>();
+        List<FilmEntity> entities = new ArrayList<>();
 
-        filmEntities.add(film);
-        filmEntities.add(film2);
+        entities.add(film);
+        entities.add(film2);
 
-        when(repositoryMock.findAll()).thenReturn(filmEntities);
+        when(repositoryMock.findAll()).thenReturn(entities);
 
         // When
         final List<FilmEntity> trouves = this.filmService.trouverTousLesFilms();

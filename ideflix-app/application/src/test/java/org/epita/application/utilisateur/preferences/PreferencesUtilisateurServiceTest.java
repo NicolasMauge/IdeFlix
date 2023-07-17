@@ -88,11 +88,11 @@ public class PreferencesUtilisateurServiceTest {
 
         preferencesUtilisateurService.creerPreferencesUtilisateur(preferencesUtilisateur2);
 
-        List<PreferencesUtilisateurEntity> preferencesUtilisateurList = new ArrayList<>();
-        preferencesUtilisateurList.add(preferencesUtilisateur);
-        preferencesUtilisateurList.add(preferencesUtilisateur2);
+        List<PreferencesUtilisateurEntity> entities = new ArrayList<>();
+        entities.add(preferencesUtilisateur);
+        entities.add(preferencesUtilisateur2);
 
-        when(repositoryMock.findAll()).thenReturn(preferencesUtilisateurList);
+        when(repositoryMock.findAll()).thenReturn(entities);
 
         // When
         final List<PreferencesUtilisateurEntity> trouves = this.preferencesUtilisateurService.trouverToutesLesPreferencesUtilisateurs();

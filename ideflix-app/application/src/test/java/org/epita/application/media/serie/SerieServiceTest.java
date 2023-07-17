@@ -81,12 +81,12 @@ public class SerieServiceTest {
 
         serieService.creerSerie(serie2);
 
-        List<SerieEntity> serieEntities = new ArrayList<>();
+        List<SerieEntity> entities = new ArrayList<>();
 
-        serieEntities.add(serie);
-        serieEntities.add(serie2);
+        entities.add(serie);
+        entities.add(serie2);
 
-        when(repositoryMock.findAll()).thenReturn(serieEntities);
+        when(repositoryMock.findAll()).thenReturn(entities);
 
         // When
         final List<SerieEntity> trouves = this.serieService.trouverToutesLesSeries();

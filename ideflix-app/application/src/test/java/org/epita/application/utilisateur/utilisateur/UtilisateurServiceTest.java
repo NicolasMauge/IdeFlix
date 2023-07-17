@@ -94,11 +94,11 @@ public class UtilisateurServiceTest {
         utilisateur_2.setPrenom("Prénom 2");
         utilisateurService.creerUtilisateur(utilisateur_2);
 
-        List<UtilisateurEntity> utilisateurs = new ArrayList<>();
-        utilisateurs.add(utilisateur);
-        utilisateurs.add(utilisateur_2);
+        List<UtilisateurEntity> entities = new ArrayList<>();
+        entities.add(utilisateur);
+        entities.add(utilisateur_2);
 
-        when(repositoryMock.findAll()).thenReturn(utilisateurs);
+        when(repositoryMock.findAll()).thenReturn(entities);
 
         // When
         final List<UtilisateurEntity> trouves = this.utilisateurService.trouverTousLesUtilisateurs();

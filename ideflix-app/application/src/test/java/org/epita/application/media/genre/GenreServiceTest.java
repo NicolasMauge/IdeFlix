@@ -67,12 +67,12 @@ public class GenreServiceTest {
 
         genreService.creerGenre(genre2);
 
-        List<GenreEntity> genreList = new ArrayList<>();
+        List<GenreEntity> entities = new ArrayList<>();
 
-        genreList.add(genre);
-        genreList.add(genre2);
+        entities.add(genre);
+        entities.add(genre2);
 
-        when(repositoryMock.findAll()).thenReturn(genreList);
+        when(repositoryMock.findAll()).thenReturn(entities);
 
         // When
         final List<GenreEntity> trouves = this.genreService.trouverTousLesGenres();
