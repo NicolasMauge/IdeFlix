@@ -26,9 +26,6 @@ import java.util.List;
 
 public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilter {
 
-//    @Autowired
-//    UtilisateurService utilisateurService;
-
     private final static Logger logger = LoggerFactory.getLogger(JWTAuthenticationManager.class);
     private final AuthenticationManager authenticationManager;
 
