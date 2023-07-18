@@ -1,6 +1,6 @@
 package org.epita.ideflixiam.application.role;
 
-import org.epita.ideflixiam.application.common.RoleInexistantException;
+import org.epita.ideflixiam.application.exception.RoleInexistantException;
 import org.epita.ideflixiam.domaine.RoleEntity;
 import org.epita.ideflixiam.infrastructure.RoleRepository;
 import org.slf4j.Logger;

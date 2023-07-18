@@ -70,13 +70,13 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.GET, "/etat").permitAll()
                 .antMatchers(HttpMethod.POST, "/utilisateur").permitAll()
                 .antMatchers(SWAGGER_WHITELIST).hasRole(roleAdmin)
-//                .antMatchers(HttpMethod.GET, "/admin/utilisateurs").hasRole(roleAdmin)
-                .antMatchers(HttpMethod.GET, "/admin/utilisateurs").permitAll()
+                .antMatchers(HttpMethod.GET, "/admin/utilisateurs").hasRole(roleAdmin)
+//                .antMatchers(HttpMethod.GET, "/admin/utilisateurs").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/admin/utilisateurs/*").hasRole(roleAdmin)
                 .antMatchers(HttpMethod.DELETE, "/admin/utilisateurs/**").hasRole(roleAdmin)
                 .anyRequest().denyAll()
                 .and()
-                .addFilterBefore(new JWTVerify(this.SECRET_IAM), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JWTVerify(this.SECRET_IAM, utilisateurService), UsernamePasswordAuthenticationFilter.class)
                 .addFilter(
                         new JWTAuthenticationManager(
                                 authenticationManager(

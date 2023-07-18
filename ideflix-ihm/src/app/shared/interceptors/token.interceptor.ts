@@ -6,9 +6,13 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {environment} from "../../../environments/environment";
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
+
+  USER_API = environment.USER_SERVER;
+  IDEFLIX_API = environment.IDEFLIX_SERVER;
 
   constructor() {}
 
@@ -18,18 +22,29 @@ export class TokenInterceptor implements HttpInterceptor {
     let token: string | null = localStorage.getItem('token');
 
     let cloneReq: HttpRequest<unknown>;
-    cloneReq = request.clone({
-      headers: request.headers.set(
-        'Authorization',
-        token ?? ''
-      )
-    });
+    // cloneReq = request.clone({
+    //   headers: request.headers.set(
+    //     'Authorization',
+    //     token ?? ''
+    //   )
+    // });
+    if (token) {
+      cloneReq = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+    }
 
-    if (request.url.includes('http://localhost:3000') && !request.url.includes('/login')) {
+// token doit être ajouté lors des appels vers API IAM  (sauf login et création de compte)
+    if (request.url.includes(this.USER_API)
+        && !request.url.includes('/login')
+        && !request.url.includes('/utilisateur')) {
       request = cloneReq
     }
 
-    if (request.url.includes('http://blabla.com') && !request.url.includes('/login')) {
+    //token doit être ajouté lors des appels vers API Ideflix
+    if (request.url.includes(this.IDEFLIX_API)) {
       request = cloneReq
     }
 
