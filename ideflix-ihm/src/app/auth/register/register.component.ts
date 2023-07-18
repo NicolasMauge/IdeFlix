@@ -78,6 +78,9 @@ export class RegisterComponent  {
       this.isFormSubmitted= false;
       this.registerForm.reset();
     }
+    else {
+      this.isFormSubmitted = false;
+    }
   }
 
   }
