@@ -50,7 +50,7 @@ public class SerieSelectionneeController {
     }
 
     @GetMapping("/utilisateur/{id}")
-    public List<SerieSelectionneeDto> trouverFilmSelectionneeParUtilisateur(@PathVariable("id") Long id) {
+    public List<SerieSelectionneeDto> trouverSerieSelectionneeParUtilisateur(@PathVariable("id") Long id) {
         return this.serieSelectionneeMapper
                 .mapListEntityToDto(
                     this.serieSelectionneeService

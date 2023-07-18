@@ -3,6 +3,7 @@ package org.epita.exposition.media.serie;
 import org.epita.application.media.serie.SerieService;
 import org.epita.domaine.media.SerieEntity;
 import org.epita.exposition.common.Mapper;
+import org.epita.exposition.selection.serieselectionnee.SerieSelectionneeDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

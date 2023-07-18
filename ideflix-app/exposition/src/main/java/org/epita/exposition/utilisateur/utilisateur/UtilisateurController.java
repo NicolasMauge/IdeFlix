@@ -3,6 +3,8 @@ package org.epita.exposition.utilisateur.utilisateur;
 import org.epita.application.utilisateur.utilisateur.UtilisateurService;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.exposition.common.Mapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,11 +23,18 @@ public class UtilisateurController {
         this.utilisateurEtPrefMapper = utilisateurEtPrefMapper;
     }
 
+    @GetMapping("/hello")
+    public String testOk() {
+        return "Hello, World";
+    }
+
     @PostMapping
-    public void creerUtilisateur(@RequestBody UtilisateurEtPrefDto utilisateurEtPrefDto) {
+    public ResponseEntity<String> creerUtilisateur(@RequestBody UtilisateurEtPrefDto utilisateurEtPrefDto) {
         this.utilisateurService
                 .creerUtilisateur(this.utilisateurEtPrefMapper
                         .mapDtoToEntity(utilisateurEtPrefDto));
+
+        return new ResponseEntity<String>("Utilisateur créé", HttpStatus.CREATED);
     }
 
     @PostMapping("/masse")
