@@ -5,6 +5,8 @@ import org.epita.application.media.genre.GenreServiceImpl;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.exposition.common.Mapper;
 import org.epita.exposition.utilisateur.utilisateur.UtilisateurEtPrefDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +20,12 @@ public class GenreController {
     public GenreController(GenreServiceImpl genreService, GenreMapper genreMapper) {
         this.genreService = genreService;
         this.genreMapper = genreMapper;
+    }
+
+    @GetMapping("/health-check")
+    public ResponseEntity<String> healthCheck() {
+        //return "UP";
+        return new ResponseEntity<>("UP", HttpStatus.OK);
     }
 
     @PostMapping

@@ -9,6 +9,8 @@ import org.epita.exposition.media.genre.GenreDto;
 import org.epita.exposition.utilisateur.utilisateur.UtilisateurEtPrefDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.AbstractList;
@@ -32,6 +34,12 @@ public class PreferencesUtilisateurController {
         this.genreService = genreService;
         this.preferencesUtilisateurMapper = preferencesUtilisateurMapper;
         this.genreMapper = genreMapper;
+    }
+
+    @GetMapping("/health-check")
+    public ResponseEntity<String> healthCheck() {
+        //return "UP";
+        return new ResponseEntity<>("UP", HttpStatus.OK);
     }
 
     @PostMapping

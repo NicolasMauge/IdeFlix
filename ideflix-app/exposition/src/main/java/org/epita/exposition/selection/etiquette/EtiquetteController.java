@@ -4,6 +4,8 @@ import org.epita.application.selection.etiquette.EtiquetteService;
 import org.epita.application.utilisateur.utilisateur.UtilisateurService;
 import org.epita.domaine.selection.EtiquetteEntity;
 import org.epita.exposition.common.Mapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +22,12 @@ public class EtiquetteController {
         this.etiquetteService = etiquetteService;
         this.utilisateurService = utilisateurService;
         this.etiquetteMapper = etiquetteMapper;
+    }
+
+    @GetMapping("/health-check")
+    public ResponseEntity<String> healthCheck() {
+        //return "UP";
+        return new ResponseEntity<>("UP", HttpStatus.OK);
     }
 
     @PostMapping

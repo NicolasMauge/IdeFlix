@@ -23,9 +23,10 @@ public class UtilisateurController {
         this.utilisateurEtPrefMapper = utilisateurEtPrefMapper;
     }
 
-    @GetMapping("/hello")
-    public String testOk() {
-        return "Hello, World";
+    @GetMapping("/health-check")
+    public ResponseEntity<String> healthCheck() {
+        //return "UP";
+        return new ResponseEntity<>("UP", HttpStatus.OK);
     }
 
     @PostMapping

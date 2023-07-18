@@ -4,6 +4,8 @@ import org.epita.application.selection.filmselectionne.FilmSelectionneService;
 import org.epita.application.utilisateur.utilisateur.UtilisateurService;
 import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.epita.exposition.common.Mapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +21,12 @@ public class FilmSelectionneController {
         this.filmSelectionneService = filmSelectionneService;
         this.utilisateurService = utilisateurService;
         this.filmSelectionneMapper = filmSelectionneMapper;
+    }
+
+    @GetMapping("/health-check")
+    public ResponseEntity<String> healthCheck() {
+        //return "UP";
+        return new ResponseEntity<>("UP", HttpStatus.OK);
     }
 
     @PostMapping

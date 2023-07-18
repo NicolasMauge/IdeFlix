@@ -55,7 +55,13 @@ public class UtilisateurControllerTest {
     }
 
     @Test
-    public void test() throws Exception {
+    public void should_return_StatusOk_et_Up() throws Exception {
+        this.mvc.perform(get("/utilisateur/health-check")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("UP")));
+    }
+
+    @Test
+    public void should_return_StatusCreated() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
 
@@ -69,19 +75,4 @@ public class UtilisateurControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
     }
-
-    @Test
-    public void test2() throws Exception {
-        this.mvc.perform(get("/utilisateur/hello")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("Hello, World")));
-    }
-
-    /*
-    mvc.perform( MockMvcRequestBuilders
-            .post("/employees")
-            .content(asJsonString(new EmployeeVO(null, "firstName", "lastName", "admin@mail.com")))
-            .contentType(MediaType.APPLICATION_JSON)
-	      .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isCreated())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.employeeId").exists());*/
 }

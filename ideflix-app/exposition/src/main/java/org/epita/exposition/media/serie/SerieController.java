@@ -4,6 +4,8 @@ import org.epita.application.media.serie.SerieService;
 import org.epita.domaine.media.SerieEntity;
 import org.epita.exposition.common.Mapper;
 import org.epita.exposition.selection.serieselectionnee.SerieSelectionneeDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +20,12 @@ public class SerieController {
     public SerieController(SerieService serieService, Mapper<SerieEntity, SerieDto> serieMapper) {
         this.serieService = serieService;
         this.serieMapper = serieMapper;
+    }
+
+    @GetMapping("/health-check")
+    public ResponseEntity<String> healthCheck() {
+        //return "UP";
+        return new ResponseEntity<>("UP", HttpStatus.OK);
     }
 
     @PostMapping
