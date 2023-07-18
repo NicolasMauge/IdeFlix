@@ -4,6 +4,8 @@ import org.epita.application.selection.serieselectionnee.SerieSelectionneeServic
 import org.epita.application.utilisateur.utilisateur.UtilisateurService;
 import org.epita.domaine.selection.SerieSelectionneeEntity;
 import org.epita.exposition.common.Mapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,11 +23,19 @@ public class SerieSelectionneeController {
         this.serieSelectionneeMapper = serieSelectionneeMapper;
     }
 
+    @GetMapping("/health-check")
+    public ResponseEntity<String> healthCheck() {
+        //return "UP";
+        return new ResponseEntity<>("UP", HttpStatus.OK);
+    }
+
     @PostMapping
-    public void creerSerieSelectionnee(@RequestBody SerieSelectionneeDto serieSelectionneeDto) {
+    public ResponseEntity<String> creerSerieSelectionnee(@RequestBody SerieSelectionneeDto serieSelectionneeDto) {
         this.serieSelectionneeService
                 .creerSerieSelectionnee(
                         this.serieSelectionneeMapper.mapDtoToEntity(serieSelectionneeDto));
+
+        return new ResponseEntity<String>("Série sélectionnée créée", HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -45,12 +55,14 @@ public class SerieSelectionneeController {
     }
 
     @DeleteMapping("{id}")
-    public void supprimerSerieSelectionneeParId(@PathVariable("id") Long id) {
+    public ResponseEntity<String> supprimerSerieSelectionneeParId(@PathVariable("id") Long id) {
         this.serieSelectionneeService.supprimerSerieSelectionneeParId(id);
+
+        return new ResponseEntity<String>("Série sélectionnée supprimée", HttpStatus.OK);
     }
 
     @GetMapping("/utilisateur/{id}")
-    public List<SerieSelectionneeDto> trouverFilmSelectionneeParUtilisateur(@PathVariable("id") Long id) {
+    public List<SerieSelectionneeDto> trouverSerieSelectionneeParUtilisateur(@PathVariable("id") Long id) {
         return this.serieSelectionneeMapper
                 .mapListEntityToDto(
                     this.serieSelectionneeService

@@ -5,6 +5,8 @@ import org.epita.application.media.genre.GenreServiceImpl;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.exposition.common.Mapper;
 import org.epita.exposition.utilisateur.utilisateur.UtilisateurEtPrefDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,21 +22,31 @@ public class GenreController {
         this.genreMapper = genreMapper;
     }
 
+    @GetMapping("/health-check")
+    public ResponseEntity<String> healthCheck() {
+        //return "UP";
+        return new ResponseEntity<>("UP", HttpStatus.OK);
+    }
+
     @PostMapping
-    public void creerGenre(@RequestBody GenreDto genreDto) {
+    public ResponseEntity<String> creerGenre(@RequestBody GenreDto genreDto) {
         this.genreService
                 .creerGenre(
                         this.genreMapper.mapDtoToEntity(genreDto));
+
+        return new ResponseEntity<String>("Genre créé", HttpStatus.CREATED);
     }
 
     @PostMapping("/masse")
-    public void creerPlusieursGenres(@RequestBody List<GenreDto> genreDtoList) {
+    public ResponseEntity<String> creerPlusieursGenres(@RequestBody List<GenreDto> genreDtoList) {
         genreDtoList
                 .stream()
                 .forEach(g -> this.genreService
                         .creerGenre(
                                 this.genreMapper
                                         .mapDtoToEntity(g)));
+
+        return new ResponseEntity<String>("Genres créés", HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -52,7 +64,9 @@ public class GenreController {
     }
 
     @DeleteMapping("/{id}")
-    public void supprimerGenre(@PathVariable("id") Long id) {
+    public ResponseEntity<String> supprimerGenre(@PathVariable("id") Long id) {
         this.genreService.supprimerGenreParId(id);
+
+        return new ResponseEntity<String>("Genre supprimé", HttpStatus.OK);
     }
 }

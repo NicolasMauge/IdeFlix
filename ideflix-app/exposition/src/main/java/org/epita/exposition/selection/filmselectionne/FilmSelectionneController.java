@@ -4,6 +4,8 @@ import org.epita.application.selection.filmselectionne.FilmSelectionneService;
 import org.epita.application.utilisateur.utilisateur.UtilisateurService;
 import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.epita.exposition.common.Mapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,11 +23,19 @@ public class FilmSelectionneController {
         this.filmSelectionneMapper = filmSelectionneMapper;
     }
 
+    @GetMapping("/health-check")
+    public ResponseEntity<String> healthCheck() {
+        //return "UP";
+        return new ResponseEntity<>("UP", HttpStatus.OK);
+    }
+
     @PostMapping
-    public void creerFilmSelectionne(@RequestBody FilmSelectionneDto filmSelectionneDto) {
+    public ResponseEntity<String> creerFilmSelectionne(@RequestBody FilmSelectionneDto filmSelectionneDto) {
         this.filmSelectionneService
                 .creerFilmSelectionne(
                         this.filmSelectionneMapper.mapDtoToEntity(filmSelectionneDto));
+
+        return new ResponseEntity<String>("Film sélectionné créé", HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -45,12 +55,14 @@ public class FilmSelectionneController {
     }
 
     @DeleteMapping("/{id}")
-    public void supprimerFilmSelectionneParId(@PathVariable("id") Long id) {
+    public ResponseEntity<String> supprimerFilmSelectionneParId(@PathVariable("id") Long id) {
         this.filmSelectionneService.supprimerFilmSelectionneParId(id);
+
+        return new ResponseEntity<String>("Film sélectionné supprimé", HttpStatus.OK);
     }
 
     @GetMapping("/utilisateur/{id}")
-    public List<FilmSelectionneDto> trouverFilmSelectionneeParUtilisateur(@PathVariable("id") Long id) {
+    public List<FilmSelectionneDto> trouverFilmSelectionneParUtilisateur(@PathVariable("id") Long id) {
         return this.filmSelectionneMapper
                 .mapListEntityToDto(
                     this.filmSelectionneService

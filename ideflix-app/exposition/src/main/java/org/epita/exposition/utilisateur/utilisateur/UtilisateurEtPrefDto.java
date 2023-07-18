@@ -1,5 +1,9 @@
 package org.epita.exposition.utilisateur.utilisateur;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.exposition.utilisateur.preferences.PreferencesUtilisateurDto;
 
@@ -13,7 +17,8 @@ public class UtilisateurEtPrefDto {
     private String nom;
 
     private String prenom;
-
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate dateCreation;
 
     private PreferencesUtilisateurDto preferencesUtilisateur;
