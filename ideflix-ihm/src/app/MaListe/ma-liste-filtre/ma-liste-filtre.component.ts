@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {Status} from "../../shared/models/status";
+import {filter} from "rxjs";
 
 @Component({
   selector: 'app-ma-liste-filtre',
@@ -12,5 +13,12 @@ export class MaListeFiltreComponent {
   statusEnum = Status;
   genres: string[] = ['Action', 'Drame', 'Comédie', 'Aventure', 'Science-Fiction']; //TODO en attendant d'avoir la table des genres via API
 
-    protected readonly Status = Status;
+  @Output() filterEvent = new EventEmitter<{status : string, genre : string}>();
+  // filterEvent: EventEmitter<{ status: string, genre: string }> = new EventEmitter<{ status: string, genre: string }>();
+  onSubmitFilter(statusInput: string, genreInput: string) {
+    this.filterEvent.emit({status: statusInput, genre: genreInput});
+  }
+
+  protected readonly Status = Status;
+  protected readonly filter = filter;
 }
