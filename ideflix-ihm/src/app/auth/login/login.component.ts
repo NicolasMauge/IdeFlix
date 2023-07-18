@@ -38,7 +38,7 @@ export class LoginComponent {
   //methode d'envoi de l'evt
   onSubmitForm(event:Event) {
     event.preventDefault();
-    console.log(this.loginForm);
+
     this.isFormSubmitted = true;
     // vérifier à la soumission si le formulaire est valide-
     if (this.loginForm.valid) {

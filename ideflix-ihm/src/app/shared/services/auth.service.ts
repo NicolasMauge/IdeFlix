@@ -28,7 +28,7 @@ export class AuthService {
         tap( {
           error: (err: unknown) => {
             if (err instanceof HttpErrorResponse) {
-              if (err.status == 400) {
+              if (err.status == 403) {
                 //alert('Mauvais Email ou MotdePasse');
                 this.messageSvc.show('Mauvais Email ou Mot de passe', 'error')
                 // par sécurité, je supprime le token éventuel existant si erreur connexion
