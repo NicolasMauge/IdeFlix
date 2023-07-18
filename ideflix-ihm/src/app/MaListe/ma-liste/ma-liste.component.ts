@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import {MenuService} from "../../shared/services/menu.service";
 import {Subscription} from "rxjs";
-import {MediaModel} from "../../shared/models/media.model";
 import {MediaMaListeService} from "../../shared/services/media-ma-liste.service";
+import {MediaMaListeModel} from "../../shared/models/media-ma-liste.model";
 
 @Component({
   selector: 'app-ma-liste',
@@ -11,7 +11,7 @@ import {MediaMaListeService} from "../../shared/services/media-ma-liste.service"
 })
 export class MaListeComponent {
 
-  medias: MediaModel[] = [];
+  medias: MediaMaListeModel[] = [];
   sub!: Subscription;
 
   constructor(private menuService: MenuService,
@@ -25,7 +25,7 @@ export class MaListeComponent {
     this.mediaSvc.getMoviesFromApi();
 
     //abonnement à la source service.movies$  via un subscribe
-    this.sub = this.mediaSvc.movies$.subscribe( (data: MediaModel[]) => this.medias = data);
+    this.sub = this.mediaSvc.mediaMaListe$.subscribe( (data: MediaMaListeModel[]) => this.medias = data);
   }
 
   ngOnDestroy(){
