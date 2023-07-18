@@ -7,7 +7,7 @@ import {Observable, tap} from "rxjs";
 
 interface Credentials {
   email: string;
-  password: string;
+  motDePasse: string;
 }
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class AuthService {
               private messageSvc: MessageService) {}
 
   login(credentials : Credentials): Observable<any>{
-    let endpoint = '/users/login';
+    let endpoint = '/login';
     return this.http.post<any>(this.USER_API + endpoint, credentials)
       .pipe(
         tap( {
@@ -44,7 +44,7 @@ export class AuthService {
   }
 
   registerUser(data:any):Observable<any>{
-    let endpoint = '/iam/utilisateur';
+    let endpoint = '/utilisateur';
     return this.http.post<any>(this.USER_API + endpoint, data)
       .pipe(
         tap({

@@ -16,6 +16,7 @@ export class LoginComponent {
   isFormSubmitted: boolean =  false;
 
   token!: string;
+
   constructor(private fb: FormBuilder,
               private authService: AuthService,
               private messageSvc: MessageService,
@@ -30,7 +31,7 @@ export class LoginComponent {
     this.loginForm = this.fb.group({
       email:['', [Validators.required, Validators.email]],
       /* Au moins 6 caractères */
-      password:['', [Validators.required]]
+      motDePasse:['', [Validators.required]]
     });
   }
 
@@ -46,18 +47,13 @@ export class LoginComponent {
       this.authService.login(this.loginForm.value)
         .subscribe ( {
             next: response => {
-              localStorage.setItem('token', response.token);
-              localStorage.setItem('userId', response.user.id)
-              localStorage.setItem('userName', response.user.email)
+              localStorage.setItem('token', response.jwt)
+              localStorage.setItem('email', response.email)
               // afficher un message de succès ('vous êtes connecté(e)!')
               this.messageSvc.show('Connexion réussie !', 'success')
               //rediriger l'utilisateur vers la page list
               this.route.navigate(['/maListe']);
             },
-            // error: error => {
-            //   console.log('Erreur lors de la requête :', error);
-            //   if (error instanceof HttpErrorResponse && error.status === 400) {
-            //      console.log(error.error)}
           }
         )
 
