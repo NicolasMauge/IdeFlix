@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AbstractControlOptions, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../shared/services/auth.service";
 import {MessageService} from "../../shared/services/message.service";
 import {Router} from "@angular/router";
@@ -36,38 +36,38 @@ export class RegisterComponent  {
     // (?=.*\d) : Au moins un chiffre.
     // (?=.*[@$!%*?&]) : Au moins un caractère spécial parmi ceux spécifiés (@, $, !, %, *, ?, &).
     // [A-Za-z\d@$!%*?&]+ : Correspond à la combinaison des lettres, chiffres et caractères spéciaux autorisés.
-      password:['', [Validators.required,
+      motDePasse:['', [Validators.required,
                      Validators.minLength(8),
                      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)]],
-      confirmPassword:['', [Validators.required]]
-    }, { validator: this.passwordMatchValidator });
+      confirmMotDePasse:['', [Validators.required]]
+    }, { validator: this.passwordMatchValidator } as AbstractControlOptions);
   }
 
 
   passwordMatchValidator(registerForm: FormGroup) {
-    const password = registerForm.get('password')?.value;
-    const confirmPassword = registerForm.get('confirmPassword')?.value;
+    const motDePasse = registerForm.get('motDePasse')?.value;
+    const confirmMotDePasse = registerForm.get('confirmMotDePasse')?.value;
 
-    console.log('confirmPassword: ' + confirmPassword);
+    console.log('confirmMotDePasse: ' + confirmMotDePasse);
 
-    if ( password && confirmPassword && password !== confirmPassword) {
-      registerForm.get('confirmPassword')?.setErrors({ mismatch: true });
+      if (  motDePasse !== confirmMotDePasse) {
+      registerForm.get('confirmMotDePasse')?.setErrors({ mismatch: true });
     } else {
-      registerForm.get('confirmPassword')?.setErrors(null);
+      registerForm.get('confirmMotDePasse')?.setErrors(null);
     }
-    console.log(registerForm.get('confirmPassword'));
+    console.log(registerForm.get('confirmMotDePasse'));
   }
 
   register(event:Event) {
     event.preventDefault();
 
-    console.log(this.registerForm);
+    // console.log(this.registerForm);
     console.log('isFormSubmitted: ' + this.isFormSubmitted);
     console.log('valid:' + this.registerForm.valid)
 
     this.isFormSubmitted = true;
     if (this.registerForm.valid) {
-      console.log(this.registerForm.value)
+      console.log('registerForm' + this.registerForm.value)
       this.authService.registerUser(this.registerForm.value)
         .subscribe({next : response => {
           console.log(response)
@@ -77,9 +77,6 @@ export class RegisterComponent  {
       // pour remettre le formulaire à blanc - nettoyer les champs
       this.isFormSubmitted= false;
       this.registerForm.reset();
-    }
-    else {
-      this.isFormSubmitted = false;
     }
   }
 
