@@ -3,6 +3,8 @@ package org.epita.exposition.media.film;
 import org.epita.application.media.film.FilmService;
 import org.epita.domaine.media.FilmEntity;
 import org.epita.exposition.common.Mapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,11 +20,19 @@ public class FilmController {
         this.filmMapper = filmMapper;
     }
 
+    @GetMapping("/health-check")
+    public ResponseEntity<String> healthCheck() {
+        //return "UP";
+        return new ResponseEntity<>("UP", HttpStatus.OK);
+    }
+
     @PostMapping
-    public void creerFilm(@RequestBody FilmDto filmDto) {
+    public ResponseEntity<String> creerFilm(@RequestBody FilmDto filmDto) {
         this.filmService
                 .creerFilm(
                         this.filmMapper.mapDtoToEntity(filmDto));
+
+        return new ResponseEntity<String>("Film créé", HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -40,7 +50,9 @@ public class FilmController {
     }
 
     @DeleteMapping("/{id}")
-    public void supprimerFilmParId(@PathVariable("id") Long id) {
+    public ResponseEntity<String> supprimerFilmParId(@PathVariable("id") Long id) {
         this.filmService.supprimerFilmParId(id);
+
+        return new ResponseEntity<String>("Film supprimé", HttpStatus.OK);
     }
 }

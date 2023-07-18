@@ -9,6 +9,8 @@ import org.epita.exposition.media.genre.GenreDto;
 import org.epita.exposition.utilisateur.utilisateur.UtilisateurEtPrefDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.AbstractList;
@@ -34,21 +36,31 @@ public class PreferencesUtilisateurController {
         this.genreMapper = genreMapper;
     }
 
+    @GetMapping("/health-check")
+    public ResponseEntity<String> healthCheck() {
+        //return "UP";
+        return new ResponseEntity<>("UP", HttpStatus.OK);
+    }
+
     @PostMapping
-    public void creerPreferencesUtilisateur(@RequestBody PreferencesUtilisateurDto preferencesUtilisateurDto) {
+    public ResponseEntity<String> creerPreferencesUtilisateur(@RequestBody PreferencesUtilisateurDto preferencesUtilisateurDto) {
         this.preferencesUtilisateurService
                 .creerPreferencesUtilisateur(
                         this.preferencesUtilisateurMapper.mapDtoToEntity(preferencesUtilisateurDto));
+
+        return new ResponseEntity<String>("Preference utilisateur créée", HttpStatus.CREATED);
     }
 
     @PostMapping("/masse")
-    public void creerPlusieursPréférences(@RequestBody List<PreferencesUtilisateurDto> preferencesUtilisateurDtoList) {
+    public ResponseEntity<String> creerPlusieursPréférences(@RequestBody List<PreferencesUtilisateurDto> preferencesUtilisateurDtoList) {
         preferencesUtilisateurDtoList
                 .stream()
                 .forEach(p -> this.preferencesUtilisateurService
                         .creerPreferencesUtilisateur(
                                 this.preferencesUtilisateurMapper
                                         .mapDtoToEntity(p)));
+
+        return new ResponseEntity<String>("Preferences utilisateurs créées", HttpStatus.CREATED);
     }
 
     @PostMapping("/addgenre/{id}/{genreid}")
@@ -87,7 +99,9 @@ public class PreferencesUtilisateurController {
     }
 
     @DeleteMapping("/{id}")
-    public void supprimerPreferencesUtilisateurParId(@PathVariable("id") Long id) {
+    public ResponseEntity<String> supprimerPreferencesUtilisateurParId(@PathVariable("id") Long id) {
         this.preferencesUtilisateurService.supprimerPreferencesUtilisateurParId(id);
+
+        return new ResponseEntity<String>("Preference utilisateur supprimée", HttpStatus.OK);
     }
 }

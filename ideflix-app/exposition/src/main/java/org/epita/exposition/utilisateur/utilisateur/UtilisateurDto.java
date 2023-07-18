@@ -1,5 +1,10 @@
 package org.epita.exposition.utilisateur.utilisateur;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
 import java.time.LocalDate;
 
 public class UtilisateurDto {
@@ -11,6 +16,8 @@ public class UtilisateurDto {
 
     private String prenom;
 
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate dateCreation;
 
     public UtilisateurDto() {
