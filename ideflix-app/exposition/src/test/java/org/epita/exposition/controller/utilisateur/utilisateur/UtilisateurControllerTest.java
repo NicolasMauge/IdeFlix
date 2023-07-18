@@ -7,6 +7,7 @@ import org.epita.exposition.media.genre.GenreMapper;
 import org.epita.exposition.utilisateur.preferences.PreferencesUtilisateurDto;
 import org.epita.exposition.utilisateur.preferences.PreferencesUtilisateurMapper;
 import org.epita.exposition.utilisateur.utilisateur.*;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import static org.hamcrest.Matchers.containsString;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.http.RequestEntity.post;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
@@ -54,6 +56,21 @@ public class UtilisateurControllerTest {
         }
     }
 
+    private void callServeur(String url, Object o) throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                        .post(url)
+                        .content(asJsonString(o))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+    }
+
+    @BeforeAll
+    public static void initMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+    }
+
     @Test
     public void should_return_StatusOk_et_Up() throws Exception {
         this.mvc.perform(get("/utilisateur/health-check")).andDo(print()).andExpect(status().isOk())
@@ -61,18 +78,30 @@ public class UtilisateurControllerTest {
     }
 
     @Test
-    public void should_return_StatusCreated() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-
+    public void creerUtilisateur_should_return_StatusCreated() throws Exception {
         LocalDate dateLocal = LocalDate.of(2023,7,13);
         PreferencesUtilisateurDto preferencesUtilisateurDto = new PreferencesUtilisateurDto(null, "pseudo", new ArrayList<>());
 
-        mvc.perform(MockMvcRequestBuilders
-                        .post("/utilisateur")
-                        .content(asJsonString(new UtilisateurEtPrefDto(null, "test@test.com", "nom", "prenom", dateLocal, preferencesUtilisateurDto)))
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
+        callServeur("/utilisateur",
+                new UtilisateurEtPrefDto(null, "test@test.com", "nom", "prenom", dateLocal, preferencesUtilisateurDto));
     }
+
+    @Test
+    public void creerPlusieursUtilisateurs_should_return_StatusCreated() throws Exception {
+        LocalDate dateLocal = LocalDate.of(2023,7,13);
+        PreferencesUtilisateurDto preferencesUtilisateurDto = new PreferencesUtilisateurDto(null, "pseudo", new ArrayList<>());
+        UtilisateurEtPrefDto utilisateurEtPrefDto = new UtilisateurEtPrefDto(null, "test@test.com", "nom", "prenom", dateLocal, preferencesUtilisateurDto);
+
+        LocalDate dateLocal2 = LocalDate.of(2023,7,13);
+        PreferencesUtilisateurDto preferencesUtilisateurDto2 = new PreferencesUtilisateurDto(null, "pseudo 2", new ArrayList<>());
+        UtilisateurEtPrefDto utilisateurEtPrefDto2 = new UtilisateurEtPrefDto(null, "test2@test.com", "nom2", "prenom2", dateLocal, preferencesUtilisateurDto);
+
+        List<UtilisateurEtPrefDto> utilisateurEtPrefDtoList = new ArrayList<>();
+        utilisateurEtPrefDtoList.add(utilisateurEtPrefDto);
+        utilisateurEtPrefDtoList.add(utilisateurEtPrefDto2);
+
+        callServeur("/utilisateur/masse",
+                utilisateurEtPrefDtoList);
+    }
+
 }
