@@ -76,7 +76,7 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.DELETE, "/admin/utilisateurs/**").hasRole(roleAdmin)
                 .anyRequest().denyAll()
                 .and()
-                .addFilterBefore(new JWTVerify(this.SECRET_IAM), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JWTVerify(this.SECRET_IAM, utilisateurService), UsernamePasswordAuthenticationFilter.class)
                 .addFilter(
                         new JWTAuthenticationManager(
                                 authenticationManager(

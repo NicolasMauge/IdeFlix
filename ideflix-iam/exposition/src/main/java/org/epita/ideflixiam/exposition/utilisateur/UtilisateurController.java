@@ -1,14 +1,13 @@
 package org.epita.ideflixiam.exposition.utilisateur;
 
 import io.swagger.annotations.*;
-import org.epita.ideflixiam.application.common.IdeFlixIamException;
-import org.epita.ideflixiam.application.common.UtilisateurInexistantException;
+import org.epita.ideflixiam.application.exception.IdeFlixIamException;
+import org.epita.ideflixiam.application.exception.UtilisateurInexistantException;
 import org.epita.ideflixiam.application.utilisateur.UtilisateurService;
 import org.epita.ideflixiam.domaine.UtilisateurEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

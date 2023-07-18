@@ -1,7 +1,7 @@
 package org.epita.ideflixiam.application.utilisateur;
 
-import org.epita.ideflixiam.application.common.UtilisateurExistantDejaException;
-import org.epita.ideflixiam.application.common.UtilisateurInexistantException;
+import org.epita.ideflixiam.application.exception.UtilisateurExistantDejaException;
+import org.epita.ideflixiam.application.exception.UtilisateurInexistantException;
 import org.epita.ideflixiam.domaine.UtilisateurEntity;
 
 import java.util.List;

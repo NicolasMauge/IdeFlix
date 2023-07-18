@@ -5,6 +5,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.epita.ideflixiam.application.utilisateur.UtilisateurService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,8 +30,12 @@ public class JWTVerify extends OncePerRequestFilter {
 
     private final String SECRET_IAM;
 
-    public JWTVerify(String secretIam) {
+    private final UtilisateurService utilisateurService;
+
+    public JWTVerify(String secretIam, UtilisateurService utilisateurService) {
+
         this.SECRET_IAM = secretIam;
+        this.utilisateurService = utilisateurService;
     }
 
     @Override
