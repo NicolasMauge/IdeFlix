@@ -20,6 +20,7 @@ import { ValuesFromKeyPipe } from './shared/pipes/values-from-key.pipe';
 import { MaListeFiltreComponent } from './MaListe/ma-liste-filtre/ma-liste-filtre.component';
 import {TokenInterceptor} from "./shared/interceptors/token.interceptor";
 import {ErrorInterceptor} from "./shared/interceptors/error.interceptor";
+import { MesPreferencesComponent } from './mes-preferences/mes-preferences.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {ErrorInterceptor} from "./shared/interceptors/error.interceptor";
     SearchbarComponent,
     FilterMaListePipe,
     ValuesFromKeyPipe,
-    MaListeFiltreComponent
+    MaListeFiltreComponent,
+    MesPreferencesComponent
   ],
   imports: [
     BrowserModule,

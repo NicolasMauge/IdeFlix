@@ -1,0 +1,29 @@
+<div class="container">
+
+  <form [formGroup]="preferencesForm" (submit)="onSubmit($event)">
+    <label for="type">Votre pseudo</label>
+    <input type="text" formControlName="pseudo" id="type" />
+    <p *ngIf="preferencesForm.controls['pseudo'].hasError('required') && isFormSubmitted"
+       class="error">Veuillez renseigner un pseudo</p>
+
+    <div class="checkbox-group" style="margin-top:20px">
+      <div class="checkbox-wrap" id="genresContainer" formArrayName="genres">
+        <!-- j'utilise formData qui est un getter qui retourne le formArray roles-->
+        <div *ngFor="let role of formData.controls; let i = index; let c = count">
+          <!-- formGroupName est l'index du form (1 ou 2 ou 3) -->
+          <div class="line" [formGroupName]="i">
+            <!-- formControlName est le nom du champ dans l'objet role de roles:FormArray-->
+            <input formControlName="checked" type="checkbox" [id]="i" />
+            <label [for]="i">{{genresList[i].name}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-light">Envoyer</button>
+  </form>
+
+</div>
+
+
+
+
