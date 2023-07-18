@@ -30,10 +30,12 @@ public class SerieSelectionneeController {
     }
 
     @PostMapping
-    public void creerSerieSelectionnee(@RequestBody SerieSelectionneeDto serieSelectionneeDto) {
+    public ResponseEntity<String> creerSerieSelectionnee(@RequestBody SerieSelectionneeDto serieSelectionneeDto) {
         this.serieSelectionneeService
                 .creerSerieSelectionnee(
                         this.serieSelectionneeMapper.mapDtoToEntity(serieSelectionneeDto));
+
+        return new ResponseEntity<String>("Série sélectionnée créée", HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -53,8 +55,10 @@ public class SerieSelectionneeController {
     }
 
     @DeleteMapping("{id}")
-    public void supprimerSerieSelectionneeParId(@PathVariable("id") Long id) {
+    public ResponseEntity<String> supprimerSerieSelectionneeParId(@PathVariable("id") Long id) {
         this.serieSelectionneeService.supprimerSerieSelectionneeParId(id);
+
+        return new ResponseEntity<String>("Série sélectionnée supprimée", HttpStatus.OK);
     }
 
     @GetMapping("/utilisateur/{id}")

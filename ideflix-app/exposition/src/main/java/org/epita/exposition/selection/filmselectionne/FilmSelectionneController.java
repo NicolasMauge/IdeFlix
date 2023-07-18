@@ -30,10 +30,12 @@ public class FilmSelectionneController {
     }
 
     @PostMapping
-    public void creerFilmSelectionne(@RequestBody FilmSelectionneDto filmSelectionneDto) {
+    public ResponseEntity<String> creerFilmSelectionne(@RequestBody FilmSelectionneDto filmSelectionneDto) {
         this.filmSelectionneService
                 .creerFilmSelectionne(
                         this.filmSelectionneMapper.mapDtoToEntity(filmSelectionneDto));
+
+        return new ResponseEntity<String>("Film sélectionné créé", HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -53,8 +55,10 @@ public class FilmSelectionneController {
     }
 
     @DeleteMapping("/{id}")
-    public void supprimerFilmSelectionneParId(@PathVariable("id") Long id) {
+    public ResponseEntity<String> supprimerFilmSelectionneParId(@PathVariable("id") Long id) {
         this.filmSelectionneService.supprimerFilmSelectionneParId(id);
+
+        return new ResponseEntity<String>("Film sélectionné supprimé", HttpStatus.OK);
     }
 
     @GetMapping("/utilisateur/{id}")

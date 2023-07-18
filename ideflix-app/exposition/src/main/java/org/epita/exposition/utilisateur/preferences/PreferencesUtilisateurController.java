@@ -43,20 +43,24 @@ public class PreferencesUtilisateurController {
     }
 
     @PostMapping
-    public void creerPreferencesUtilisateur(@RequestBody PreferencesUtilisateurDto preferencesUtilisateurDto) {
+    public ResponseEntity<String> creerPreferencesUtilisateur(@RequestBody PreferencesUtilisateurDto preferencesUtilisateurDto) {
         this.preferencesUtilisateurService
                 .creerPreferencesUtilisateur(
                         this.preferencesUtilisateurMapper.mapDtoToEntity(preferencesUtilisateurDto));
+
+        return new ResponseEntity<String>("Preference utilisateur créée", HttpStatus.CREATED);
     }
 
     @PostMapping("/masse")
-    public void creerPlusieursPréférences(@RequestBody List<PreferencesUtilisateurDto> preferencesUtilisateurDtoList) {
+    public ResponseEntity<String> creerPlusieursPréférences(@RequestBody List<PreferencesUtilisateurDto> preferencesUtilisateurDtoList) {
         preferencesUtilisateurDtoList
                 .stream()
                 .forEach(p -> this.preferencesUtilisateurService
                         .creerPreferencesUtilisateur(
                                 this.preferencesUtilisateurMapper
                                         .mapDtoToEntity(p)));
+
+        return new ResponseEntity<String>("Preferences utilisateurs créées", HttpStatus.CREATED);
     }
 
     @PostMapping("/addgenre/{id}/{genreid}")
@@ -95,7 +99,9 @@ public class PreferencesUtilisateurController {
     }
 
     @DeleteMapping("/{id}")
-    public void supprimerPreferencesUtilisateurParId(@PathVariable("id") Long id) {
+    public ResponseEntity<String> supprimerPreferencesUtilisateurParId(@PathVariable("id") Long id) {
         this.preferencesUtilisateurService.supprimerPreferencesUtilisateurParId(id);
+
+        return new ResponseEntity<String>("Preference utilisateur supprimée", HttpStatus.OK);
     }
 }

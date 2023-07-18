@@ -31,10 +31,12 @@ public class EtiquetteController {
     }
 
     @PostMapping
-    public void creerEtiquette(@RequestBody EtiquetteDto etiquetteDto) {
+    public ResponseEntity<String> creerEtiquette(@RequestBody EtiquetteDto etiquetteDto) {
         this.etiquetteService
                 .creerEtiquette(
                         etiquetteMapper.mapDtoToEntity(etiquetteDto));
+
+        return new ResponseEntity<String>("Etiquette créée", HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -52,8 +54,10 @@ public class EtiquetteController {
     }
 
     @DeleteMapping("/{id}")
-    public void supprimerEtiquetteParId(@PathVariable("id") Long id) {
+    public ResponseEntity<String> supprimerEtiquetteParId(@PathVariable("id") Long id) {
         this.etiquetteService.supprimerEtiquetteParId(id);
+
+        return new ResponseEntity<String>("Etiquette supprimée", HttpStatus.OK);
     }
 
     @GetMapping("/utilisateur/{id}")

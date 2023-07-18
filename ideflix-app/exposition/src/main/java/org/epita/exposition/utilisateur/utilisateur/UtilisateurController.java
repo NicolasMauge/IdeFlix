@@ -39,13 +39,15 @@ public class UtilisateurController {
     }
 
     @PostMapping("/masse")
-    public void creerPlusieursUtilisateurs(@RequestBody List<UtilisateurEtPrefDto> utilisateurEtPrefDtoList) {
+    public ResponseEntity<String> creerPlusieursUtilisateurs(@RequestBody List<UtilisateurEtPrefDto> utilisateurEtPrefDtoList) {
         utilisateurEtPrefDtoList
                 .stream()
                 .forEach(u -> this.utilisateurService
                                     .creerUtilisateur(
                                             this.utilisateurEtPrefMapper
                                                 .mapDtoToEntity(u)));
+
+        return new ResponseEntity<String>("Utilisateurs créés", HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -67,8 +69,10 @@ public class UtilisateurController {
     }
 
     @DeleteMapping("/{id}")
-    void supprimerUtilisateurParId(@PathVariable("id") Long id) {
+    public ResponseEntity<String> supprimerUtilisateurParId(@PathVariable("id") Long id) {
         this.utilisateurService.supprimerUtilisateurParId(id);
+
+        return new ResponseEntity<String>("Utilisateur supprimé", HttpStatus.OK);
     }
 
     @GetMapping("/etpref/{id}")

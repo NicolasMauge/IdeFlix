@@ -29,10 +29,12 @@ public class SerieController {
     }
 
     @PostMapping
-    public void creerSerie(@RequestBody SerieDto serieDto){
+    public ResponseEntity<String> creerSerie(@RequestBody SerieDto serieDto){
         this.serieService
                 .creerSerie(
                         this.serieMapper.mapDtoToEntity(serieDto));
+
+        return new ResponseEntity<String>("Série créée", HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -49,7 +51,9 @@ public class SerieController {
     }
 
     @DeleteMapping("/{id}")
-    public void supprimerSerieParId(@PathVariable("id") Long id) {
+    public ResponseEntity<String> supprimerSerieParId(@PathVariable("id") Long id) {
         this.serieService.supprimerSerieParId(id);
+
+        return new ResponseEntity<String>("Série supprimée", HttpStatus.OK);
     }
 }

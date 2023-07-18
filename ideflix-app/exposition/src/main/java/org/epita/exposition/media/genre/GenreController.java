@@ -29,20 +29,24 @@ public class GenreController {
     }
 
     @PostMapping
-    public void creerGenre(@RequestBody GenreDto genreDto) {
+    public ResponseEntity<String> creerGenre(@RequestBody GenreDto genreDto) {
         this.genreService
                 .creerGenre(
                         this.genreMapper.mapDtoToEntity(genreDto));
+
+        return new ResponseEntity<String>("Genre créé", HttpStatus.CREATED);
     }
 
     @PostMapping("/masse")
-    public void creerPlusieursGenres(@RequestBody List<GenreDto> genreDtoList) {
+    public ResponseEntity<String> creerPlusieursGenres(@RequestBody List<GenreDto> genreDtoList) {
         genreDtoList
                 .stream()
                 .forEach(g -> this.genreService
                         .creerGenre(
                                 this.genreMapper
                                         .mapDtoToEntity(g)));
+
+        return new ResponseEntity<String>("Genres créés", HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -60,7 +64,9 @@ public class GenreController {
     }
 
     @DeleteMapping("/{id}")
-    public void supprimerGenre(@PathVariable("id") Long id) {
+    public ResponseEntity<String> supprimerGenre(@PathVariable("id") Long id) {
         this.genreService.supprimerGenreParId(id);
+
+        return new ResponseEntity<String>("Genre supprimé", HttpStatus.OK);
     }
 }
