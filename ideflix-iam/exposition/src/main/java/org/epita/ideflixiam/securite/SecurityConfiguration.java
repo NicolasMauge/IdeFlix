@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -23,11 +24,12 @@ import static org.epita.ideflixiam.application.common.UtileRole.ROLE_ADMIN;
 
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfiguration {
 
 
     private final static Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
-    private static final String[] SWAGGER_WHITELIST = {
+    private final static String[] SWAGGER_WHITELIST = {
             "/swagger-resources",
             "/swagger-resources/**",
             "/configuration/ui",
@@ -37,25 +39,15 @@ public class SecurityConfiguration {
     };
     @Value("${org.epita.ideflixiam.secretiam}")
     public String SECRET_IAM;
-    //BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    UtilisateurService utilisateurService;
+    @Autowired
+    UtilisateurConvertisseur utilisateurConvertisseur;
     @Autowired
     private DataSource dataSource;
     @Value("${server.servlet.context-path}")
     private String contextPath;
 
-    @Autowired
-    UtilisateurService utilisateurService;
-
-    @Autowired
-    UtilisateurConvertisseur utilisateurConvertisseur;
-
-//    @Bean
-//    public BCryptPasswordEncoder passwordEncoder() {
-//        if (this.passwordEncoder == null) {
-//            this.passwordEncoder = new BCryptPasswordEncoder();
-//        }
-//        return this.passwordEncoder;
-//    }
 
     @Bean
     public AuthenticationManager authenticationManager(
@@ -66,21 +58,23 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        logger.debug("IAM, chemin par défaut des end-points : " + contextPath);
+        logger.debug("IAM - Chemin par défaut des end-points : " + contextPath);
 
         final String roleAdmin = ROLE_ADMIN.substring("ROLE_".length());
 
-        http.authorizeRequests()
+        http
+                .cors().and()
+                .authorizeRequests()
                 .antMatchers(HttpMethod.GET, SWAGGER_WHITELIST).permitAll()
-//                .antMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .antMatchers(HttpMethod.GET, "/etat").permitAll()
                 .antMatchers(HttpMethod.POST, "/utilisateur").permitAll()
-//                .antMatchers(HttpMethod.POST, "/api/v1/iam/utilisateur").permitAll()
                 .antMatchers(SWAGGER_WHITELIST).hasRole(roleAdmin)
-                .antMatchers(HttpMethod.GET, "/admin/utilisateurs").hasRole(roleAdmin)
+//                .antMatchers(HttpMethod.GET, "/admin/utilisateurs").hasRole(roleAdmin)
+                .antMatchers(HttpMethod.GET, "/admin/utilisateurs").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/admin/utilisateurs/*").hasRole(roleAdmin)
                 .antMatchers(HttpMethod.DELETE, "/admin/utilisateurs/**").hasRole(roleAdmin)
-                .anyRequest().denyAll() // commenter pour que le swagger soit accessible
+                .anyRequest().denyAll()
                 .and()
                 .addFilterBefore(new JWTVerify(this.SECRET_IAM), UsernamePasswordAuthenticationFilter.class)
                 .addFilter(
@@ -92,12 +86,6 @@ public class SecurityConfiguration {
                                 utilisateurService,
                                 utilisateurConvertisseur)
                 )
-                //.antMatchers(HttpMethod.POST, "/utilisateur").permitAll()
-//                .antMatchers(HttpMethod.GET).permitAll()
-                //.antMatchers(HttpMethod.GET).hasRole("USER")
-                //.anyRequest().denyAll()
-//                .and()
-                //.addFilterBefore(new JWTVerify(), UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable()                  // TODO configure CSRF protection
                 .formLogin().disable();
         return http.build();
@@ -123,5 +111,6 @@ public class SecurityConfiguration {
                 .authoritiesByUsernameQuery(requeteRoles);
 
     }
+
 
 }

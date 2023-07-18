@@ -8,6 +8,7 @@ import org.epita.ideflixiam.domaine.UtilisateurEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,9 @@ import static org.epita.ideflixiam.application.common.UtileRole.ROLE_UTILISATEUR
 
 @RestController
 @RequestMapping
+//@CrossOrigin(origins = "http://localhost:4200",
+//        allowedHeaders = {"Authorization"},
+//        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS, RequestMethod.DELETE})
 public class UtilisateurController {
 
     Logger logger = LoggerFactory.getLogger(UtilisateurController.class);
@@ -50,12 +54,14 @@ public class UtilisateurController {
      * @param : UtilisateurEntreeDto
      * @return : UtilisateurSimpleDto
      */
+
     @ApiOperation(value = "Créer un utilisateur standard.", nickname = "creerUtilisateur", notes = "Lors du premier appel, l'administrateur est créé selon les données fournies dans le fichier de configuration utilisé au démarrage d'IdeFlix-IAM.", response = UtilisateurSimpleDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Non utilisé."),
             @ApiResponse(code = 201, message = "Utilisateur créé avec succès."),
             @ApiResponse(code = 400, message = "Requête erronée.")
     })
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/utilisateur")
     public ResponseEntity<UtilisateurSimpleDto> creerUtilisateur(@RequestBody UtilisateurEntreeDto utilisateurEntreeDto) throws IdeFlixIamException {
 
@@ -75,12 +81,13 @@ public class UtilisateurController {
 
 
     @ApiOperation(value = "Récupérer la liste des utilisateurs", nickname = "getUtilisateurs", notes = "Cette ressource permet à un administrateur de récupérer la liste des utilisateurs", response = UtilisateurDetailDto.class)
-    @GetMapping("/admin/utilisateurs")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK, voici la liste."),
             @ApiResponse(code = 403, message = "Requête interdite.")
     })
     @ApiImplicitParam(name = "Authorization", value = "JWT", required = true, dataTypeClass = String.class, example = "Bearer efdmlkjoij651.rqrgq.fqfe6f5")
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/admin/utilisateurs")
     public List<UtilisateurDetailDto> getUtilisateurs() {
 
         logger.debug("IAM - Récupération de tous utilisateurs");
@@ -94,7 +101,6 @@ public class UtilisateurController {
     }
 
     @ApiOperation(value = "Effacer un utilisateur", nickname = "delUtilisateur", notes = "Cette ressource permet à un administrateur d'effacer un utilisateur en fournissant son email.", response = void.class)
-    @DeleteMapping("/admin/utilisateurs/{email}")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK, utilisateur effacé."),
             @ApiResponse(code = 400, message = "Requête erronée. L'email est-il correct ?"),
@@ -102,6 +108,8 @@ public class UtilisateurController {
     })
     @ApiParam(name = "Email", type = "String", value = "Email of the user to be deleted.", allowableValues = "john.doe@example.org", required = true)
     @ApiImplicitParam(name = "Authorization", value = "JWT", required = true, dataTypeClass = String.class, example = "Bearer efdmlkjoij651.rqrgq.fqfe6f5")
+    @CrossOrigin(origins = "http://localhost:4200")
+    @DeleteMapping("/admin/utilisateurs/{email}")
     public void delUtilisateur(@PathVariable("email") String email) throws UtilisateurInexistantException {
         logger.debug("IAM - Suppression de " + email);
 

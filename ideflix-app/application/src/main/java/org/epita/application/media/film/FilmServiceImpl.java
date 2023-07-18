@@ -40,4 +40,13 @@ public class FilmServiceImpl implements FilmService {
     public void supprimerFilmParId(Long id) {
         this.filmRepository.deleteById(id);
     }
+
+    @Override
+    public FilmEntity trouverFilmParIdTmdb(String idTmdb) {
+        Optional<FilmEntity> filmEntityOptional = this.filmRepository.findByIdTmdb(idTmdb);
+        if(filmEntityOptional.isPresent()) {
+            return filmEntityOptional.get();
+        }
+        throw new EntityNotFoundException("Film non trouvé");
+    }
 }

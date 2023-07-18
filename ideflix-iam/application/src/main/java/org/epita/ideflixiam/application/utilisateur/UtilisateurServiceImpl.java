@@ -65,11 +65,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
             return utilisateurRepository.save(nouvelUtilisateurEntity);
         } else {
-            //throw new UtilisateurExistantDejaException("L'utilisateur " + nouvelUtilisateurEntity.getEmail() + " existe déjà");
+            throw new UtilisateurExistantDejaException("L'utilisateur " + nouvelUtilisateurEntity.getEmail() + " existe déjà");
             // Pour des raisons de sécurité, on va ignorer la demande de recréation en renvoyant les données
             // attendues/imaginée par un éventuel fraudeur.
             // Le mot de passe de l'utilisateur n'est donc pas changé
-            return nouvelUtilisateurEntity;
+            //return nouvelUtilisateurEntity;
         }
     }
 
