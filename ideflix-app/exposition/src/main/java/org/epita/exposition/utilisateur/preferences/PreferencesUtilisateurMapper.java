@@ -1,14 +1,16 @@
 package org.epita.exposition.utilisateur.preferences;
 
 import org.epita.application.utilisateur.preferences.PreferencesUtilisateurService;
+import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.exposition.common.Mapper;
+import org.epita.exposition.media.genre.GenreDto;
 import org.epita.exposition.media.genre.GenreMapper;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PreferencesUtilisateurMapper extends Mapper<PreferencesUtilisateurEntity, PreferencesUtilisateurDto> {
-    private GenreMapper genreMapper;
+    private Mapper<GenreEntity, GenreDto> genreMapper;
 
     public PreferencesUtilisateurMapper(GenreMapper genreMapper) {
         this.genreMapper = genreMapper;

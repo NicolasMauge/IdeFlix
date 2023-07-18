@@ -4,6 +4,8 @@ import org.epita.application.selection.etiquette.EtiquetteService;
 import org.epita.application.utilisateur.utilisateur.UtilisateurService;
 import org.epita.domaine.selection.EtiquetteEntity;
 import org.epita.exposition.common.Mapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,11 +24,19 @@ public class EtiquetteController {
         this.etiquetteMapper = etiquetteMapper;
     }
 
+    @GetMapping("/health-check")
+    public ResponseEntity<String> healthCheck() {
+        //return "UP";
+        return new ResponseEntity<>("UP", HttpStatus.OK);
+    }
+
     @PostMapping
-    public void creerEtiquette(@RequestBody EtiquetteDto etiquetteDto) {
+    public ResponseEntity<String> creerEtiquette(@RequestBody EtiquetteDto etiquetteDto) {
         this.etiquetteService
                 .creerEtiquette(
                         etiquetteMapper.mapDtoToEntity(etiquetteDto));
+
+        return new ResponseEntity<String>("Etiquette créée", HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -44,8 +54,10 @@ public class EtiquetteController {
     }
 
     @DeleteMapping("/{id}")
-    public void supprimerEtiquetteParId(@PathVariable("id") Long id) {
+    public ResponseEntity<String> supprimerEtiquetteParId(@PathVariable("id") Long id) {
         this.etiquetteService.supprimerEtiquetteParId(id);
+
+        return new ResponseEntity<String>("Etiquette supprimée", HttpStatus.OK);
     }
 
     @GetMapping("/utilisateur/{id}")

@@ -7,7 +7,7 @@ import {Observable, tap} from "rxjs";
 
 interface Credentials {
   email: string;
-  password: string;
+  motDePasse: string;
 }
 @Injectable({
   providedIn: 'root'
@@ -22,13 +22,13 @@ export class AuthService {
               private messageSvc: MessageService) {}
 
   login(credentials : Credentials): Observable<any>{
-    let endpoint = '/users/login';
+    let endpoint = '/login';
     return this.http.post<any>(this.USER_API + endpoint, credentials)
       .pipe(
         tap( {
           error: (err: unknown) => {
             if (err instanceof HttpErrorResponse) {
-              if (err.status == 400) {
+              if (err.status == 403) {
                 //alert('Mauvais Email ou MotdePasse');
                 this.messageSvc.show('Mauvais Email ou Mot de passe', 'error')
                 // par sécurité, je supprime le token éventuel existant si erreur connexion
@@ -44,7 +44,7 @@ export class AuthService {
   }
 
   registerUser(data:any):Observable<any>{
-    let endpoint = '/users/register';
+    let endpoint = '/utilisateur';
     return this.http.post<any>(this.USER_API + endpoint, data)
       .pipe(
         tap({

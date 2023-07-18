@@ -5,19 +5,21 @@
 
       <form [formGroup]="registerForm" (submit)="register($event)">
 
-        <!--    <div class="mb-3">-->
-        <!--      <label for="nom-id" class="form-label">Votre nom</label>-->
-        <!--      <input id="nom-id" formControlName="nom" type="text" class="form-control">-->
-        <!--&lt;!&ndash;      <p *ngIf="registerForm.controls['nom'].hasError('required') && isFormSubmitted"&ndash;&gt;-->
-        <!--&lt;!&ndash;         class="error">Veuillez renseigner un nom</p>&ndash;&gt;-->
-        <!--    </div>-->
+        <div class="mb-3">
+              <label for="nom-id" class="form-label">Votre nom</label>
+              <input id="nom-id" formControlName="nom" type="text" class="form-control">
+              <p *ngIf="registerForm.controls['nom'].hasError('required') && isFormSubmitted"
+                 class="error">Veuillez renseigner un nom</p>
+        </div>
 
-        <!--    <div class="mb-3">-->
-        <!--      <label for="prenom-id" class="form-label">Votre prénom</label>-->
-        <!--      <input id="prenom-id" formControlName="prenom" type="text" class="form-control">-->
-        <!--&lt;!&ndash;      <p *ngIf="registerForm.controls['prenom'].hasError('required') && isFormSubmitted"&ndash;&gt;-->
-        <!--&lt;!&ndash;         class="error">Veuillez renseigner un prénom</p>&ndash;&gt;-->
-        <!--    </div>-->
+
+        <div class="mb-3">
+              <label for="prenom-id" class="form-label">Votre prénom</label>
+              <input id="prenom-id" formControlName="prenom" type="text" class="form-control">
+              <p *ngIf="registerForm.controls['prenom'].hasError('required') && isFormSubmitted"
+                 class="error">Veuillez renseigner un prénom</p>
+        </div>
+
 
         <div class="mb-3">
           <label for="email-id" class="form-label">Votre Email</label>
@@ -42,22 +44,22 @@
             </ul>
           </div>
           <div class="input-group">
-            <input id="pwd-id" formControlName="password" type="password" class="form-control">
+            <input id="pwd-id" formControlName="motDePasse" type="password" class="form-control">
             <div class="input-group-append">
-            <span *ngIf="registerForm.controls['password'].valid" class="input-group-text validation-icon">
+            <span *ngIf="registerForm.controls['motDePasse'].valid" class="input-group-text validation-icon">
                 <i class="fas fa-check"></i>
             </span>
             </div>
           </div>
-          <div *ngIf="registerForm.controls['password'].invalid && (registerForm.controls['password'].dirty || registerForm.controls['password'].touched)">
-
-            <p *ngIf="registerForm.controls['password'].hasError('required') && isFormSubmitted"
+            <p *ngIf="registerForm.controls['motDePasse'].hasError('required') && isFormSubmitted"
                class="error">Veuillez renseigner un mot de passe</p>
 
-            <p *ngIf="registerForm.controls['password'].hasError('minlength') && isFormSubmitted"
+            <div *ngIf="(registerForm.controls['motDePasse'].dirty || registerForm.controls['motDePasse'].touched)">
+
+            <p *ngIf="registerForm.controls['motDePasse'].hasError('minlength') && isFormSubmitted"
                class="error">le mot de passe doit contenir 8 caractères minimum</p>
 
-            <p *ngIf="registerForm.controls['password'].hasError('pattern') && isFormSubmitted"
+            <p *ngIf="registerForm.controls['motDePasse'].hasError('pattern') && isFormSubmitted"
                class="error">Veuillez renseigner un mot de passe valide</p>
 
           </div>
@@ -68,21 +70,22 @@
           <label for="confirmPassword">Confirmez le mot de passe</label>
 
           <div class="input-group">
-<!--            <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword">-->
-            <input id="confirmPassword" formControlName="confirmPassword" type="password" class="form-control" >
+            <input id="confirmPassword" formControlName="confirmMotDePasse" type="password" class="form-control" >
             <div class="input-group-append">
-            <span *ngIf="registerForm.controls['confirmPassword'].valid && (registerForm.controls['confirmPassword'].dirty || registerForm.controls['confirmPassword'].touched)" class="input-group-text validation-icon">
+            <span *ngIf="registerForm.controls['confirmMotDePasse'].valid && (registerForm.controls['confirmMotDePasse'].dirty || registerForm.controls['confirmMotDePasse'].touched)" class="input-group-text validation-icon">
                 <i class="fas fa-check"></i>
             </span>
             </div>
           </div>
-          <div *ngIf="registerForm.controls['confirmPassword'].invalid && (registerForm.controls['confirmPassword'].dirty || registerForm.controls['confirmPassword'].touched)">
 
-            <p *ngIf="registerForm.controls['confirmPassword'].hasError('required') && isFormSubmitted"
-               class="error">Veuillez confirmer le mot de passe</p>
+          <p *ngIf="registerForm.controls['confirmMotDePasse'].hasError('required') && isFormSubmitted"
+             class="error">Veuillez confirmer le mot de passe</p>
 
-            <p *ngIf="registerForm.controls['confirmPassword'].hasError('mismatch') && isFormSubmitted" class="error">
-              Les mots de passe ne correspondent pas</p>
+          <div *ngIf="(registerForm.controls['confirmMotDePasse'].dirty || registerForm.controls['confirmMotDePasse'].touched)">
+
+
+            <p *ngIf="registerForm.controls['confirmMotDePasse'].hasError('mismatch') && isFormSubmitted"
+               class="error">Les mots de passe ne correspondent pas</p>
           </div>
         </div>
 

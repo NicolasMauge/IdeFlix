@@ -8,7 +8,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { LoginComponent } from './auth/login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MaListeComponent } from './MaListe/ma-liste/ma-liste.component';
@@ -18,6 +18,8 @@ import { SearchbarComponent } from './searchbar/searchbar.component';
 import { FilterMaListePipe } from './shared/pipes/filter-ma-liste.pipe';
 import { ValuesFromKeyPipe } from './shared/pipes/values-from-key.pipe';
 import { MaListeFiltreComponent } from './MaListe/ma-liste-filtre/ma-liste-filtre.component';
+import {TokenInterceptor} from "./shared/interceptors/token.interceptor";
+import {ErrorInterceptor} from "./shared/interceptors/error.interceptor";
 
 @NgModule({
   declarations: [
@@ -43,7 +45,10 @@ import { MaListeFiltreComponent } from './MaListe/ma-liste-filtre/ma-liste-filtr
     MatSnackBarModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    { provide : HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide : HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

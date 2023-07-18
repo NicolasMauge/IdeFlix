@@ -6,11 +6,8 @@
         <div class="form-group">
           <div class="mb-3">
             <label>Status:</label>
-            <select class="form-control" [(ngModel)]="myFilter.status">
+            <select class="form-control" [(ngModel)]="myFilter.status" [ngModelOptions]="{standalone: true}">
               <option value="">Tous Status</option>
-              <!--                  <option *ngFor="let status of statusEnum | keyvalue" [value]="status.value">-->
-              <!--                    {{ status.key }}-->
-              <!--                  </option>-->
               <option *ngFor="let status of statusEnum | valuesFromKey" [value]="status">
                 {{ status }}
               </option>
@@ -20,7 +17,7 @@
         <div class="form-group">
           <div class="mb-3">
             <label>Genre:</label>
-            <select class="form-control" [(ngModel)]="myFilter.genre">
+            <select class="form-control" [(ngModel)]="myFilter.genre" [ngModelOptions]="{standalone: true}">
               <option value="">Tous Genres</option>
               <option *ngFor="let genre of genres" [value]="genre">
                 {{ genre }}
