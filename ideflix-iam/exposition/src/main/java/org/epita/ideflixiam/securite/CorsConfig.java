@@ -8,13 +8,17 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
+import static org.epita.ideflixiam.common.ConstantesUtiles.*;
+
 @Configuration
 public class CorsConfig {
 
     @Bean
     CorsFilter corsFilter() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:4200");
+        configuration.setAllowedOrigins(Arrays.asList(ORIGINES_IDEFLIX_ARRAY));
+//        configuration.addAllowedOrigin(ORIGINE_IDEFLIX_IHM); // IdeFlix-IHM
+//        configuration.addAllowedOrigin(ORIGINE_IDEFLIX_APP); // IdeFlix-APP
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Origin", "X-Requested-With", "Content-Type"));
 
