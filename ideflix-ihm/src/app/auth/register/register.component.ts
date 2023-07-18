@@ -70,14 +70,13 @@ export class RegisterComponent  {
       console.log('registerForm' + this.registerForm.value)
       this.authService.registerUser(this.registerForm.value)
         .subscribe({next : response => {
-          console.log(response)
-          this.messageSvc.show('Compte créé', 'success')
-            this.route.navigate(['/search']); //TODO redirigé vers la page des préférences
+            console.log('reponse register' + response)
+            this.messageSvc.show('Compte créé', 'success')
+            this.route.navigate(['/login']); //TODO redirigé vers la page des préférences ou LOGIN
           }})
       // pour remettre le formulaire à blanc - nettoyer les champs
       this.isFormSubmitted= false;
       this.registerForm.reset();
     }
   }
-
   }
