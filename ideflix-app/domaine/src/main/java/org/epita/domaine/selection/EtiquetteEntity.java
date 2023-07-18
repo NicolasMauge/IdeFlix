@@ -12,7 +12,7 @@ public class EtiquetteEntity {
 
     private String nomTag;
 
-    @OneToOne
+    @ManyToOne
     private UtilisateurEntity utilisateurEntity;
 
     public EtiquetteEntity() {

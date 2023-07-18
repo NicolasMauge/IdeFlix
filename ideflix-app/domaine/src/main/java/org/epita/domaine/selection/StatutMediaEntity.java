@@ -4,5 +4,5 @@ public enum StatutMediaEntity {
     EN_COURS,
     ABANDONNE,
     A_VOIR,
-    TERMINE
+    VU
 }
