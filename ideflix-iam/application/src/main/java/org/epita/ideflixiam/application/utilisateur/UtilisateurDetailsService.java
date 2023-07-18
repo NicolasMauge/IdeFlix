@@ -1,6 +1,6 @@
 package org.epita.ideflixiam.application.utilisateur;
 
-import org.epita.ideflixiam.application.common.UtilisateurInexistantException;
+import org.epita.ideflixiam.application.exception.UtilisateurInexistantException;
 import org.epita.ideflixiam.domaine.UtilisateurEntity;
 import org.epita.ideflixiam.infrastructure.UtilisateurRepository;
 import org.slf4j.Logger;
@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

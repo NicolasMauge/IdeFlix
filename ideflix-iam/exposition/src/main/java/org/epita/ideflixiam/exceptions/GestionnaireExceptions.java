@@ -1,6 +1,6 @@
 package org.epita.ideflixiam.exceptions;
 
-import org.epita.ideflixiam.application.common.*;
+import org.epita.ideflixiam.application.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ public class GestionnaireExceptions { // aka GlobalExceptionHandler
         logger.debug("IAM - ErreurFormatLoginException");
 
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+                .status(HttpStatus.BAD_REQUEST) // 400
                 .body(messageExceptionDto);
     }
 
@@ -38,7 +38,7 @@ public class GestionnaireExceptions { // aka GlobalExceptionHandler
         logger.debug("IAM - RoleInexistantException");
 
         return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
+                .status(HttpStatus.NOT_FOUND) // 404
                 .body(messageExceptionDto);
     }
 
@@ -49,7 +49,7 @@ public class GestionnaireExceptions { // aka GlobalExceptionHandler
                 LocalDateTime.now());
 
         return ResponseEntity
-                .status(HttpStatus.FORBIDDEN) // le 403 peut aussi servir pour les doublons.
+                .status(HttpStatus.CONFLICT) // 409
                 .body(messageExceptionDto);
     }
 
@@ -61,7 +61,7 @@ public class GestionnaireExceptions { // aka GlobalExceptionHandler
                 LocalDateTime.now());
 
         return ResponseEntity
-                .status(HttpStatus.FORBIDDEN) // le 403 peut aussi servir pour les doublons.
+                .status(HttpStatus.FORBIDDEN)  // 403
                 .body(messageExceptionDto);
     }
 
@@ -75,7 +75,7 @@ public class GestionnaireExceptions { // aka GlobalExceptionHandler
         logger.debug("IAM - Erreur imprévue");
 
         return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .status(HttpStatus.INTERNAL_SERVER_ERROR) // TODO à voir si on peut mettre un meilleur code que 500
                 .body(messageExceptionDto);
     }
 

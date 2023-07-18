@@ -25,7 +25,7 @@ public abstract class MediaSelectionneEntity {
 
     private StatutMediaEntity statutMediaEntity;
 
-    @OneToOne
+    @ManyToOne
     private MediaAudioVisuelEntity mediaAudioVisuelEntity;
 
     @ManyToOne

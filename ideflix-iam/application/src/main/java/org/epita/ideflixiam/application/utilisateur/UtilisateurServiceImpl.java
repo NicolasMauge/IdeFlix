@@ -1,16 +1,16 @@
 package org.epita.ideflixiam.application.utilisateur;
 
 import org.epita.ideflixiam.application.common.UtileRole;
-import org.epita.ideflixiam.application.common.UtilisateurExistantDejaException;
-import org.epita.ideflixiam.application.common.UtilisateurInexistantException;
+import org.epita.ideflixiam.application.exception.UtilisateurExistantDejaException;
+import org.epita.ideflixiam.application.exception.UtilisateurInexistantException;
 import org.epita.ideflixiam.domaine.RoleEntity;
 import org.epita.ideflixiam.domaine.UtilisateurEntity;
 import org.epita.ideflixiam.infrastructure.RoleRepository;
 import org.epita.ideflixiam.infrastructure.UtilisateurRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,17 +25,23 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     private final static Logger logger = LoggerFactory.getLogger(UtilisateurServiceImpl.class);
 
-    UtilisateurRepository utilisateurRepository;
-    RoleRepository roleRepository;
+    private final UtilisateurRepository utilisateurRepository;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    BCryptPasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
 
     public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository,
-                                  RoleRepository roleRepository
-    ) {
+                                  RoleRepository roleRepository) {
         this.utilisateurRepository = utilisateurRepository;
         this.roleRepository = roleRepository;
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        if (this.passwordEncoder == null) {
+            this.passwordEncoder = new BCryptPasswordEncoder();
+        }
+        return this.passwordEncoder;
     }
 
     @Override
@@ -61,15 +67,15 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
             logger.debug("IAM - Création de l'utilisateur " + nouvelUtilisateurEntity.getEmail());
 
-            // TODO appeler ideflix-app ?
+            // TODO appeler IdeFlix-app ?
 
             return utilisateurRepository.save(nouvelUtilisateurEntity);
         } else {
             throw new UtilisateurExistantDejaException("L'utilisateur " + nouvelUtilisateurEntity.getEmail() + " existe déjà");
-            // Pour des raisons de sécurité, on va ignorer la demande de recréation en renvoyant les données
+            // Pour des raisons de sécurité, on pourrait ignorer la demande de recréation en renvoyant les données
             // attendues/imaginée par un éventuel fraudeur.
-            // Le mot de passe de l'utilisateur n'est donc pas changé
-            //return nouvelUtilisateurEntity;
+            // Le mot de passe de l'utilisateur ne serait donc pas changé :
+            //return nouvelUtilisateurEntity ;
         }
     }
 
