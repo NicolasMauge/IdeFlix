@@ -16,9 +16,9 @@ export class ErrorInterceptor implements HttpInterceptor {
               private route: Router) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    return next.handle(request);
+    // return next.handle(request);
 
-    console.log(request)
+    console.log('HttpRequest' + request);
     return next.handle(request)// continuer ton chemin la requête
       // > soit vers le prochain interceptor
       // > soit vers le backend
@@ -37,6 +37,10 @@ export class ErrorInterceptor implements HttpInterceptor {
                   break;
                 case 404:
                   this.messageSvc.show(`La ressource n'est pas disponible`)
+                  break;
+                case 409:
+                  this.messageSvc.show(`Le compte existe déjà, veuillez vous connecter`)
+                  this.route.navigate(['/login']);
                   break;
                 case 419:
                   this.messageSvc.show(`Limit rate API}`)
