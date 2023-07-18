@@ -4,15 +4,7 @@ interface Genre {
   name: string;
 }
 
-// interface Acteur {
-//   id: number;
-//   // idTmdbActeur: string;
-//   name: string;
-// }
-
-
-
-export class MediaModel {
+export class MediaMaListeModel {
 
   // cette classe sert :
   //- de type (respect de la convention de type)
