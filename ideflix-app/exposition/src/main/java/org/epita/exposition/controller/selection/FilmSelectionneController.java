@@ -62,19 +62,8 @@ public class FilmSelectionneController {
         return new ResponseEntity<String>("Film sélectionné supprimé", HttpStatus.OK);
     }
 
-    /*
-    @GetMapping("/utilisateur/{id}")
-    public List<FilmSelectionneDto> trouverFilmSelectionneParUtilisateur(@PathVariable("id") Long id) {
-        return this.filmSelectionneMapper
-                .mapListEntityToDto(
-                    this.filmSelectionneService
-                        .trouverFilmSelectionneeParUtilisateur(
-                                this.utilisateurService
-                                        .trouverUtilisateurParId(id)));
-    }*/
-
     @GetMapping("/utilisateur/{email}")
-    public List<FilmSelectionneDto> trouverFilmSelectionneParUtilisateur(@PathVariable("email") String email) {
+    public List<FilmSelectionneDto> trouverFilmsSelectionnesParEmailUtilisateur(@PathVariable("email") String email) {
         return this.filmSelectionneMapper
                 .mapListEntityToDto(
                         this.filmSelectionneService

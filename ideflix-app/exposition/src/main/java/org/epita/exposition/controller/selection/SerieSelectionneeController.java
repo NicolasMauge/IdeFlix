@@ -63,7 +63,7 @@ public class SerieSelectionneeController {
     }
 
     @GetMapping("/utilisateur/{email}")
-    public List<SerieSelectionneeDto> trouverSerieSelectionneeParEmailUtilisateur(@PathVariable("email") String email) {
+    public List<SerieSelectionneeDto> trouverSerieSelectionneesParEmailUtilisateur(@PathVariable("email") String email) {
         return this.serieSelectionneeMapper
                 .mapListEntityToDto(
                     this.serieSelectionneeService
