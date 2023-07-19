@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static org.epita.ideflixiam.application.common.UtileRole.ROLE_UTILISATEUR;
+import static org.epita.ideflixiam.common.ConstantesUtiles.*;
 
 @RestController
 @RequestMapping
@@ -60,7 +61,7 @@ public class UtilisateurController {
             @ApiResponse(code = 201, message = "Utilisateur créé avec succès."),
             @ApiResponse(code = 400, message = "Requête erronée.")
     })
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = ORIGINES_IDEFLIX_STRING)
     @PostMapping("/utilisateur")
     public ResponseEntity<UtilisateurSimpleDto> creerUtilisateur(@RequestBody UtilisateurEntreeDto utilisateurEntreeDto) throws IdeFlixIamException {
 
@@ -85,7 +86,7 @@ public class UtilisateurController {
             @ApiResponse(code = 403, message = "Requête interdite.")
     })
     @ApiImplicitParam(name = "Authorization", value = "JWT", required = true, dataTypeClass = String.class, example = "Bearer efdmlkjoij651.rqrgq.fqfe6f5")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = ORIGINES_IDEFLIX_STRING)
     @GetMapping("/admin/utilisateurs")
     public List<UtilisateurDetailDto> getUtilisateurs() {
 
@@ -107,7 +108,7 @@ public class UtilisateurController {
     })
     @ApiParam(name = "Email", type = "String", value = "Email of the user to be deleted.", allowableValues = "john.doe@example.org", required = true)
     @ApiImplicitParam(name = "Authorization", value = "JWT", required = true, dataTypeClass = String.class, example = "Bearer efdmlkjoij651.rqrgq.fqfe6f5")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = ORIGINES_IDEFLIX_STRING)
     @DeleteMapping("/admin/utilisateurs/{email}")
     public void delUtilisateur(@PathVariable("email") String email) throws UtilisateurInexistantException {
         logger.debug("IAM - Suppression de " + email);
