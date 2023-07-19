@@ -60,14 +60,12 @@ public class EtiquetteController {
         return new ResponseEntity<String>("Etiquette supprimée", HttpStatus.OK);
     }
 
-    @GetMapping("/utilisateur/{id}")
-    public List<EtiquetteDto> trouverEtiquetteParUtilisateur(@PathVariable("id") Long id) {
+    @GetMapping("/utilisateur/{email}")
+    public List<EtiquetteDto> trouverEtiquetteParEmailUtilisateur(@PathVariable("email") String email) {
         return this.etiquetteMapper
                 .mapListEntityToDto(
                         this.etiquetteService
-                                .trouverEtiquetteParUtilisateur(
-                                    this.utilisateurService
-                                            .trouverUtilisateurParId(id)));
+                                .trouverEtiquettesParEmailUtilisateur(email));
     }
 }
 
