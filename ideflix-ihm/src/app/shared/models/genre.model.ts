@@ -1,13 +1,14 @@
 export class GenreModel {
 
   //déclaration des propriétés
-  id!: number;
-  idTmdb!: string;
+  idGenre!: number;
+  idTmdbGenre!: string;
   nomGenre!: string;
 
   constructor(genreFromApi: any) {
-    this.id = genreFromApi.id;
-    this.idTmdb = genreFromApi.idTmdb;
+    this.idGenre = genreFromApi.id;
+    this.idTmdbGenre = genreFromApi.idTmdb;
     this.nomGenre = genreFromApi.nomGenre;
   }
+
 }

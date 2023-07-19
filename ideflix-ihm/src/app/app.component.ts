@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {GenreService} from "./shared/services/genre.service";
 import {GenreModel} from "./shared/models/genre.model";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -9,23 +10,22 @@ import {GenreModel} from "./shared/models/genre.model";
 })
 export class AppComponent {
   title = 'ideflix-ihm';
-  // genre$: Observable<GenreModel[]>;
+
+  genres : GenreModel[] = [];
+  sub!: Subscription;
 
   constructor(private genreService : GenreService) {}
 
   ngOnInit(): void {
-    this.genreService.loadGenres()
-      .subscribe((genres: GenreModel[]) => {
-          genres.forEach((genre) => {
-            this.genreService.addGenre(genre);
-          });
-        },
-        (error) => {
-          console.error('Erreur lors du chargement des genres : ', error);
-        }
-      );
+    // requête pour récupérer la liste des genres
+    this.genreService.loadGenres();
+    // abonnement à la source service.genres$ via un subscribe
+    this.sub = this.genreService.genres$.subscribe( (data: GenreModel[]) => this.genres = data);
   }
 
+  ngOnDestroy(){
+    this.sub.unsubscribe
+  }
 }
 
 

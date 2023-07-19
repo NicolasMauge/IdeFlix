@@ -18,7 +18,7 @@
                 <div class="line" [formGroupName]="i">
                   <!-- formControlName est le nom du champ dans l'objet genre de genres:FormArray-->
                   <input formControlName="checked" type="checkbox" [id]="i" />
-                  <label [for]="i">{{genresList[i].name}}</label>
+                  <label [for]="i">{{genresList[i].nomGenre}}</label>
                 </div>
               </div>
               <div class="row" *ngIf="(i + 1 ) % 4 === 0"></div>
