@@ -8,8 +8,6 @@ import java.util.List;
 
 // pas de stockage donc pas de @Entity
 public class UtilisateurIamEntity {
-    private Long idUtilisateur; // Ce sera l'id de l'utilisateur de l'APP
-
     private String email;
     private String nom;
     private String prenom;
@@ -22,8 +20,20 @@ public class UtilisateurIamEntity {
 
     private List<RoleIamEntity> listeRoleIamEntity;
 
-    public UtilisateurIamEntity(Long idUtilisateur, String email, String nom, String prenom, String motDePasse) {
-        this.idUtilisateur = idUtilisateur;
+    private String jwt;
+
+    public UtilisateurIamEntity(String email, String nom, String prenom, String motDePasse, boolean isActif, LocalDateTime dateCreation, List<RoleIamEntity> listeRoleIamEntity, String jwt) {
+        this.email = email;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.motDePasse = motDePasse;
+        this.isActif = isActif;
+        this.dateCreation = dateCreation;
+        this.listeRoleIamEntity = listeRoleIamEntity;
+        this.jwt = jwt;
+    }
+
+    public UtilisateurIamEntity(String email, String nom, String prenom, String motDePasse) {
         this.email = email;
         this.nom = nom;
         this.prenom = prenom;
@@ -31,15 +41,19 @@ public class UtilisateurIamEntity {
         this.isActif = true;
     }
 
+    public UtilisateurIamEntity(String email, String nom, String prenom, LocalDateTime dateCreation) {
+        this.email = email;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.dateCreation = dateCreation;
+    }
+
+    public UtilisateurIamEntity(String email, String motDePasse) { // utilisé pour le login
+        this.email = email;
+        this.motDePasse = motDePasse;
+    }
+
     public UtilisateurIamEntity() {
-    }
-
-    public Long getIdUtilisateur() {
-        return idUtilisateur;
-    }
-
-    public void setIdUtilisateur(Long idUtilisateur) {
-        this.idUtilisateur = idUtilisateur;
     }
 
     public String getEmail() {
@@ -96,5 +110,13 @@ public class UtilisateurIamEntity {
 
     public void setListeRoleIamEntity(List<RoleIamEntity> listeRoleIamEntity) {
         this.listeRoleIamEntity = listeRoleIamEntity;
+    }
+
+    public String getJwt() {
+        return jwt;
+    }
+
+    public void setJwt(String jwt) {
+        this.jwt = jwt;
     }
 }

@@ -1,20 +1,23 @@
 package org.epita.infrastructure.utilisateur.iam.apidto;
 
-public class UtilisateurIamEntreeApiDto {
+public class UtilisateurIamCreationReponseApiDto {
+
     private String nom;
     private String prenom;
     private String email;
-    private String motDePasse;
+    private String dateCreation;
 
-    public UtilisateurIamEntreeApiDto(String nom, String prenom, String email, String motDePasse) {
+
+    public UtilisateurIamCreationReponseApiDto(String nom, String prenom, String email, String dateCreation) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
-        this.motDePasse = motDePasse;
+        this.dateCreation = dateCreation;
     }
 
-    public UtilisateurIamEntreeApiDto() {
+    public UtilisateurIamCreationReponseApiDto() {
     }
+
 
     public String getNom() {
         return nom;
@@ -40,11 +43,11 @@ public class UtilisateurIamEntreeApiDto {
         this.email = email;
     }
 
-    public String getMotDePasse() {
-        return motDePasse;
+    public String getDateCreation() {
+        return dateCreation;
     }
 
-    public void setMotDePasse(String motDePasse) {
-        this.motDePasse = motDePasse;
+    public void setDateCreation(String dateCreation) {
+        this.dateCreation = dateCreation;
     }
 }

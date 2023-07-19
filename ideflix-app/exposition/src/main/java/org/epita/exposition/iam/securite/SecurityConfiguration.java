@@ -1,7 +1,6 @@
 package org.epita.exposition.iam.securite;
 
 import org.epita.application.iam.service.UtilisateurIamService;
-import org.epita.exposition.iam.utilisateuriam.mapper.UtilisateurIamSimpleMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +32,10 @@ public class SecurityConfiguration {
 
     private UtilisateurIamService utilisateurIamService;
 
-    private UtilisateurIamSimpleMapper utilisateurIamSimpleMapper;
-
     private DataSource dataSource;
 
-    public SecurityConfiguration(UtilisateurIamService utilisateurIamService, UtilisateurIamSimpleMapper utilisateurIamSimpleMapper, DataSource dataSource) {
+    public SecurityConfiguration(UtilisateurIamService utilisateurIamService, DataSource dataSource) {
         this.utilisateurIamService = utilisateurIamService;
-        this.utilisateurIamSimpleMapper = utilisateurIamSimpleMapper;
         this.dataSource = dataSource;
     }
 

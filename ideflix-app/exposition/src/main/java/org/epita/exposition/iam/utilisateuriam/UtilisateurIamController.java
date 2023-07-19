@@ -4,8 +4,11 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.epita.application.iam.service.UtilisateurIamService;
-import org.epita.exposition.iam.utilisateuriam.dto.UtilisateurIamSimpleDto;
-import org.epita.exposition.iam.utilisateuriam.mapper.UtilisateurIamSimpleMapper;
+import org.epita.exposition.iam.utilisateuriam.dto.UtilisateurIamCreationDto;
+import org.epita.exposition.iam.utilisateuriam.dto.UtilisateurIamCreationReponseDto;
+import org.epita.exposition.iam.utilisateuriam.dto.UtilisateurIamLoginDto;
+import org.epita.exposition.iam.utilisateuriam.dto.UtilisateurIamLoginReponseDto;
+import org.epita.exposition.iam.utilisateuriam.mapper.UtilisateurIamMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -13,22 +16,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/iam")
+@RequestMapping
 public class UtilisateurIamController {
 
     private static final Logger logger = LoggerFactory.getLogger(UtilisateurIamController.class);
 
-
     UtilisateurIamService utilisateurIamService;
-    UtilisateurIamSimpleMapper utilisateurIamSimpleMapper;
+    UtilisateurIamMapper utilisateurIamMapper;
 
-    public UtilisateurIamController(UtilisateurIamService utilisateurIamService) {
+    public UtilisateurIamController(UtilisateurIamService utilisateurIamService,
+                                    UtilisateurIamMapper utilisateurIamMapper) {
         this.utilisateurIamService = utilisateurIamService;
+        this.utilisateurIamMapper = utilisateurIamMapper;
     }
 
     @ApiOperation(value = "Créer un utilisateur standard.",
             notes = "Lors du premier appel, l'administrateur IAM est créé selon les données fournies dans le fichier de configuration utilisé au démarrage d'IdeFlix-IAM.",
-            response = UtilisateurIamSimpleDto.class)
+            response = UtilisateurIamCreationReponseDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Non utilisé."),
             @ApiResponse(code = 201, message = "Utilisateur créé avec succès."),
@@ -37,22 +41,18 @@ public class UtilisateurIamController {
     })
     @CrossOrigin(origins = "http://locahost:4200")
     @PostMapping("/utilisateur-iam")
-    public ResponseEntity<UtilisateurIamSimpleDto> creerUtilisateurIam(@RequestBody UtilisateurIamSimpleDto utilisateurIamSimpleDto) {
+    public ResponseEntity<UtilisateurIamCreationReponseDto> creerUtilisateurIam(@RequestBody UtilisateurIamCreationDto utilisateurIamCreationDto) {
+//        UtilisateurIamSimpleDto utilisateurIamSimpleDto = new UtilisateurIamSimpleDto(1L,"DUBOUCHON","Mocky","mock@bouchon.fr","2023-07-18");
 
-//        UtilisateurIamSimpleDto utilisateurIamSimpleDto = new UtilisateurIamSimpleDto(
-//                1L,
-//                "DUBOUCHON",
-//                "Mocky",
-//                "mock@bouchon.fr",
-//                "2023-07-18");
-
-        logger.debug("Création de l'utilisateur " + utilisateurIamSimpleDto.getEmail());
+        logger.debug("IdeFlix - Création de l'utilisateur " + utilisateurIamCreationDto.getEmail());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(utilisateurIamSimpleMapper.mapEntityToDto(
+                .body(utilisateurIamMapper.mapEntityToCreationResponseDto(
                         utilisateurIamService.creerUtilisateurIam(
-                                utilisateurIamSimpleMapper.mapDtoToEntity(
-                                        utilisateurIamSimpleDto))));
+                                utilisateurIamMapper.mapCreationDtoToEntity(
+                                        utilisateurIamCreationDto))));
     }
+
+
 }

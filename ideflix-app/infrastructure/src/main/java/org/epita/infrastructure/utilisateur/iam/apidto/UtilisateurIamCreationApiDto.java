@@ -1,28 +1,19 @@
-package org.epita.exposition.iam.utilisateuriam.dto;
+package org.epita.infrastructure.utilisateur.iam.apidto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
-public class UtilisateurIamCreationDto {
-
-    // DTO utilisé par l'IHM lors de la demande de création d'un utilisateur
-
-    @Schema(name = "Nom de l'utilisateur.", example = "Dupont", required = true)
+public class UtilisateurIamCreationApiDto {
     private String nom;
-    @Schema(name = "Prénom de l'utilisateur.", example = "Charles", required = true)
     private String prenom;
-    @Schema(name = "Email de l'utilisateur.", example = "charles.dupont@example.org", required = true)
     private String email;
-    @Schema(name = "Mot de passe de l'utilisateur.", example = "Mdp56045A!", required = true)
     private String motDePasse;
 
-    public UtilisateurIamCreationDto(String nom, String prenom, String email, String motDePasse) {
+    public UtilisateurIamCreationApiDto(String nom, String prenom, String email, String motDePasse) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.motDePasse = motDePasse;
     }
 
-    public UtilisateurIamCreationDto() {
+    public UtilisateurIamCreationApiDto() {
     }
 
     public String getNom() {
