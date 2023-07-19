@@ -18,6 +18,11 @@ public class PreferencesUtilisateurServiceImpl implements PreferencesUtilisateur
 
     @Override
     public void creerPreferencesUtilisateur(PreferencesUtilisateurEntity preferencesUtilisateurEntity) {
+        Optional<PreferencesUtilisateurEntity> preferencesUtilisateurEntityOptional =
+                this.preferencesUtilisateurRepository.findPreferencesUtilisateurEntityByUtilisateur_EmailIs(preferencesUtilisateurEntity.getUtilisateur().getEmail());
+
+        preferencesUtilisateurEntityOptional.ifPresent(utilisateurEntity -> preferencesUtilisateurEntity.setId(utilisateurEntity.getId()));
+
         this.preferencesUtilisateurRepository.save(preferencesUtilisateurEntity);
     }
 
@@ -38,5 +43,14 @@ public class PreferencesUtilisateurServiceImpl implements PreferencesUtilisateur
     @Override
     public void supprimerPreferencesUtilisateurParId(Long id) {
         this.preferencesUtilisateurRepository.deleteById(id);
+    }
+
+    @Override
+    public PreferencesUtilisateurEntity trouverPreferenceUtilisateurParEmailUtilisateur(String email) {
+        Optional<PreferencesUtilisateurEntity> preferencesUtilisateurEntityOptional = this.preferencesUtilisateurRepository.findPreferencesUtilisateurEntityByUtilisateur_EmailIs(email);
+        if(preferencesUtilisateurEntityOptional.isPresent()) {
+            return preferencesUtilisateurEntityOptional.get();
+        }
+        throw new EntityNotFoundException("Préférence utilisateur non trouvée");
     }
 }

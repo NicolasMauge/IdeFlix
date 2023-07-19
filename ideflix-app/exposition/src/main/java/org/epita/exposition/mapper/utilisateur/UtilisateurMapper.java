@@ -24,7 +24,6 @@ public class UtilisateurMapper extends Mapper<UtilisateurEntity, UtilisateurDto>
                 input.getEmail(),
                 input.getNom(),
                 input.getPrenom(),
-                input.getDateCreation(),
-                null);
+                input.getDateCreation());
     }
 }

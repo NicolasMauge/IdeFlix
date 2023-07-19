@@ -35,7 +35,7 @@ public class GenreController {
                 .creerGenre(
                         this.genreMapper.mapDtoToEntity(genreDto));
 
-        return new ResponseEntity<String>("Genre créé", HttpStatus.CREATED);
+        return new ResponseEntity<>("Genre créé", HttpStatus.CREATED);
     }
 
     @PostMapping("/masse")
@@ -47,14 +47,14 @@ public class GenreController {
                                 this.genreMapper
                                         .mapDtoToEntity(g)));
 
-        return new ResponseEntity<String>("Genres créés", HttpStatus.CREATED);
+        return new ResponseEntity<>("Genres créés", HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public GenreDto trouverGenreParId(@PathVariable("id") Long id) {
+    @GetMapping("/{idtmdb}")
+    public GenreDto trouverGenreParId(@PathVariable("idtmdb") String idTmdb) {
         return this.genreMapper
             .mapEntityToDto(
-                this.genreService.trouverGenreParId(id));
+                this.genreService.trouverGenreByIdTmdb(idTmdb));
     }
 
     @GetMapping
@@ -68,6 +68,6 @@ public class GenreController {
     public ResponseEntity<String> supprimerGenre(@PathVariable("id") Long id) {
         this.genreService.supprimerGenreParId(id);
 
-        return new ResponseEntity<String>("Genre supprimé", HttpStatus.OK);
+        return new ResponseEntity<>("Genre supprimé", HttpStatus.OK);
     }
 }

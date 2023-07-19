@@ -49,7 +49,7 @@ public class PreferencesUtilisateurController {
     }
 
     @PostMapping("/masse")
-    public ResponseEntity<String> creerPlusieursPréférences(@RequestBody List<PreferencesUtilisateurDto> preferencesUtilisateurDtoList) {
+    public ResponseEntity<String> creerPlusieursPreferences(@RequestBody List<PreferencesUtilisateurDto> preferencesUtilisateurDtoList) {
         preferencesUtilisateurDtoList
                 .stream()
                 .forEach(p -> this.preferencesUtilisateurService
@@ -60,9 +60,9 @@ public class PreferencesUtilisateurController {
         return new ResponseEntity<String>("Preferences utilisateurs créées", HttpStatus.CREATED);
     }
 
-    @PostMapping("/addgenre/{id}/{genreid}")
-    public void ajouterGenrePourId(@PathVariable("id") Long id, @PathVariable("genreid") Long genreId)  {
-        PreferencesUtilisateurEntity preferencesUtilisateurEntity = preferencesUtilisateurService.trouverPreferencesUtilisateurParId(id);
+    @PostMapping("/addgenre/{email}/{genreid}")
+    public void ajouterGenrePourId(@PathVariable("email") String email, @PathVariable("genreid") Long genreId)  {
+        PreferencesUtilisateurEntity preferencesUtilisateurEntity = preferencesUtilisateurService.trouverPreferenceUtilisateurParEmailUtilisateur(email);
         List<GenreEntity> genreEntityList = preferencesUtilisateurEntity.getGenreList();
         GenreEntity genreEntity = genreService.trouverGenreParId(genreId);
 
@@ -100,5 +100,13 @@ public class PreferencesUtilisateurController {
         this.preferencesUtilisateurService.supprimerPreferencesUtilisateurParId(id);
 
         return new ResponseEntity<String>("Preference utilisateur supprimée", HttpStatus.OK);
+    }
+
+    @GetMapping("/utilisateur/{email}")
+    public PreferencesUtilisateurDto trouverPreferencesUtilisateurParEmailUtilisateur(@PathVariable("email") String email) {
+        return this.preferencesUtilisateurMapper
+                .mapEntityToDto(
+                    this.preferencesUtilisateurService
+                            .trouverPreferenceUtilisateurParEmailUtilisateur(email));
     }
 }

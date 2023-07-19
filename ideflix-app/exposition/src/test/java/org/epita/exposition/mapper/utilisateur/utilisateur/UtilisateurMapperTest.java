@@ -35,8 +35,7 @@ public class UtilisateurMapperTest {
         utilisateur.setEmail("email");
         utilisateur.setPrenom("prenom");
         utilisateur.setNom("nom");
-        utilisateur.setDateCreation(LocalDate.of(2023, 07, 17));
-        utilisateur.setPreferencesUtilisateurEntity(preferencesUtilisateurEntity);
+        utilisateur.setDateCreation(LocalDate.of(2023, 7, 17));
 
         // When
         UtilisateurDto utilisateurDto = mapper.mapEntityToDto(utilisateur);
@@ -67,7 +66,7 @@ public class UtilisateurMapperTest {
         utilisateurDto.setEmail("email");
         utilisateurDto.setPrenom("prenom");
         utilisateurDto.setNom("nom");
-        utilisateurDto.setDateCreation(LocalDate.of(2023, 07, 17));
+        utilisateurDto.setDateCreation(LocalDate.of(2023, 7, 17));
 
         // When
         UtilisateurEntity utilisateur = mapper.mapDtoToEntity(utilisateurDto);
@@ -87,8 +86,5 @@ public class UtilisateurMapperTest {
 
         assertThat(utilisateur.getDateCreation())
                 .isEqualTo(utilisateurDto.getDateCreation());
-
-        assertThat(utilisateur.getPreferencesUtilisateurEntity())
-                .isEqualTo(null);
     }
 }

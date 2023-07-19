@@ -5,25 +5,18 @@ import org.epita.exposition.dto.media.GenreDto;
 import java.util.List;
 
 public class PreferencesUtilisateurDto {
-    private Long id;
     private String pseudo;
+    private String email;
+
     private List<GenreDto> genreList;
 
     public PreferencesUtilisateurDto() {
     }
 
-    public PreferencesUtilisateurDto(Long id, String pseudo, List<GenreDto> genreList) {
-        this.id = id;
+    public PreferencesUtilisateurDto(String pseudo, String email, List<GenreDto> genreList) {
         this.pseudo = pseudo;
+        this.email = email;
         this.genreList = genreList;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getPseudo() {
@@ -32,6 +25,14 @@ public class PreferencesUtilisateurDto {
 
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public List<GenreDto> getGenreList() {

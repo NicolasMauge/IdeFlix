@@ -12,4 +12,6 @@ public interface GenreService {
     List<GenreEntity> trouverTousLesGenres();
 
     void supprimerGenreParId(Long id);
+
+    GenreEntity trouverGenreByIdTmdb(String idTmdb);
 }
