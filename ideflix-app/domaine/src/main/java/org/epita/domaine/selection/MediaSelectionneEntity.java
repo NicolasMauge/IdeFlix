@@ -14,27 +14,23 @@ public abstract class MediaSelectionneEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Boolean avisPouce;
-
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate dateSelection;
-
     @ManyToMany
     private List<EtiquetteEntity> etiquetteEntityList;
-
     private StatutMediaEntity statutMediaEntity;
-
     @ManyToOne
     private MediaAudioVisuelEntity mediaAudioVisuelEntity;
-
     @ManyToOne
     private UtilisateurEntity utilisateurEntity;
 
     public MediaSelectionneEntity() {
     }
 
-    public MediaSelectionneEntity(Boolean avisPouce, LocalDate dateSelection, List<EtiquetteEntity> etiquetteEntityList, StatutMediaEntity statutMediaEntity, MediaAudioVisuelEntity mediaAudioVisuelEntity, UtilisateurEntity utilisateurEntity) {
+    public MediaSelectionneEntity(Boolean avisPouce, LocalDate dateSelection, List<EtiquetteEntity> etiquetteEntityList,
+                                  StatutMediaEntity statutMediaEntity, MediaAudioVisuelEntity mediaAudioVisuelEntity,
+                                  UtilisateurEntity utilisateurEntity) {
         this.avisPouce = avisPouce;
         this.dateSelection = dateSelection;
         this.etiquetteEntityList = etiquetteEntityList;
@@ -43,7 +39,9 @@ public abstract class MediaSelectionneEntity {
         this.utilisateurEntity = utilisateurEntity;
     }
 
-    public MediaSelectionneEntity(Long id, Boolean avisPouce, LocalDate dateSelection, List<EtiquetteEntity> etiquetteEntityList, StatutMediaEntity statutMediaEntity, MediaAudioVisuelEntity mediaAudioVisuelEntity, UtilisateurEntity utilisateurEntity) {
+    public MediaSelectionneEntity(Long id, Boolean avisPouce, LocalDate dateSelection, List<EtiquetteEntity> etiquetteEntityList,
+                                  StatutMediaEntity statutMediaEntity, MediaAudioVisuelEntity mediaAudioVisuelEntity,
+                                  UtilisateurEntity utilisateurEntity) {
         this.id = id;
         this.avisPouce = avisPouce;
         this.dateSelection = dateSelection;

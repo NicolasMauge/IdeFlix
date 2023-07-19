@@ -88,7 +88,7 @@ public class GenreServiceTest {
             final GenreEntity expected = this.genreService.trouverGenreParId(10L);
         });
 
-        Assertions.assertEquals("Genre sélectionné non trouvé", thrown.getMessage());
+        Assertions.assertEquals("Genre non trouvé", thrown.getMessage());
 
     }
 }

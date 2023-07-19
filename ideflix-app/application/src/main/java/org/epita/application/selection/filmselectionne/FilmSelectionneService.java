@@ -16,4 +16,6 @@ public interface FilmSelectionneService {
     void supprimerFilmSelectionneParId(Long id);
 
     List<FilmSelectionneEntity> trouverFilmSelectionneeParUtilisateur(UtilisateurEntity utilisateurEntity);
+
+    List<FilmSelectionneEntity> trouverFilmsSelectionnesParEmailUtilisateur(String email);
 }

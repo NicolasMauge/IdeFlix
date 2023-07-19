@@ -20,7 +20,8 @@ public class SerieSelectionneeEntity extends MediaSelectionneEntity {
     public SerieSelectionneeEntity() {
     }
 
-    public SerieSelectionneeEntity(Boolean avisPouce, LocalDate dateSelection, List<EtiquetteEntity> etiquetteEntityList, StatutMediaEntity statutMediaEntity, MediaAudioVisuelEntity mediaAudioVisuelEntity, UtilisateurEntity utilisateurEntity,
+    public SerieSelectionneeEntity(Boolean avisPouce, LocalDate dateSelection, List<EtiquetteEntity> etiquetteEntityList,
+                                   StatutMediaEntity statutMediaEntity, MediaAudioVisuelEntity mediaAudioVisuelEntity, UtilisateurEntity utilisateurEntity,
                                  LocalDate dateModification, int numeroSaison, String idTmdbSaison, int numeroEpisode, String idTmdbEpisode) {
         super(avisPouce, dateSelection, etiquetteEntityList, statutMediaEntity, mediaAudioVisuelEntity, utilisateurEntity);
         this.dateModification = dateModification;
@@ -30,7 +31,8 @@ public class SerieSelectionneeEntity extends MediaSelectionneEntity {
         this.idTmdbEpisode = idTmdbEpisode;
     }
 
-    public SerieSelectionneeEntity(Long id, Boolean avisPouce, LocalDate dateSelection, List<EtiquetteEntity> etiquetteEntityList, StatutMediaEntity statutMediaEntity, MediaAudioVisuelEntity mediaAudioVisuelEntity, UtilisateurEntity utilisateurEntity,
+    public SerieSelectionneeEntity(Long id, Boolean avisPouce, LocalDate dateSelection, List<EtiquetteEntity> etiquetteEntityList,
+                                   StatutMediaEntity statutMediaEntity, MediaAudioVisuelEntity mediaAudioVisuelEntity, UtilisateurEntity utilisateurEntity,
                                    LocalDate dateModification, int numeroSaison, String idTmdbSaison, int numeroEpisode, String idTmdbEpisode) {
         super(id, avisPouce, dateSelection, etiquetteEntityList, statutMediaEntity, mediaAudioVisuelEntity, utilisateurEntity);
         this.dateModification = dateModification;

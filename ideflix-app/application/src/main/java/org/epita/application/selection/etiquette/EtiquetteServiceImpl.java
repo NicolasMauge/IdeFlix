@@ -47,4 +47,9 @@ public class EtiquetteServiceImpl implements EtiquetteService {
     public List<EtiquetteEntity> trouverEtiquetteParUtilisateur(UtilisateurEntity utilisateurEntity) {
         return this.etiquetteRepository.findByUtilisateurEntity(utilisateurEntity);
     }
+
+    @Override
+    public List<EtiquetteEntity> trouverEtiquettesParEmailUtilisateur(String email) {
+        return this.etiquetteRepository.findByUtilisateurEntity_Email(email);
+    }
 }

@@ -1,8 +1,13 @@
 package org.epita.application.selection.serieselectionnee;
 
+import org.epita.application.media.serie.SerieService;
 import org.epita.domaine.common.EntityNotFoundException;
+import org.epita.domaine.media.FilmEntity;
+import org.epita.domaine.media.SerieEntity;
+import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.epita.domaine.selection.SerieSelectionneeEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
+import org.epita.infrastructure.media.SerieRepository;
 import org.epita.infrastructure.selection.SerieSelectionneeRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +17,32 @@ import java.util.Optional;
 @Service
 public class SerieSelectionneeServiceImpl implements SerieSelectionneeService {
     SerieSelectionneeRepository serieSelectionneeRepository;
+    SerieRepository serieRepository;
+    SerieService serieService;
 
-    public SerieSelectionneeServiceImpl(SerieSelectionneeRepository serieSelectionneeRepository) {
+    public SerieSelectionneeServiceImpl(SerieSelectionneeRepository serieSelectionneeRepository, SerieRepository serieRepository, SerieService serieService) {
         this.serieSelectionneeRepository = serieSelectionneeRepository;
+        this.serieRepository = serieRepository;
+        this.serieService = serieService;
     }
 
     @Override
     public void creerSerieSelectionnee(SerieSelectionneeEntity serieSelectionneeEntity) {
+        String idTmdb = serieSelectionneeEntity.getMediaAudioVisuelEntity().getIdTmdb();
+
+        Optional<SerieEntity> film = this.serieRepository.findByIdTmdb(idTmdb);
+        if(film.isPresent()) {
+            serieSelectionneeEntity.getMediaAudioVisuelEntity().setId(film.get().getId());
+        } else {
+            this.serieService.creerSerie((SerieEntity) serieSelectionneeEntity.getMediaAudioVisuelEntity());
+        }
+
+        Optional<SerieSelectionneeEntity> serieSelectionneeEntityOptional =
+                this.serieSelectionneeRepository.findSerieSelectionneeEntityByMediaAudioVisuelEntityIdTmdb(idTmdb);
+        if(serieSelectionneeEntityOptional.isPresent()) {
+            serieSelectionneeEntityOptional.get().setId(serieSelectionneeEntity.getId());
+        }
+
         this.serieSelectionneeRepository.save(serieSelectionneeEntity);
     }
 
@@ -44,5 +68,10 @@ public class SerieSelectionneeServiceImpl implements SerieSelectionneeService {
     @Override
     public List<SerieSelectionneeEntity> trouverSerieParUtilisateur(UtilisateurEntity utilisateurEntity) {
         return this.serieSelectionneeRepository.findByUtilisateurEntity(utilisateurEntity);
+    }
+
+    @Override
+    public List<SerieSelectionneeEntity> trouverSeriesSelectionneesParEmailUtilisateur(String email) {
+        return this.serieSelectionneeRepository.findSerieSelectionneeEntitiesByUtilisateurEntityEmailIs(email);
     }
 }

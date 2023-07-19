@@ -39,4 +39,13 @@ public class GenreServiceImpl implements GenreService {
     public void supprimerGenreParId(Long id) {
         this.genreRepository.deleteById(id);
     }
+
+    @Override
+    public GenreEntity trouverGenreByIdTmdb(String idTmdb) {
+        Optional<GenreEntity> genreEntityOptional = this.genreRepository.findGenreEntityByIdTmdb(idTmdb);
+        if(genreEntityOptional.isPresent()) {
+            return genreEntityOptional.get();
+        }
+        throw new EntityNotFoundException("Genre non trouvé");
+    }
 }

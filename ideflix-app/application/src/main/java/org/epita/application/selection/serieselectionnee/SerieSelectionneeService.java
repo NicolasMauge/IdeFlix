@@ -16,4 +16,5 @@ public interface SerieSelectionneeService {
     void supprimerSerieSelectionneeParId(Long id);
 
     List<SerieSelectionneeEntity> trouverSerieParUtilisateur(UtilisateurEntity utilisateurEntity);
+    List<SerieSelectionneeEntity> trouverSeriesSelectionneesParEmailUtilisateur(String email);
 }

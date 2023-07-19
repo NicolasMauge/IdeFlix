@@ -11,4 +11,6 @@ public interface PreferencesUtilisateurService {
     List<PreferencesUtilisateurEntity> trouverToutesLesPreferencesUtilisateurs();
 
     void supprimerPreferencesUtilisateurParId(Long id);
+
+    PreferencesUtilisateurEntity trouverPreferenceUtilisateurParEmailUtilisateur(String email);
 }

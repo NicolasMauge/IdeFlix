@@ -10,33 +10,19 @@ public class UtilisateurEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String email;
-
     private String nom;
-
     private String prenom;
-
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate dateCreation;
-
-    @OneToOne(cascade = CascadeType.PERSIST)
-    private PreferencesUtilisateurEntity preferencesUtilisateurEntity;
-
     public UtilisateurEntity() {
     }
 
-    public UtilisateurEntity(Long id, String email, String nom, String prenom, LocalDate dateCreation, PreferencesUtilisateurEntity preferencesUtilisateurEntity) {
+    public UtilisateurEntity(Long id, String email, String nom, String prenom, LocalDate dateCreation) {
         this.id = id;
         this.email = email;
         this.nom = nom;
         this.prenom = prenom;
-        this.dateCreation = dateCreation;
-        this.preferencesUtilisateurEntity = preferencesUtilisateurEntity;
-    }
-
-    public UtilisateurEntity(String email, LocalDate dateCreation) {
-        this.email = email;
         this.dateCreation = dateCreation;
     }
 
@@ -78,13 +64,5 @@ public class UtilisateurEntity {
 
     public void setDateCreation(LocalDate dateCreation) {
         this.dateCreation = dateCreation;
-    }
-
-    public PreferencesUtilisateurEntity getPreferencesUtilisateurEntity() {
-        return preferencesUtilisateurEntity;
-    }
-
-    public void setPreferencesUtilisateurEntity(PreferencesUtilisateurEntity preferencesUtilisateurEntity) {
-        this.preferencesUtilisateurEntity = preferencesUtilisateurEntity;
     }
 }
