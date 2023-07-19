@@ -41,6 +41,13 @@ public class UtilisateurIamEntity {
         this.isActif = true;
     }
 
+    public UtilisateurIamEntity(String email, String nom, String prenom, LocalDateTime dateCreation) {
+        this.email = email;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.dateCreation = dateCreation;
+    }
+
     public UtilisateurIamEntity(String email, String motDePasse) { // utilisé pour le login
         this.email = email;
         this.motDePasse = motDePasse;

@@ -2,7 +2,7 @@ package org.epita.infrastructure.utilisateur.iam.apidto;
 
 import java.util.List;
 
-public class UtilisateurIamReponseLoginApiDto {
+public class UtilisateurIamLoginReponseApiDto {
     private String nom;
     private String prenom;
     private String email;
@@ -11,7 +11,7 @@ public class UtilisateurIamReponseLoginApiDto {
 
     private String jwt; // on le met dans le body dans la réponse au login suite conseil Frédéric Lossignol et techlead
 
-    public UtilisateurIamReponseLoginApiDto(String nom, String prenom, String email, List<RoleIamApiDto> listeRoleIamApiDto, String jwt) {
+    public UtilisateurIamLoginReponseApiDto(String nom, String prenom, String email, List<RoleIamApiDto> listeRoleIamApiDto, String jwt) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
@@ -19,7 +19,7 @@ public class UtilisateurIamReponseLoginApiDto {
         this.jwt = jwt;
     }
 
-    public UtilisateurIamReponseLoginApiDto() {
+    public UtilisateurIamLoginReponseApiDto() {
     }
 
 

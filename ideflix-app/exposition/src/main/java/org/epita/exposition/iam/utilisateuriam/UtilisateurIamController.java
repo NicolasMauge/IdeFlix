@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/iam")
+@RequestMapping
 public class UtilisateurIamController {
 
     private static final Logger logger = LoggerFactory.getLogger(UtilisateurIamController.class);
@@ -52,29 +52,6 @@ public class UtilisateurIamController {
                         utilisateurIamService.creerUtilisateurIam(
                                 utilisateurIamMapper.mapCreationDtoToEntity(
                                         utilisateurIamCreationDto))));
-    }
-
-
-    @ApiOperation(value = "Se connecter",
-            notes = "",
-            response = UtilisateurIamLoginReponseDto.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Connexion réussie."),
-            @ApiResponse(code = 400, message = "Requête erronée."),
-            @ApiResponse(code = 403, message = "Utilisateur ou mot de passe incorrect.")
-    })
-    @CrossOrigin(origins = "http://locahost:4200")
-    @PostMapping("/utilisateur-iam/login")
-    ResponseEntity<UtilisateurIamLoginReponseDto> login(@RequestBody UtilisateurIamLoginDto utilisateurIamLoginDto) {
-
-        logger.debug("IdeFlix - Connexion de l'utilisateur " + utilisateurIamLoginDto.getEmail());
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(utilisateurIamMapper.mapEntityToLoginReponseDto(
-                        utilisateurIamService.loginIam(
-                                utilisateurIamMapper.mapLoginDtoToEntity(utilisateurIamLoginDto))
-                ));
     }
 
 
