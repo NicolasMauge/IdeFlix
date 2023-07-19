@@ -1,0 +1,21 @@
+form  {
+  width: 30%;
+  margin: 200px;
+}
+
+p.error {
+  color:rgb(247, 10, 10);
+  font-size: 85%;
+  margin: 0;
+}
+
+.ng-container {
+  margin-bottom: 20px;
+  margin-top: 40px;
+}
+
+form>label,
+form>input {
+  display: block;
+}
+

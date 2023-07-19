@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {MediaModel} from "../shared/models/media.model";
-import {MediaService} from "../shared/services/media.service";
+import {MediaModel} from "../../shared/models/media.model";
+import {MediaService} from "../../shared/services/media.service";
 
 @Component({
   selector: 'app-searchbar',

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import {MediaModel} from "../shared/models/media.model";
+import {MediaModel} from "../../shared/models/media.model";
 import {Subscription} from "rxjs";
-import {MenuService} from "../shared/services/menu.service";
-import {MediaService} from "../shared/services/media.service";
+import {MenuService} from "../../shared/services/menu.service";
+import {MediaService} from "../../shared/services/media.service";
 
 @Component({
   selector: 'app-media-list',

@@ -13,13 +13,14 @@ import { LoginComponent } from './auth/login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MaListeComponent } from './MaListe/ma-liste/ma-liste.component';
 import { PrintImgPipe } from './shared/pipes/print-img.pipe';
-import { MediaListComponent } from './media-list/media-list.component';
-import { SearchbarComponent } from './searchbar/searchbar.component';
+import { MediaListComponent } from './Rechercher/media-list/media-list.component';
+import { SearchbarComponent } from './Rechercher/searchbar/searchbar.component';
 import { FilterMaListePipe } from './shared/pipes/filter-ma-liste.pipe';
 import { ValuesFromKeyPipe } from './shared/pipes/values-from-key.pipe';
 import { MaListeFiltreComponent } from './MaListe/ma-liste-filtre/ma-liste-filtre.component';
 import {TokenInterceptor} from "./shared/interceptors/token.interceptor";
 import {ErrorInterceptor} from "./shared/interceptors/error.interceptor";
+import { MesPreferencesComponent } from './mes-preferences/mes-preferences.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {ErrorInterceptor} from "./shared/interceptors/error.interceptor";
     SearchbarComponent,
     FilterMaListePipe,
     ValuesFromKeyPipe,
-    MaListeFiltreComponent
+    MaListeFiltreComponent,
+    MesPreferencesComponent
   ],
   imports: [
     BrowserModule,
