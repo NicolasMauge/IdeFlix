@@ -2,8 +2,9 @@
 
   <div class="row">
     <form [formGroup]="preferencesForm" (submit)="onSubmit($event)">
+      <input formControlName="email" type="hidden">
       <label for="type">Votre pseudo</label>
-      <input type="text" formControlName="pseudo" id="type" />
+      <input type="text" formControlName="pseudo" id="type" placeholder="votre pseudo"/>
       <p *ngIf="preferencesForm.controls['pseudo'].hasError('required') && isFormSubmitted"
          class="error">Veuillez renseigner un pseudo</p>
 

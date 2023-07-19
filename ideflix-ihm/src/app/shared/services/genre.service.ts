@@ -41,17 +41,4 @@ export class GenreService {
       );
   }
 
-
-  // // Méthode pour ajouter un genre au tableau
-  // addGenre(genre: GenreModel): void {
-  //   this.genres.push(genre);
-  // }
-  //
-  // // Méthode pour supprimer un genre du tableau
-  // removeGenre(genre: GenreModel): void {
-  //   const index = this.genres.indexOf(genre);
-  //   if (index !== -1) {
-  //     this.genres.splice(index, 1);
-  //   }
-  // }
 }

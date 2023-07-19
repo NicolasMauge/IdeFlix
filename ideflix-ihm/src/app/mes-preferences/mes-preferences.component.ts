@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {GenreModel} from "../shared/models/genre.model";
 import {Subscription} from "rxjs";
 import {GenreService} from "../shared/services/genre.service";
+import {PreferenceModel} from "../shared/models/preference.model";
 
 @Component({
   selector: 'app-mes-preferences',
@@ -40,6 +41,8 @@ export class MesPreferencesComponent {
   genresList : GenreModel[] = [];
   sub!: Subscription;
 
+  preferences!: PreferenceModel;
+
   preferencesForm!: FormGroup;
   isFormSubmitted: boolean =  false;
   sites = [];
@@ -50,9 +53,22 @@ export class MesPreferencesComponent {
               private genreService: GenreService) {}
 
   ngOnInit() {
+
+
+    const email = localStorage.getItem('email');
     /* appel à l'API des préférences de l'utilisateur pour rechercher ses préférences
      */
-
+    if (email !== null) {
+      this.mesPreferencesService.getPreferencesFromApi(email)
+        .subscribe((data: PreferenceModel)=> {
+          (this.preferences = data);
+          console.log('getPreferenceFromAPI', this.preferences);
+        })
+    } else {
+      console.log('email non présent dans le localstorage');
+      this.messageSvc.show('erreur de conexion - veuillez vous reconnecter', 'error')
+      this.route.navigate(['/login']);
+    }
 
     /*
       J'initialise le formulaire this.preferencesForm qui est un formGroup
@@ -67,16 +83,8 @@ export class MesPreferencesComponent {
     this.sub = this.genreService.genres$.subscribe( (data: GenreModel[]) => this.genresList = data);
 
     this.preferencesForm = this.fb.group({
-      pseudo: ["test", Validators.required],
-      // genreList: this.fb.array(
-      //   this.genresList.map(genre =>
-      //     this.fb.group({
-      //       name: genre.name,
-      //       checked: this.fb.control(false)
-      //     })
-      //   ),
-      //   [Validators.required]
-      // )
+      email: localStorage.getItem('email'),
+      pseudo: ["", Validators.required],
       genreList: this.fb.array(
         this.genresList.map(genre =>
         this.fb.group({
