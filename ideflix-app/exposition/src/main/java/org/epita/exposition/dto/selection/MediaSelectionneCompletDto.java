@@ -1,13 +1,14 @@
 package org.epita.exposition.dto.selection;
 
 import org.epita.domaine.selection.StatutMediaEntity;
+import org.epita.exposition.dto.common.TypeMedia;
 import org.epita.exposition.dto.media.MediaDto;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class MediaSelectionneCompletDto {
-    private Long id;
+    private TypeMedia typeMedia;
     private Boolean avisPouce;
     private LocalDate dateSelection;
     private List<EtiquetteDto> etiquetteList;
@@ -23,8 +24,8 @@ public class MediaSelectionneCompletDto {
     public MediaSelectionneCompletDto() {
     }
 
-    public MediaSelectionneCompletDto(Long id, Boolean avisPouce, LocalDate dateSelection, List<EtiquetteDto> etiquetteList, StatutMediaEntity statutMedia, MediaDto media, String email, LocalDate dateModification, int numeroSaison, String idTmdbSaison, int numeroEpisode, String idTmdbEpisode) {
-        this.id = id;
+    public MediaSelectionneCompletDto(TypeMedia typeMedia, Boolean avisPouce, LocalDate dateSelection, List<EtiquetteDto> etiquetteList, StatutMediaEntity statutMedia, MediaDto media, String email, LocalDate dateModification, int numeroSaison, String idTmdbSaison, int numeroEpisode, String idTmdbEpisode) {
+        this.typeMedia = typeMedia;
         this.avisPouce = avisPouce;
         this.dateSelection = dateSelection;
         this.etiquetteList = etiquetteList;
@@ -38,12 +39,12 @@ public class MediaSelectionneCompletDto {
         this.idTmdbEpisode = idTmdbEpisode;
     }
 
-    public Long getId() {
-        return id;
+    public TypeMedia getTypeMedia() {
+        return typeMedia;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setTypeMedia(TypeMedia typeMedia) {
+        this.typeMedia = typeMedia;
     }
 
     public Boolean getAvisPouce() {

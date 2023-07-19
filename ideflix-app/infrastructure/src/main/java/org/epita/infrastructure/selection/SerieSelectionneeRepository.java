@@ -7,9 +7,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SerieSelectionneeRepository extends JpaRepository<SerieSelectionneeEntity, Long> {
     List<SerieSelectionneeEntity> findByUtilisateurEntity(UtilisateurEntity utilisateurEntity);
     List<SerieSelectionneeEntity> findSerieSelectionneeEntitiesByUtilisateurEntityEmailIs(String email);
+    Optional<SerieSelectionneeEntity> findSerieSelectionneeEntityByMediaAudioVisuelEntityIdTmdb(String idTmdb);
 }

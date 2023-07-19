@@ -5,11 +5,12 @@ import org.epita.application.selection.serieselectionnee.SerieSelectionneeServic
 import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.epita.domaine.selection.SerieSelectionneeEntity;
 import org.epita.exposition.common.Mapper;
+import org.epita.exposition.dto.common.TypeMedia;
 import org.epita.exposition.dto.selection.MediaSelectionneCompletDto;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.function.EntityResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,18 @@ public class MediaSelectionneController {
         this.serieSelectionneeService = serieSelectionneeService;
         this.filmMapper = filmMapper;
         this.serieMapper = serieMapper;
+    }
+
+    @PostMapping()
+    public ResponseEntity<String> creerMediaSelectionne(@RequestBody MediaSelectionneCompletDto mediaSelectionneCompletDto) {
+        if(mediaSelectionneCompletDto.getTypeMedia()== TypeMedia.FILM) {
+            this.filmSelectionneService.creerFilmSelectionne(this.filmMapper.mapDtoToEntity(mediaSelectionneCompletDto));
+        }
+        else if (mediaSelectionneCompletDto.getTypeMedia()== TypeMedia.SERIE) {
+            this.serieSelectionneeService.creerSerieSelectionnee(this.serieMapper.mapDtoToEntity(mediaSelectionneCompletDto));
+        }
+
+        return new ResponseEntity<>("Media sélectionné créé", HttpStatus.CREATED);
     }
 
     @GetMapping("/utilisateur/{email}")

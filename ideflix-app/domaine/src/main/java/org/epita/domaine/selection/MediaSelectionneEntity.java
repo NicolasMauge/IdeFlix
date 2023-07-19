@@ -28,7 +28,9 @@ public abstract class MediaSelectionneEntity {
     public MediaSelectionneEntity() {
     }
 
-    public MediaSelectionneEntity(Boolean avisPouce, LocalDate dateSelection, List<EtiquetteEntity> etiquetteEntityList, StatutMediaEntity statutMediaEntity, MediaAudioVisuelEntity mediaAudioVisuelEntity, UtilisateurEntity utilisateurEntity) {
+    public MediaSelectionneEntity(Boolean avisPouce, LocalDate dateSelection, List<EtiquetteEntity> etiquetteEntityList,
+                                  StatutMediaEntity statutMediaEntity, MediaAudioVisuelEntity mediaAudioVisuelEntity,
+                                  UtilisateurEntity utilisateurEntity) {
         this.avisPouce = avisPouce;
         this.dateSelection = dateSelection;
         this.etiquetteEntityList = etiquetteEntityList;
@@ -37,7 +39,9 @@ public abstract class MediaSelectionneEntity {
         this.utilisateurEntity = utilisateurEntity;
     }
 
-    public MediaSelectionneEntity(Long id, Boolean avisPouce, LocalDate dateSelection, List<EtiquetteEntity> etiquetteEntityList, StatutMediaEntity statutMediaEntity, MediaAudioVisuelEntity mediaAudioVisuelEntity, UtilisateurEntity utilisateurEntity) {
+    public MediaSelectionneEntity(Long id, Boolean avisPouce, LocalDate dateSelection, List<EtiquetteEntity> etiquetteEntityList,
+                                  StatutMediaEntity statutMediaEntity, MediaAudioVisuelEntity mediaAudioVisuelEntity,
+                                  UtilisateurEntity utilisateurEntity) {
         this.id = id;
         this.avisPouce = avisPouce;
         this.dateSelection = dateSelection;
