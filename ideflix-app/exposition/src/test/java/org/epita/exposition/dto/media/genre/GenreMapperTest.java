@@ -2,8 +2,8 @@ package org.epita.exposition.dto.media.genre;
 
 import org.epita.domaine.media.GenreEntity;
 import org.epita.exposition.common.Mapper;
-import org.epita.exposition.media.genre.GenreDto;
-import org.epita.exposition.media.genre.GenreMapper;
+import org.epita.exposition.dto.media.GenreDto;
+import org.epita.exposition.mapper.media.genre.GenreMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,19 +3,19 @@ package org.epita.exposition.controller.utilisateur.utilisateur;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.epita.application.utilisateur.utilisateur.UtilisateurService;
-import org.epita.exposition.media.genre.GenreMapper;
-import org.epita.exposition.utilisateur.preferences.PreferencesUtilisateurDto;
-import org.epita.exposition.utilisateur.preferences.PreferencesUtilisateurMapper;
-import org.epita.exposition.utilisateur.utilisateur.*;
+import org.epita.exposition.controller.utilisateur.UtilisateurController;
+import org.epita.exposition.dto.utilisateur.UtilisateurEtPrefDto;
+import org.epita.exposition.mapper.media.genre.GenreMapper;
+import org.epita.exposition.mapper.utilisateur.UtilisateurEtPrefMapper;
+import org.epita.exposition.mapper.utilisateur.UtilisateurMapper;
+import org.epita.exposition.dto.utilisateur.PreferencesUtilisateurDto;
+import org.epita.exposition.mapper.utilisateur.PreferencesUtilisateurMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -33,9 +33,7 @@ import java.util.List;
 
 import static org.springframework.http.RequestEntity.post;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)

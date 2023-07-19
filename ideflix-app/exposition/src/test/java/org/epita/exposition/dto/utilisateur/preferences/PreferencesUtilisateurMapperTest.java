@@ -1,16 +1,11 @@
 package org.epita.exposition.dto.utilisateur.preferences;
 
-import org.epita.application.media.serie.SerieServiceImpl;
-import org.epita.application.utilisateur.utilisateur.UtilisateurServiceImpl;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
-import org.epita.exposition.media.genre.GenreDto;
-import org.epita.exposition.media.genre.GenreMapper;
-import org.epita.exposition.selection.etiquette.EtiquetteMapper;
-import org.epita.exposition.selection.serieselectionnee.SerieSelectionneeMapper;
-import org.epita.exposition.utilisateur.preferences.PreferencesUtilisateurDto;
-import org.epita.exposition.utilisateur.preferences.PreferencesUtilisateurMapper;
-import org.epita.exposition.utilisateur.utilisateur.UtilisateurMapper;
+import org.epita.exposition.dto.media.GenreDto;
+import org.epita.exposition.mapper.media.genre.GenreMapper;
+import org.epita.exposition.dto.utilisateur.PreferencesUtilisateurDto;
+import org.epita.exposition.mapper.utilisateur.PreferencesUtilisateurMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

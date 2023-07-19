@@ -1,14 +1,12 @@
 package org.epita.exposition.dto.media.serie;
 
-import org.epita.domaine.media.FilmEntity;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.media.SerieEntity;
 import org.epita.exposition.common.Mapper;
-import org.epita.exposition.media.film.FilmDto;
-import org.epita.exposition.media.genre.GenreDto;
-import org.epita.exposition.media.genre.GenreMapper;
-import org.epita.exposition.media.serie.SerieDto;
-import org.epita.exposition.media.serie.SerieMapper;
+import org.epita.exposition.dto.media.GenreDto;
+import org.epita.exposition.dto.media.SerieDto;
+import org.epita.exposition.mapper.media.genre.GenreMapper;
+import org.epita.exposition.mapper.media.serie.SerieMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = {GenreMapper.class})
 public class SerieMapperTest {
     @Autowired
-    private Mapper<SerieEntity, org.epita.exposition.media.serie.SerieDto> mapper;
+    private Mapper<SerieEntity, SerieDto> mapper;
 
     @Test
     public void should_return_mapEntityToDto() {
@@ -54,7 +52,7 @@ public class SerieMapperTest {
 
 
         // When
-        org.epita.exposition.media.serie.SerieDto serieDto = this.mapper.mapEntityToDto(serieEntity);
+        SerieDto serieDto = this.mapper.mapEntityToDto(serieEntity);
 
         // Then
         // pas de getId dans FilmDto
