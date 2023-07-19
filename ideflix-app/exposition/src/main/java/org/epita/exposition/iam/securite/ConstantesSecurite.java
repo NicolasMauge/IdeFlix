@@ -31,6 +31,7 @@ public final class ConstantesSecurite {
             "/genre",
             "/genre/*",
             "/genre/health-check",
+            "/mediaselectionne/utilisateur/*",
             "/preferences",
             "/preferences/*",
             "/preferences/health-check",
