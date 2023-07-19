@@ -2,6 +2,7 @@ package org.epita.application.selection.serieselectionnee;
 
 import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.selection.EtiquetteEntity;
+import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.epita.domaine.selection.SerieSelectionneeEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.selection.SerieSelectionneeRepository;
@@ -65,6 +66,7 @@ public class SerieSelectionneeServiceTest {
 
         when(repositoryMock.findById(1L)).thenReturn(Optional.of(serieSelectionnee));
         when(repositoryMock.findByUtilisateurEntity(utilisateur)).thenReturn(List.of(serieSelectionnee));
+        when(repositoryMock.findSerieSelectionneeEntitiesByUtilisateurEntityEmailIs(utilisateur.getEmail())).thenReturn(List.of(serieSelectionnee));
     }
 
     @Test
@@ -118,6 +120,15 @@ public class SerieSelectionneeServiceTest {
     public void trouverSerieSelectionneeParUtilisateur_should_return_1_element() {
         // When
         final List<SerieSelectionneeEntity> expected = this.serieSelectionneeService.trouverSerieParUtilisateur(utilisateur);
+
+        // Then
+        assertThat(expected).isEqualTo(List.of(serieSelectionnee));
+    }
+
+    @Test
+    public void trouverFilmsSelectionnesParEmailUtilisateur_should_return_1_element() {
+        // When
+        final List<SerieSelectionneeEntity> expected = this.serieSelectionneeService.trouverSeriesSelectionneesParEmailUtilisateur("test@test.com");
 
         // Then
         assertThat(expected).isEqualTo(List.of(serieSelectionnee));

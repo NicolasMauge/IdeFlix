@@ -66,6 +66,7 @@ public class FilmSelectionneServiceTest {
 
         when(repositoryMock.findById(1L)).thenReturn(Optional.of(filmSelectionne));
         when(repositoryMock.findByUtilisateurEntity(utilisateur)).thenReturn(List.of(filmSelectionne));
+        when(repositoryMock.findFilmSelectionneEntitiesByUtilisateurEntity_EmailIs(utilisateur.getEmail())).thenReturn(List.of(filmSelectionne));
     }
 
     @Test
@@ -119,6 +120,15 @@ public class FilmSelectionneServiceTest {
     public void trouverFilmSelectionneParUtilisateur_should_return_1_element() {
         // When
         final List<FilmSelectionneEntity> expected = this.filmSelectionneService.trouverFilmSelectionneeParUtilisateur(utilisateur);
+
+        // Then
+        assertThat(expected).isEqualTo(List.of(filmSelectionne));
+    }
+
+    @Test
+    public void trouverFilmsSelectionnesParEmailUtilisateur_should_return_1_element() {
+        // When
+        final List<FilmSelectionneEntity> expected = this.filmSelectionneService.trouverFilmsSelectionnesParEmailUtilisateur("test@test.com");
 
         // Then
         assertThat(expected).isEqualTo(List.of(filmSelectionne));
