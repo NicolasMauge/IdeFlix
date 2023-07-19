@@ -1,4 +1,4 @@
-package org.epita.exposition.dto.selection.etiquette;
+package org.epita.exposition.mapper.selection.etiquette;
 
 import org.epita.domaine.selection.EtiquetteEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;

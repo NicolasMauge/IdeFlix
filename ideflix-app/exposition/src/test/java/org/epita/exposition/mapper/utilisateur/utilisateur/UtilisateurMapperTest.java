@@ -1,4 +1,4 @@
-package org.epita.exposition.dto.utilisateur.utilisateur;
+package org.epita.exposition.mapper.utilisateur.utilisateur;
 
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;

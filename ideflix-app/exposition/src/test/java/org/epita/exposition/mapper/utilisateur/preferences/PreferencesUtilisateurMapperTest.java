@@ -1,4 +1,4 @@
-package org.epita.exposition.dto.utilisateur.preferences;
+package org.epita.exposition.mapper.utilisateur.preferences;
 
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;

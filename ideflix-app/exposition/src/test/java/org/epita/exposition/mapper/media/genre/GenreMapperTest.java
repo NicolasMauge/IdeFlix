@@ -1,4 +1,4 @@
-package org.epita.exposition.dto.media.genre;
+package org.epita.exposition.mapper.media.genre;
 
 import org.epita.domaine.media.GenreEntity;
 import org.epita.exposition.common.Mapper;

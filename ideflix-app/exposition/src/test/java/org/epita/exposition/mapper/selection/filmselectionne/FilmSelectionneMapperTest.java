@@ -1,22 +1,22 @@
-package org.epita.exposition.dto.selection.serieselectionnee;
+package org.epita.exposition.mapper.selection.filmselectionne;
 
-import org.epita.application.media.serie.SerieServiceImpl;
+import org.epita.application.media.film.FilmServiceImpl;
 import org.epita.application.utilisateur.utilisateur.UtilisateurServiceImpl;
+import org.epita.domaine.media.FilmEntity;
 import org.epita.domaine.media.GenreEntity;
-import org.epita.domaine.media.SerieEntity;
 import org.epita.domaine.selection.EtiquetteEntity;
-import org.epita.domaine.selection.SerieSelectionneeEntity;
+import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.epita.domaine.selection.StatutMediaEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.exposition.common.Mapper;
-import org.epita.exposition.dto.media.SerieDto;
+import org.epita.exposition.dto.media.FilmDto;
 import org.epita.exposition.dto.selection.EtiquetteDto;
 import org.epita.exposition.mapper.selection.etiquette.EtiquetteMapper;
-import org.epita.exposition.dto.selection.SerieSelectionneeDto;
-import org.epita.exposition.mapper.selection.serie.SerieSelectionneeMapper;
+import org.epita.exposition.dto.selection.FilmSelectionneDto;
+import org.epita.exposition.mapper.selection.film.FilmSelectionneMapper;
 import org.epita.exposition.dto.utilisateur.UtilisateurDto;
 import org.epita.exposition.mapper.utilisateur.UtilisateurMapper;
-import org.epita.infrastructure.media.SerieRepository;
+import org.epita.infrastructure.media.FilmRepository;
 import org.epita.infrastructure.utilisateur.UtilisateurRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,16 +34,17 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
+
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {SerieSelectionneeMapper.class})
+@SpringBootTest(classes = {FilmSelectionneMapper.class})
 @ContextConfiguration(classes = {EtiquetteMapper.class, UtilisateurMapper.class,
-        SerieServiceImpl.class, UtilisateurServiceImpl.class})
-public class SerieSelectionneeMapperTest {
+        FilmServiceImpl.class, UtilisateurServiceImpl.class})
+public class FilmSelectionneMapperTest {
     @Autowired
-    Mapper<SerieSelectionneeEntity, SerieSelectionneeDto> mapper;
+    Mapper<FilmSelectionneEntity, FilmSelectionneDto> mapper;
 
     @MockBean
-    SerieRepository serieRepository;
+    FilmRepository filmRepositoryMock;
 
     @MockBean
     UtilisateurRepository utilisateurRepositoryMock;
@@ -63,8 +64,8 @@ public class SerieSelectionneeMapperTest {
                 new GenreEntity(2L, "675-dfg-456", "nom genre 2"));
 
         // MediaAudiovisuel
-        SerieEntity serie = new SerieEntity();
-        serie.setIdTmdb("123-DFG-567");
+        FilmEntity film = new FilmEntity();
+        film.setIdTmdb("123-DFG-567");
 
         // Etiquette
         List<EtiquetteEntity> etiquetteList = new ArrayList<>();
@@ -74,29 +75,29 @@ public class SerieSelectionneeMapperTest {
                 new EtiquetteEntity(2L, "tag 2", utilisateur));
 
         // Film
-        SerieSelectionneeEntity serieSelectionnee = new SerieSelectionneeEntity();
-        serieSelectionnee.setId(1L);
-        serieSelectionnee.setAvisPouce(true);
-        serieSelectionnee.setDateSelection(LocalDate.of(2023,07,13));
-        serieSelectionnee.setEtiquetteEntityList(etiquetteList);
-        serieSelectionnee.setUtilisateurEntity(utilisateur);
-        serieSelectionnee.setMediaAudioVisuelEntity(serie);
-        serieSelectionnee.setStatutMediaEntity(StatutMediaEntity.ABANDONNE);
+        FilmSelectionneEntity filmSelectionne = new FilmSelectionneEntity();
+        filmSelectionne.setId(1L);
+        filmSelectionne.setAvisPouce(true);
+        filmSelectionne.setDateSelection(LocalDate.of(2023,07,13));
+        filmSelectionne.setEtiquetteEntityList(etiquetteList);
+        filmSelectionne.setUtilisateurEntity(utilisateur);
+        filmSelectionne.setMediaAudioVisuelEntity(film);
+        filmSelectionne.setStatutMediaEntity(StatutMediaEntity.ABANDONNE);
 
         // When
-        SerieSelectionneeDto serieSelectionneeDto = this.mapper.mapEntityToDto(serieSelectionnee);
+        FilmSelectionneDto filmSelectionneDto = this.mapper.mapEntityToDto(filmSelectionne);
 
         // Then
         // données propres à film sélectionné
-        assertThat(serieSelectionneeDto.getAvisPouce())
-                .isEqualTo(serieSelectionnee.getAvisPouce());
+        assertThat(filmSelectionneDto.getAvisPouce())
+                .isEqualTo(filmSelectionne.getAvisPouce());
 
-        assertThat(serieSelectionneeDto.getDateSelection())
-                .isEqualTo(serieSelectionnee.getDateSelection());
+        assertThat(filmSelectionneDto.getDateSelection())
+                .isEqualTo(filmSelectionne.getDateSelection());
 
         // données propres au film (mises à plat dans le mapper)
-        assertThat(serieSelectionneeDto.getIdTmdb())
-                .isEqualTo(serieSelectionnee.getMediaAudioVisuelEntity().getIdTmdb());
+        assertThat(filmSelectionneDto.getIdTmdb())
+                .isEqualTo(filmSelectionne.getMediaAudioVisuelEntity().getIdTmdb());
     }
 
     @Test
@@ -114,22 +115,22 @@ public class SerieSelectionneeMapperTest {
                 new EtiquetteDto("tag 2", 1L));
 
         // MediaAudiovisuel
-        SerieDto serieDto = new SerieDto();
-        serieDto.setIdTmdb("123-DFG-567");
+        FilmDto filmDto = new FilmDto();
+        filmDto.setIdTmdb("123-DFG-567");
 
         // FilmSelectionne
-        SerieSelectionneeDto selectionneeDto = new SerieSelectionneeDto();
-        selectionneeDto.setAvisPouce(true);
-        selectionneeDto.setDateSelection(LocalDate.of(2023,07,13));
-        selectionneeDto.setEtiquetteList(etiquetteDtoList);
-        selectionneeDto.setIdUtilisateur(utilisateurDto.getId());
-        selectionneeDto.setIdTmdb(serieDto.getIdTmdb());
-        selectionneeDto.setStatutMedia(StatutMediaEntity.ABANDONNE);
+        FilmSelectionneDto filmSelectionneDto = new FilmSelectionneDto();
+        filmSelectionneDto.setAvisPouce(true);
+        filmSelectionneDto.setDateSelection(LocalDate.of(2023,07,13));
+        filmSelectionneDto.setEtiquetteList(etiquetteDtoList);
+        filmSelectionneDto.setIdUtilisateur(utilisateurDto.getId());
+        filmSelectionneDto.setIdTmdb(filmDto.getIdTmdb());
+        filmSelectionneDto.setStatutMedia(StatutMediaEntity.ABANDONNE);
 
         // paramétrage spécifique du mock de repository pour le film cherché dans le mapper (via service)
-        SerieEntity serie = new SerieEntity();
-        serie.setIdTmdb(serieDto.getIdTmdb());
-        when(serieRepository.findByIdTmdb(serieDto.getIdTmdb())).thenReturn(Optional.of(serie));
+        FilmEntity film = new FilmEntity();
+        film.setIdTmdb(filmDto.getIdTmdb());
+        when(filmRepositoryMock.findByIdTmdb(filmDto.getIdTmdb())).thenReturn(Optional.of(film));
 
         // paramétrage spécifique du mock de repository pour l'utilisateur cherché dans le mapper (via service)
         UtilisateurEntity utilisateur = new UtilisateurEntity();
@@ -137,25 +138,25 @@ public class SerieSelectionneeMapperTest {
         when(utilisateurRepositoryMock.findById(utilisateurDto.getId())).thenReturn(Optional.of(utilisateur));
 
         // When
-        SerieSelectionneeEntity serieSelectionnee = this.mapper.mapDtoToEntity(selectionneeDto);
+        FilmSelectionneEntity filmSelectionne = this.mapper.mapDtoToEntity(filmSelectionneDto);
 
         // Then
-        assertThat(serieSelectionnee.getAvisPouce())
-                .isEqualTo(selectionneeDto.getAvisPouce());
+        assertThat(filmSelectionne.getAvisPouce())
+                .isEqualTo(filmSelectionneDto.getAvisPouce());
 
-        assertThat(serieSelectionnee.getDateSelection())
-                .isEqualTo(selectionneeDto.getDateSelection());
+        assertThat(filmSelectionne.getDateSelection())
+                .isEqualTo(filmSelectionneDto.getDateSelection());
 
-        assertThat(serieSelectionnee.getEtiquetteEntityList().size())
-                .isEqualTo(selectionneeDto.getEtiquetteList().size());
+        assertThat(filmSelectionne.getEtiquetteEntityList().size())
+                .isEqualTo(filmSelectionneDto.getEtiquetteList().size());
 
-        assertThat(serieSelectionnee.getUtilisateurEntity().getId())
-                .isEqualTo(selectionneeDto.getIdUtilisateur());
+        assertThat(filmSelectionne.getUtilisateurEntity().getId())
+                .isEqualTo(filmSelectionneDto.getIdUtilisateur());
 
-        assertThat(serieSelectionnee.getMediaAudioVisuelEntity().getIdTmdb())
-                .isEqualTo(selectionneeDto.getIdTmdb());
+        assertThat(filmSelectionne.getMediaAudioVisuelEntity().getIdTmdb())
+                .isEqualTo(filmSelectionneDto.getIdTmdb());
 
-        assertThat(serieSelectionnee.getStatutMediaEntity())
-                .isEqualTo(selectionneeDto.getStatutMedia());
+        assertThat(filmSelectionne.getStatutMediaEntity())
+                .isEqualTo(filmSelectionneDto.getStatutMedia());
     }
 }

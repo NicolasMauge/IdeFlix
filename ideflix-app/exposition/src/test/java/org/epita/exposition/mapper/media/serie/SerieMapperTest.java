@@ -1,4 +1,4 @@
-package org.epita.exposition.dto.media.serie;
+package org.epita.exposition.mapper.media.serie;
 
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.media.SerieEntity;
