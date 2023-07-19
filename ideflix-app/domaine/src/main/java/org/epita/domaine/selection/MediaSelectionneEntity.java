@@ -14,20 +14,14 @@ public abstract class MediaSelectionneEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Boolean avisPouce;
-
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate dateSelection;
-
     @ManyToMany
     private List<EtiquetteEntity> etiquetteEntityList;
-
     private StatutMediaEntity statutMediaEntity;
-
     @ManyToOne
     private MediaAudioVisuelEntity mediaAudioVisuelEntity;
-
     @ManyToOne
     private UtilisateurEntity utilisateurEntity;
 

@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface SerieSelectionneeRepository extends JpaRepository<SerieSelectionneeEntity, Long> {
     List<SerieSelectionneeEntity> findByUtilisateurEntity(UtilisateurEntity utilisateurEntity);
+    List<SerieSelectionneeEntity> findSerieSelectionneeEntitiesByUtilisateurEntityEmailIs(String email);
 }

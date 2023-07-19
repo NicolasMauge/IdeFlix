@@ -45,4 +45,9 @@ public class SerieSelectionneeServiceImpl implements SerieSelectionneeService {
     public List<SerieSelectionneeEntity> trouverSerieParUtilisateur(UtilisateurEntity utilisateurEntity) {
         return this.serieSelectionneeRepository.findByUtilisateurEntity(utilisateurEntity);
     }
+
+    @Override
+    public List<SerieSelectionneeEntity> trouverSeriesSelectionneesParEmailUtilisateur(String email) {
+        return this.serieSelectionneeRepository.findSerieSelectionneeEntitiesByUtilisateurEntityEmailIs(email);
+    }
 }

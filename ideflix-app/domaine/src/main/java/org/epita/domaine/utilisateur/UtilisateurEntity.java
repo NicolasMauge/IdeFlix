@@ -10,16 +10,11 @@ public class UtilisateurEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String email;
-
     private String nom;
-
     private String prenom;
-
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate dateCreation;
-
     @OneToOne(cascade = CascadeType.PERSIST)
     private PreferencesUtilisateurEntity preferencesUtilisateurEntity;
 

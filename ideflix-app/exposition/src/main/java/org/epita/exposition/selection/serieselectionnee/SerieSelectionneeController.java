@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("serieselectionnee")
+@RequestMapping("/serieselectionnee")
 public class SerieSelectionneeController {
     private SerieSelectionneeService serieSelectionneeService;
     private UtilisateurService utilisateurService;
@@ -61,13 +61,11 @@ public class SerieSelectionneeController {
         return new ResponseEntity<String>("Série sélectionnée supprimée", HttpStatus.OK);
     }
 
-    @GetMapping("/utilisateur/{id}")
-    public List<SerieSelectionneeDto> trouverSerieSelectionneeParUtilisateur(@PathVariable("id") Long id) {
+    @GetMapping("/utilisateur/{email}")
+    public List<SerieSelectionneeDto> trouverSerieSelectionneeParEmailUtilisateur(@PathVariable("email") String email) {
         return this.serieSelectionneeMapper
                 .mapListEntityToDto(
                     this.serieSelectionneeService
-                        .trouverSerieParUtilisateur(
-                                this.utilisateurService
-                                        .trouverUtilisateurParId(id)));
+                        .trouverSeriesSelectionneesParEmailUtilisateur(email));
     }
 }

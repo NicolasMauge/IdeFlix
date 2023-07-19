@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("filmselectionne")
+@RequestMapping("/filmselectionne")
 public class FilmSelectionneController {
     private FilmSelectionneService filmSelectionneService;
     private UtilisateurService utilisateurService;
@@ -61,6 +61,7 @@ public class FilmSelectionneController {
         return new ResponseEntity<String>("Film sélectionné supprimé", HttpStatus.OK);
     }
 
+    /*
     @GetMapping("/utilisateur/{id}")
     public List<FilmSelectionneDto> trouverFilmSelectionneParUtilisateur(@PathVariable("id") Long id) {
         return this.filmSelectionneMapper
@@ -69,5 +70,13 @@ public class FilmSelectionneController {
                         .trouverFilmSelectionneeParUtilisateur(
                                 this.utilisateurService
                                         .trouverUtilisateurParId(id)));
+    }*/
+
+    @GetMapping("/utilisateur/{email}")
+    public List<FilmSelectionneDto> trouverFilmSelectionneParUtilisateur(@PathVariable("email") String email) {
+        return this.filmSelectionneMapper
+                .mapListEntityToDto(
+                        this.filmSelectionneService
+                                .trouverFilmsSelectionnesParEmailUtilisateur(email));
     }
 }

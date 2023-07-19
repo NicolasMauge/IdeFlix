@@ -46,4 +46,9 @@ public class FilmSelectionneServiceImpl implements FilmSelectionneService {
     public List<FilmSelectionneEntity> trouverFilmSelectionneeParUtilisateur(UtilisateurEntity utilisateurEntity) {
         return this.filmSelectionneRepository.findByUtilisateurEntity(utilisateurEntity);
     }
+
+    @Override
+    public List<FilmSelectionneEntity> trouverFilmsSelectionnesParEmailUtilisateur(String email) {
+        return this.filmSelectionneRepository.findFilmSelectionneEntitiesByUtilisateurEntity_EmailIs(email);
+    }
 }
