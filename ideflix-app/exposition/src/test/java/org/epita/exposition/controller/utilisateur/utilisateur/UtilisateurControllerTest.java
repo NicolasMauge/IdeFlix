@@ -4,9 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.epita.application.utilisateur.utilisateur.UtilisateurService;
 import org.epita.exposition.controller.utilisateur.UtilisateurController;
-import org.epita.exposition.dto.utilisateur.UtilisateurEtPrefDto;
+import org.epita.exposition.dto.utilisateur.UtilisateurEtPrefDto_obsolete;
 import org.epita.exposition.mapper.media.genre.GenreMapper;
-import org.epita.exposition.mapper.utilisateur.UtilisateurEtPrefMapper;
 import org.epita.exposition.mapper.utilisateur.UtilisateurMapper;
 import org.epita.exposition.dto.utilisateur.PreferencesUtilisateurDto;
 import org.epita.exposition.mapper.utilisateur.PreferencesUtilisateurMapper;
@@ -31,13 +30,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.http.RequestEntity.post;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {UtilisateurMapper.class, UtilisateurController.class, UtilisateurEtPrefMapper.class, PreferencesUtilisateurMapper.class, GenreMapper.class})
+@ContextConfiguration(classes = {UtilisateurMapper.class, UtilisateurController.class, PreferencesUtilisateurMapper.class, GenreMapper.class})
 @WebMvcTest(UtilisateurController.class)
 public class UtilisateurControllerTest {
     @Autowired
@@ -81,25 +76,25 @@ public class UtilisateurControllerTest {
         PreferencesUtilisateurDto preferencesUtilisateurDto = new PreferencesUtilisateurDto(null, "pseudo", new ArrayList<>());
 
         callServeur("/utilisateur",
-                new UtilisateurEtPrefDto(null, "test@test.com", "nom", "prenom", dateLocal, preferencesUtilisateurDto));
+                new UtilisateurEtPrefDto_obsolete(null, "test@test.com", "nom", "prenom", dateLocal, preferencesUtilisateurDto));
     }
 
     @Test
     public void creerPlusieursUtilisateurs_should_return_StatusCreated() throws Exception {
         LocalDate dateLocal = LocalDate.of(2023,7,13);
         PreferencesUtilisateurDto preferencesUtilisateurDto = new PreferencesUtilisateurDto(null, "pseudo", new ArrayList<>());
-        UtilisateurEtPrefDto utilisateurEtPrefDto = new UtilisateurEtPrefDto(null, "test@test.com", "nom", "prenom", dateLocal, preferencesUtilisateurDto);
+        UtilisateurEtPrefDto_obsolete utilisateurEtPrefDtoObsolete = new UtilisateurEtPrefDto_obsolete(null, "test@test.com", "nom", "prenom", dateLocal, preferencesUtilisateurDto);
 
         LocalDate dateLocal2 = LocalDate.of(2023,7,13);
         PreferencesUtilisateurDto preferencesUtilisateurDto2 = new PreferencesUtilisateurDto(null, "pseudo 2", new ArrayList<>());
-        UtilisateurEtPrefDto utilisateurEtPrefDto2 = new UtilisateurEtPrefDto(null, "test2@test.com", "nom2", "prenom2", dateLocal, preferencesUtilisateurDto);
+        UtilisateurEtPrefDto_obsolete utilisateurEtPrefDtoObsolete2 = new UtilisateurEtPrefDto_obsolete(null, "test2@test.com", "nom2", "prenom2", dateLocal, preferencesUtilisateurDto);
 
-        List<UtilisateurEtPrefDto> utilisateurEtPrefDtoList = new ArrayList<>();
-        utilisateurEtPrefDtoList.add(utilisateurEtPrefDto);
-        utilisateurEtPrefDtoList.add(utilisateurEtPrefDto2);
+        List<UtilisateurEtPrefDto_obsolete> utilisateurEtPrefDtoObsoleteList = new ArrayList<>();
+        utilisateurEtPrefDtoObsoleteList.add(utilisateurEtPrefDtoObsolete);
+        utilisateurEtPrefDtoObsoleteList.add(utilisateurEtPrefDtoObsolete2);
 
         callServeur("/utilisateur/masse",
-                utilisateurEtPrefDtoList);
+                utilisateurEtPrefDtoObsoleteList);
     }
 
 }

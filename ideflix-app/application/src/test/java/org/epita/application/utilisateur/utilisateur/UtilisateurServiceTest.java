@@ -2,7 +2,6 @@ package org.epita.application.utilisateur.utilisateur;
 
 
 import org.epita.domaine.common.EntityNotFoundException;
-import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.utilisateur.UtilisateurRepository;
@@ -43,8 +42,6 @@ public class UtilisateurServiceTest {
 
         PreferencesUtilisateurEntity preferencesUtilisateurEntity = new PreferencesUtilisateurEntity();
         preferencesUtilisateurEntity.setPseudo("pseudo 1");
-
-        utilisateur.setPreferencesUtilisateurEntity(preferencesUtilisateurEntity);
 
         utilisateurService.creerUtilisateur(utilisateur);
 

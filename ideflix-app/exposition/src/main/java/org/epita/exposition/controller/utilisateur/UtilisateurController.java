@@ -4,7 +4,6 @@ import org.epita.application.utilisateur.utilisateur.UtilisateurService;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.exposition.common.Mapper;
 import org.epita.exposition.dto.utilisateur.UtilisateurDto;
-import org.epita.exposition.dto.utilisateur.UtilisateurEtPrefDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +15,10 @@ import java.util.List;
 public class UtilisateurController {
     private UtilisateurService utilisateurService;
     private Mapper<UtilisateurEntity, UtilisateurDto> utilisateurMapper;
-    private Mapper<UtilisateurEntity, UtilisateurEtPrefDto> utilisateurEtPrefMapper;
 
-    public UtilisateurController(UtilisateurService utilisateurService, Mapper<UtilisateurEntity, UtilisateurDto> utilisateurMapper, Mapper<UtilisateurEntity, UtilisateurEtPrefDto> utilisateurEtPrefMapper) {
+    public UtilisateurController(UtilisateurService utilisateurService, Mapper<UtilisateurEntity, UtilisateurDto> utilisateurMapper) {
         this.utilisateurService = utilisateurService;
         this.utilisateurMapper = utilisateurMapper;
-        this.utilisateurEtPrefMapper = utilisateurEtPrefMapper;
     }
 
     @GetMapping("/health-check")
@@ -31,21 +28,21 @@ public class UtilisateurController {
     }
 
     @PostMapping
-    public ResponseEntity<String> creerUtilisateur(@RequestBody UtilisateurEtPrefDto utilisateurEtPrefDto) {
+    public ResponseEntity<String> creerUtilisateur(@RequestBody UtilisateurDto utilisateurDto) {
         this.utilisateurService
-                .creerUtilisateur(this.utilisateurEtPrefMapper
-                        .mapDtoToEntity(utilisateurEtPrefDto));
+                .creerUtilisateur(this.utilisateurMapper
+                        .mapDtoToEntity(utilisateurDto));
 
         return new ResponseEntity<String>("Utilisateur créé", HttpStatus.CREATED);
     }
 
     @PostMapping("/masse")
-    public ResponseEntity<String> creerPlusieursUtilisateurs(@RequestBody List<UtilisateurEtPrefDto> utilisateurEtPrefDtoList) {
-        utilisateurEtPrefDtoList
+    public ResponseEntity<String> creerPlusieursUtilisateurs(@RequestBody List<UtilisateurDto> utilisateurDtoList) {
+        utilisateurDtoList
                 .stream()
                 .forEach(u -> this.utilisateurService
                                     .creerUtilisateur(
-                                            this.utilisateurEtPrefMapper
+                                            this.utilisateurMapper
                                                 .mapDtoToEntity(u)));
 
         return new ResponseEntity<String>("Utilisateurs créés", HttpStatus.CREATED);
@@ -74,13 +71,5 @@ public class UtilisateurController {
         this.utilisateurService.supprimerUtilisateurParId(id);
 
         return new ResponseEntity<String>("Utilisateur supprimé", HttpStatus.OK);
-    }
-
-    @GetMapping("/etpref/{id}")
-    public UtilisateurEtPrefDto trouverUtilisateurAvecPrefParId(@PathVariable("id") Long id) {
-        return this.utilisateurEtPrefMapper
-                .mapEntityToDto(
-                    this.utilisateurService
-                            .trouverUtilisateurParId(id));
     }
 }

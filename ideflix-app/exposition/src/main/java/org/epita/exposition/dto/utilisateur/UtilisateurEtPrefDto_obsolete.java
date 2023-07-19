@@ -4,11 +4,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import org.epita.exposition.dto.utilisateur.PreferencesUtilisateurDto;
 
 import java.time.LocalDate;
 
-public class UtilisateurEtPrefDto {
+public class UtilisateurEtPrefDto_obsolete {
     private Long id;
 
     private String email;
@@ -22,10 +21,10 @@ public class UtilisateurEtPrefDto {
 
     private PreferencesUtilisateurDto preferencesUtilisateur;
 
-    public UtilisateurEtPrefDto() {
+    public UtilisateurEtPrefDto_obsolete() {
     }
 
-    public UtilisateurEtPrefDto(Long id, String email, String nom, String prenom, LocalDate dateCreation, PreferencesUtilisateurDto preferencesUtilisateur) {
+    public UtilisateurEtPrefDto_obsolete(Long id, String email, String nom, String prenom, LocalDate dateCreation, PreferencesUtilisateurDto preferencesUtilisateur) {
         this.id = id;
         this.email = email;
         this.nom = nom;
