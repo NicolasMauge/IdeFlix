@@ -28,7 +28,6 @@ public class FilmToMediaSelectionneMapper extends Mapper<FilmSelectionneEntity, 
     @Override
     public MediaSelectionneCompletDto mapEntityToDto(FilmSelectionneEntity input) {
         return new MediaSelectionneCompletDto(
-                input.getId(),
                 TypeMedia.FILM,
                 input.getAvisPouce(),
                 input.getDateSelection(),
@@ -52,7 +51,7 @@ public class FilmToMediaSelectionneMapper extends Mapper<FilmSelectionneEntity, 
         UtilisateurEntity utilisateur = utilisateurService.trouverUtilisateurParEmail(input.getEmail());
 
         return new FilmSelectionneEntity(
-                input.getId(),
+                null,
                 input.getAvisPouce(),
                 input.getDateSelection(),
                 this.etiquetteMapper.mapListDtoToEntity(input.getEtiquetteList()),

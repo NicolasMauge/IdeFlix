@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class MediaSelectionneCompletDto {
-    private Long id;
     private TypeMedia typeMedia;
     private Boolean avisPouce;
     private LocalDate dateSelection;
@@ -25,8 +24,7 @@ public class MediaSelectionneCompletDto {
     public MediaSelectionneCompletDto() {
     }
 
-    public MediaSelectionneCompletDto(Long id, TypeMedia typeMedia, Boolean avisPouce, LocalDate dateSelection, List<EtiquetteDto> etiquetteList, StatutMediaEntity statutMedia, MediaDto media, String email, LocalDate dateModification, int numeroSaison, String idTmdbSaison, int numeroEpisode, String idTmdbEpisode) {
-        this.id = id;
+    public MediaSelectionneCompletDto(TypeMedia typeMedia, Boolean avisPouce, LocalDate dateSelection, List<EtiquetteDto> etiquetteList, StatutMediaEntity statutMedia, MediaDto media, String email, LocalDate dateModification, int numeroSaison, String idTmdbSaison, int numeroEpisode, String idTmdbEpisode) {
         this.typeMedia = typeMedia;
         this.avisPouce = avisPouce;
         this.dateSelection = dateSelection;
@@ -39,14 +37,6 @@ public class MediaSelectionneCompletDto {
         this.idTmdbSaison = idTmdbSaison;
         this.numeroEpisode = numeroEpisode;
         this.idTmdbEpisode = idTmdbEpisode;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public TypeMedia getTypeMedia() {

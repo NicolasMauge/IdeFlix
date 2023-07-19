@@ -1,5 +1,6 @@
 package org.epita.exposition.dto.media;
 
+import org.epita.exposition.dto.common.TypeMedia;
 import org.epita.exposition.dto.media.GenreDto;
 
 import java.time.LocalDate;
@@ -7,6 +8,7 @@ import java.util.List;
 
 public class MediaDto {
     private String idTmdb;
+    private TypeMedia typeMedia;
     private String titre;
     private LocalDate dateSortie;
     private int duree;
@@ -16,8 +18,12 @@ public class MediaDto {
     private List<GenreDto> genreList;
     private int nombreSaisons;
 
-    public MediaDto(String idTmdb, String titre, LocalDate dateSortie, int duree, String cheminAffichePortrait, String cheminAffichePaysage, int noteTmdb, List<GenreDto> genreList, int nombreSaisons) {
+    public MediaDto() {
+    }
+
+    public MediaDto(String idTmdb, TypeMedia typeMedia, String titre, LocalDate dateSortie, int duree, String cheminAffichePortrait, String cheminAffichePaysage, int noteTmdb, List<GenreDto> genreList, int nombreSaisons) {
         this.idTmdb = idTmdb;
+        this.typeMedia = typeMedia;
         this.titre = titre;
         this.dateSortie = dateSortie;
         this.duree = duree;
@@ -34,6 +40,14 @@ public class MediaDto {
 
     public void setIdTmdb(String idTmdb) {
         this.idTmdb = idTmdb;
+    }
+
+    public TypeMedia getTypeMedia() {
+        return typeMedia;
+    }
+
+    public void setTypeMedia(TypeMedia typeMedia) {
+        this.typeMedia = typeMedia;
     }
 
     public String getTitre() {

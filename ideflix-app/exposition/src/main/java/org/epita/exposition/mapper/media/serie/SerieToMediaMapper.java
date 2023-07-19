@@ -3,6 +3,7 @@ package org.epita.exposition.mapper.media.serie;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.media.SerieEntity;
 import org.epita.exposition.common.Mapper;
+import org.epita.exposition.dto.common.TypeMedia;
 import org.epita.exposition.dto.media.MediaDto;
 import org.epita.exposition.dto.media.GenreDto;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ public class SerieToMediaMapper extends Mapper<SerieEntity, MediaDto> {
     public MediaDto mapEntityToDto(SerieEntity input) {
         return new MediaDto(
                 input.getIdTmdb(),
+                TypeMedia.SERIE,
                 input.getTitre(),
                 input.getDateSortie(),
                 input.getDuree(),
