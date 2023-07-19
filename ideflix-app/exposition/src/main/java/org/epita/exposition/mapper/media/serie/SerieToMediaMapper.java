@@ -8,10 +8,10 @@ import org.epita.exposition.dto.media.GenreDto;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SerieToMedieMapper extends Mapper<SerieEntity, MediaDto> {
+public class SerieToMediaMapper extends Mapper<SerieEntity, MediaDto> {
     private Mapper<GenreEntity, GenreDto> genreMapper;
 
-    public SerieToMedieMapper(Mapper<GenreEntity, GenreDto> genreMapper) {
+    public SerieToMediaMapper(Mapper<GenreEntity, GenreDto> genreMapper) {
         this.genreMapper = genreMapper;
     }
 
