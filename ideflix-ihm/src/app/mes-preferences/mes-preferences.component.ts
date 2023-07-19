@@ -42,6 +42,10 @@ export class MesPreferencesComponent {
               private route: Router) {}
 
   ngOnInit() {
+    /* appel à l'API des préférences de l'utilisateur pour rechercher ses préférences
+     */
+
+
     /*
       J'initialise le formulaire this.preferencesForm qui est un formGroup
       qui a 2 propriétés
@@ -52,7 +56,7 @@ export class MesPreferencesComponent {
       -> j'instancie autant de formGroup que j'ai de genres dans genresList
     */
     this.preferencesForm = this.fb.group({
-      pseudo: ["", Validators.required],
+      pseudo: ["test", Validators.required],
       genreList: this.fb.array(
         this.genresList.map(genre =>
           this.fb.group({
