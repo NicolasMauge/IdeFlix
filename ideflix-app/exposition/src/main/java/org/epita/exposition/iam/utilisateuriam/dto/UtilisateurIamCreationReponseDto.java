@@ -1,24 +1,26 @@
 package org.epita.exposition.iam.utilisateuriam.dto;
 
-public class UtilisateurIamSimpleDto {
+import io.swagger.v3.oas.annotations.media.Schema;
 
-    private Long id; // Id de l'utilisateur APP
+public class UtilisateurIamCreationReponseDto {
 
+    @Schema(name = "Nom de l'utilisateur", example = "Dupont", required = true)
     private String nom;
+    @Schema(name = "Prénom de l'utilisateur.", example = "Charles", required = true)
     private String prenom;
+    @Schema(name = "Email de l'utilisateur.", example = "charles.dupont@example.org", required = true)
     private String email;
-
+    @Schema(name = "Date de création de l'utilisateur dans l'IAM au format dd-MM-yyyy HH:mm:ss.", example = "23/06/2023 14:45:33", required = true)
     private String dateCreation;
 
-    public UtilisateurIamSimpleDto(Long id, String nom, String prenom, String email, String dateCreation) {
-        this.id = id;
+    public UtilisateurIamCreationReponseDto(String nom, String prenom, String email, String dateCreation) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.dateCreation = dateCreation;
     }
 
-    public UtilisateurIamSimpleDto() {
+    public UtilisateurIamCreationReponseDto() {
     }
 
     public String getNom() {
@@ -53,11 +55,4 @@ public class UtilisateurIamSimpleDto {
         this.dateCreation = dateCreation;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }

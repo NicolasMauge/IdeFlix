@@ -1,13 +1,22 @@
 package org.epita.infrastructure.utilisateur.iam;
 
+import org.epita.domaine.utilisateuriam.RoleIamEntity;
 import org.epita.domaine.utilisateuriam.UtilisateurIamEntity;
+import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+@Repository
 public class UtilisateurIamRepositoryImpl implements UtilisateurIamRepository {
     @Override
     public UtilisateurIamEntity creerUtilisateurIam(UtilisateurIamEntity nouvelUtilisateurIam) {
-        return null;
+
+        //List<RoleIamEntity> listeRoleIamEntity = new RoleIamEntity[].{new RoleIamEntity("ROLE_UTILISATEUR")};
+
+
+        return new UtilisateurIamEntity("BOUCHON", "Dave", "dave.bouchon@mock.fr", "mdpEnClair");
     }
 
     @Override
