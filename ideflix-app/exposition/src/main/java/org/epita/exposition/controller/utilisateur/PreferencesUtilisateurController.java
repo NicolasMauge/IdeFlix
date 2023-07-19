@@ -60,27 +60,6 @@ public class PreferencesUtilisateurController {
         return new ResponseEntity<String>("Preferences utilisateurs créées", HttpStatus.CREATED);
     }
 
-    @PostMapping("/addgenre/{email}/{genreid}")
-    public void ajouterGenrePourId(@PathVariable("email") String email, @PathVariable("genreid") Long genreId)  {
-        PreferencesUtilisateurEntity preferencesUtilisateurEntity = preferencesUtilisateurService.trouverPreferenceUtilisateurParEmailUtilisateur(email);
-        List<GenreEntity> genreEntityList = preferencesUtilisateurEntity.getGenreList();
-        GenreEntity genreEntity = genreService.trouverGenreParId(genreId);
-
-        if(genreEntityList.size()==0) {
-            genreEntityList.add(genreEntity);
-
-            preferencesUtilisateurEntity.setGenreList(genreEntityList);
-            preferencesUtilisateurService.creerPreferencesUtilisateur(preferencesUtilisateurEntity);
-        } else {
-            if(!genreEntityList.contains(genreEntity)) {
-                genreEntityList.add(genreEntity);
-
-                preferencesUtilisateurEntity.setGenreList(genreEntityList);
-                preferencesUtilisateurService.creerPreferencesUtilisateur(preferencesUtilisateurEntity);
-            }
-        }
-    }
-
     @GetMapping("/{id}")
     public PreferencesUtilisateurDto trouverPreferencesUtilisateurParId(@PathVariable("id") Long id) {
         return this.preferencesUtilisateurMapper

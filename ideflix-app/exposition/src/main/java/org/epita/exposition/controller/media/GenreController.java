@@ -51,7 +51,7 @@ public class GenreController {
     }
 
     @GetMapping("/{idtmdb}")
-    public GenreDto trouverGenreParId(@PathVariable("idtmdb") String idTmdb) {
+    public GenreDto trouverGenreParIdTmdb(@PathVariable("idtmdb") String idTmdb) {
         return this.genreMapper
             .mapEntityToDto(
                 this.genreService.trouverGenreByIdTmdb(idTmdb));
