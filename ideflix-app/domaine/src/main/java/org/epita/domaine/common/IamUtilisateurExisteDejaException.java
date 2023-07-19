@@ -1,9 +1,9 @@
-package org.epita.infrastructure.utilisateur.iam.exceptions;
+package org.epita.domaine.common;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class IamUtilisateurExisteDejaException extends IamException {
+public class IamUtilisateurExisteDejaException extends BusinessException {
 
     private static final Logger logger = LoggerFactory.getLogger(IamUtilisateurExisteDejaException.class);
 

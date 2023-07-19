@@ -40,6 +40,7 @@ public final class ConstantesSecurite {
             "/preferences",
             "/preferences/*",
             "/preferences/health-check",
+            "/preferences/utilisateur/*",
             "/serie",
             "/serie/*",
             "/serie/health-check",
