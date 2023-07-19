@@ -13,3 +13,9 @@ p.error {
   margin-bottom: 20px;
   margin-top: 40px;
 }
+
+form>label,
+form>input {
+  display: block;
+}
+

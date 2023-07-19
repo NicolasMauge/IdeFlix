@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {MesPreferencesService} from "../shared/services/mes-preferences.service";
+import {MessageService} from "../shared/services/message.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-mes-preferences',
@@ -28,26 +31,29 @@ export class MesPreferencesComponent {
     { id: 1, idTmdb: "53", name: "Thriller", checked: false },
     { id: 1, idTmdb: "10752", name: "Guerre", checked: false },
   ];
-  genres!: FormArray;
+  genreList!: FormArray;
 
   preferencesForm!: FormGroup;
   isFormSubmitted: boolean =  false;
   sites = [];
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder,
+              private mesPreferencesService : MesPreferencesService,
+              private messageSvc: MessageService,
+              private route: Router) {}
 
   ngOnInit() {
     /*
-      J'initialise le formulaire this.form qui est un formGroup
+      J'initialise le formulaire this.preferencesForm qui est un formGroup
       qui a 2 propriétés
-      - lastname : string
-      - roles : formArray
+      - pseudo : string
+      - genres : formArray
 
-      en valeur de  roles:FormArray
-      -> j'instancie autant de formGroup que j'ai de roles dans rolesList
+      en valeur de  genres:FormArray
+      -> j'instancie autant de formGroup que j'ai de genres dans genresList
     */
     this.preferencesForm = this.fb.group({
       pseudo: ["", Validators.required],
-      genres: this.fb.array(
+      genreList: this.fb.array(
         this.genresList.map(genre =>
           this.fb.group({
             name: genre.name,
@@ -61,31 +67,29 @@ export class MesPreferencesComponent {
 
   // Permet de récupérer formData dans la vue qui est une instance de FormArray
   get formData() {
-    console.log(this.preferencesForm.get("genres"));
-    return <FormArray>this.preferencesForm.get("genres");
+    console.log(this.preferencesForm.get("genreList"));
+    return <FormArray>this.preferencesForm.get("genreList");
   }
 
   onSubmit(event:Event) {
     event.preventDefault();
 
-    // console.log(this.registerForm);
+    // console.log(this.preferencesForm);
     console.log('isFormSubmitted: ' + this.isFormSubmitted);
     console.log('valid:' + this.preferencesForm.valid)
 
     this.isFormSubmitted = true;
     if (this.preferencesForm.valid) {
-      console.log('registerForm' + this.preferencesForm.value)
-      // this.authService.registerUser(this.registerForm.value)
-      //   .subscribe({next : response => {
-      //       console.log('reponse register' + response)
-      //       this.messageSvc.show('Compte créé', 'success')
-      //       this.route.navigate(['/login']); //TODO redirigé vers la page des préférences ou LOGIN
-      //     }})
+      console.log('preferencesForm' + this.preferencesForm.value)
+      this.mesPreferencesService.registerPreferences(this.preferencesForm.value)
+        .subscribe({next : response => {
+            console.log('reponse register' + response)
+            this.messageSvc.show('préférences enregistrées', 'success')
+            this.route.navigate(['/MaListe']);
+          }})
       // pour remettre le formulaire à blanc - nettoyer les champs
       this.isFormSubmitted= false;
       this.preferencesForm.reset();
     }
-
   }
-
 }
