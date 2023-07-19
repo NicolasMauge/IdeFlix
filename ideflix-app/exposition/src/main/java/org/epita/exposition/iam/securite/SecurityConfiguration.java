@@ -53,7 +53,8 @@ public class SecurityConfiguration {
         http
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, PATH_POST_ANONYME_WHITELIST).permitAll()
+                .antMatchers(HttpMethod.POST, PATH_POST_ANONYME_WHITELIST).permitAll() // autorisé sans authentification
+                .antMatchers(HttpMethod.GET, PATH_GET_ANONYME_WHITELIST).permitAll()   // autorisé sans authentification
                 .antMatchers(HttpMethod.GET, SWAGGER_WHITELIST).permitAll()
                 .antMatchers(SWAGGER_WHITELIST).permitAll() // hasRole(roleAdmin)
                 .antMatchers(HttpMethod.GET, PATH_GET_UTILISATEUR_WHITELIST).permitAll() // hasRole(roleUtilisateur)

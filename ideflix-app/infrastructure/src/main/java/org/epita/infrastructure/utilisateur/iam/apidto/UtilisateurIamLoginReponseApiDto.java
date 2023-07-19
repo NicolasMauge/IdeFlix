@@ -7,15 +7,15 @@ public class UtilisateurIamLoginReponseApiDto {
     private String prenom;
     private String email;
 
-    private List<RoleIamApiDto> listeRoleIamApiDto;
+    private List<RoleIamApiDto> listeRoles;
 
     private String jwt; // on le met dans le body dans la réponse au login suite conseil Frédéric Lossignol et techlead
 
-    public UtilisateurIamLoginReponseApiDto(String nom, String prenom, String email, List<RoleIamApiDto> listeRoleIamApiDto, String jwt) {
+    public UtilisateurIamLoginReponseApiDto(String nom, String prenom, String email, List<RoleIamApiDto> listeRoles, String jwt) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
-        this.listeRoleIamApiDto = listeRoleIamApiDto;
+        this.listeRoles = listeRoles;
         this.jwt = jwt;
     }
 
@@ -47,12 +47,12 @@ public class UtilisateurIamLoginReponseApiDto {
         this.email = email;
     }
 
-    public List<RoleIamApiDto> getListeRoleIamApiDto() {
-        return listeRoleIamApiDto;
+    public List<RoleIamApiDto> getListeRoles() {
+        return listeRoles;
     }
 
-    public void setListeRoleIamApiDto(List<RoleIamApiDto> listeRoleIamApiDto) {
-        this.listeRoleIamApiDto = listeRoleIamApiDto;
+    public void setListeRoles(List<RoleIamApiDto> listeRoles) {
+        this.listeRoles = listeRoles;
     }
 
     public String getJwt() {

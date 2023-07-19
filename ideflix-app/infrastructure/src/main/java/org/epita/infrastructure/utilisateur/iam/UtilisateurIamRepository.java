@@ -1,5 +1,6 @@
 package org.epita.infrastructure.utilisateur.iam;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.epita.domaine.utilisateuriam.UtilisateurIamEntity;
 
 import java.util.List;

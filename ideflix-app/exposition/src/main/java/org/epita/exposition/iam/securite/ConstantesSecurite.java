@@ -12,6 +12,11 @@ public final class ConstantesSecurite {
     };
 
 
+    public final static String[] PATH_GET_ANONYME_WHITELIST = {
+            "/genre"
+    };
+
+
     public final static String[] PATH_POST_ANONYME_WHITELIST = {
             "/login",
             "/utilisateur-iam"

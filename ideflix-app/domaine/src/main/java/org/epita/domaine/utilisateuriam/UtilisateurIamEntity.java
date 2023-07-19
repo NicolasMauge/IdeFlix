@@ -41,6 +41,14 @@ public class UtilisateurIamEntity {
         this.isActif = true;
     }
 
+    public UtilisateurIamEntity(String email, String nom, String prenom, List<RoleIamEntity> listeRoleIamEntity, String jwt) {
+        this.email = email;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.listeRoleIamEntity = listeRoleIamEntity;
+        this.jwt = jwt;
+    }
+
     public UtilisateurIamEntity(String email, String nom, String prenom, LocalDateTime dateCreation) {
         this.email = email;
         this.nom = nom;
