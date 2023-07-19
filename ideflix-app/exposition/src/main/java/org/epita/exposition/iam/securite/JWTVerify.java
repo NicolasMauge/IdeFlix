@@ -1,8 +1,16 @@
 package org.epita.exposition.iam.securite;
 
-import org.epita.application.utilisateur.utilisateur.UtilisateurService;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.interfaces.JWTVerifier;
+import org.epita.application.iam.service.UtilisateurIamService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -20,12 +28,12 @@ public class JWTVerify extends OncePerRequestFilter {
 
     private final String SECRET_IAM;
 
-    private final UtilisateurService utilisateurService;
+    private final UtilisateurIamService utilisateurIamService;
 
-    public JWTVerify(String secretIam, UtilisateurService utilisateurService) {
+    public JWTVerify(String secretIam, UtilisateurIamService utilisateurIamService) {
 
         this.SECRET_IAM = secretIam;
-        this.utilisateurService = utilisateurService;
+        this.utilisateurIamService = utilisateurIamService;
     }
 
     @Override
@@ -50,7 +58,7 @@ public class JWTVerify extends OncePerRequestFilter {
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(this.SECRET_IAM)).build();
         //DecodedJWT decodedJWT = verifier.verify(token);
 
-        // Bearer token -> Supprimer 'Bearer ' pour obtenir le tocken à vérifier
+        // Bearer token -> Supprimer 'Bearer ' pour obtenir le token à vérifier
         String token = bearerToken.replace("Bearer ", "");
         logger.debug("JWT = " + token);
         DecodedJWT decodedJWT = verifier.verify(token);

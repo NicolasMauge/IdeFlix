@@ -5,15 +5,22 @@ import org.epita.exposition.iam.utilisateuriam.mapper.UtilisateurIamSimpleMapper
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.sql.DataSource;
 
 import static org.epita.application.iam.common.ConstantesRole.ROLE_ADMIN;
-import static org.epita.exposition.iam.securite.ConstantesSecurite.SWAGGER_WHITELIST;
+import static org.epita.application.iam.common.ConstantesRole.ROLE_UTILISATEUR;
+import static org.epita.exposition.iam.securite.ConstantesSecurite.*;
 
 @Configuration
 //@EnableWebSecurity
@@ -21,8 +28,8 @@ public class SecurityConfiguration {
 
     private final static Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
 
-    @Value("${org.epita.ideflixapp.secretiam}")
-    public String SECRET_IAM;
+    //    @Value("${org.epita.ideflixapp.secretiam}")
+    public String SECRET_IAM = "1234567890IAM";
 
     private UtilisateurIamService utilisateurIamService;
 
@@ -44,25 +51,26 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        logger.debug("IAM - Chemin par défaut des end-points : " + contextPath);
-
         final String roleAdmin = ROLE_ADMIN.substring("ROLE_".length());
+        final String roleUtilisateur = ROLE_UTILISATEUR.substring("ROLE_".length());
 
         http
                 .cors().and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.POST, PATH_POST_ANONYME_WHITELIST).permitAll()
                 .antMatchers(HttpMethod.GET, SWAGGER_WHITELIST).permitAll()
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
-                .antMatchers(HttpMethod.GET, "/etat").permitAll()
-                .antMatchers(HttpMethod.POST, "/utilisateur").permitAll()
-                .antMatchers(SWAGGER_WHITELIST).hasRole(roleAdmin)
-                .antMatchers(HttpMethod.GET, "/admin/utilisateurs").hasRole(roleAdmin)
-//                .antMatchers(HttpMethod.GET, "/admin/utilisateurs").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/admin/utilisateurs/*").hasRole(roleAdmin)
-                .antMatchers(HttpMethod.DELETE, "/admin/utilisateurs/**").hasRole(roleAdmin)
+                .antMatchers(SWAGGER_WHITELIST).permitAll() // hasRole(roleAdmin)
+                .antMatchers(HttpMethod.GET, PATH_GET_UTILISATEUR_WHITELIST).permitAll() // hasRole(roleUtilisateur)
+                .antMatchers(HttpMethod.POST, PATH_POST_UTILISATEUR_WHITELIST).permitAll() // hasRole(roleUtilisateur)
+                .antMatchers(HttpMethod.DELETE, PATH_DELETE_UTILISATEUR_WHITELIST).permitAll() // hasRole(roleUtilisateur)
+                .antMatchers(HttpMethod.GET, PATH_GET_ADMINISTRATEUR_WHITELIST).permitAll() // hasRole(roleAdmin)
+                .antMatchers(HttpMethod.POST, PATH_POST_ADMINISTRATEUR_WHITELIST).permitAll() // hasRole(roleAdmin)
+                .antMatchers(HttpMethod.DELETE, PATH_DELETE_ADMINISTRATEUR_WHITELIST).permitAll() // hasRole(roleAdmin)
                 .anyRequest().denyAll()
                 .and()
-                .addFilterBefore(new JWTVerify(this.SECRET_IAM, utilisateurService), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JWTVerify(this.SECRET_IAM
+                                , utilisateurIamService)
+                        , UsernamePasswordAuthenticationFilter.class)
 //                .addFilter(
 //                        new JWTAuthenticationManager(
 //                                authenticationManager(
@@ -80,7 +88,7 @@ public class SecurityConfiguration {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
-        logger.debug("IAM - configureGlobal : récupération des données d'authentification en base");
+        logger.debug("APP - configureGlobal : récupération des données d'authentification en base");
 
 
         // TODO fusion Utilisateur UtilisateurIam ?

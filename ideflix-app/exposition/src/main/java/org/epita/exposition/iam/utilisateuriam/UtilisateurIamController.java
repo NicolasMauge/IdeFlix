@@ -36,7 +36,7 @@ public class UtilisateurIamController {
             @ApiResponse(code = 409, message = "L'utilisateur existe déjà.")
     })
     @CrossOrigin(origins = "http://locahost:4200")
-    @PostMapping("/utilisateur")
+    @PostMapping("/utilisateur-iam")
     public ResponseEntity<UtilisateurIamSimpleDto> creerUtilisateurIam(@RequestBody UtilisateurIamSimpleDto utilisateurIamSimpleDto) {
 
 //        UtilisateurIamSimpleDto utilisateurIamSimpleDto = new UtilisateurIamSimpleDto(
