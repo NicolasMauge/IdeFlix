@@ -8,3 +8,8 @@ p.error {
   font-size: 85%;
   margin: 0;
 }
+
+.ng-container {
+  margin-bottom: 20px;
+  margin-top: 40px;
+}

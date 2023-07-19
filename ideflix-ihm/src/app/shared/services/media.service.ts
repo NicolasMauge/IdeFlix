@@ -61,7 +61,8 @@ export class MediaService {
          (le paramètre nommé query a pour valeur la saisie de l'utilisateur)
  */
     /* api.themoviedb.org/3/search/movie?query=fast&api_key=5f871496b04d6b713429ccba8a599149&language=fr */
-    let endpoint = '/search/movie';
+    // let endpoint = '/search/movie';
+    let endpoint = '/search/multi';
     let options = new HttpParams()
       .set('query', userInput)
       .set('api_key', this.TMDB_APIKEY )

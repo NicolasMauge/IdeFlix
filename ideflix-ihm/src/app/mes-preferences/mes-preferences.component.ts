@@ -9,13 +9,24 @@ import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 export class MesPreferencesComponent {
 
   genresList = [
-    { name: "Action", value: 1, checked: false },
-    { name: "Aventure", value: 2, checked: false },
-    { name: "Science-Fiction", value: 3, checked: false },
-    { name: "Drame", value: 3, checked: false },
-    { name: "Comédie", value: 3, checked: false },
-    { name: "Thriller", value: 3, checked: false },
-    { name: "Familial", value: 3, checked: false }
+    { id: 1, idTmdb: "28", name: "Action", checked: false },
+    { id: 1, idTmdb: "12", name: "Aventure", checked: false },
+    { id: 1, idTmdb: "16", name: "Animation", checked: false },
+    { id: 1, idTmdb: "35", name: "Comédie", checked: false },
+    { id: 1, idTmdb: "80", name: "Crime", checked: false },
+    { id: 1, idTmdb: "99", name: "Documentaire", checked: false },
+    { id: 1, idTmdb: "18", name: "Drame", checked: false },
+    { id: 1, idTmdb: "10751", name: "Familial", checked: false },
+    { id: 1, idTmdb: "14", name: "Fantastique", checked: false },
+    { id: 1, idTmdb: "36", name: "Histoire", checked: false },
+    { id: 1, idTmdb: "27", name: "Horreur", checked: false },
+    { id: 1, idTmdb: "10402", name: "Musique", checked: false },
+    { id: 1, idTmdb: "9648", name: "Mystère", checked: false },
+    { id: 1, idTmdb: "10749", name: "Romance", checked: false },
+    { id: 1, idTmdb: "878", name: "Science-Fiction", checked: false },
+    { id: 1, idTmdb: "10770", name: "Téléfilm", checked: false },
+    { id: 1, idTmdb: "53", name: "Thriller", checked: false },
+    { id: 1, idTmdb: "10752", name: "Guerre", checked: false },
   ];
   genres!: FormArray;
 
@@ -37,10 +48,9 @@ export class MesPreferencesComponent {
     this.preferencesForm = this.fb.group({
       pseudo: ["", Validators.required],
       genres: this.fb.array(
-        this.genresList.map(r =>
+        this.genresList.map(genre =>
           this.fb.group({
-            name: r.name,
-            value: r.value,
+            name: genre.name,
             checked: this.fb.control(false)
           })
         ),
