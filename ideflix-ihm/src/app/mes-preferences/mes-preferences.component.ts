@@ -7,11 +7,13 @@ import {GenreModel} from "../shared/models/genre.model";
 import {Subscription} from "rxjs";
 import {GenreService} from "../shared/services/genre.service";
 import {PreferenceModel} from "../shared/models/preference.model";
+import {AddCheckedPropertyPipe} from "../shared/pipes/add-checked-property.pipe";
 
 @Component({
   selector: 'app-mes-preferences',
   templateUrl: './mes-preferences.component.html',
-  styleUrls: ['./mes-preferences.component.css']
+  styleUrls: ['./mes-preferences.component.css'],
+  providers: [AddCheckedPropertyPipe]
 })
 export class MesPreferencesComponent {
 
@@ -36,23 +38,27 @@ export class MesPreferencesComponent {
   //   { id: 1, idTmdb: "10752", name: "Guerre", checked: false },
   // ];
 
+  // propriétés pour chargement de tous les genres existants en Bdd
   genreList!: FormArray;
-
   genresList : GenreModel[] = [];
+  genresListChecked: GenreModel[] = [];
   subGenre!: Subscription;
+
+  // propriétés pour chargement des préférences de l'utilisateur
   subPreferences!: Subscription;
+  preferences!: PreferenceModel;
 
-  preferences!: PreferenceModel | undefined;
-
+  // propriétés du formulaire
   preferencesForm!: FormGroup;
   isFormSubmitted: boolean =  false;
-  loading : boolean = true;
+  // loading : boolean = true;
 
   constructor(private fb: FormBuilder,
               private mesPreferencesService : MesPreferencesService,
               private messageSvc: MessageService,
               private route: Router,
-              private genreService: GenreService) {}
+              private genreService: GenreService,
+              private addCheckedPropertyPipe : AddCheckedPropertyPipe) {}
 
   ngOnInit() {
 
@@ -78,8 +84,34 @@ export class MesPreferencesComponent {
       this.route.navigate(['/login']);
     }
 
-    // ajouter un checked à true sur les genres des préférences de l'utilisateur
+  }
 
+  initFormBuilder(){
+    /*
+  J'initialise le formulaire this.preferencesForm qui est un formGroup
+  qui a 2 propriétés
+  - pseudo : string
+  - genres : formArray
+
+  en valeur de  genres:FormArray
+  -> j'instancie autant de formGroup que j'ai de genres dans genresList
+*/
+    //  ajouter un checked à true sur les genres des préférences de l'utilisateur
+    this.genresListChecked = this.getFormattedGenres(this.genresList, this.preferences.genreList)
+
+    this.preferencesForm = this.fb.group({
+      email: localStorage.getItem('email'),
+      pseudo: [this.preferences?.pseudo,Validators.required],
+      genreList: this.fb.array(
+        this.genresListChecked.map(genre =>
+          this.fb.group({
+            id: genre.idGenre,
+            idTmdb: genre.idTmdbGenre,
+            name: genre.nomGenre,
+            checked: this.fb.control(genre.checked)
+          }))
+      )
+    });
   }
 
   // Permet de récupérer formData dans la vue qui est une instance de FormArray
@@ -110,28 +142,9 @@ export class MesPreferencesComponent {
     }
   }
 
-  initFormBuilder(){
-    /*
-  J'initialise le formulaire this.preferencesForm qui est un formGroup
-  qui a 2 propriétés
-  - pseudo : string
-  - genres : formArray
-
-  en valeur de  genres:FormArray
-  -> j'instancie autant de formGroup que j'ai de genres dans genresList
-*/
-    this.preferencesForm = this.fb.group({
-      email: localStorage.getItem('email'),
-      pseudo: [this.preferences?.pseudo,Validators.required],
-      genreList: this.fb.array(
-        this.genresList.map(genre =>
-          this.fb.group({
-            id: genre.idGenre,
-            idTmdb: genre.idTmdbGenre,
-            name: genre.nomGenre,
-            checked: this.fb.control(this.preferences?.checked)
-          }))
-      )
-    });
+  getFormattedGenres(allGenre : GenreModel[], preferencesGenre: GenreModel[]): GenreModel[] {
+    // return this.addCheckedPropertyPipe.transform(this.genresList, this.preferences?.genreList);
+  return this.addCheckedPropertyPipe.transform(allGenre, preferencesGenre);
   }
+
 }

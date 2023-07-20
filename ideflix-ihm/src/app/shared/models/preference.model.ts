@@ -6,7 +6,6 @@ export class PreferenceModel {
   email!: string;
   pseudo!: string;
   genreList!: GenreModel[];
-  checked!:boolean;
 
   constructor(preferencesFromApi: any) {
     this.email = preferencesFromApi.email;
@@ -16,6 +15,5 @@ export class PreferenceModel {
         return {id:item, idTmdb: '', nomGenre:''}
       }) :
       [...preferencesFromApi.genreList];
-    this.checked = false;
   }
 }

@@ -11,7 +11,7 @@ import {MessageService} from "./message.service";
 export class MesPreferencesService {
 
   IDEFLIX_API = environment.IDEFLIX_SERVER;
-  private _preferences$ = new BehaviorSubject<PreferenceModel>({email:'toto',pseudo:'',genreList:[],checked:false} );
+  private _preferences$ = new BehaviorSubject<PreferenceModel>({email:'toto',pseudo:'',genreList:[]} );
 
 
   constructor(private http: HttpClient,
