@@ -39,13 +39,15 @@ export class MesPreferencesComponent {
   genreList!: FormArray;
 
   genresList : GenreModel[] = [];
-  sub!: Subscription;
+  subGenre!: Subscription;
+  subPreferences!: Subscription;
 
-  preferences!: PreferenceModel;
+  preferences!: PreferenceModel | undefined;
 
   preferencesForm!: FormGroup;
   isFormSubmitted: boolean =  false;
-  sites = [];
+  loading : boolean = true;
+
   constructor(private fb: FormBuilder,
               private mesPreferencesService : MesPreferencesService,
               private messageSvc: MessageService,
@@ -54,47 +56,30 @@ export class MesPreferencesComponent {
 
   ngOnInit() {
 
+    // abonnement à la source service.genres$ via un subscribe pour récupérer la liste de tous les genres possibles
+    this.subGenre = this.genreService.genres$.subscribe( (data: GenreModel[]) => this.genresList = data);
+    console.log('get genres:' + this.genresList);
 
+    // requête pour récupérer les préférences de l'utilisateur et charger la page
     const email = localStorage.getItem('email');
-    /* appel à l'API des préférences de l'utilisateur pour rechercher ses préférences
-     */
     if (email !== null) {
-      this.mesPreferencesService.getPreferencesFromApi(email)
-        .subscribe((data: PreferenceModel)=> {
-          (this.preferences = data);
-          console.log('getPreferenceFromAPI', this.preferences);
-        })
+      this.mesPreferencesService.getPreferencesFromApi(email);
+      // abonnement à la source service.preferences$ via un subscribe
+      this.subPreferences = this.mesPreferencesService.preferences$.subscribe( (data: PreferenceModel) => {
+        this.preferences = data;
+        console.log('getPreferenceFromAPI', this.preferences);
+        this.initFormBuilder();
+      }
+      );
+
     } else {
       console.log('email non présent dans le localstorage');
       this.messageSvc.show('erreur de conexion - veuillez vous reconnecter', 'error')
       this.route.navigate(['/login']);
     }
 
-    /*
-      J'initialise le formulaire this.preferencesForm qui est un formGroup
-      qui a 2 propriétés
-      - pseudo : string
-      - genres : formArray
+    // ajouter un checked à true sur les genres des préférences de l'utilisateur
 
-      en valeur de  genres:FormArray
-      -> j'instancie autant de formGroup que j'ai de genres dans genresList
-    */
-    // abonnement à la source service.genres$ via un subscribe
-    this.sub = this.genreService.genres$.subscribe( (data: GenreModel[]) => this.genresList = data);
-
-    this.preferencesForm = this.fb.group({
-      email: localStorage.getItem('email'),
-      pseudo: ["", Validators.required],
-      genreList: this.fb.array(
-        this.genresList.map(genre =>
-        this.fb.group({
-          id: genre.idGenre,
-          idTmdb: genre.idTmdbGenre,
-          name: genre.nomGenre,
-          checked: this.fb.control(false)
-        }))
-      )
-    });
   }
 
   // Permet de récupérer formData dans la vue qui est une instance de FormArray
@@ -123,5 +108,30 @@ export class MesPreferencesComponent {
       this.isFormSubmitted= false;
       this.preferencesForm.reset();
     }
+  }
+
+  initFormBuilder(){
+    /*
+  J'initialise le formulaire this.preferencesForm qui est un formGroup
+  qui a 2 propriétés
+  - pseudo : string
+  - genres : formArray
+
+  en valeur de  genres:FormArray
+  -> j'instancie autant de formGroup que j'ai de genres dans genresList
+*/
+    this.preferencesForm = this.fb.group({
+      email: localStorage.getItem('email'),
+      pseudo: [this.preferences?.pseudo,Validators.required],
+      genreList: this.fb.array(
+        this.genresList.map(genre =>
+          this.fb.group({
+            id: genre.idGenre,
+            idTmdb: genre.idTmdbGenre,
+            name: genre.nomGenre,
+            checked: this.fb.control(this.preferences?.checked)
+          }))
+      )
+    });
   }
 }

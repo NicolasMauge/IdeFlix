@@ -4,7 +4,7 @@ import {LoginComponent} from "./auth/login/login.component";
 import {RegisterComponent} from "./auth/register/register.component";
 import {AccueilComponent} from "./accueil/accueil.component";
 import {MaListeComponent} from "./MaListe/ma-liste/ma-liste.component";
-import {MediaListComponent} from "./Rechercher/media-list/media-list.component";
+import {MediaListComponent} from "./rechercher-media/media-list/media-list.component";
 import {authGuard} from "./shared/guards/auth.guard";
 import {MesPreferencesComponent} from "./mes-preferences/mes-preferences.component";
 import {DetailMediaComponent} from "./selection-media/detail-media/detail-media.component";
