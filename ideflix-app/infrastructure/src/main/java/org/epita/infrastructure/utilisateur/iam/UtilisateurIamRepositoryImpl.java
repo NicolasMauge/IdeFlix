@@ -2,12 +2,14 @@ package org.epita.infrastructure.utilisateur.iam;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.epita.domaine.common.IamJsonConversionException;
 import org.epita.domaine.utilisateuriam.UtilisateurIamEntity;
+import org.epita.infrastructure.utilisateur.iam.apidto.ErrorIamApiDto;
 import org.epita.infrastructure.utilisateur.iam.mapper.UtilisateurIamApiMapper;
 import org.epita.infrastructure.utilisateur.iam.apidto.UtilisateurIamCreationReponseApiDto;
 import org.epita.infrastructure.utilisateur.iam.apidto.UtilisateurIamLoginReponseApiDto;
-import org.epita.infrastructure.utilisateur.iam.exceptions.IamException;
-import org.epita.infrastructure.utilisateur.iam.exceptions.IamUtilisateurExisteDejaException;
+import org.epita.domaine.common.IamException;
+import org.epita.domaine.common.IamUtilisateurExisteDejaException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -31,38 +33,67 @@ public class UtilisateurIamRepositoryImpl implements UtilisateurIamRepository {
     public UtilisateurIamEntity creerUtilisateurIam(UtilisateurIamEntity nouvelUtilisateurIam) {
 
         final String iamCreationEndpointUrl = "http://localhost:8080/api/v1/iam/utilisateur";
-
         RestTemplate restTemplate = new RestTemplate();
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        ResponseEntity<UtilisateurIamCreationReponseApiDto> creationResponse = restTemplate.postForEntity(iamCreationEndpointUrl,
+        ResponseEntity<String> creationResponse = restTemplate.postForEntity(iamCreationEndpointUrl,
                 utilisateurIamApiMapper.mapEntityToCreationApiDto(nouvelUtilisateurIam),
-                UtilisateurIamCreationReponseApiDto.class);
+                String.class);
 
         HttpStatus codeReponseHttp = creationResponse.getStatusCode();
 
         logger.debug("APP - Création " + nouvelUtilisateurIam.getEmail() + ". Réponse de l'IAM : " + codeReponseHttp.name());
 
-        return switch (codeReponseHttp) {
-            case CREATED -> utilisateurIamApiMapper.mapCreationReponseDtoToEntity(creationResponse.getBody());
-            case CONFLICT -> throw new IamUtilisateurExisteDejaException("(" + nouvelUtilisateurIam.getEmail() + ").");
-            default ->
-                    throw new IamException("Code retour : " + codeReponseHttp.name() + " (" + nouvelUtilisateurIam.getEmail() + ").");
-        };
+        String creationReponseBody = creationResponse.getBody();
+
+        switch (codeReponseHttp) {
+            case CREATED:
+                UtilisateurIamCreationReponseApiDto utilisateurIamCreationReponseApiDto = null;
+                try {
+                    utilisateurIamCreationReponseApiDto = objectMapper.readValue(
+                            creationReponseBody,
+                            UtilisateurIamCreationReponseApiDto.class);
+                } catch (JsonProcessingException e) {
+                    logger.error("APP - IAM - Erreur lecture JSON : " + creationReponseBody);
+                    throw new IamJsonConversionException("APP - IAM - Le compte "
+                            + nouvelUtilisateurIam.getEmail()
+                            + "a été créé dans l'IAM mais la réponse n'a pas pu être interprêtée : "
+                            + creationReponseBody);
+                }
+
+                return utilisateurIamApiMapper.mapCreationReponseDtoToEntity(utilisateurIamCreationReponseApiDto);
 
 
+            case CONFLICT:
+                ErrorIamApiDto errorIamApiDto = null;
+
+                try {
+                    errorIamApiDto = objectMapper.readValue(
+                            creationReponseBody,
+                            ErrorIamApiDto.class);
+
+                } catch (JsonProcessingException e) {
+                    logger.error("APP - IAM - Erreur lecture JSON : " + creationReponseBody);
+                    throw new IamJsonConversionException("APP - IAM - Le compte "
+                            + nouvelUtilisateurIam.getEmail()
+                            + "existe déjà dans l'IAM. De plus, la réponse n'a pas pu être interprêtée : "
+                            + creationReponseBody);
+                }
+
+                logger.warn("APP - IAM : l'utilisateur " + nouvelUtilisateurIam.getEmail() + " existe déjà.");
+                throw new IamUtilisateurExisteDejaException("(" + nouvelUtilisateurIam.getEmail() + ").");
+
+            default:
+                throw new IamException("Code retour : " + codeReponseHttp.name() + " (" + nouvelUtilisateurIam.getEmail() + ").");
+        }
     }
 
     @Override
     public UtilisateurIamEntity loginIam(UtilisateurIamEntity utilisateurIam) {
 
         final String iamLoginEndpointUrl = "http://localhost:8080/api/v1/iam/login";
-
         RestTemplate restTemplate = new RestTemplate();
-
-//        ResponseEntity<UtilisateurIamLoginReponseApiDto> loginResponse = restTemplate.postForEntity(
-//                iamLoginEndpointUrl,
-//                utilisateurIamApiMapper.mapEntiteToLoginApiDto(utilisateurIam),
-//                UtilisateurIamLoginReponseApiDto.class);
+        ObjectMapper objectMapper = new ObjectMapper();
 
         ResponseEntity<String> loginResponse = restTemplate.postForEntity(
                 iamLoginEndpointUrl,
@@ -77,8 +108,6 @@ public class UtilisateurIamRepositoryImpl implements UtilisateurIamRepository {
         switch (codeReponseHttp) {
             case OK:
                 String reponseLoginString = loginResponse.getBody();
-                ObjectMapper objectMapper = new ObjectMapper();
-
                 logger.debug("APP - Création " + utilisateurIam.getEmail() + ". Réponse de l'IAM : " + reponseLoginString);
 
                 try {
