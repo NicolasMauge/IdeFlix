@@ -21,6 +21,7 @@ import { MaListeFiltreComponent } from './MaListe/ma-liste-filtre/ma-liste-filtr
 import {TokenInterceptor} from "./shared/interceptors/token.interceptor";
 import {ErrorInterceptor} from "./shared/interceptors/error.interceptor";
 import { MesPreferencesComponent } from './mes-preferences/mes-preferences.component';
+import { DetailMediaComponent } from './selection-media/detail-media/detail-media.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { MesPreferencesComponent } from './mes-preferences/mes-preferences.compo
     FilterMaListePipe,
     ValuesFromKeyPipe,
     MaListeFiltreComponent,
-    MesPreferencesComponent
+    MesPreferencesComponent,
+    DetailMediaComponent
   ],
   imports: [
     BrowserModule,
