@@ -29,6 +29,14 @@ public class UtilisateurEntity {
         this.dateCreation = dateCreation;
     }
 
+    public UtilisateurEntity(String email, String nom, String prenom, LocalDate dateCreation) {
+        this.email = email;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.dateCreation = dateCreation;
+    }
+
+
     public Long getId() {
         return id;
     }

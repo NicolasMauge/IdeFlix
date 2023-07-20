@@ -1,5 +1,7 @@
 package org.epita.application.iam.service;
 
+import org.epita.application.utilisateur.utilisateur.UtilisateurService;
+import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.domaine.utilisateuriam.UtilisateurIamEntity;
 import org.epita.infrastructure.utilisateur.iam.UtilisateurIamRepository;
 import org.slf4j.Logger;
@@ -14,16 +16,32 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
     private static final Logger logger = LoggerFactory.getLogger(UtilisateurIamServiceImpl.class);
 
     UtilisateurIamRepository utilisateurIamRepository;
+    UtilisateurService utilisateurService;
 
-    public UtilisateurIamServiceImpl(UtilisateurIamRepository utilisateurIamRepository) {
+    public UtilisateurIamServiceImpl(UtilisateurIamRepository utilisateurIamRepository, UtilisateurService utilisateurService) {
         this.utilisateurIamRepository = utilisateurIamRepository;
+        this.utilisateurService = utilisateurService;
     }
 
     @Override
     public UtilisateurIamEntity creerUtilisateurIam(UtilisateurIamEntity utilisateurIamEntity) {
         logger.info("APP - IAM - Création utilisateur : " + utilisateurIamEntity.getEmail() + ".");
 
-        return utilisateurIamRepository.creerUtilisateurIam(utilisateurIamEntity);
+        // Création dans l'IAM :
+        UtilisateurIamEntity nouvelUtilisateurIam = utilisateurIamRepository.creerUtilisateurIam(utilisateurIamEntity);
+
+        // Création dans l'APP :
+        UtilisateurEntity utilisateur = new UtilisateurEntity(
+                nouvelUtilisateurIam.getEmail(),
+                nouvelUtilisateurIam.getNom(),
+                nouvelUtilisateurIam.getPrenom(),
+                nouvelUtilisateurIam.getDateCreation().toLocalDate()
+        );
+
+        utilisateurService.creerUtilisateur(utilisateur);
+        logger.debug("IdeFlix - Création utilisateur " + utilisateur.getEmail() + " dans l'APP (id=" + utilisateur.getId() + ").");
+
+        return nouvelUtilisateurIam;
     }
 
     @Override
