@@ -10,10 +10,14 @@ export class PreferenceModel {
   constructor(preferencesFromApi: any) {
     this.email = preferencesFromApi.email;
     this.pseudo = preferencesFromApi.pseudo;
-    this.genreList = preferencesFromApi.genre_ids != undefined ?
-      preferencesFromApi.genre_ids.map((item: number) => {
-        return {id:item, idTmdb: '', nomGenre:''}
-      }) :
-      [...preferencesFromApi.genreList];
+
+    // Vérification si preferencesFromApi.genreList existe et est un tableau
+    if (Array.isArray(preferencesFromApi.genreList)) {
+      // Utilisation de la méthode map pour transformer chaque élément de preferencesFromApi.genreList en un objet GenreModel
+      this.genreList = preferencesFromApi.genreList.map((genreFromApi: any) => new GenreModel(genreFromApi));
+    } else {
+      this.genreList = [];
+    }
   }
+
 }

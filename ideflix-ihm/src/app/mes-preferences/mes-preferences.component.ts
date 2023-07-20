@@ -41,12 +41,12 @@ export class MesPreferencesComponent {
   // propriétés pour chargement de tous les genres existants en Bdd
   genreList!: FormArray;
   genresList : GenreModel[] = [];
-  genresListChecked: GenreModel[] = [];
   subGenre!: Subscription;
 
   // propriétés pour chargement des préférences de l'utilisateur
   subPreferences!: Subscription;
   preferences!: PreferenceModel;
+  genresListChecked: GenreModel[] = [];
 
   // propriétés du formulaire
   preferencesForm!: FormGroup;
@@ -63,8 +63,11 @@ export class MesPreferencesComponent {
   ngOnInit() {
 
     // abonnement à la source service.genres$ via un subscribe pour récupérer la liste de tous les genres possibles
-    this.subGenre = this.genreService.genres$.subscribe( (data: GenreModel[]) => this.genresList = data);
-    console.log('get genres:' + this.genresList);
+    this.subGenre = this.genreService.genres$.subscribe( (data: GenreModel[]) => {
+      this.genresList = data;
+      console.log('get genres:', this.genresList);
+    });
+
 
     // requête pour récupérer les préférences de l'utilisateur et charger la page
     const email = localStorage.getItem('email');
@@ -73,7 +76,8 @@ export class MesPreferencesComponent {
       // abonnement à la source service.preferences$ via un subscribe
       this.subPreferences = this.mesPreferencesService.preferences$.subscribe( (data: PreferenceModel) => {
         this.preferences = data;
-        console.log('getPreferenceFromAPI', this.preferences);
+        //  ajouter un checked à true sur les genres des préférences de l'utilisateur
+        this.genresListChecked = this.getFormattedGenres(this.genresList, this.preferences.genreList);
         this.initFormBuilder();
       }
       );
@@ -96,8 +100,6 @@ export class MesPreferencesComponent {
   en valeur de  genres:FormArray
   -> j'instancie autant de formGroup que j'ai de genres dans genresList
 */
-    //  ajouter un checked à true sur les genres des préférences de l'utilisateur
-    this.genresListChecked = this.getFormattedGenres(this.genresList, this.preferences.genreList)
 
     this.preferencesForm = this.fb.group({
       email: localStorage.getItem('email'),
@@ -105,8 +107,8 @@ export class MesPreferencesComponent {
       genreList: this.fb.array(
         this.genresListChecked.map(genre =>
           this.fb.group({
-            id: genre.idGenre,
-            idTmdb: genre.idTmdbGenre,
+            id: genre.id,
+            idTmdb: genre.idTmdb,
             name: genre.nomGenre,
             checked: this.fb.control(genre.checked)
           }))
@@ -143,8 +145,7 @@ export class MesPreferencesComponent {
   }
 
   getFormattedGenres(allGenre : GenreModel[], preferencesGenre: GenreModel[]): GenreModel[] {
-    // return this.addCheckedPropertyPipe.transform(this.genresList, this.preferences?.genreList);
-  return this.addCheckedPropertyPipe.transform(allGenre, preferencesGenre);
+    return this.addCheckedPropertyPipe.transform(allGenre, preferencesGenre);
   }
 
 }

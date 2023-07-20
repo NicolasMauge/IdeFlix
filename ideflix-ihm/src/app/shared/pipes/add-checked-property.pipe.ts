@@ -9,7 +9,7 @@ export class AddCheckedPropertyPipe implements PipeTransform {
   transform(allGenres: GenreModel[], userGenres: GenreModel[]): GenreModel[] {
     return allGenres.map((genre) => ({
       ...genre,
-      checked: userGenres.some((userGenre) => userGenre.idGenre === genre.idGenre)
+      checked: userGenres.some((userGenre) => userGenre.id === genre.id)
     }));
   }
 }
