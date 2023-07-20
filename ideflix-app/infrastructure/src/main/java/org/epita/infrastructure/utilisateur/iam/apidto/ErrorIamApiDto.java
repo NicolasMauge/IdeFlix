@@ -7,9 +7,9 @@ import java.time.LocalDateTime;
 public class ErrorIamApiDto {
     private String code;
     private String message;
-    private LocalDateTime dateTime;
+    private String dateTime;
 
-    public ErrorIamApiDto(String code, String message, LocalDateTime dateTime) {
+    public ErrorIamApiDto(String code, String message, String dateTime) {
         this.code = code;
         this.message = message;
         this.dateTime = dateTime;
@@ -34,11 +34,11 @@ public class ErrorIamApiDto {
         this.message = message;
     }
 
-    public LocalDateTime getDateTime() {
+    public String getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
+    public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
     }
 }

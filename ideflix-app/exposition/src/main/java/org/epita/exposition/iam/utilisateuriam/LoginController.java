@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping
 public class LoginController {
@@ -39,7 +41,7 @@ public class LoginController {
     })
     @CrossOrigin(origins = "http://locahost:4200")
     @PostMapping("/login")
-    ResponseEntity<UtilisateurIamLoginReponseDto> login(@RequestBody UtilisateurIamLoginDto utilisateurIamLoginDto) {
+    ResponseEntity<UtilisateurIamLoginReponseDto> login(@Valid @RequestBody UtilisateurIamLoginDto utilisateurIamLoginDto) {
 
         logger.debug("IdeFlix - Connexion de l'utilisateur " + utilisateurIamLoginDto.getEmail());
 

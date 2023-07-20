@@ -9,6 +9,6 @@ public class IamUtilisateurExisteDejaException extends BusinessException {
 
     public IamUtilisateurExisteDejaException(String message) {
         super(message);
-        logger.error("APP - IAM - L'utilisateur existe déjà. " + message);
+        logger.warn("APP - IAM - L'utilisateur existe déjà. " + message);
     }
 }

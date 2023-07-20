@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -36,56 +37,38 @@ public class UtilisateurIamRepositoryImpl implements UtilisateurIamRepository {
         RestTemplate restTemplate = new RestTemplate();
         ObjectMapper objectMapper = new ObjectMapper();
 
-        ResponseEntity<String> creationResponse = restTemplate.postForEntity(iamCreationEndpointUrl,
-                utilisateurIamApiMapper.mapEntityToCreationApiDto(nouvelUtilisateurIam),
-                String.class);
+        try {
+            ResponseEntity<UtilisateurIamCreationReponseApiDto> creationResponse = restTemplate.postForEntity(iamCreationEndpointUrl,
+                    utilisateurIamApiMapper.mapEntityToCreationApiDto(nouvelUtilisateurIam),
+                    UtilisateurIamCreationReponseApiDto.class);
 
-        HttpStatus codeReponseHttp = creationResponse.getStatusCode();
+            UtilisateurIamCreationReponseApiDto utilisateurIamCreationReponseApiDto = creationResponse.getBody();
 
-        logger.debug("APP - Création " + nouvelUtilisateurIam.getEmail() + ". Réponse de l'IAM : " + codeReponseHttp.name());
-
-        String creationReponseBody = creationResponse.getBody();
-
-        switch (codeReponseHttp) {
-            case CREATED:
-                UtilisateurIamCreationReponseApiDto utilisateurIamCreationReponseApiDto = null;
-                try {
-                    utilisateurIamCreationReponseApiDto = objectMapper.readValue(
-                            creationReponseBody,
-                            UtilisateurIamCreationReponseApiDto.class);
-                } catch (JsonProcessingException e) {
-                    logger.error("APP - IAM - Erreur lecture JSON : " + creationReponseBody);
-                    throw new IamJsonConversionException("APP - IAM - Le compte "
-                            + nouvelUtilisateurIam.getEmail()
-                            + "a été créé dans l'IAM mais la réponse n'a pas pu être interprêtée : "
-                            + creationReponseBody);
-                }
-
+            if (utilisateurIamCreationReponseApiDto != null)
                 return utilisateurIamApiMapper.mapCreationReponseDtoToEntity(utilisateurIamCreationReponseApiDto);
+            else
+                throw new IamException("APP - IAM - Echec création " + nouvelUtilisateurIam.getEmail() + ").");
+        } catch (HttpClientErrorException e) {
+            switch (e.getStatusCode()) {
+                case CONFLICT:
+                    logger.warn("APP - IAM - Le compte " + nouvelUtilisateurIam.getEmail()
+                            + " existe déjà dans l'IAM.");
 
+                    throw new IamUtilisateurExisteDejaException("APP - IAM - Le compte " + nouvelUtilisateurIam.getEmail()
+                            + " existe déjà dans l'IAM.");
 
-            case CONFLICT:
-                ErrorIamApiDto errorIamApiDto = null;
+                default:
+                    logger.error("APP - IAM - Le compte " + nouvelUtilisateurIam.getEmail()
+                            + " n'a pas été créé. L'IAM a répondu : " + e.getStatusCode()
+                            + " - " + e.getResponseBodyAsString());
 
-                try {
-                    errorIamApiDto = objectMapper.readValue(
-                            creationReponseBody,
-                            ErrorIamApiDto.class);
-
-                } catch (JsonProcessingException e) {
-                    logger.error("APP - IAM - Erreur lecture JSON : " + creationReponseBody);
-                    throw new IamJsonConversionException("APP - IAM - Le compte "
-                            + nouvelUtilisateurIam.getEmail()
-                            + "existe déjà dans l'IAM. De plus, la réponse n'a pas pu être interprêtée : "
-                            + creationReponseBody);
-                }
-
-                logger.warn("APP - IAM : l'utilisateur " + nouvelUtilisateurIam.getEmail() + " existe déjà.");
-                throw new IamUtilisateurExisteDejaException("(" + nouvelUtilisateurIam.getEmail() + ").");
-
-            default:
-                throw new IamException("Code retour : " + codeReponseHttp.name() + " (" + nouvelUtilisateurIam.getEmail() + ").");
+                    throw new IamException("APP - IAM - Code retour : " + e.getStatusCode() + " (" + nouvelUtilisateurIam.getEmail() + ").");
+            }
+        } catch (Exception e) {
+            logger.debug("APP - IAM postForEntity exception non prévue.");
+            throw new IamException("APP - IAM - Echec de la création de l'utilisateur " + nouvelUtilisateurIam.getEmail() + ".");
         }
+
     }
 
     @Override

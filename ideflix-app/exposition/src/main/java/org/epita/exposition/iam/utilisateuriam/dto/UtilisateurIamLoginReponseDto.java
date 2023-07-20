@@ -1,10 +1,14 @@
 package org.epita.exposition.iam.utilisateuriam.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.List;
 
 public class UtilisateurIamLoginReponseDto {
     private String nom;
+    @Schema(name = "Prénom de l'utilisateur.", example = "Charles", required = true)
     private String prenom;
+    @Schema(name = "Email de l'utilisateur", example = "charles.dupont@example.org", required = true)
     private String email;
 
     private List<RoleIamDto> listeRoleIamDto;

@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -82,10 +83,10 @@ public class PreferencesUtilisateurController {
     }
 
     @GetMapping("/utilisateur/{email}")
-    public PreferencesUtilisateurDto trouverPreferencesUtilisateurParEmailUtilisateur(@PathVariable("email") String email) {
+    public PreferencesUtilisateurDto trouverPreferencesUtilisateurParEmailUtilisateur(@Valid @PathVariable("email") String email) {
         return this.preferencesUtilisateurMapper
                 .mapEntityToDto(
-                    this.preferencesUtilisateurService
-                            .trouverPreferenceUtilisateurParEmailUtilisateur(email));
+                        this.preferencesUtilisateurService
+                                .trouverPreferenceUtilisateurParEmailUtilisateur(email));
     }
 }

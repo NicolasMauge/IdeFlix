@@ -1,9 +1,14 @@
 package org.epita.infrastructure.utilisateur.iam.apidto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
 public class UtilisateurIamCreationApiDto {
+    @Email(message = "email invalide", regexp = "^[a-zA-Z0-9_!#&*+.-]+@[a-zA-Z0-9.-]+$")
     private String nom;
     private String prenom;
     private String email;
+    @NotEmpty(message = "Mot de passe obligatoire")
     private String motDePasse;
 
     public UtilisateurIamCreationApiDto(String nom, String prenom, String email, String motDePasse) {
