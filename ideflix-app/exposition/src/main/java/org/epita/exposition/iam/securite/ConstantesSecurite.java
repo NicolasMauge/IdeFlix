@@ -18,8 +18,8 @@ public final class ConstantesSecurite {
 
 
     public final static String[] PATH_POST_ANONYME_WHITELIST = {
-            "/login",
-            "/utilisateur-iam"
+            "/iam/login",
+            "/iam/utilisateur"
     };
 
     public final static String[] PATH_GET_UTILISATEUR_WHITELIST = {
@@ -59,7 +59,6 @@ public final class ConstantesSecurite {
             "/film",
             "/film/*",
             "/filmselectionne",
-//            "/filmselectionne/*",
             "/genre",
             "/genre/masse",
             "/preferences",
@@ -83,7 +82,7 @@ public final class ConstantesSecurite {
     };
 
     public final static String[] PATH_GET_ADMINISTRATEUR_WHITELIST = {
-
+            "/iam/admin/utilisateurs"
     };
 
     public final static String[] PATH_POST_ADMINISTRATEUR_WHITELIST = {
@@ -93,6 +92,8 @@ public final class ConstantesSecurite {
     public final static String[] PATH_DELETE_ADMINISTRATEUR_WHITELIST = {
             "/film/*",
             "/genre/*",
-            "/serie/*"
+            "/serie/*",
+            "/iam/admin/utilisateurs/*"
+
     };
 }
