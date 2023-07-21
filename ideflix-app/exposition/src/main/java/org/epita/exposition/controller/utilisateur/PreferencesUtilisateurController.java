@@ -1,10 +1,13 @@
 package org.epita.exposition.controller.utilisateur;
 
+import io.swagger.annotations.ApiOperation;
 import org.epita.application.media.genre.GenreService;
 import org.epita.application.utilisateur.preferences.PreferencesUtilisateurService;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.exposition.common.Mapper;
+import org.epita.exposition.common.ResponseEntityCommune;
+import org.epita.exposition.dto.common.ReponseCommuneDto;
 import org.epita.exposition.dto.media.GenreDto;
 import org.epita.exposition.dto.utilisateur.PreferencesUtilisateurDto;
 import org.slf4j.Logger;
@@ -41,12 +44,17 @@ public class PreferencesUtilisateurController {
     }
 
     @PostMapping
-    public ResponseEntity<String> creerPreferencesUtilisateur(@RequestBody PreferencesUtilisateurDto preferencesUtilisateurDto) {
+    @ApiOperation(value = "Créer les préférences d'un utilisateur",
+            notes = "Permet de stocker le pseudo et les genres préférés de l'utilisateur.",
+            response = ReponseCommuneDto.class)
+    public ResponseEntity<ReponseCommuneDto> creerPreferencesUtilisateur(@RequestBody PreferencesUtilisateurDto preferencesUtilisateurDto) {
         this.preferencesUtilisateurService
                 .creerPreferencesUtilisateur(
                         this.preferencesUtilisateurMapper.mapDtoToEntity(preferencesUtilisateurDto));
 
-        return new ResponseEntity<String>("Preference utilisateur créée", HttpStatus.CREATED);
+        logger.debug("IdeFlix - Préférences utilisateur créées pour " + preferencesUtilisateurDto.getEmail());
+
+        return ResponseEntityCommune.get("Préférences utilisateur créées", HttpStatus.CREATED);
     }
 
     @PostMapping("/masse")
