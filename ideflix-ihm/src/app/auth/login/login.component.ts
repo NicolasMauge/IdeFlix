@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../../shared/services/auth.service";
-import {MessageService} from "../../shared/services/message.service";
+import {AuthService} from "../../shared/services/auth/auth.service";
+import {MessageService} from "../../shared/services/common/message.service";
 import {Router} from "@angular/router";
-import {MenuService} from "../../shared/services/menu.service";
+import {MenuService} from "../../shared/services/common/menu.service";
 
 @Component({
   selector: 'app-login',

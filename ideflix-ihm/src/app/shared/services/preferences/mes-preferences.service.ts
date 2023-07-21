@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {environment} from "../../../environments/environment";
+import {environment} from "../../../../environments/environment";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {BehaviorSubject, map, Observable} from "rxjs";
-import {PreferenceModel} from "../models/preference.model";
-import {MessageService} from "./message.service";
+import {PreferenceModel} from "../../models/preference.model";
+import {MessageService} from "../common/message.service";
 
 @Injectable({
   providedIn: 'root'

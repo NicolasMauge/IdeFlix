@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {environment} from "../../../environments/environment";
+import {environment} from "../../../../environments/environment";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {MessageService} from "./message.service";
+import {MessageService} from "../common/message.service";
 import {Observable, tap} from "rxjs";
 
 
@@ -36,7 +36,7 @@ export class AuthService {
               }
             }
           },
-          next : (response) => {
+          next : () => {
             this._isAuthenticated = true;
           }
         })
@@ -48,7 +48,7 @@ export class AuthService {
     return this.http.post<any>(this.USER_API + endpoint, data)
       .pipe(
         tap({
-          next : (response) => {
+          next : () => {
             this._isAuthenticated = true;
           }
         })

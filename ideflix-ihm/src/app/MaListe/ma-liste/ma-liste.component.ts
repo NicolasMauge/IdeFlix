@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {MenuService} from "../../shared/services/menu.service";
+import {MenuService} from "../../shared/services/common/menu.service";
 import {filter, Subscription} from "rxjs";
-import {MediaMaListeService} from "../../shared/services/media-ma-liste.service";
+import {MediaMaListeService} from "../../shared/services/maListe/media-ma-liste.service";
 import {MediaMaListeModel} from "../../shared/models/media-ma-liste.model";
 
 @Component({

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MesPreferencesService} from "../shared/services/mes-preferences.service";
-import {MessageService} from "../shared/services/message.service";
+import {MesPreferencesService} from "../shared/services/preferences/mes-preferences.service";
+import {MessageService} from "../shared/services/common/message.service";
 import {Router} from "@angular/router";
 import {GenreModel} from "../shared/models/genre.model";
 import {Subscription} from "rxjs";
-import {GenreService} from "../shared/services/genre.service";
+import {GenreService} from "../shared/services/genres/genre.service";
 import {PreferenceModel} from "../shared/models/preference.model";
 import {AddCheckedPropertyPipe} from "../shared/pipes/add-checked-property.pipe";
 
