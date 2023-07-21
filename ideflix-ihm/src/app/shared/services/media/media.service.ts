@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import {environment} from "../../../environments/environment";
+import {environment} from "../../../../environments/environment";
 import {BehaviorSubject, map, Observable} from "rxjs";
+import {MediaModel} from "../../models/media.model";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {MediaMaListeModel} from "../models/media-ma-liste.model";
 
 @Injectable({
   providedIn: 'root'
 })
-export class MediaMaListeService {
+export class MediaService {
 
   TMDB_API = 'https://api.themoviedb.org/3';
   TMDB_APIKEY = environment.APIKEY_TMDB;
 
-  private _mediaMaListe$ = new BehaviorSubject(<MediaMaListeModel[]>([]));
+  private _movies$ = new BehaviorSubject(<MediaModel[]>([]));
   constructor(private http: HttpClient) { }
 
   getMoviesFromApi(): void {
@@ -23,35 +23,35 @@ export class MediaMaListeService {
       .set('language', 'fr')
       .set('page', '1');
 
-    this.http.get<MediaMaListeModel[]>(this.TMDB_API + endpoint, { params:options })
+    this.http.get<MediaModel[]>(this.TMDB_API + endpoint, { params:options })
       .pipe(
         //extraction avec map des propriétés qui nous intéressent  - dans results de la réponse API =  20 movies
         //map est l'opérateur de RxJs
         map( (listMoviesApi: any) => {
           return listMoviesApi.results
             // map de JavaScript
-            .map((movieFromApi: any) => new MediaMaListeModel(movieFromApi))
+            .map((movieFromApi: any) => new MediaModel(movieFromApi))
         })
       )
       //on envoie la valeur suivante du flux de donnée (Observable est un flux)
-      .subscribe((data: MediaMaListeModel[]) => this._mediaMaListe$.next(data));
+      .subscribe((data: MediaModel[]) => this._movies$.next(data));
   }
 
-  getValueOfMediaMaListe$(): MediaMaListeModel[] {
-    return this._mediaMaListe$.getValue();
+  getValueOfMovies$(): MediaModel[] {
+    return this._movies$.getValue();
   }
 
   /**getter setter  */
-  get mediaMaListe$():Observable<MediaMaListeModel[]> {
+  get movies$():Observable<MediaModel[]> {
     //asObservable pour que personne ne puisse faire un next là-dessus. Avec un observable, on ne peut que souscrire.
-    return this._mediaMaListe$.asObservable();
+    return this._movies$.asObservable();
   }
 
-  setMediaMaListe$(data: MediaMaListeModel[]) {
-    this._mediaMaListe$.next(data);
+  setMovies$(data: MediaModel[]) {
+    this._movies$.next(data);
   }
 
-  searchMediaMaListe(userInput: string): Observable<MediaMaListeModel[]> {
+  searchMovies(userInput: string): Observable<MediaModel[]> {
     /*
    searchMovies()
    rôle :> faire une request HTTP[GET] à l'API theMovieDB
@@ -61,17 +61,18 @@ export class MediaMaListeService {
          (le paramètre nommé query a pour valeur la saisie de l'utilisateur)
  */
     /* api.themoviedb.org/3/search/movie?query=fast&api_key=5f871496b04d6b713429ccba8a599149&language=fr */
-    let endpoint = '/search/movie';
+    // let endpoint = '/search/movie';
+    let endpoint = '/search/multi';
     let options = new HttpParams()
       .set('query', userInput)
       .set('api_key', this.TMDB_APIKEY )
       .set('language', 'fr');
 
-    return this.http.get<MediaMaListeModel[]>(this.TMDB_API + endpoint, { params:options })
+    return this.http.get<MediaModel[]>(this.TMDB_API + endpoint, { params:options })
       .pipe(
         map( (listMoviesApi: any) => {
           return listMoviesApi.results
-            .map((movieFromApi: any) => new MediaMaListeModel(movieFromApi))
+            .map((movieFromApi: any) => new MediaModel(movieFromApi))
         })
       )
   }
@@ -81,7 +82,7 @@ export class MediaMaListeService {
    * @param movieId
    * @returns
    */
-  getDetails(movieId: number): Observable<MediaMaListeModel> {
+  getDetails(movieId: number): Observable<MediaModel> {
 
     /* https://api.themoviedb.org/3/movie/385687?api_key=5f871496b04d6b713429ccba8a599149&language=en-FR */
     let endpoint = '/movie/' + movieId;
@@ -89,9 +90,9 @@ export class MediaMaListeService {
       .set('api_key', this.TMDB_APIKEY )
       .set('language', 'fr');
 
-    return this.http.get<MediaMaListeModel>(this.TMDB_API + endpoint, { params:options })
+    return this.http.get<MediaModel>(this.TMDB_API + endpoint, { params:options })
       .pipe(map ((movieFromApi: any) =>
-        new MediaMaListeModel(movieFromApi))
+        new MediaModel(movieFromApi))
       )
   }
 

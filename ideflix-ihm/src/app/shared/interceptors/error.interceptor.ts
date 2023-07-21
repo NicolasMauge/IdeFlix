@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import {Observable, tap} from 'rxjs';
 import {Router} from "@angular/router";
-import {MessageService} from "../services/message.service";
+import {MessageService} from "../services/common/message.service";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {

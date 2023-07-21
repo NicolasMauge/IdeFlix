@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import {AbstractControlOptions, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../../shared/services/auth.service";
-import {MessageService} from "../../shared/services/message.service";
+import {AuthService} from "../../shared/services/auth/auth.service";
+import {MessageService} from "../../shared/services/common/message.service";
 import {Router} from "@angular/router";
-import {MenuService} from "../../shared/services/menu.service";
+import {MenuService} from "../../shared/services/common/menu.service";
 // import {MenuService} from "../../shared/services/menu.service";
 
 
@@ -67,7 +67,7 @@ export class RegisterComponent  {
 
     this.isFormSubmitted = true;
     if (this.registerForm.valid) {
-      console.log('registerForm' + this.registerForm.value)
+      // console.log('registerForm' + this.registerForm.value)
       this.authService.registerUser(this.registerForm.value)
         .subscribe({next : response => {
             console.log('reponse register' + response)

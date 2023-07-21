@@ -10,7 +10,7 @@
 <ul class="row">
 
   <div *ngFor="let media of medias | filtrerMaListe : myFilter" class="col-12 col-md-3">
-    <div class="card">
+    <div class="card" routerLink="/selection">
       <img [title]="media.resume" [src]="media.image_landscape | printImg" [alt]="media.titre">
       <div class="card-body">
         <h2>{{ media.titre }}</h2>

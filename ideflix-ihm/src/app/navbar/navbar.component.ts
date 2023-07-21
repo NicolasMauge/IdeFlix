@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {MenuService} from "../shared/services/menu.service";
+import {MenuService} from "../shared/services/common/menu.service";
 
 @Component({
   selector: 'app-navbar',
