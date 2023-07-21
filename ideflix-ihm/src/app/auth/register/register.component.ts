@@ -67,7 +67,7 @@ export class RegisterComponent  {
 
     this.isFormSubmitted = true;
     if (this.registerForm.valid) {
-      console.log('registerForm' + this.registerForm.value)
+      // console.log('registerForm' + this.registerForm.value)
       this.authService.registerUser(this.registerForm.value)
         .subscribe({next : response => {
             console.log('reponse register' + response)
