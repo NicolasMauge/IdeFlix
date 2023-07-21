@@ -43,18 +43,21 @@ public class PreferencesUtilisateurController {
         return new ResponseEntity<>("UP", HttpStatus.OK);
     }
 
-    @PostMapping
+    //@PostMapping
+    @PostMapping(value = "", produces = {"application/json"}, consumes = {"application/json"})
     @ApiOperation(value = "Créer les préférences d'un utilisateur",
             notes = "Permet de stocker le pseudo et les genres préférés de l'utilisateur.",
             response = ReponseCommuneDto.class)
-    public ResponseEntity<ReponseCommuneDto> creerPreferencesUtilisateur(@RequestBody PreferencesUtilisateurDto preferencesUtilisateurDto) {
+    public ResponseEntity<String> creerPreferencesUtilisateur(@RequestBody PreferencesUtilisateurDto preferencesUtilisateurDto) {
         this.preferencesUtilisateurService
                 .creerPreferencesUtilisateur(
                         this.preferencesUtilisateurMapper.mapDtoToEntity(preferencesUtilisateurDto));
 
-        logger.debug("IdeFlix - Préférences utilisateur créées pour " + preferencesUtilisateurDto.getEmail());
+        //logger.debug("IdeFlix - Préférences utilisateur créées pour " + preferencesUtilisateurDto.getEmail());
 
-        return ResponseEntityCommune.get("Préférences utilisateur créées", HttpStatus.CREATED);
+//        return new ResponseEntity<String>("Preference utilisateur créée", HttpStatus.CREATED);
+        return new ResponseEntity<String>("{ \"message\":\"Preference utilisateur créée\"}", HttpStatus.CREATED);
+        //return ResponseEntityCommune.get("Préférences utilisateur créées", HttpStatus.CREATED);
     }
 
     @PostMapping("/masse")
