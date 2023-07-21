@@ -17,30 +17,9 @@ import {AddCheckedPropertyPipe} from "../shared/pipes/add-checked-property.pipe"
 })
 export class MesPreferencesComponent {
 
-  // genresList = [
-  //   { id: 1, idTmdb: "28", name: "Action", checked: false },
-  //   { id: 1, idTmdb: "12", name: "Aventure", checked: false },
-  //   { id: 1, idTmdb: "16", name: "Animation", checked: false },
-  //   { id: 1, idTmdb: "35", name: "Comédie", checked: false },
-  //   { id: 1, idTmdb: "80", name: "Crime", checked: false },
-  //   { id: 1, idTmdb: "99", name: "Documentaire", checked: false },
-  //   { id: 1, idTmdb: "18", name: "Drame", checked: false },
-  //   { id: 1, idTmdb: "10751", name: "Familial", checked: false },
-  //   { id: 1, idTmdb: "14", name: "Fantastique", checked: false },
-  //   { id: 1, idTmdb: "36", name: "Histoire", checked: false },
-  //   { id: 1, idTmdb: "27", name: "Horreur", checked: false },
-  //   { id: 1, idTmdb: "10402", name: "Musique", checked: false },
-  //   { id: 1, idTmdb: "9648", name: "Mystère", checked: false },
-  //   { id: 1, idTmdb: "10749", name: "Romance", checked: false },
-  //   { id: 1, idTmdb: "878", name: "Science-Fiction", checked: false },
-  //   { id: 1, idTmdb: "10770", name: "Téléfilm", checked: false },
-  //   { id: 1, idTmdb: "53", name: "Thriller", checked: false },
-  //   { id: 1, idTmdb: "10752", name: "Guerre", checked: false },
-  // ];
-
   // propriétés pour chargement de tous les genres existants en Bdd
   genreList!: FormArray;
-  genresList : GenreModel[] = [];
+  allGenres : GenreModel[] = [];
   subGenre!: Subscription;
 
   // propriétés pour chargement des préférences de l'utilisateur
@@ -51,7 +30,6 @@ export class MesPreferencesComponent {
   // propriétés du formulaire
   preferencesForm!: FormGroup;
   isFormSubmitted: boolean =  false;
-  // loading : boolean = true;
 
   constructor(private fb: FormBuilder,
               private mesPreferencesService : MesPreferencesService,
@@ -64,8 +42,7 @@ export class MesPreferencesComponent {
 
     // abonnement à la source service.genres$ via un subscribe pour récupérer la liste de tous les genres possibles
     this.subGenre = this.genreService.genres$.subscribe( (data: GenreModel[]) => {
-      this.genresList = data;
-      console.log('get genres:', this.genresList);
+      this.allGenres = data;
     });
 
 
@@ -77,7 +54,7 @@ export class MesPreferencesComponent {
       this.subPreferences = this.mesPreferencesService.preferences$.subscribe( (data: PreferenceModel) => {
         this.preferences = data;
         //  ajouter un checked à true sur les genres des préférences de l'utilisateur
-        this.genresListChecked = this.getFormattedGenres(this.genresList, this.preferences.genreList);
+        this.genresListChecked = this.getFormattedGenres(this.allGenres, this.preferences.genreList);
         this.initFormBuilder();
       }
       );
@@ -91,16 +68,8 @@ export class MesPreferencesComponent {
   }
 
   initFormBuilder(){
-    /*
-  J'initialise le formulaire this.preferencesForm qui est un formGroup
-  qui a 2 propriétés
-  - pseudo : string
-  - genres : formArray
 
-  en valeur de  genres:FormArray
-  -> j'instancie autant de formGroup que j'ai de genres dans genresList
-*/
-
+  // initialisation du formulaire this.preferencesForm avec pré affichage des préférences utilisateurs enregsitrées en BDD
     this.preferencesForm = this.fb.group({
       email: localStorage.getItem('email'),
       pseudo: [this.preferences?.pseudo,Validators.required],
@@ -118,34 +87,55 @@ export class MesPreferencesComponent {
 
   // Permet de récupérer formData dans la vue qui est une instance de FormArray
   get formData() {
-    console.log(this.preferencesForm.get("genreList"));
     return <FormArray>this.preferencesForm.get("genreList");
   }
 
   onSubmit(event:Event) {
     event.preventDefault();
 
-    // console.log(this.preferencesForm);
-    console.log('isFormSubmitted: ' + this.isFormSubmitted);
-    console.log('valid:' + this.preferencesForm.valid)
-
     this.isFormSubmitted = true;
     if (this.preferencesForm.valid) {
-      console.log('preferencesForm' + this.preferencesForm.value)
-      this.mesPreferencesService.registerPreferences(this.preferencesForm.value)
-        .subscribe({next : response => {
-            console.log('reponse register' + response)
+
+    // formattage des préférences pour appel à l'API (email + pseudo + genreList)
+      const selectedGenres = this.getGenresChecked();
+      const data = {
+        email: this.preferencesForm.get('email')?.value,
+        pseudo: this.preferencesForm.get('pseudo')?.value,
+        genreList: selectedGenres
+      };
+
+
+    // enregistrement des préférences créées ou modifiées en BDD
+      this.mesPreferencesService.registerPreferences(data)
+        .subscribe({next : () => {
             this.messageSvc.show('préférences enregistrées', 'success')
             this.route.navigate(['/MaListe']);
           }})
-      // pour remettre le formulaire à blanc - nettoyer les champs
       this.isFormSubmitted= false;
-      this.preferencesForm.reset();
     }
   }
 
+  // fonction pour matcher entre la liste des préférences choisies par l'utilisateur et la liste de tous les genres
   getFormattedGenres(allGenre : GenreModel[], preferencesGenre: GenreModel[]): GenreModel[] {
     return this.addCheckedPropertyPipe.transform(allGenre, preferencesGenre);
+  }
+
+  // fonction pour formatter GenreList (uniquement les genres cochés )
+  getGenresChecked(): GenreModel[] {
+    const selectedGenres: GenreModel[] = [];
+    const formArray = this.formData;
+    for (let i = 0; i < formArray.length; i++) {
+      const genreControl = formArray.at(i);
+      if (genreControl.get('checked')?.value) {
+        selectedGenres.push(genreControl.value);
+      }
+    }
+    return selectedGenres;
+  }
+
+  ngOnDestroy(){
+    this.subGenre.unsubscribe
+    this.subPreferences.unsubscribe()
   }
 
 }

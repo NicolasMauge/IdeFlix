@@ -13,9 +13,7 @@ export class GenreService {
   // private genres: GenreModel[] = [];
   private _genres$ = new BehaviorSubject(<GenreModel[]>([]));
 
-  constructor(private http: HttpClient) {
-    console.log(this._genres$);
-  }
+  constructor(private http: HttpClient) {}
 
   // Méthode pour récupérer le tableau des genres
   getGenres(): GenreModel[] {

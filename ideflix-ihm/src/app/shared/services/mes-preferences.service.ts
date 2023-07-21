@@ -26,28 +26,18 @@ export class MesPreferencesService {
 
     let endpoint = '/preferences/utilisateur/' + email;
 
-    // return this.http.get<PreferenceModel>(this.IDEFLIX_API + endpoint)
-    //   .pipe(
-    //     map((preferencesFromApi: any) =>
-    //       new PreferenceModel(preferencesFromApi))
-    //   )
-
-    console.log('dans le get: ' + email);
     this.http.get<PreferenceModel>(this.IDEFLIX_API + endpoint)
       .pipe(
         map((preferencesFromApi: any) =>
           new PreferenceModel(preferencesFromApi))
       )
-      .subscribe((data: PreferenceModel)=> {this._preferences$.next(data)
-      console.log('data' + data)},
+      .subscribe((data: PreferenceModel)=> this._preferences$.next(data),
          (err: unknown)=> {
         if (err instanceof HttpErrorResponse) {
           if (err.status == 404) {
             this.messageSvc.show('Vous n\'avez pas de préférences', 'info')
-        }
-        }
-    }
-      );
+        }}
+    });
   }
 
   /**getter setter  */
