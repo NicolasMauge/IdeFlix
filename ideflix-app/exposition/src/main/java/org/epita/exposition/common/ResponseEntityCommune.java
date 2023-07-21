@@ -8,7 +8,7 @@ public class ResponseEntityCommune {
 
     public static ResponseEntity<ReponseCommuneDto> get(String message, HttpStatus httpStatus) {
 
-        ReponseCommuneDto reponseCommuneDto = new ReponseCommuneDto(message);
+        ReponseCommuneDto reponseCommuneDto = new ReponseCommuneDto(message, String.valueOf(httpStatus));
 
         return new ResponseEntity<>(reponseCommuneDto, httpStatus);
     }

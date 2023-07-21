@@ -1,5 +1,7 @@
 package org.epita.exposition.controller.utilisateur;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiOperation;
 import org.epita.application.media.genre.GenreService;
 import org.epita.application.utilisateur.preferences.PreferencesUtilisateurService;
@@ -48,16 +50,12 @@ public class PreferencesUtilisateurController {
     @ApiOperation(value = "Créer les préférences d'un utilisateur",
             notes = "Permet de stocker le pseudo et les genres préférés de l'utilisateur.",
             response = ReponseCommuneDto.class)
-    public ResponseEntity<String> creerPreferencesUtilisateur(@RequestBody PreferencesUtilisateurDto preferencesUtilisateurDto) {
+    public ResponseEntity<ReponseCommuneDto> creerPreferencesUtilisateur(@RequestBody PreferencesUtilisateurDto preferencesUtilisateurDto) {
         this.preferencesUtilisateurService
                 .creerPreferencesUtilisateur(
                         this.preferencesUtilisateurMapper.mapDtoToEntity(preferencesUtilisateurDto));
 
-        //logger.debug("IdeFlix - Préférences utilisateur créées pour " + preferencesUtilisateurDto.getEmail());
-
-//        return new ResponseEntity<String>("Preference utilisateur créée", HttpStatus.CREATED);
-        return new ResponseEntity<String>("{ \"message\":\"Preference utilisateur créée\"}", HttpStatus.CREATED);
-        //return ResponseEntityCommune.get("Préférences utilisateur créées", HttpStatus.CREATED);
+        return ResponseEntityCommune.get("Préférences utilisateur créées", HttpStatus.CREATED);
     }
 
     @PostMapping("/masse")
