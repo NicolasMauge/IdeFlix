@@ -1,9 +1,6 @@
 package org.epita.exposition.common;
 
-import org.epita.domaine.common.EntityNotFoundException;
-import org.epita.domaine.common.IamException;
-import org.epita.domaine.common.IamJsonConversionException;
-import org.epita.domaine.common.IamUtilisateurExisteDejaException;
+import org.epita.domaine.common.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -17,7 +14,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.validation.ConstraintViolationException;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
@@ -25,11 +21,23 @@ public class ControlAdviceException extends ResponseEntityExceptionHandler {
 
     public static final Logger logger = LoggerFactory.getLogger(ControlAdviceException.class);
 
+    // ========================================================================================
+    // méthode privée commune pour créer le retour :
+    private ResponseEntity<Object> getResponseEntity(String messageErreur, HttpStatus httpStatus, Exception exception) {
+
+        ErrorModel model = new ErrorModel(String.valueOf(httpStatus),
+                exception.getLocalizedMessage(),
+                messageErreur);
+
+        return new ResponseEntity<>(model, httpStatus);
+    }
+
+
+    // ========================================================================================
     @ExceptionHandler
     @ResponseBody
-    public ResponseEntity<ErrorModel> handleResourceNotFoundException(final EntityNotFoundException ex) {
-        ErrorModel model = new ErrorModel("404", ex.getLocalizedMessage(), "Resource not found");
-        return new ResponseEntity<ErrorModel>(model, HttpStatus.NOT_FOUND);
+    public ResponseEntity<Object> handleResourceNotFoundException(final EntityNotFoundException ex) {
+        return getResponseEntity("Resource not found", HttpStatus.NOT_FOUND, ex);
     }
 
 
@@ -37,23 +45,20 @@ public class ControlAdviceException extends ResponseEntityExceptionHandler {
     // Exceptions en réponse de l'IAM :
     @ExceptionHandler
     @ResponseBody
-    public ResponseEntity<ErrorModel> handleIamException(final IamException ex) {
-        ErrorModel model = new ErrorModel(String.valueOf(HttpStatus.SERVICE_UNAVAILABLE), ex.getLocalizedMessage(), "Erreur de communication avec l'IAM");
-        return new ResponseEntity<ErrorModel>(model, HttpStatus.SERVICE_UNAVAILABLE);
+    public ResponseEntity<Object> handleIamUtilisateurExisteDejaException(final IamUtilisateurExisteDejaException ex) {
+        return getResponseEntity("L'utilisateur existe déjà.", HttpStatus.CONFLICT, ex);
     }
 
     @ExceptionHandler
     @ResponseBody
-    public ResponseEntity<ErrorModel> handleIamUtilisateurExisteDejaException(final IamUtilisateurExisteDejaException ex) {
-        ErrorModel model = new ErrorModel(String.valueOf(HttpStatus.CONFLICT), ex.getLocalizedMessage(), "L'utilisateur existe déjà.");
-        return new ResponseEntity<ErrorModel>(model, HttpStatus.CONFLICT);
+    public ResponseEntity<Object> handleIamUtilisateurInterditException(final IamUtilisateurInterditException ex) {
+        return getResponseEntity("Connexion refusée : email ou mot de passe erroné.", HttpStatus.FORBIDDEN, ex);
     }
 
     @ExceptionHandler
     @ResponseBody
-    public ResponseEntity<ErrorModel> handleIamJsonConversionException(final IamJsonConversionException ex) {
-        ErrorModel model = new ErrorModel(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR), ex.getLocalizedMessage(), "Problème de conversion JSON en provenance de l'IAM.");
-        return new ResponseEntity<ErrorModel>(model, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<Object> handleIamException(final IamException ex) {
+        return getResponseEntity("Erreur de communication avec l'IAM", HttpStatus.SERVICE_UNAVAILABLE, ex);
     }
 
 
@@ -71,28 +76,25 @@ public class ControlAdviceException extends ResponseEntityExceptionHandler {
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
                 .collect(Collectors.joining(" ; "));
 
-
-        ErrorModel model = new ErrorModel(String.valueOf(HttpStatus.BAD_REQUEST), "Erreur de format.", validationErrors);
-
         logger.error("IdeFlix - Erreur de format : " + validationErrors);
         logger.error("IdeFlix - Erreur de format : " + ex.getLocalizedMessage());
 
-        return new ResponseEntity<Object>(model, HttpStatus.BAD_REQUEST);
+        return getResponseEntity("Erreur de format : " + validationErrors, HttpStatus.BAD_REQUEST, ex);
+
     }
 
     @ExceptionHandler({ConstraintViolationException.class})
-    public ResponseEntity<Object> handleConstraintViolation(
-            ConstraintViolationException ex, WebRequest request) {
-        String validationErrors = ex.getConstraintViolations()
-                .stream().
-                map(violation -> violation.getPropertyPath() + ": " + violation.getMessage())
-                .collect(Collectors.joining(" ; "));
+    public ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex,
+                                                            WebRequest request) {
 
-        ErrorModel model = new ErrorModel(String.valueOf(HttpStatus.BAD_REQUEST), ex.getLocalizedMessage(), "Erreur de contrainte : " + validationErrors);
+        String validationErrors = ex.getConstraintViolations()
+                .stream()
+                .map(violation -> violation.getPropertyPath() + ": " + violation.getMessage())
+                .collect(Collectors.joining(" ; "));
 
         logger.error("IdeFlix - Erreur de contrainte : " + validationErrors);
 
-        return new ResponseEntity<Object>(model, HttpStatus.BAD_REQUEST);
+        return getResponseEntity("Erreur de contrainte : " + validationErrors, HttpStatus.BAD_REQUEST, ex);
     }
 
 

@@ -1,10 +1,8 @@
 package org.epita.infrastructure.utilisateur.iam;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.epita.domaine.common.IamJsonConversionException;
+import org.epita.domaine.common.IamUtilisateurInterditException;
 import org.epita.domaine.utilisateuriam.UtilisateurIamEntity;
-import org.epita.infrastructure.utilisateur.iam.apidto.ErrorIamApiDto;
 import org.epita.infrastructure.utilisateur.iam.mapper.UtilisateurIamApiMapper;
 import org.epita.infrastructure.utilisateur.iam.apidto.UtilisateurIamCreationReponseApiDto;
 import org.epita.infrastructure.utilisateur.iam.apidto.UtilisateurIamLoginReponseApiDto;
@@ -12,13 +10,13 @@ import org.epita.domaine.common.IamException;
 import org.epita.domaine.common.IamUtilisateurExisteDejaException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class UtilisateurIamRepositoryImpl implements UtilisateurIamRepository {
@@ -35,7 +33,6 @@ public class UtilisateurIamRepositoryImpl implements UtilisateurIamRepository {
 
         final String iamCreationEndpointUrl = "http://localhost:8080/api/v1/iam/utilisateur";
         RestTemplate restTemplate = new RestTemplate();
-        ObjectMapper objectMapper = new ObjectMapper();
 
         try {
             ResponseEntity<UtilisateurIamCreationReponseApiDto> creationResponse = restTemplate.postForEntity(iamCreationEndpointUrl,
@@ -62,10 +59,10 @@ public class UtilisateurIamRepositoryImpl implements UtilisateurIamRepository {
                             + " n'a pas été créé. L'IAM a répondu : " + e.getStatusCode()
                             + " - " + e.getResponseBodyAsString());
 
-                    throw new IamException("APP - IAM - Code retour : " + e.getStatusCode() + " (" + nouvelUtilisateurIam.getEmail() + ").");
+                    throw new IamException("APP - IAM - Echec de la création de l'utilisateur. Code retour : " + e.getStatusCode() + " (" + nouvelUtilisateurIam.getEmail() + ").");
             }
         } catch (Exception e) {
-            logger.debug("APP - IAM postForEntity exception non prévue.");
+            logger.error("APP - IAM - Création d'utilisateur : exception non prévue.");
             throw new IamException("APP - IAM - Echec de la création de l'utilisateur " + nouvelUtilisateurIam.getEmail() + ".");
         }
 
@@ -73,36 +70,38 @@ public class UtilisateurIamRepositoryImpl implements UtilisateurIamRepository {
 
     @Override
     public UtilisateurIamEntity loginIam(UtilisateurIamEntity utilisateurIam) {
-
         final String iamLoginEndpointUrl = "http://localhost:8080/api/v1/iam/login";
         RestTemplate restTemplate = new RestTemplate();
-        ObjectMapper objectMapper = new ObjectMapper();
 
-        ResponseEntity<String> loginResponse = restTemplate.postForEntity(
-                iamLoginEndpointUrl,
-                utilisateurIamApiMapper.mapEntiteToLoginApiDto(utilisateurIam),
-                String.class);
+        try {
+            ResponseEntity<UtilisateurIamLoginReponseApiDto> loginResponse = restTemplate.postForEntity(
+                    iamLoginEndpointUrl,
+                    utilisateurIamApiMapper.mapEntiteToLoginApiDto(utilisateurIam),
+                    UtilisateurIamLoginReponseApiDto.class);
 
+            return utilisateurIamApiMapper.mapLoginReponseApiDtoToEntity(Objects.requireNonNull(loginResponse.getBody()));
 
-        HttpStatus codeReponseHttp = loginResponse.getStatusCode();
+        } catch (HttpClientErrorException e) {
+            switch (e.getStatusCode()) {
+                case FORBIDDEN:
+                    logger.warn("IdeFlix - Login de " + utilisateurIam.getEmail()
+                            + " échoué.");
 
-        logger.debug("APP - Création " + utilisateurIam.getEmail() + ". Réponse de l'IAM : " + codeReponseHttp.name());
+                    throw new IamUtilisateurInterditException("APP - IAM - Erreur login de " + utilisateurIam.getEmail()
+                            + " : email ou mot de passe erroné.");
 
-        switch (codeReponseHttp) {
-            case OK:
-                String reponseLoginString = loginResponse.getBody();
-                logger.debug("APP - Création " + utilisateurIam.getEmail() + ". Réponse de l'IAM : " + reponseLoginString);
+                default:
+                    logger.error("IdeFlix - Erreur login de  " + utilisateurIam.getEmail()
+                            + " n'a pas été créé. L'IAM a répondu : " + e.getStatusCode()
+                            + " - " + e.getResponseBodyAsString());
 
-                try {
-                    return utilisateurIamApiMapper.mapLoginReponseApiDtoToEntity(
-                            objectMapper
-                                    .readValue(reponseLoginString, UtilisateurIamLoginReponseApiDto.class));
-                } catch (JsonProcessingException e) {
-                    logger.error("APP - IAM : pas possible de convertir ce JSON en objet : " + reponseLoginString);
-                    throw new RuntimeException(e);
-                }
-            default:
-                throw new IamException("Code retour : " + codeReponseHttp.name() + " (" + utilisateurIam.getEmail() + ").");
+                    throw new IamException("IdeFlix - Erreur login - Code retour : " + e.getStatusCode() + " (" + utilisateurIam.getEmail() + ").");
+            }
+        } catch (Exception e) {
+            logger.error("IdeFlix - loginIam exception non prévue  : "
+                    + e.getMessage()
+                    + e.getCause() == null ? "" : " - " + e.getCause());
+            throw new IamException("IdeFlix - Echec de la création de l'utilisateur " + utilisateurIam.getEmail() + ".");
         }
     }
 
