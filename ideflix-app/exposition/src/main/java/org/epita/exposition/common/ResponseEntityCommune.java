@@ -7,7 +7,10 @@ import org.springframework.http.ResponseEntity;
 public class ResponseEntityCommune {
 
     public static ResponseEntity<ReponseCommuneDto> get(String message, HttpStatus httpStatus) {
-        return new ResponseEntity<>(new ReponseCommuneDto(String.valueOf(httpStatus), message), httpStatus);
+
+        ReponseCommuneDto reponseCommuneDto = new ReponseCommuneDto(message);
+
+        return new ResponseEntity<>(reponseCommuneDto, httpStatus);
     }
 
 }
