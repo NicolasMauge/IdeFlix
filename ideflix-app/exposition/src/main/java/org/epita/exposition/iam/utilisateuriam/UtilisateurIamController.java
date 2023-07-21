@@ -13,7 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping
@@ -41,7 +44,7 @@ public class UtilisateurIamController {
     })
     @CrossOrigin(origins = "http://locahost:4200")
     @PostMapping("/utilisateur-iam")
-    public ResponseEntity<UtilisateurIamCreationReponseDto> creerUtilisateurIam(@RequestBody UtilisateurIamCreationDto utilisateurIamCreationDto) {
+    public ResponseEntity<UtilisateurIamCreationReponseDto> creerUtilisateurIam(@Valid @RequestBody @Validated UtilisateurIamCreationDto utilisateurIamCreationDto) {
 //        UtilisateurIamSimpleDto utilisateurIamSimpleDto = new UtilisateurIamSimpleDto(1L,"DUBOUCHON","Mocky","mock@bouchon.fr","2023-07-18");
 
         logger.debug("IdeFlix - Création de l'utilisateur " + utilisateurIamCreationDto.getEmail());

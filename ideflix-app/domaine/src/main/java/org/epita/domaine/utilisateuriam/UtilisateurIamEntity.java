@@ -3,11 +3,14 @@ package org.epita.domaine.utilisateuriam;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
+import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 import java.util.List;
 
 // pas de stockage donc pas de @Entity
 public class UtilisateurIamEntity {
+
+    @Email(message = "email invalide", regexp = "^[a-zA-Z0-9_!#&*+.-]+@[a-zA-Z0-9.-]+$")
     private String email;
     private String nom;
     private String prenom;
