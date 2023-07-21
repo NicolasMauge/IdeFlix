@@ -109,7 +109,7 @@ export class MesPreferencesComponent {
       this.mesPreferencesService.registerPreferences(data)
         .subscribe({next : () => {
             this.messageSvc.show('préférences enregistrées', 'success')
-            this.route.navigate(['/MaListe']);
+            this.route.navigate(['/maListe']);
           }})
       this.isFormSubmitted= false;
     }
