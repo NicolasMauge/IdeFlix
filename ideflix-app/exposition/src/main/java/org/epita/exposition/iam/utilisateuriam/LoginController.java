@@ -32,12 +32,12 @@ public class LoginController {
 
 
     @ApiOperation(value = "Se connecter",
-            notes = "",
             response = UtilisateurIamLoginReponseDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Connexion réussie."),
             @ApiResponse(code = 400, message = "Requête erronée."),
-            @ApiResponse(code = 403, message = "Utilisateur ou mot de passe incorrect.")
+            @ApiResponse(code = 403, message = "Utilisateur ou mot de passe incorrect."),
+            @ApiResponse(code = 503, message = "Un problème de communication avec l'IAM a eu lieu.")
     })
     @CrossOrigin(origins = "http://locahost:4200")
     @PostMapping("/login")

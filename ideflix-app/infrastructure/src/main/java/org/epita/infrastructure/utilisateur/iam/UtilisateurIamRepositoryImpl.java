@@ -1,6 +1,7 @@
 package org.epita.infrastructure.utilisateur.iam;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.epita.domaine.common.IamJsonException;
 import org.epita.domaine.common.IamUtilisateurInterditException;
 import org.epita.domaine.utilisateuriam.UtilisateurIamEntity;
 import org.epita.infrastructure.utilisateur.iam.mapper.UtilisateurIamApiMapper;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.UnknownContentTypeException;
 
 import java.util.List;
 import java.util.Objects;
@@ -97,10 +99,35 @@ public class UtilisateurIamRepositoryImpl implements UtilisateurIamRepository {
 
                     throw new IamException("IdeFlix - Erreur login - Code retour : " + e.getStatusCode() + " (" + utilisateurIam.getEmail() + ").");
             }
-        } catch (Exception e) {
+        } catch (UnknownContentTypeException e) {
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            logger.warn("IdeFlix - Echec de la conversion JSON par postForEntity. Utilisation d'un ObjectMapper.");
+
+            String reponseStr = new String(e.getResponseBody());
+
+            try {
+                UtilisateurIamLoginReponseApiDto utilisateurIamLoginReponseApiDto = objectMapper.readValue(reponseStr, UtilisateurIamLoginReponseApiDto.class);
+                switch (e.getRawStatusCode()) {
+                    case 200:
+                        logger.warn("IdeFlix - Création de l'utilisateur" + utilisateurIam.getEmail() + ". Code : " + e.getRawStatusCode() + ".");
+                        return utilisateurIamApiMapper.mapLoginReponseApiDtoToEntity(utilisateurIamLoginReponseApiDto);
+
+                    default:
+                        logger.error("IdeFlix - Echec de la conversion JSON par postForEntity puis de la conversion par l'ObjectMapper. L'utilisateur " + utilisateurIam.getEmail() + " n'a pas été créé dans l'IAM. Code : " + e.getRawStatusCode() + ".");
+                        throw new IamException("IdeFlix - Echec de la création de l'utilisateur " + utilisateurIam.getEmail() + ". Code : " + e.getRawStatusCode() + ".");
+
+                }
+
+            } catch (Exception jsonException) {
+                logger.error("IdeFlix - Echec de conversion JSON. Echec de la création de l'utilisateur dans l'IAM " + utilisateurIam.getEmail() + ". Code : " + e.getRawStatusCode() + ".");
+                throw new IamJsonException("IdeFlix - Echec de conversion JSON. Echec de la création de l'utilisateur dans l'IAM " + utilisateurIam.getEmail() + ". Code : " + e.getRawStatusCode() + ".");
+            }
+        } catch (Exception ex) {
+
             logger.error("IdeFlix - loginIam exception non prévue  : "
-                    + e.getMessage()
-                    + e.getCause() == null ? "" : " - " + e.getCause());
+                    + ex.getMessage()
+                    + (ex.getCause() == null ? " - " : " - " + ex.getCause()) + ex.getCause());
             throw new IamException("IdeFlix - Echec de la création de l'utilisateur " + utilisateurIam.getEmail() + ".");
         }
     }

@@ -29,6 +29,8 @@ public class ControlAdviceException extends ResponseEntityExceptionHandler {
                 exception.getLocalizedMessage(),
                 messageErreur);
 
+        logger.debug("IdeFlix - Envoi vers l'IHM : " + messageErreur + " - Code " + httpStatus + ".");
+
         return new ResponseEntity<>(model, httpStatus);
     }
 
@@ -59,6 +61,12 @@ public class ControlAdviceException extends ResponseEntityExceptionHandler {
     @ResponseBody
     public ResponseEntity<Object> handleIamException(final IamException ex) {
         return getResponseEntity("Erreur de communication avec l'IAM", HttpStatus.SERVICE_UNAVAILABLE, ex);
+    }
+
+    @ExceptionHandler
+    @ResponseBody
+    public ResponseEntity<Object> handleIamJsonException(final IamJsonException ex) {
+        return getResponseEntity("Problème de conversion du JSON reçu de l'IAM", HttpStatus.SERVICE_UNAVAILABLE, ex);
     }
 
 

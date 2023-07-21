@@ -25,10 +25,11 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
 
     @Override
     public UtilisateurIamEntity creerUtilisateurIam(UtilisateurIamEntity utilisateurIamEntity) {
-        logger.debug("IdeFlix - Création utilisateur : " + utilisateurIamEntity.getEmail() + ".");
 
         // Création dans l'IAM :
         UtilisateurIamEntity nouvelUtilisateurIam = utilisateurIamRepository.creerUtilisateurIam(utilisateurIamEntity);
+
+        logger.debug("IdeFlix - Utilisateur : " + nouvelUtilisateurIam.getEmail() + " créé dans l'IAM.");
 
         // Création dans l'APP :
         UtilisateurEntity utilisateur = new UtilisateurEntity(
@@ -40,7 +41,7 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
 
         utilisateurService.creerUtilisateur(utilisateur);
         // TODO : gérer le cas de l'échec de création de l'utilisateur dans l'APP
-        //  ==> il faudra effacer l'utilisateur dans l'IAM
+        //  ==> il faudra effacer l'utilisateur dans l'IAM puis déclencher un exception
         logger.debug("IdeFlix - Création utilisateur " + utilisateur.getEmail() + " dans l'APP (id=" + utilisateur.getId() + ").");
 
         return nouvelUtilisateurIam;
@@ -63,7 +64,7 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
     // pour les administrateurs :
     @Override
     public void delUtilisateurIam(String email) {
-        logger.debug("APP - IAM - Effacement de l'utilisateur " + email + ". (non implémenté)");
+        logger.warn("APP - IAM - Effacement de l'utilisateur " + email + ". (non implémenté)");
 
     }
 }
