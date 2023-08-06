@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {GenreModel} from "../models/genre.model";
+import {GenreModel} from "../../core/models/genre.model";
 
 @Pipe({
   name: 'addCheckedProperty'
