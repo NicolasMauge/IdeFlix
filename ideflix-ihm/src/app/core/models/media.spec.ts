@@ -1,4 +1,3 @@
-import { MediaModel } from './media.model';
 
 
 // describe('MediaModel', () => {
