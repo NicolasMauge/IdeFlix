@@ -2,7 +2,7 @@
     <app-searchbar></app-searchbar>
 
   <div class = "pt-3 pb-5">
-    <h1 class="text-center text-white">rechercher vos films et séries</h1>
+    <h1 class="text-center text-white">les suggestions du moment</h1>
 
     <ul class="row">
       <!--      <li  [routerLink]="['/detail', movie.id ]"  class="card bg-dark col-12 col-md-3" *ngFor="let movie of movies">-->
@@ -18,6 +18,10 @@
           <img [title]="media.resume" [src]="media.image_landscape | printImg" [alt]="media.titre">
           <div class="card-body">
             <h2>{{ media.titre }}</h2>
+            <span *ngFor="let genre of media.genres"
+                  class="badge badge-large rounded-pill text-bg-secondary">
+              {{ genre.id }}
+            </span>
           </div>
         </div>
       </div>
