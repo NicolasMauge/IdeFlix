@@ -1,49 +1,46 @@
-interface Genre {
+import {MediaAppModel} from "../../core/models/media-app.model";
+
+interface Etiquette {
   id: number;
-  // idTmdb: string;
-  name: string;
+  nomTag: string;
 }
 
 export class MediaMaListeModel {
 
-  // cette classe sert :
-  //- de type (respect de la convention de type)
-  // - d'instancier des objets MediaModel = mappage de nos objets pour s'affranchir de la réponse de l'API
-
-
   //déclaration des propriétés
-  id!: number;
-  idTmdb!: string;
-  titre!: string;
-  date!: Date;
-  duration!: number | undefined;
-  resume!: string;
-  image_portrait!: string;
-  image_landscape!: string;
-  score!: number;
-  genres!: Genre[];
-  // acteurs!: Acteur[];
-  videos!:string;
+  typeMedia!: string;
+  avisPouce!: boolean;
+  dateSelection!: Date;
+  etiquetteList!: Etiquette[];
+  statutMedia!: string;
+  media!: MediaAppModel;
+  email!: string;
+  dateModification!: Date;
+  numeroSaison!: number;
+  idTmdbSaison : string;
+  numeroEpisode : number;
+  idTmdbEpisode: string;
 
-  constructor(movieFromApi: any) {
-    this.id = movieFromApi.id;
-    this.idTmdb = movieFromApi.id;
-    this.titre = movieFromApi.title;
-    this.duration = movieFromApi.runtime? movieFromApi.runtime : undefined;
-    this.resume = movieFromApi.overview;
-    this.image_landscape = movieFromApi.backdrop_path;
-    this.image_portrait = movieFromApi.poster_path;
-    this.score = movieFromApi.vote_average;
-    this.genres = movieFromApi.genre_ids != undefined ?
-      movieFromApi.genre_ids.map((item: number) => {
-        return {id:item, name:''}
+  constructor(mediaSelectionneFromApi: any) {
+    this.typeMedia = mediaSelectionneFromApi.typeMedia;
+    this.avisPouce = mediaSelectionneFromApi.avisPouce;
+    this.dateSelection = mediaSelectionneFromApi.dateSelecetion;
+    this.etiquetteList = mediaSelectionneFromApi.etiquetteList != undefined ?
+      mediaSelectionneFromApi.etiquetteList.map((id: number, nomTag: string) => {
+        return {id:id, nomTag: nomTag}
       }) :
-      [...movieFromApi.genres];
-    // this.acteurs = movieFromApi.cast_ids != undefined ?
-    //   movieFromApi.cast_ids.map((item: number) => {
-    //     return {id:item, name:''}
-    //   }) :
-    //   [...movieFromApi.acteurs];
-    this.date = new Date(movieFromApi.release_date);
+      [...mediaSelectionneFromApi.genreList];
+    this.statutMedia = mediaSelectionneFromApi.statutMedia;
+    this.media = mediaSelectionneFromApi.media;
+    // this.media = mediaSelectionneFromApi.media != undefined ?
+    //   mediaSelectionneFromApi.media.map((mediaApp: MediaAppModel) => {
+    //     return mediaApp
+    //   }) : [mediaSelectionneFromApi.media];
+    this.email = mediaSelectionneFromApi.email;
+    this.dateModification = mediaSelectionneFromApi.dateModification;
+    this.numeroSaison = mediaSelectionneFromApi.numeroSaison;
+    this.idTmdbSaison = mediaSelectionneFromApi.idTmdbSaison;
+    this.numeroEpisode = mediaSelectionneFromApi.numeroEpisode;
+    this.idTmdbEpisode = mediaSelectionneFromApi.idTmdbEpisode;
   }
 }

@@ -11,14 +11,13 @@
 
   <div *ngFor="let media of medias | filtrerMaListe : myFilter" class="col-12 col-md-3">
     <div class="card" routerLink="/selection">
-      <img [title]="media.resume" [src]="media.image_landscape | printImg" [alt]="media.titre">
+      <img [title]="media.media.titre" [src]="media.media.cheminAffichePortrait | printImg" [alt]="media.media.titre">
       <div class="card-body">
-        <h2>{{ media.titre }}</h2>
-<!--        <h3>Genres</h3>-->
-<!--        <span *ngFor="let genre of media.genres"-->
-<!--              class="badge badge-large rounded-pill text-bg-secondary">-->
-<!--                    {{ genre.id }}-->
-<!--                </span>-->
+        <h2>{{ media.media.titre }}</h2>
+        <span *ngFor="let genre of media.media.genreList"
+              class="badge badge-large rounded-pill text-bg-secondary">
+                    {{ genre.nomGenre }}
+                </span>
       </div>
     </div>
   </div>

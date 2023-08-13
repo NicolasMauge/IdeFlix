@@ -3,6 +3,8 @@ import {MenuService} from "../../../core/services/common/menu.service";
 import {filter, Subscription} from "rxjs";
 import {MediaMaListeService} from "../../services/maListe/media-ma-liste.service";
 import {MediaMaListeModel} from "../../models/media-ma-liste.model";
+import {MessageService} from "../../../core/services/common/message.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-ma-liste',
@@ -17,17 +19,26 @@ export class MaListeComponent {
 
 
   constructor(private menuService: MenuService,
-              private mediaSvc: MediaMaListeService ) {
-  }
+              private mediaSvc: MediaMaListeService,
+              private messageSvc: MessageService,
+              private route: Router) {}
 
   ngOnInit() {
     this.menuService.hideMenu = false;
 
+    // requête pour récupérer les préférences de l'utilisateur et charger la page
+    const email = localStorage.getItem('email');
+    if (email !== null) {
     // requête GET à TMDB pour récupérer la liste des films
-    this.mediaSvc.getMoviesFromApi();
+    this.mediaSvc.getMoviesFromApi2(email);
 
     //abonnement à la source service.movies$  via un subscribe
     this.sub = this.mediaSvc.mediaMaListe$.subscribe( (data: MediaMaListeModel[]) => this.medias = data);
+  }else {
+      console.log('email non présent dans le localstorage');
+      this.messageSvc.show('erreur de conexion - veuillez vous reconnecter', 'error')
+      this.route.navigate(['/login']);
+    }
   }
 
   ngOnDestroy(){

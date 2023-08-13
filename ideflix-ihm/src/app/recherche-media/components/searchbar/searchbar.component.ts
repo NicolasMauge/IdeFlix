@@ -24,6 +24,8 @@ export class SearchbarComponent {
       .subscribe(value => {
         if (value.trim() !== '') {    // vérifier que la valeur n'est pas vide
           this.onKeyupStringOfMovie2(value);
+        } else {
+          this.mediasDataBaseResult = [];
         }
     })
   }
