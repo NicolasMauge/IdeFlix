@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FilterMaListePipe} from "./pipes/filter-ma-liste.pipe";
 import {ValuesFromKeyPipe} from "./pipes/values-from-key.pipe";
 import {PrintImgPipe} from "./pipes/print-img.pipe";
 import {AddCheckedPropertyPipe} from "./pipes/add-checked-property.pipe";
+import {FilterMaListePipe} from "./pipes/filter-ma-liste.pipe";
 
 
 

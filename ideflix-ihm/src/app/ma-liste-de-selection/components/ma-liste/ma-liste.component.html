@@ -18,6 +18,10 @@
               class="badge badge-large rounded-pill text-bg-secondary">
                     {{ genre.nomGenre }}
                 </span>
+        <span *ngFor="let tag of media.etiquetteList"
+              class="badge badge-large rounded-pill text-bg-secondary">
+                    {{ tag.nomTag }}
+                </span>
       </div>
     </div>
   </div>

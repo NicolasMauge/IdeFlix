@@ -13,15 +13,15 @@ import {RouterModule} from "@angular/router";
     MaListeComponent,
     MaListeFiltreComponent
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    SharedModule,
-    RouterModule
-  ],
   exports: [
     MaListeComponent,
     MaListeFiltreComponent
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    SharedModule
   ]
 })
 export class MaListeDeSelectionModule { }

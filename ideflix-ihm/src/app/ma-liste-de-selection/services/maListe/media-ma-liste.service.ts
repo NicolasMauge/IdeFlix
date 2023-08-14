@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {BehaviorSubject, map, Observable} from "rxjs";
-import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {MediaMaListeModel} from "../../models/media-ma-liste.model";
-import {PreferenceModel} from "../../../mes-preferences/models/preference.model";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +14,8 @@ export class MediaMaListeService {
   TMDB_APIKEY = environment.APIKEY_TMDB;
 
   private _mediaMaListe$ = new BehaviorSubject(<MediaMaListeModel[]>([]));
+  private originalMediaList : MediaMaListeModel[] = [];
+
   constructor(private http: HttpClient) { }
 
   // getMoviesFromApi(): void {
@@ -39,7 +40,7 @@ export class MediaMaListeService {
   //     .subscribe((data: MediaMaListeModel[]) => this._mediaMaListe$.next(data));
   // }
 
-  getMoviesFromApi2(email: string): void {
+  getMoviesFromApi(email: string): void {
 
     let endpoint = '/mediaselectionne/utilisateur/' + email;
 
@@ -54,7 +55,9 @@ export class MediaMaListeService {
         })
       )
       //on envoie la valeur suivante du flux de donnée (Observable est un flux)
-      .subscribe((data: MediaMaListeModel[]) => this._mediaMaListe$.next(data));
+      .subscribe((data: MediaMaListeModel[]) => {
+        this._mediaMaListe$.next(data);
+        this.originalMediaList = data});
   }
 
 
@@ -72,7 +75,15 @@ export class MediaMaListeService {
     this._mediaMaListe$.next(data);
   }
 
- //  searchMediaMaListe(userInput: string): Observable<MediaMaListeModel[]> {
+  updateFilteredMediaList(filteredList : MediaMaListeModel[]) {
+    this._mediaMaListe$.next(filteredList);
+  }
+
+  reinitializedMediaList() {
+    this._mediaMaListe$.next(this.originalMediaList);
+  }
+
+  //  searchMediaMaListe(userInput: string): Observable<MediaMaListeModel[]> {
  //    /*
  //   searchMovies()
  //   rôle :> faire une request HTTP[GET] à l'API theMovieDB
