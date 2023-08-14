@@ -18,8 +18,8 @@ export class MaListeComponent {
 
   medias: MediaMaListeModel[] = [];
   sub!: Subscription;
-  // myFilter: any = {status: '', genre: ''};
-  myFilter: any = {status: ''};
+  myFilter: any = {status: '', genre: ''};
+  // myFilter: any = {status: ''};
 
 
   constructor(private menuService: MenuService,
@@ -51,17 +51,13 @@ export class MaListeComponent {
     this.sub.unsubscribe
   }
 
-  // store(filterEvent: {status: string, genre: string}){
-  //   console.log('status: ' + filterEvent.status);
-  //   console.log('genre: ' + filterEvent.genre);
-  //   this.myFilter.status = filterEvent.status;
-  //   this.myFilter.genre = filterEvent.genre;
-  // }
-
-  store(filterEvent: {status: string}){
+  store(filterEvent: {status: string, genre : string}){
     console.log('status: ' + filterEvent.status);
+    console.log('genre: ' + filterEvent.genre);
+
     this.myFilter.status = filterEvent.status;
-    if (this.myFilter.status === '') {
+    this.myFilter.genre = filterEvent.genre;
+    if (this.myFilter.status === '' && this.myFilter.genre === '') {
       this.ReinitializedMediaList();
     } else {
       this.updateFilteredMediaList();

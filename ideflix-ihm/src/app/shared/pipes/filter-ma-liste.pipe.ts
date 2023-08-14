@@ -21,24 +21,6 @@ function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
 @Pipe({
   name: 'filtrerMaListe'
 })
-// export class FilterMaListePipe implements PipeTransform {
-//
-//   transform(items: any[], filter: any): any[] {
-//     if (!items) {
-//       return [];
-//     }
-//
-//     const { status, genre } = filter;
-//
-//     return items.filter(item => {
-//       const statusMatch = !status || item.status.toLowerCase().includes(status.toLowerCase());
-//       const genreMatch = !genre || item.genre.toLowerCase().includes(genre.toLowerCase());
-//
-//       return statusMatch && genreMatch;
-//     });
-//   }
-//
-// }
 
 export class FilterMaListePipe implements PipeTransform {
 
@@ -50,15 +32,23 @@ export class FilterMaListePipe implements PipeTransform {
       return [];
     }
 
-    // const { status, genre } = filter;
+    let filteredList = mediaList;
 
     if (filter.status) {
       const appStatus = mapIhmStatusToBackendStatus(filter.status);
       if (appStatus) {
-        mediaList = mediaList.filter(media => media.statutMedia === appStatus);
+        filteredList = filteredList.filter(media => media.statutMedia === appStatus);
       }
     }
-    return mediaList;
+
+    if (filter.genre) {
+      filteredList = filteredList.filter(media => media.media.genreList
+                                 .some(genre => genre.nomGenre.toUpperCase()
+                                   .includes(filter.genre.toUpperCase())));
+    }
+    return filteredList;
   }
 }
+
+
 

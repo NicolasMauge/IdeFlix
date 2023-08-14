@@ -9,7 +9,7 @@
 
 <ul class="row">
 
-  <div *ngFor="let media of medias | filtrerMaListe : myFilter" class="col-12 col-md-3">
+  <div *ngFor="let media of medias" class="col-12 col-md-3">
     <div class="card" routerLink="/selection">
       <img [title]="media.media.titre" [src]="media.media.cheminAffichePortrait | printImg" [alt]="media.media.titre">
       <div class="card-body">
@@ -30,8 +30,6 @@
 
 <!--  <app-actionbar></app-actionbar>-->
 </div>
-
-
 
 
 
