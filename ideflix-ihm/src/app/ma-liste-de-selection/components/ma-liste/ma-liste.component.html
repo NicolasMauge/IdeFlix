@@ -9,7 +9,7 @@
 
 <ul class="row">
 
-  <div *ngFor="let media of medias" class="col-12 col-md-3">
+  <li [routerLink]="['/selection', media.media.idTmdb ]" *ngFor="let media of medias" class="col-12 col-md-3">
     <div class="card" routerLink="/selection">
       <img [title]="media.media.titre" [src]="media.media.cheminAffichePortrait | printImg" [alt]="media.media.titre">
       <div class="card-body">
@@ -24,7 +24,7 @@
                 </span>
       </div>
     </div>
-  </div>
+  </li>
 </ul>
   </div>
 
@@ -33,17 +33,6 @@
 
 
 
-<!--    <ul class="row">-->
-
-<!--      <div *ngFor="let media of medias | filtrerMaListe : filter" class="col-12 col-md-3">-->
-<!--        <div class="card">-->
-<!--          <img [title]="media.resume" [src]="media.image_landscape | printImg" [alt]="media.titre">-->
-<!--          <div class="card-body">-->
-<!--            <h2>{{ media.titre }}</h2>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </ul>-->
 
 
 

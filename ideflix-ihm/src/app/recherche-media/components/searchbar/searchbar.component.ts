@@ -22,25 +22,25 @@ export class SearchbarComponent {
       // Chaque fois que l'utilisateur entre une saisie, la méthode onKeyupWithDebounce est appelée,
       // qui envoie la valeur saisie au Subject pour déclencher l'appel des méthodes onKeyUpStringxx.
       .subscribe(value => {
-        if (value.trim() !== '') {    // vérifier que la valeur n'est pas vide
-          this.onKeyupStringOfMovie2(value);
+        if (value.trim() !== '') {    // vérifier que la valeur à rechercher n'est pas vide
+          this.onKeyupStringOfMovie(value);
         } else {
           this.mediasDataBaseResult = [];
         }
     })
   }
 
-  onKeyupStringOfMovie(userInput: string): void{
-    // requête GET à TMDB pour récupérer la liste des films
-    console.log('userInputMovie', userInput)
-    this.mediaSvc.searchMovies(userInput)
-      .subscribe((data:MediaModel[]) => {
-        (this.mediasResult = data);
-        console.log('keyup', this.mediasResult);
-      })
-  }
+  // onKeyupStringOfMovie(userInput: string): void{
+  //   // requête GET à TMDB pour récupérer la liste des films
+  //   console.log('userInputMovie', userInput)
+  //   this.mediaSvc.searchMovies(userInput)
+  //     .subscribe((data:MediaModel[]) => {
+  //       (this.mediasResult = data);
+  //       console.log('keyup', this.mediasResult);
+  //     })
+  // }
 
-  onKeyupStringOfMovie2(userInput: string): void{
+  onKeyupStringOfMovie(userInput: string): void{
       // requête GET à TMDB pour récupérer la liste des films
       console.log('userInputMovie', userInput)
       this.mediaSvc.searchMovies2(userInput)

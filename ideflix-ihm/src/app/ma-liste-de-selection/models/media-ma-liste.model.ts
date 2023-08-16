@@ -32,10 +32,6 @@ export class MediaMaListeModel {
       [...mediaSelectionneFromApi.genreList];
     this.statutMedia = mediaSelectionneFromApi.statutMedia;
     this.media = mediaSelectionneFromApi.media;
-    // this.media = mediaSelectionneFromApi.media != undefined ?
-    //   mediaSelectionneFromApi.media.map((mediaApp: MediaAppModel) => {
-    //     return mediaApp
-    //   }) : [mediaSelectionneFromApi.media];
     this.email = mediaSelectionneFromApi.email;
     this.dateModification = mediaSelectionneFromApi.dateModification;
     this.numeroSaison = mediaSelectionneFromApi.numeroSaison;

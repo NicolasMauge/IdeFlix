@@ -4,13 +4,6 @@ interface Genre {
   name: string;
 }
 
-// interface Acteur {
-//   id: number;
-//   // idTmdbActeur: string;
-//   name: string;
-// }
-
-
 export class MediaModel {
 
   // cette classe sert :
@@ -29,7 +22,6 @@ export class MediaModel {
   image_landscape!: string;
   score!: number;
   genres!: Genre[];
-  // acteurs!: Acteur[];
   videos!:string;
 
   constructor(movieFromApi: any) {
@@ -46,11 +38,6 @@ export class MediaModel {
         return {id:item, name:''}
       }) :
       [...movieFromApi.genres];
-    // this.acteurs = movieFromApi.cast_ids != undefined ?
-    //   movieFromApi.cast_ids.map((item: number) => {
-    //     return {id:item, name:''}
-    //   }) :
-    //   [...movieFromApi.acteurs];
     this.date = new Date(movieFromApi.release_date);
   }
 }

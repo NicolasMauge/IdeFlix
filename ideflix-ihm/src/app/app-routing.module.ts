@@ -17,7 +17,7 @@ const routes: Routes = [
   {path:'maListe',component:MaListeComponent, canActivate : [authGuard]},
   {path:'search', component:MediaListComponent, canActivate : [authGuard]},
   {path:'mesPreferences', component:MesPreferencesComponent, canActivate : [authGuard]},
-  {path:'selection', component: DetailMediaComponent, canActivate: [authGuard] }
+  {path:'selection/:movieId', component: DetailMediaComponent, canActivate: [authGuard] }
 ];
 
 @NgModule({
