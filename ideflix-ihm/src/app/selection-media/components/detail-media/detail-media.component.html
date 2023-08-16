@@ -1,4 +1,36 @@
-<div>
+<div class="container-fluid">
+  <div class = "pt-3 pb-5">
+    <h1 class="text-center text-white">Ajouter/Modifier un film</h1>
+  </div>
 
-  <p>detail-media works!</p>
+  <div class="d-flex">
+    <h1>{{movie.titre}}</h1>
+  </div>
+
+  <div class="row">
+    <div class="col-6 col-md-4">
+      <img [title]="movie.titre" [src]="movie.image_landscape | printImg" [alt]="movie.titre" class="rounded">
+    </div>
+
+    <div class="col-12 col-md-6">
+      <h2>Genres</h2>
+      <span *ngFor="let genre of movie.genres" class="badge badge-large rounded-pill text-bg-secondary">
+                {{genre.name}}
+      </span>
+
+      <h2>Date de sortie</h2>
+      <p>{{movie.date | date:'dd/MM/yyyy'}}</p>
+
+      <h2>Résumé</h2>
+      <p>{{movie.resume}}</p>
+
+      <h2>Durée</h2>
+      <p>{{movie.duration | printDuration}}</p>
+
+      <app-star [score]="movie.score"></app-star>
+    </div>
+  </div>
+
 </div>
+
+<app-ajout-media></app-ajout-media>
