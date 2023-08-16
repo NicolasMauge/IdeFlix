@@ -1,0 +1,33 @@
+<div class="container-fluid pt-3">
+    <app-searchbar></app-searchbar>
+
+  <div class = "pt-3 pb-5">
+    <h1 class="text-center text-white">les suggestions du moment</h1>
+
+    <ul class="row">
+      <!--      <li  [routerLink]="['/detail', movie.id ]"  class="card bg-dark col-12 col-md-3" *ngFor="let movie of movies">-->
+      <!--        <img [title]="movie.resume" [src]="movie.image_landscape | printImg" [alt]="movie.titre">-->
+      <!--        <div class="card-body text-white">-->
+      <!--          <h2>{{ movie.titre }}</h2>-->
+      <!--&lt;!&ndash;          <app-stars [scoreNumber]="movie.score"></app-stars>&ndash;&gt;-->
+      <!--        </div>-->
+      <!--      </li>-->
+
+      <div *ngFor="let media of medias" class="col-12 col-md-3">
+        <div class="card">
+          <img [title]="media.resume" [src]="media.image_landscape | printImg" [alt]="media.titre">
+          <div class="card-body">
+            <h2>{{ media.titre }}</h2>
+            <span *ngFor="let genre of media.genres"
+                  class="badge badge-large rounded-pill text-bg-secondary">
+              {{ genre.id }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </ul>
+  </div>
+
+  <!--  <app-actionbar></app-actionbar>-->
+</div>
+

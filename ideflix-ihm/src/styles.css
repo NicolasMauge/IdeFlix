@@ -14,14 +14,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .message-error {
   --mdc-snackbar-container-color: #ec4141;
+  z-index: 9999;
 }
 
 .message-success {
   --mdc-snackbar-container-color: #809d51;
+  z-index: 9999;
 }
 
 .message-info {
   --mdc-snackbar-container-color: #7979a8;
+  z-index: 9999;
 }
 
 

@@ -1,0 +1,21 @@
+div {
+  /*position: sticky;*/
+  top:0;
+  z-index: 999;
+  margin: 10px;
+}
+
+ul {
+  position:absolute;
+  height: 500px;
+  overflow: auto ;
+  z-index: 999;
+}
+
+ul>li {
+  color:gray;
+  border: 3px solid rgb(64, 3, 64);
+  z-index: 999;
+}
+
+

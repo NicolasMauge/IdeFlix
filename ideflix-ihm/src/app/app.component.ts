@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {GenreService} from "./shared/services/genres/genre.service";
-import {GenreModel} from "./shared/models/genre.model";
+import {GenreService} from "./core/services/genres/genre.service";
+import {GenreModel} from "./core/models/genre.model";
 import {Subscription} from "rxjs";
 
 @Component({

@@ -1,0 +1,27 @@
+
+
+  <!-- Description de l'application -->
+  <div class="text-center mt-5">
+    <div>
+      <h2>C'est quoi IdeFlix ?</h2>
+      <img src="../../../../assets/images/idefix-logo.jpg" alt="chien idefix sympathique" width="50">
+
+      <p>une application qui permet de suivre nos visionnages de films et de séries</p>
+    </div>
+
+    <!-- image d'accueil -->
+    <div>
+      <img src="../../../../assets/images/chiencinema.jpg" alt="chien qui va au cinema avec pop corn et lunettes 3D" >
+    </div>
+
+    <!-- navigation vers se connecter et créer un compte  -->
+    <div class="container">
+      <div class="row justify-content-between">
+<!--        <button routerLink="login" class = "col-4 btn btn-dark">Se Connecter</button>-->
+<!--        <button routerLink="register" class = "col-4 btn btn-dark">Créer un compte</button>-->
+        <button [routerLink]="['login']" class = "col-4 btn btn-dark">Se Connecter</button>
+        <button [routerLink]="['register']" class = "col-4 btn btn-dark">Créer un compte</button>
+      </div>
+    </div>
+  </div>
+
