@@ -59,7 +59,8 @@ public class UtilisateurController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Non utilisé."),
             @ApiResponse(code = 201, message = "Utilisateur créé avec succès."),
-            @ApiResponse(code = 400, message = "Requête erronée.")
+            @ApiResponse(code = 400, message = "Requête erronée."),
+            @ApiResponse(code = 409, message = "Email déjà utilisé.")
     })
     @CrossOrigin(origins = ORIGINES_IDEFLIX_STRING)
     @PostMapping("/utilisateur")
@@ -78,6 +79,8 @@ public class UtilisateurController {
                                                 ROLE_UTILISATEUR))));
 
     }
+
+    // ========================================== Administrateurs ===================================================
 
 
     @ApiOperation(value = "Récupérer la liste des utilisateurs", nickname = "getUtilisateurs", notes = "Cette ressource permet à un administrateur de récupérer la liste des utilisateurs", response = UtilisateurDetailDto.class)
