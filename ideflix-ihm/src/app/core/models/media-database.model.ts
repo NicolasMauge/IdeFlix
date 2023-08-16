@@ -21,6 +21,8 @@ export class MediaDatabaseModel {
   image_paysage!: string;
   scoreDataBase!: number;
   genres!: Genre[];
+  typeMedia!: string;
+  nombreSaisons!: number;
 
   constructor(movieFromApi: any) {
     this.idDataBase = movieFromApi.idDataBase;
@@ -36,5 +38,7 @@ export class MediaDatabaseModel {
       }) :
       [...movieFromApi.genres];
     this.dateSortie = new Date(movieFromApi.dateSortie);
+    this.typeMedia = movieFromApi.typeMedia;
+    this.nombreSaisons = movieFromApi.nombreSaisons;
   }
 }
