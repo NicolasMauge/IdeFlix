@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {MediaModel} from "../../../core/models/media.model";
 import {MediaService} from "../../../core/services/media/media.service";
-import {SerieModel} from "../../../core/models/serie.model";
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
 import {debounceTime, Subject} from "rxjs";
 
@@ -12,7 +11,7 @@ import {debounceTime, Subject} from "rxjs";
 })
 export class SearchbarComponent {
 
-  mediasResult: MediaModel[] = [];
+  // mediasResult: MediaModel[] = [];
 
   moviesDataBaseResult: MediaDatabaseModel[] = [];
   seriesDataBaseResult: MediaDatabaseModel[] = [];
