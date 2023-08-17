@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from "@angular/router";
 import {LoginComponent} from "./auth/components/login/login.component";
 import {RegisterComponent} from "./auth/components/register/register.component";
@@ -8,16 +8,18 @@ import {MediaListComponent} from "./recherche-media/components/media-list/media-
 import {authGuard} from "./core/guards/auth.guard";
 import {MesPreferencesComponent} from "./mes-preferences/components/mes-preferences/mes-preferences.component";
 import {DetailMediaComponent} from "./selection-media/components/detail-media/detail-media.component";
+import {AdminUtilisateursComponent} from "./admin-utilisateurs/admin-utilisateurs.component";
 
 // tableau des routes
 const routes: Routes = [
-  {path:'', component: AccueilComponent},
-  {path:'register',component:RegisterComponent},
-  {path:'login',component:LoginComponent},
-  {path:'maListe',component:MaListeComponent, canActivate : [authGuard]},
-  {path:'search', component:MediaListComponent, canActivate : [authGuard]},
-  {path:'mesPreferences', component:MesPreferencesComponent, canActivate : [authGuard]},
-  {path:'selection/:movieId', component: DetailMediaComponent, canActivate: [authGuard] }
+  {path: '', component: AccueilComponent},
+  {path: 'register', component: RegisterComponent},
+  {path: 'login', component: LoginComponent},
+  {path: 'maListe', component: MaListeComponent, canActivate: [authGuard]},
+  {path: 'search', component: MediaListComponent, canActivate: [authGuard]},
+  {path: 'adminUtilisateurs', component: AdminUtilisateursComponent, canActivate: [authGuard]},
+  {path: 'mesPreferences', component: MesPreferencesComponent, canActivate: [authGuard]},
+  {path: 'selection/:movieId', component: DetailMediaComponent, canActivate: [authGuard]}
 ];
 
 @NgModule({
@@ -27,4 +29,5 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

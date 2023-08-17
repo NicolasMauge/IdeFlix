@@ -30,10 +30,12 @@ import {SharedModule} from "./shared/shared.module";
 import {MesPreferencesModule} from "./mes-preferences/mes-preferences.module";
 import {SelectionMediaModule} from "./selection-media/selection-media.module";
 import {RechercheMediaModule} from "./recherche-media/recherche-media.module";
+import { AdminUtilisateursComponent } from './admin-utilisateurs/admin-utilisateurs.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    AdminUtilisateursComponent,
     // LoginComponent,
     // RegisterComponent,
     // AccueilComponent,
