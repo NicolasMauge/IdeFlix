@@ -45,6 +45,7 @@ public class EtiquetteController {
         UtilisateurEntity utilisateur = utilisateurService.trouverUtilisateurParEmail(email);
 
         EtiquetteEntity etiquette = this.etiquetteMapper.mapDtoToEntity(etiquetteDto);
+        etiquette.setUtilisateurEntity(utilisateur);
 
         this.etiquetteService.creerEtiquette(etiquette);
 
