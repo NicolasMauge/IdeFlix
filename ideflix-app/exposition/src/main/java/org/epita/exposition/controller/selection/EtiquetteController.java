@@ -3,6 +3,7 @@ package org.epita.exposition.controller.selection;
 import org.epita.application.selection.etiquette.EtiquetteService;
 import org.epita.application.utilisateur.utilisateur.UtilisateurService;
 import org.epita.domaine.selection.EtiquetteEntity;
+import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.exposition.common.Mapper;
 import org.epita.exposition.dto.selection.EtiquetteDto;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,17 @@ public class EtiquetteController {
         this.etiquetteService
                 .creerEtiquette(
                         etiquetteMapper.mapDtoToEntity(etiquetteDto));
+
+        return new ResponseEntity<String>("Etiquette créée", HttpStatus.CREATED);
+    }
+
+    @PostMapping("/utilisateur/{email}")
+    public ResponseEntity<String> creerEtiquetteParEmail(@PathVariable("email") String email, @RequestBody EtiquetteDto etiquetteDto) {
+        UtilisateurEntity utilisateur = utilisateurService.trouverUtilisateurParEmail(email);
+
+        EtiquetteEntity etiquette = this.etiquetteMapper.mapDtoToEntity(etiquetteDto);
+
+        this.etiquetteService.creerEtiquette(etiquette);
 
         return new ResponseEntity<String>("Etiquette créée", HttpStatus.CREATED);
     }
