@@ -19,7 +19,5 @@ export class DetailMediaComponent {
 
     this.movieService.getDetails(this.movieId).subscribe(
       (data:MediaModel) => this.movie=data);
-
   }
-
 }
