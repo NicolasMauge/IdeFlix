@@ -18,6 +18,6 @@ export class MediaToAppService {
   saveToApp(media:MediaSelectionneModel) {
     let endpoint = '/mediaselectionne';
 
-    this.http.post<MediaAppModel>(this.IDEFLIX_API + endpoint, media);
+    this.http.post<MediaAppModel>(this.IDEFLIX_API + endpoint, media).subscribe();
   }
 }

@@ -59,47 +59,42 @@ export class AjoutMediaComponent {
   OnSubmitAdd(event: Event) {
     event.preventDefault();
 
-    let mediaObject = {
-      idTmdb:this.media.idTmdb,
-      typeMedia:this.typeMedia ? "FILM" : "SERIE",
-      titre: this.media.titre,
-      dateSortie: this.media.date,
-      duree: this.media.duration,
-      resume: this.media.resume,
-      cheminAffichePortrait: this.media.image_portrait,
-      cheminAffichePaysage: this.media.image_landscape,
-      noteTmdb: this.media.score,
-      genreList: this.media.genres
+    console.log(this.nouveauMedia);
+
+    if (this.nouveauMedia.status != '') {
+      let mediaObject = {
+        id: this.media.idTmdb,
+        typeMedia: this.typeMedia ? "FILM" : "SERIE",
+        titre: this.media.titre,
+        dateSortie: this.media.date,
+        duree: this.media.duration,
+        resume: this.media.resume,
+        cheminAffichePortrait: this.media.image_portrait,
+        cheminAffichePaysage: this.media.image_landscape,
+        noteTmdb: this.media.score,
+        genreList: this.media.genres
+      }
+
+      let mediaApp = new MediaAppModel(mediaObject);
+
+      let mediaSelectionneObject = {
+        typeMedia: this.typeMedia ? "FILM" : "SERIE",
+        avisPouce: false,
+        dateSelection: '2023-08-17',
+        etiquetteList: this.nouveauMedia.listTag,
+        statutMedia: this.nouveauMedia.status,
+        media: mediaApp,
+        email: this.email,
+        dateModification: '2023-08-17',
+        numeroSaison: 0,
+        idTmdbSaison: 0,
+        numeroEpisode: 0,
+        idTmdbEpisode: 0
+      }
+
+      let mediaSelectionne = new MediaSelectionneModel(mediaSelectionneObject);
+
+      this.mediaAppService.saveToApp(mediaSelectionne);
     }
-
-    let mediaApp = new MediaAppModel(mediaObject);
-
-    let mediaSelectionneObject = {
-      typeMedia: this.typeMedia ? "FILM" : "SERIE",
-      avisPouce:false,
-      dateSelection: '2023-08-17',
-      etiquetteList: this.nouveauMedia.listTag,
-      statutMedia: this.nouveauMedia.status,
-      media: mediaApp,
-      email: this.email,
-      dateModification: '2023-08-17',
-      numeroSaison: 0,
-      idTmdbSaison: 0,
-      numeroEpisode: 0,
-      idTmdbEpisode: 0
-    }
-
-    let mediaSelectionne = new MediaSelectionneModel(mediaSelectionneObject);
-
-    console.log(mediaSelectionne);
-
-    /*
-    let mediaSelectionne : MediaSelectionneModel = new MediaSelectionneModel();
-
-    //console.log(this.nouveauMedia);
-    this.mediaAppService.saveToApp(mediaSelectionne);*/
   }
-
-  // getter setter
-
 }
