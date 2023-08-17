@@ -4,33 +4,33 @@
   </div>
 
   <div class="d-flex">
-    <h1>{{movie.titre}}</h1>
+    <h1>{{titre}}</h1>
   </div>
 
   <div class="row">
     <div class="col-6 col-md-4">
-      <img [title]="movie.titre" [src]="movie.image_landscape | printImg" [alt]="movie.titre" class="rounded">
+      <img [title]="titre" [src]="media.image_landscape | printImg" [alt]="titre" class="rounded">
     </div>
 
     <div class="col-12 col-md-6">
       <h2>Genres</h2>
-      <span *ngFor="let genre of movie.genres" class="badge badge-large rounded-pill text-bg-secondary">
+      <span *ngFor="let genre of media.genres" class="badge badge-large rounded-pill text-bg-secondary">
                 {{genre.name}}
       </span>
 
       <h2>Date de sortie</h2>
-      <p>{{movie.date | date:'dd/MM/yyyy'}}</p>
+      <p>{{media.date | date:'dd/MM/yyyy'}}</p>
 
       <h2>Résumé</h2>
-      <p>{{movie.resume}}</p>
+      <p>{{media.resume}}</p>
 
       <h2>Durée</h2>
-      <p>{{movie.duration | printDuration}}</p>
+      <p>{{media.duration | printDuration}}</p>
 
-      <app-star [score]="movie.score"></app-star>
+      <app-star [score]="media.score"></app-star>
     </div>
   </div>
 
 </div>
 
-<app-ajout-media></app-ajout-media>
+<app-ajout-media [media]="media" [typeMedia]="typeMedia"></app-ajout-media>

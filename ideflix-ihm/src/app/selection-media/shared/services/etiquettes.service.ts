@@ -39,5 +39,4 @@ export class EtiquettesService {
       .subscribe((data: EtiquetteModel[])=> this._etiquettes$.next(data)
       );
   }
-
 }

@@ -10,7 +10,8 @@ import {MediaModel} from "../../../core/models/media.model";
 })
 export class DetailMediaComponent {
   movieId!: number;
-  movie!:MediaModel;
+  media!:MediaModel;
+  typeMedia:boolean = true; // TODO : avoir le boolean film / serie
 
   constructor(private route:ActivatedRoute, private movieService:MediaService) {}
 
@@ -18,6 +19,12 @@ export class DetailMediaComponent {
     this.movieId = this.route.snapshot.params['movieId'];
 
     this.movieService.getDetails(this.movieId).subscribe(
-      (data:MediaModel) => this.movie=data);
+      (data:MediaModel) => this.media=data);
   }
+
+  // getters
+  get titre() {
+    return(this.media && this.media.titre) ? this.media.titre : null;
+  }
+
 }

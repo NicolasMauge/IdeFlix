@@ -1,8 +1,12 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Status} from "../../../core/models/status";
 import {Subscription} from "rxjs";
 import {EtiquettesService} from "../../shared/services/etiquettes.service";
 import {EtiquetteModel} from "../../shared/model/EtiquetteModel";
+import {MediaToAppService} from "../../shared/services/media-to-app.service";
+import {MediaModel} from "../../../core/models/media.model";
+import {MediaSelectionneModel} from "../../shared/model/MediaSelectionneModel";
+import {MediaAppModel} from "../../../core/models/media-app.model";
 
 @Component({
   selector: 'app-ajout-media',
@@ -14,15 +18,18 @@ export class AjoutMediaComponent {
   protected readonly Status = Status;
   statusEnum = Status;
   etiquettes: EtiquetteModel[] = [];
+  @Input() media!: MediaModel;
+  @Input() typeMedia!:boolean;
+  email: string|null = "";
 
-  constructor(private etiquetteService:EtiquettesService) {
+  constructor(private etiquetteService:EtiquettesService, private mediaAppService:MediaToAppService) {
   }
 
   ngOnInit() {
-    const email = localStorage.getItem('email');
+    this.email = localStorage.getItem('email');
 
-    if (email !== null) {
-      this.etiquetteService.loadEtiquettes(email);
+    if (this.email !== null) {
+      this.etiquetteService.loadEtiquettes(this.email);
       this.etiquetteService.etiquettes$.subscribe( (data: EtiquetteModel[]) => this.etiquettes = data);
     }
     else {
@@ -52,7 +59,47 @@ export class AjoutMediaComponent {
   OnSubmitAdd(event: Event) {
     event.preventDefault();
 
-    console.log(this.nouveauMedia);
+    let mediaObject = {
+      idTmdb:this.media.idTmdb,
+      typeMedia:this.typeMedia ? "FILM" : "SERIE",
+      titre: this.media.titre,
+      dateSortie: this.media.date,
+      duree: this.media.duration,
+      resume: this.media.resume,
+      cheminAffichePortrait: this.media.image_portrait,
+      cheminAffichePaysage: this.media.image_landscape,
+      noteTmdb: this.media.score,
+      genreList: this.media.genres
+    }
 
+    let mediaApp = new MediaAppModel(mediaObject);
+
+    let mediaSelectionneObject = {
+      typeMedia: this.typeMedia ? "FILM" : "SERIE",
+      avisPouce:false,
+      dateSelection: '2023-08-17',
+      etiquetteList: this.nouveauMedia.listTag,
+      statutMedia: this.nouveauMedia.status,
+      media: mediaApp,
+      email: this.email,
+      dateModification: '2023-08-17',
+      numeroSaison: 0,
+      idTmdbSaison: 0,
+      numeroEpisode: 0,
+      idTmdbEpisode: 0
+    }
+
+    let mediaSelectionne = new MediaSelectionneModel(mediaSelectionneObject);
+
+    console.log(mediaSelectionne);
+
+    /*
+    let mediaSelectionne : MediaSelectionneModel = new MediaSelectionneModel();
+
+    //console.log(this.nouveauMedia);
+    this.mediaAppService.saveToApp(mediaSelectionne);*/
   }
+
+  // getter setter
+
 }
