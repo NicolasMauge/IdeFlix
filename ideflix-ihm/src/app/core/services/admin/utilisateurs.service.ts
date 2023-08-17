@@ -18,15 +18,7 @@ export class UtilisateursService {
 //        let query_string: string = "http://localhost:8081/api/v1/iam/utilisateur";
         let query_string: string = "http://localhost:8081/api/v1/utilisateur";
 
-        return this.http.get<UtilisateurModel[]>(query_string)
-            // .pipe(
-            //     map((listeUtilisateursApi: any) => {
-            //         console.log("listeUtilisateursApi :" + listeUtilisateursApi.results);
-            //         return listeUtilisateursApi.results
-            //             .map((utilisateurFromApi: any) => new UtilisateurModel(utilisateurFromApi));
-            //     }))
-            // .subscribe((data: UtilisateurModel[]) => this._utilisateurs$.next(data))
-            ;
+        return this.http.get<UtilisateurModel[]>(query_string);
     }
 
     getValueOfUtilisateurs$(): UtilisateurModel[] {

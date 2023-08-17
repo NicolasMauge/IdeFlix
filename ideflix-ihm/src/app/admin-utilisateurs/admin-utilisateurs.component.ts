@@ -21,15 +21,10 @@ export class AdminUtilisateursComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        // 1 requête GET à IDEFLIX pour récupérer la liste des utilisateurs
         this.souscription = this.service
             .getTousUtilisateurs()
             .subscribe(data => this.utilisateurs = data)
         ;
-
-        // 2 s'abonner à service.utilisateurs$ via un subscribe
-        // this.souscription = this.service.utilisateurs$.subscribe(
-        //     (data: UtilisateurModel[]) => this.utilisateurs = data);
     }
 
 
