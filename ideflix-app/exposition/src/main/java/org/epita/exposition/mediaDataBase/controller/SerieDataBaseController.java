@@ -21,16 +21,14 @@ public class SerieDataBaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(SerieDataBaseController.class);
 
-    private SerieDataBaseService serieDataBaseService;
+    private final SerieDataBaseService serieDataBaseService;
 
-    private SerieDataBaseMapper serieDataBaseMapper;
+    private final SerieDataBaseMapper serieDataBaseMapper;
 
-    private Mapper<SerieDataBase, MediaDataBaseResponseDto> mediaMapper;
 
-    public SerieDataBaseController(SerieDataBaseService serieDataBaseService, SerieDataBaseMapper serieDataBaseMapper, Mapper<SerieDataBase, MediaDataBaseResponseDto> mediaMapper) {
+    public SerieDataBaseController(SerieDataBaseService serieDataBaseService, SerieDataBaseMapper serieDataBaseMapper) {
         this.serieDataBaseService = serieDataBaseService;
         this.serieDataBaseMapper = serieDataBaseMapper;
-        this.mediaMapper = mediaMapper;
     }
 
     @CrossOrigin(origins = "http://localhost:4200")

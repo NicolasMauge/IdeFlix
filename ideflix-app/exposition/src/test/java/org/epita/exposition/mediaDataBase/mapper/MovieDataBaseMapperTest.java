@@ -37,7 +37,7 @@ public class MovieDataBaseMapperTest {
         MovieDataBase movie = new MovieDataBase();
 
         movie.setIdDataBase(8265L);
-        movie.setDateSortie(LocalDate.ofEpochDay(2008-02-20));
+        movie.setDateSortie(LocalDate.of(2008, 2,20));
         movie.setDuree(0);
         movie.setNoteDataBase(6.673F);
         movie.setTitre("Bienvenue chez les Ch'tis");
@@ -84,7 +84,7 @@ public class MovieDataBaseMapperTest {
         MovieDataBase movie = new MovieDataBase();
 
         movie.setIdDataBase(8265L);
-        movie.setDateSortie(LocalDate.ofEpochDay(2008-02-20));
+        movie.setDateSortie(LocalDate.of(2008, 2,20));
         movie.setDuree(0);
         movie.setNoteDataBase(6.673F);
         movie.setTitre("Bienvenue chez les Ch'tis");
@@ -100,7 +100,7 @@ public class MovieDataBaseMapperTest {
         MovieDataBase movie2 = new MovieDataBase();
 
         movie2.setIdDataBase(8265L);
-        movie2.setDateSortie(LocalDate.ofEpochDay(2008-02-20));
+        movie2.setDateSortie(LocalDate.of(2008, 2,20));
         movie2.setDuree(0);
         movie2.setNoteDataBase(6.673F);
         movie2.setTitre("Bienvenue chez les Ch'tis");

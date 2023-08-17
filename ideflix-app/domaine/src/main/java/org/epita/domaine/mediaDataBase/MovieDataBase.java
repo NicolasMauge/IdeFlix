@@ -1,6 +1,5 @@
 package org.epita.domaine.mediaDataBase;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
 import java.util.List;

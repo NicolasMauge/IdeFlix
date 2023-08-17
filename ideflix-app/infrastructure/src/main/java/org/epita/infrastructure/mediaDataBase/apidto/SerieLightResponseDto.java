@@ -1,10 +1,7 @@
 package org.epita.infrastructure.mediaDataBase.apidto;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import java.util.List;
 
-//@JsonTypeName("tv")
 public class SerieLightResponseDto extends MediaLightResponseDto{
 
     private List<String> origin_country;

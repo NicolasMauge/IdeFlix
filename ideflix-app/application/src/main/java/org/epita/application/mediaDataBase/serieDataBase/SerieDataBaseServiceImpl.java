@@ -1,6 +1,5 @@
 package org.epita.application.mediaDataBase.serieDataBase;
 
-import org.epita.application.mediaDataBase.movieDataBase.MovieDataBaseServiceImpl;
 import org.epita.domaine.mediaDataBase.SerieDataBase;
 import org.epita.infrastructure.mediaDataBase.SerieDataBaseRepository;
 import org.slf4j.Logger;

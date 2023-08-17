@@ -1,6 +1,5 @@
 package org.epita.infrastructure.mediaDataBase.apidto;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.util.List;
 

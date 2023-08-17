@@ -30,7 +30,7 @@ public class SerieApiMapper {
         if (serieLightResponseDto.getFirst_air_date() != null && !serieLightResponseDto.getFirst_air_date().isEmpty()) {
             dateSortie = LocalDate.parse(serieLightResponseDto.getFirst_air_date(), dateFormatter);
         } else {
-            dateSortie = LocalDate.of(1900,01,01); // valeur par défaut quand date inexistante
+            dateSortie = LocalDate.of(1900, 1, 1); // valeur par défaut quand date inexistante
         }
 
         return new SerieDataBase(serieLightResponseDto.getId(),
@@ -43,7 +43,7 @@ public class SerieApiMapper {
                 duree,
                 serieLightResponseDto.getVote_average(),
                 nombreSaisons);
-    };
+    }
 
     public List<SerieDataBase> mapSearchSeriesResponseDtoToEntityList(SearchSeriesResponseDto searchSeriesResponseDto) {
 
@@ -54,5 +54,5 @@ public class SerieApiMapper {
         }
 
         return serieDataBaseList;
-    };
+    }
 }

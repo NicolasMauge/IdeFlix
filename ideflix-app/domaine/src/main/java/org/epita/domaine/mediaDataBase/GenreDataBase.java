@@ -1,6 +1,5 @@
 package org.epita.domaine.mediaDataBase;
 
-import java.util.List;
 
 public class GenreDataBase {
 

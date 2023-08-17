@@ -26,9 +26,9 @@ public class SerieDataBaseRepositoryImpl implements SerieDataBaseRepository{
 
     private static final boolean INCLUDE_ADULT = false;
     private static final String LANGUAGE = "fr-FR";
-    private TmdbConfig tmdbConfig;
+    private final TmdbConfig tmdbConfig;
 
-    private SerieApiMapper serieApiMapper;
+    private final SerieApiMapper serieApiMapper;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -56,9 +56,7 @@ public class SerieDataBaseRepositoryImpl implements SerieDataBaseRepository{
                 String jsonResponse = response.body().string(); // réponse JSON brute en tant que chaîne
 //                System.out.println("retour: " + jsonResponse);
                 SearchSeriesResponseDto searchSeriesResponseDto = objectMapper.readValue(jsonResponse, SearchSeriesResponseDto.class);
-                List<SerieDataBase> listSerieDataBase = serieApiMapper.mapSearchSeriesResponseDtoToEntityList(searchSeriesResponseDto);
-                return listSerieDataBase;
-
+                return serieApiMapper.mapSearchSeriesResponseDtoToEntityList(searchSeriesResponseDto);
             } else {
                 throw new MovieDataBaseException("APP - Tmdb - Echec recherche liste de séries avec caractères:  " +  query + " avec un code retour API: " + response.code());
             }

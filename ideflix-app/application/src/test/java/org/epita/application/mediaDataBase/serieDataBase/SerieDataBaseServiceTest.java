@@ -1,6 +1,5 @@
 package org.epita.application.mediaDataBase.serieDataBase;
 
-import org.epita.domaine.mediaDataBase.MovieDataBase;
 import org.epita.domaine.mediaDataBase.SerieDataBase;
 import org.epita.infrastructure.mediaDataBase.SerieDataBaseRepositoryImpl;
 import org.epita.infrastructure.mediaDataBase.TmdbConfig;

@@ -1,11 +1,6 @@
 package org.epita.exposition.mediaDataBase.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.epita.exposition.iam.utilisateuriam.dto.RoleIamDto;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import java.util.List;
 
 public class GenreDataBaseResponseDto {
 

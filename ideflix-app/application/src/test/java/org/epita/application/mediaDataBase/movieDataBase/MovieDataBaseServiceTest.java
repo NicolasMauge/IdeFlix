@@ -35,7 +35,7 @@ public class MovieDataBaseServiceTest {
 
         MovieDataBase movie1 = new MovieDataBase();
         movie1.setIdDataBase(8265L);
-        movie1.setDateSortie(LocalDate.ofEpochDay(2008-02-20));
+        movie1.setDateSortie(LocalDate.of(2008,2,20));
         movie1.setDuree(0);
         movie1.setNoteDataBase(6.673F);
         movie1.setTitre("Bienvenue chez les Ch'tis");

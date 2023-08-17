@@ -1,17 +1,7 @@
 package org.epita.infrastructure.mediaDataBase.apidto;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import java.util.List;
 
-//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "media_Type", visible = true)
-//@JsonSubTypes({
-//        @JsonSubTypes.Type(value = MovieLightResponseDto.class, name = "movie"),
-//        @JsonSubTypes.Type(value = SerieLightResponseDto.class, name = "tv")
-//})
-//@JsonDeserialize(using = MediaLightResponseDtoDeserializer.class)
 public class MediaLightResponseDto {
 
     private boolean adult;

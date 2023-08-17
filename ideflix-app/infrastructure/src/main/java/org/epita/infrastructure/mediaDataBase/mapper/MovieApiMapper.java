@@ -15,11 +15,11 @@ import java.util.List;
 @Component
 public class MovieApiMapper {
 
-    GenreApiMapper genreMapper;
-
-    public MovieApiMapper(GenreApiMapper genreMapper) {
-        this.genreMapper = genreMapper;
-    }
+//    GenreApiMapper genreMapper;
+//
+//    public MovieApiMapper(GenreApiMapper genreMapper) {
+//        this.genreMapper = genreMapper;
+//    }
 
     public MovieDataBase mapMovieLightResponseDtoToEntity(MovieLightResponseDto movieLightResponseDto) {
 
@@ -37,7 +37,7 @@ public class MovieApiMapper {
         if (movieLightResponseDto.getRelease_date() != null && !movieLightResponseDto.getRelease_date().isEmpty()) {
             dateSortie = LocalDate.parse(movieLightResponseDto.getRelease_date(), dateFormatter);
         } else {
-            dateSortie = LocalDate.of(1900,01,01); // valeur par défaut quand date inexistante
+            dateSortie = LocalDate.of(1900, 1, 1); // valeur par défaut quand date inexistante
         }
 
         return new MovieDataBase(movieLightResponseDto.getId(),
@@ -49,7 +49,7 @@ public class MovieApiMapper {
                             dateSortie,
                             duree,
                             movieLightResponseDto.getVote_average());
-    };
+    }
 
     public List<MovieDataBase> mapSearchMoviesResponseDtoToEntityList(SearchMoviesResponseDto searchMoviesResponseDto) {
 
@@ -60,12 +60,12 @@ public class MovieApiMapper {
         }
 
         return movieDataBaseList;
-    };
+    }
 
     public MovieDataBase mapDetailMovieResponseDtoToEntity(DetailMovieResponseDto detailMovieResponseDto) {
 
 
-        List<GenreDataBase> genreDataBases = genreMapper.mapFromGenreResponseDtoList(detailMovieResponseDto.getGenres());
+        List<GenreDataBase> genreDataBases = GenreApiMapper.mapFromGenreResponseDtoList(detailMovieResponseDto.getGenres());
 
         LocalDate dateSortie;
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -75,7 +75,7 @@ public class MovieApiMapper {
             dateSortie = LocalDate.parse(detailMovieResponseDto.getRelease_date(), dateFormatter);
             System.out.println("date sortie: " + dateSortie);
         } else {
-            dateSortie = LocalDate.of(1900,01,01); // valeur par défaut quand date inexistante
+            dateSortie = LocalDate.of(1900, 1, 1); // valeur par défaut quand date inexistante
         }
 
         return new MovieDataBase(detailMovieResponseDto.getId(),
@@ -87,7 +87,7 @@ public class MovieApiMapper {
                 dateSortie,
                 detailMovieResponseDto.getRuntime(),
                 detailMovieResponseDto.getVote_average());
-    };
+    }
 
 }
 

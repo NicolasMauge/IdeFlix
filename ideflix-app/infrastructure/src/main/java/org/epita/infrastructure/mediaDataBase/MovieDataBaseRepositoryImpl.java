@@ -25,9 +25,9 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
 
     private static final boolean INCLUDE_ADULT = false;
     private static final String LANGUAGE = "fr-FR";
-    private TmdbConfig tmdbConfig;
+    private final TmdbConfig tmdbConfig;
 
-    private MovieApiMapper movieApiMapper;
+    private final MovieApiMapper movieApiMapper;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -57,8 +57,7 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
                 if (response.isSuccessful()) {
                     String jsonResponse = response.body().string(); // réponse JSON brute en tant que chaîne
                     SearchMoviesResponseDto searchMoviesResponseDto = objectMapper.readValue(jsonResponse, SearchMoviesResponseDto.class);
-                    List<MovieDataBase> listMovieDataBase = movieApiMapper.mapSearchMoviesResponseDtoToEntityList(searchMoviesResponseDto);
-                    return listMovieDataBase;
+                    return movieApiMapper.mapSearchMoviesResponseDtoToEntityList(searchMoviesResponseDto);
 
                 } else {
                     throw new MovieDataBaseException("APP - Tmdb - Echec recherche liste de films avec caractères:  " +  query + " avec un code retour API: " + response.code());
@@ -89,8 +88,7 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
                 String jsonResponse = response.body().string(); // réponse JSON brute en tant que chaîne
 //                System.out.println("retour: " + jsonResponse);
                 DetailMovieResponseDto detailMovieResponseDto = objectMapper.readValue(jsonResponse, DetailMovieResponseDto.class);
-                MovieDataBase movieDataBase = movieApiMapper.mapDetailMovieResponseDtoToEntity(detailMovieResponseDto);
-                return movieDataBase;
+                return movieApiMapper.mapDetailMovieResponseDtoToEntity(detailMovieResponseDto);
 
             } else {
                 throw new MovieDataBaseException("APP - Tmdb - Echec recherche du détail du film d'Id TMDB:  " +  idTmdb + " avec un code retour API: " + response.code());
