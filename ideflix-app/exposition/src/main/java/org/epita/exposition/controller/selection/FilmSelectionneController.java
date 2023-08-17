@@ -30,14 +30,14 @@ public class FilmSelectionneController {
         return new ResponseEntity<>("UP", HttpStatus.OK);
     }
 
-    @PostMapping
+    /*@PostMapping
     public ResponseEntity<String> creerFilmSelectionne(@RequestBody FilmSelectionneDto filmSelectionneDto) {
         this.filmSelectionneService
                 .creerFilmSelectionne(
                         this.filmSelectionneMapper.mapDtoToEntity(filmSelectionneDto));
 
         return new ResponseEntity<String>("Film sélectionné créé", HttpStatus.CREATED);
-    }
+    }*/
 
     @GetMapping("/{id}")
     public FilmSelectionneDto trouverFilmSelectionneParId(@PathVariable("id") Long id) {
