@@ -36,12 +36,13 @@ public class FilmController {
         return new ResponseEntity<String>("Film créé", HttpStatus.CREATED);
     }
 
+    /*
     @GetMapping("/{id}")
     public FilmDto trouverFilmParId(@PathVariable("id") Long id) {
         return this.filmMapper
             .mapEntityToDto(
                     this.filmService.trouverFilmParId(id));
-    }
+    }*/
 
     @GetMapping
     public List<FilmDto> trouverTousLesFilms() {
@@ -50,10 +51,11 @@ public class FilmController {
                 this.filmService.trouverTousLesFilms());
     }
 
+    /*
     @DeleteMapping("/{id}")
     public ResponseEntity<String> supprimerFilmParId(@PathVariable("id") Long id) {
         this.filmService.supprimerFilmParId(id);
 
         return new ResponseEntity<String>("Film supprimé", HttpStatus.OK);
-    }
+    }*/
 }

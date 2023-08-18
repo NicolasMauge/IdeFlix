@@ -1,6 +1,7 @@
 package org.epita.application.media.genre;
 
 import org.epita.domaine.common.EntityNotFoundException;
+import org.epita.domaine.media.FilmEntity;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.infrastructure.media.GenreRepository;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,11 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public void creerGenre(GenreEntity genreEntity) {
+        Optional<GenreEntity> genreTrouve = this.genreRepository.findGenreEntityByIdTmdb(genreEntity.getIdTmdb());
+        if(genreTrouve.isPresent()) {
+            genreEntity.setId(genreTrouve.get().getId());
+        }
+
         this.genreRepository.save(genreEntity);
     }
 

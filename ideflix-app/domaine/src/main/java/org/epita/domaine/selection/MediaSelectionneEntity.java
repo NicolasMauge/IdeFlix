@@ -20,7 +20,7 @@ public abstract class MediaSelectionneEntity {
     @ManyToMany(cascade = CascadeType.PERSIST)
     private List<EtiquetteEntity> etiquetteEntityList;
     private StatutMediaEntity statutMediaEntity;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private MediaAudioVisuelEntity mediaAudioVisuelEntity;
     @ManyToOne
     private UtilisateurEntity utilisateurEntity;
