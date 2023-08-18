@@ -7,6 +7,9 @@ import {MediaToAppService} from "../../shared/services/media-to-app.service";
 import {MediaModel} from "../../../core/models/media.model";
 import {MediaSelectionneModel} from "../../shared/model/MediaSelectionneModel";
 import {MediaAppModel} from "../../../core/models/media-app.model";
+import {GenreModel} from "../../../core/models/genre.model";
+import {GenreAppModel} from "../../shared/model/GenreAppModel";
+import {MediaAppOutModel} from "../../shared/model/MediaAppOutModel";
 
 @Component({
   selector: 'app-ajout-media',
@@ -59,11 +62,15 @@ export class AjoutMediaComponent {
   OnSubmitAdd(event: Event) {
     event.preventDefault();
 
-    console.log(this.nouveauMedia);
+    //console.log(JSON.stringify(this.nouveauMedia));
 
     if (this.nouveauMedia.status != '') {
+      let genreList: GenreAppModel[] = this.media.genres.map((genre:any) => new GenreAppModel(genre));
+
+      console.log(JSON.stringify(genreList));
+
       let mediaObject = {
-        id: this.media.idTmdb,
+        idTmdb: this.media.idTmdb,
         typeMedia: this.typeMedia ? "FILM" : "SERIE",
         titre: this.media.titre,
         dateSortie: this.media.date,
@@ -72,15 +79,20 @@ export class AjoutMediaComponent {
         cheminAffichePortrait: this.media.image_portrait,
         cheminAffichePaysage: this.media.image_landscape,
         noteTmdb: this.media.score,
-        genreList: this.media.genres
+        genreList: genreList
       }
 
-      let mediaApp = new MediaAppModel(mediaObject);
+      let mediaApp = new MediaAppOutModel(mediaObject);
+
+      console.log(JSON.stringify(mediaApp));
 
       let statusApp: string = "";
       switch (this.nouveauMedia.status) {
         case "A voir":
           statusApp = "A_VOIR";
+          break;
+        case "Abandonné":
+          statusApp : "ABANDONNE";
           break;
       }
 
@@ -102,6 +114,8 @@ export class AjoutMediaComponent {
       let mediaSelectionne = new MediaSelectionneModel(mediaSelectionneObject);
 
       this.mediaAppService.saveToApp(mediaSelectionne);
+
+      console.log(JSON.stringify(mediaSelectionne));
     }
   }
 }
