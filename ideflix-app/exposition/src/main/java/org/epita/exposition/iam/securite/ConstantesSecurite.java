@@ -51,7 +51,10 @@ public final class ConstantesSecurite {
             "/utilisateur",
             "/utilisateur/*",
             "/utilisateur/email/*",
-            "/utilisateur/health-check"
+            "/utilisateur/health-check",
+            "/MovieDataBase/rechercheFilm/*",
+            "/MovieDataBase/rechercheSerie/*",
+            "/MovieDataBase/detailFilm/*"
     };
 
     public final static String[] PATH_POST_UTILISATEUR_WHITELIST = {

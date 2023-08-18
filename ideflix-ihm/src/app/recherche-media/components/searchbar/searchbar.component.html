@@ -21,8 +21,8 @@
            type="text" placeholder="rechercher un film ...">
 
     <!-- afficher la liste des films-->
-    <ul *ngIf="mediasDataBaseResult.length>0" class="list-group">
-      <li *ngFor="let media of mediasDataBaseResult"
+    <ul *ngIf="moviesDataBaseResult.length>0" class="list-group">
+      <li *ngFor="let media of moviesDataBaseResult"
           class="list-group-item list-group-item-action list-group-item-light">
         <a [routerLink]="['/selection', media.idDataBase ]">{{ media.titre }}</a>
       </li>
@@ -30,15 +30,15 @@
   </div>
 
   <div>
-    <input #userInputSerie (keyup)="onKeyupStringOfSerie(userInputSerie.value)"
+    <input #userInputSerie (keyup)="onKeyupStringOfSerieWithDebounce(userInputSerie.value)"
            class="form-control"
            type="text" placeholder="rechercher une série...">
 
     <!-- afficher la liste des films-->
-    <ul *ngIf="mediasResult.length>0" class="list-group">
-      <li *ngFor="let media of mediasResult"
+    <ul *ngIf="seriesDataBaseResult.length>0" class="list-group">
+      <li *ngFor="let media of seriesDataBaseResult"
           class="list-group-item list-group-item-action list-group-item-light">
-        <a [routerLink]="['/selection', media.id ]">{{ media.titre }}</a>
+        <a [routerLink]="['/selection', media.idDataBase ]">{{ media.titre }}</a>
       </li>
     </ul>
   </div>
