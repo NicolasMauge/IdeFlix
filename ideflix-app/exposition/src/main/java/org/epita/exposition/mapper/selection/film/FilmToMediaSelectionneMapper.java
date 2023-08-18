@@ -54,7 +54,6 @@ public class FilmToMediaSelectionneMapper extends Mapper<FilmSelectionneEntity, 
         UtilisateurEntity utilisateur = utilisateurService.trouverUtilisateurParEmail(input.getEmail());
 
         FilmEntity film = filmService.trouverFilmParIdTmdb(input.getMediaIdTmdb());
-
         return new FilmSelectionneEntity(
                 null,
                 input.getAvisPouce(),
