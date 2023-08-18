@@ -77,6 +77,13 @@ export class AjoutMediaComponent {
 
       let mediaApp = new MediaAppModel(mediaObject);
 
+      let statusApp: string = "";
+      switch (this.nouveauMedia.status) {
+        case "A voir":
+          statusApp = "A_VOIR";
+          break;
+      }
+
       let mediaSelectionneObject = {
         typeMedia: this.typeMedia ? "FILM" : "SERIE",
         avisPouce: false,
