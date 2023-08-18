@@ -17,7 +17,7 @@ public abstract class MediaSelectionneEntity {
     private Boolean avisPouce;
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate dateSelection;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private List<EtiquetteEntity> etiquetteEntityList;
     private StatutMediaEntity statutMediaEntity;
     @ManyToOne
