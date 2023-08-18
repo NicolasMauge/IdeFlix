@@ -16,7 +16,6 @@ export class MediaSelectionneToAppService {
   constructor(private http: HttpClient) { }
 
   saveToApp(media:MediaSelectionneModel) {
-
     let endpoint = '/mediaselectionne';
 
     this.http.post(this.IDEFLIX_API + endpoint, media, {responseType: 'text'}).subscribe();

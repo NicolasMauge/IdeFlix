@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {MediaModel} from "../../../core/models/media.model";
 import {GenreAppModel} from "../model/GenreAppModel";
 import {MediaAppOutModel} from "../model/MediaAppOutModel";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class MediaToAppService {
 
   constructor(private http: HttpClient) { }
 
-  saveToApp(media: MediaModel, typeMedia: boolean) {
+  saveToApp(media: MediaModel, typeMedia: boolean): Observable<any>{
     let mediaApp = new MediaAppOutModel({
       idTmdb: media.idTmdb,
       typeMedia: typeMedia ? "FILM" : "SERIE",
@@ -29,6 +30,6 @@ export class MediaToAppService {
 
     let endpoint= typeMedia ? '/film':'/serie';
 
-    this.http.post(this.IDEFLIX_API + endpoint, mediaApp, {responseType: 'text'}).subscribe();
+    return this.http.post(this.IDEFLIX_API + endpoint, mediaApp, {responseType: 'text'});
   }
 }

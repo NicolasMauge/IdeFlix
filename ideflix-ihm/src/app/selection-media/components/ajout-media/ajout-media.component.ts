@@ -13,6 +13,7 @@ import {MediaAppOutModel} from "../../shared/model/MediaAppOutModel";
 import {environment} from "../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {MediaToAppService} from "../../shared/services/media-to-app.service";
+import {GenreToAppService} from "../../shared/services/genre-to-app.service";
 
 // fonction pour la correspondance entre les status provenant du backend et les status affichés sur l'ihm
 function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
@@ -47,7 +48,8 @@ export class AjoutMediaComponent {
 
   constructor(private etiquetteService:EtiquettesService,
               private mediaAppService:MediaSelectionneToAppService,
-              private mediaService: MediaToAppService) {
+              private mediaService: MediaToAppService,
+              private genreService: GenreToAppService) {
   }
 
   ngOnInit() {
@@ -87,6 +89,33 @@ export class AjoutMediaComponent {
     //console.log(JSON.stringify(this.nouveauMedia));
 
     if (this.nouveauMedia.status != '') {
+      //sauvegarde de la partie genre
+      this.genreService.saveToApp(this.media.genres.map((genre:any) => new GenreAppModel(genre)))
+        .subscribe(data => this.mediaService.saveToApp(this.media, this.typeMedia)
+          .subscribe(data => {
+              let statusApp = mapIhmStatusToBackendStatus(this.nouveauMedia.status);
+
+              let mediaSelectionneObject = {
+                typeMedia: this.typeMedia ? "FILM" : "SERIE",
+                avisPouce: false,
+                dateSelection: '2023-08-17',
+                etiquetteList: this.nouveauMedia.listTag,
+                statutMedia: statusApp,
+                mediaIdTmdb: this.media.idTmdb,
+                email: this.email,
+                dateModification: '2023-08-17',
+                numeroSaison: 0,
+                idTmdbSaison: 0,
+                numeroEpisode: 0,
+                idTmdbEpisode: 0
+              }
+
+              let mediaSelectionne = new MediaSelectionneModel(mediaSelectionneObject);
+
+              this.mediaAppService.saveToApp(mediaSelectionne);
+          }));
+
+      /*
       // sauvegarde la partie media
       this.mediaService.saveToApp(this.media, this.typeMedia);
 
@@ -113,6 +142,8 @@ export class AjoutMediaComponent {
       this.mediaAppService.saveToApp(mediaSelectionne);
 
       console.log(JSON.stringify(mediaSelectionne));
+      */
     }
+
   }
 }
