@@ -3,13 +3,33 @@ import {Status} from "../../../core/models/status";
 import {Subscription} from "rxjs";
 import {EtiquettesService} from "../../shared/services/etiquettes.service";
 import {EtiquetteModel} from "../../shared/model/EtiquetteModel";
-import {MediaToAppService} from "../../shared/services/media-to-app.service";
+import {MediaSelectionneToAppService} from "../../shared/services/media-selectionne-to-app.service";
 import {MediaModel} from "../../../core/models/media.model";
 import {MediaSelectionneModel} from "../../shared/model/MediaSelectionneModel";
 import {MediaAppModel} from "../../../core/models/media-app.model";
 import {GenreModel} from "../../../core/models/genre.model";
 import {GenreAppModel} from "../../shared/model/GenreAppModel";
 import {MediaAppOutModel} from "../../shared/model/MediaAppOutModel";
+import {environment} from "../../../../environments/environment";
+import {HttpClient} from "@angular/common/http";
+import {MediaToAppService} from "../../shared/services/media-to-app.service";
+
+// fonction pour la correspondance entre les status provenant du backend et les status affichés sur l'ihm
+function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
+  // TODO : à supprimer quand fonction disponible
+  switch (ihmStatus) {
+    case Status.Completed:
+      return "VU";
+    case Status.ToSee:
+      return "A_VOIR";
+    case Status.InProgress:
+      return "EN_COURS";
+    case Status.Pending:
+      return "ABANDONNE";
+    default:
+      return undefined;
+  }
+}
 
 @Component({
   selector: 'app-ajout-media',
@@ -25,7 +45,9 @@ export class AjoutMediaComponent {
   @Input() typeMedia!:boolean;
   email: string|null = "";
 
-  constructor(private etiquetteService:EtiquettesService, private mediaAppService:MediaToAppService) {
+  constructor(private etiquetteService:EtiquettesService,
+              private mediaAppService:MediaSelectionneToAppService,
+              private mediaService: MediaToAppService) {
   }
 
   ngOnInit() {
@@ -65,44 +87,19 @@ export class AjoutMediaComponent {
     //console.log(JSON.stringify(this.nouveauMedia));
 
     if (this.nouveauMedia.status != '') {
-      let genreList: GenreAppModel[] = this.media.genres.map((genre:any) => new GenreAppModel(genre));
+      // sauvegarde la partie media
+      this.mediaService.saveToApp(this.media, this.typeMedia);
 
-      console.log(JSON.stringify(genreList));
-
-      let mediaObject = {
-        idTmdb: this.media.idTmdb,
-        typeMedia: this.typeMedia ? "FILM" : "SERIE",
-        titre: this.media.titre,
-        dateSortie: this.media.date,
-        duree: this.media.duration,
-        resume: this.media.resume,
-        cheminAffichePortrait: this.media.image_portrait,
-        cheminAffichePaysage: this.media.image_landscape,
-        noteTmdb: this.media.score,
-        genreList: genreList
-      }
-
-      let mediaApp = new MediaAppOutModel(mediaObject);
-
-      console.log(JSON.stringify(mediaApp));
-
-      let statusApp: string = "";
-      switch (this.nouveauMedia.status) {
-        case "A voir":
-          statusApp = "A_VOIR";
-          break;
-        case "Abandonné":
-          statusApp : "ABANDONNE";
-          break;
-      }
+      //sauvegarde la partie media sélectionné
+      let statusApp = mapIhmStatusToBackendStatus(this.nouveauMedia.status);
 
       let mediaSelectionneObject = {
         typeMedia: this.typeMedia ? "FILM" : "SERIE",
         avisPouce: false,
         dateSelection: '2023-08-17',
         etiquetteList: this.nouveauMedia.listTag,
-        statutMedia: this.nouveauMedia.status,
-        media: mediaApp,
+        statutMedia: statusApp,
+        mediaIdTmdb: this.media.idTmdb,
         email: this.email,
         dateModification: '2023-08-17',
         numeroSaison: 0,

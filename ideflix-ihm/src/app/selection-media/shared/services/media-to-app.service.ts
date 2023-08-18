@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {MediaAppModel} from "../../../core/models/media-app.model";
-import {MediaSelectionneModel} from "../model/MediaSelectionneModel";
-import {map} from "rxjs";
-import {EtiquetteModel} from "../model/EtiquetteModel";
-import {MediaService} from "../../../core/services/media/media.service";
 import {environment} from "../../../../environments/environment";
+import {HttpClient} from "@angular/common/http";
+import {MediaModel} from "../../../core/models/media.model";
+import {GenreAppModel} from "../model/GenreAppModel";
+import {MediaAppOutModel} from "../model/MediaAppOutModel";
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +13,22 @@ export class MediaToAppService {
 
   constructor(private http: HttpClient) { }
 
-  saveToApp(media:MediaSelectionneModel) {
-    let endpoint = '/mediaselectionne';
+  saveToApp(media: MediaModel, typeMedia: boolean) {
+    let mediaApp = new MediaAppOutModel({
+      idTmdb: media.idTmdb,
+      typeMedia: typeMedia ? "FILM" : "SERIE",
+      titre: media.titre,
+      dateSortie: media.date,
+      duree: media.duration,
+      resume: media.resume,
+      cheminAffichePortrait: media.image_portrait,
+      cheminAffichePaysage: media.image_landscape,
+      noteTmdb: media.score,
+      genreList: media.genres.map((genre:any) => new GenreAppModel(genre))
+    });
 
-    this.http.post<MediaAppModel>(this.IDEFLIX_API + endpoint, JSON.stringify(media)).subscribe();
+    let endpoint= typeMedia ? '/film':'/serie';
+
+    this.http.post(this.IDEFLIX_API + endpoint, mediaApp, {responseType: 'text'}).subscribe();
   }
 }
