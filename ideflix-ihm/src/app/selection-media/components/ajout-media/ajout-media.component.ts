@@ -25,7 +25,7 @@ function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
       return "A_VOIR";
     case Status.InProgress:
       return "EN_COURS";
-    case Status.Pending:
+    case Status.Dropped:
       return "ABANDONNE";
     default:
       return undefined;
