@@ -10,7 +10,7 @@ public interface UtilisateurIamService {
 
     UtilisateurIamEntity loginIam(UtilisateurIamEntity utilisateurIamEntreeApiDto);
 
-    List<UtilisateurIamEntity> getUtilisateursIam();
+    List<UtilisateurIamEntity> getUtilisateursIam(String headerAuthorization);
 
     void delUtilisateurIam(String email);
 

@@ -56,9 +56,14 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
 
     // pour les administrateurs :
     @Override
-    public List<UtilisateurIamEntity> getUtilisateursIam() {
-        logger.warn("APP - IAM - Récupération de tous les utilisateurs (non implémenté).");
-        return null;
+    public List<UtilisateurIamEntity> getUtilisateursIam(String headerAuthorization) {
+
+        List<UtilisateurIamEntity> utilisateurIamEntityList;
+
+        logger.debug("IdeFlix - Récupération de tous les utilisateurs.");
+        utilisateurIamEntityList = utilisateurIamRepository.getUtilisateursIam(headerAuthorization);
+
+        return utilisateurIamEntityList;
     }
 
     // pour les administrateurs :

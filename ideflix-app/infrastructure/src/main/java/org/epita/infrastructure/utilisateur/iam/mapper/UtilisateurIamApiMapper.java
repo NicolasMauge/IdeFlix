@@ -1,10 +1,7 @@
 package org.epita.infrastructure.utilisateur.iam.mapper;
 
 import org.epita.domaine.utilisateuriam.UtilisateurIamEntity;
-import org.epita.infrastructure.utilisateur.iam.apidto.UtilisateurIamCreationApiDto;
-import org.epita.infrastructure.utilisateur.iam.apidto.UtilisateurIamCreationReponseApiDto;
-import org.epita.infrastructure.utilisateur.iam.apidto.UtilisateurIamLoginApiDto;
-import org.epita.infrastructure.utilisateur.iam.apidto.UtilisateurIamLoginReponseApiDto;
+import org.epita.infrastructure.utilisateur.iam.apidto.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -67,4 +64,18 @@ public class UtilisateurIamApiMapper {
         );
 
     }
+
+    public UtilisateurIamEntity mapUtilisateurIamDetailApiDtoToEntite(UtilisateurIamDetailApiDto utilisateurIamDetailApiDto) {
+        return new UtilisateurIamEntity(utilisateurIamDetailApiDto.getEmail(),
+                utilisateurIamDetailApiDto.getPrenom(),
+                utilisateurIamDetailApiDto.getNom(),
+                utilisateurIamDetailApiDto
+                        .getListeRoles()
+                        .stream()
+                        .map(roleIamApiDto -> roleIamApiMapper.mapApiDtoToEntity(roleIamApiDto))
+                        .toList()
+        );
+    }
+
+
 }
