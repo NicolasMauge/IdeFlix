@@ -9,15 +9,18 @@ import {authGuard} from "./core/guards/auth.guard";
 import {MesPreferencesComponent} from "./mes-preferences/components/mes-preferences/mes-preferences.component";
 import {DetailMediaComponent} from "./selection-media/components/detail-media/detail-media.component";
 import {AdminUtilisateursComponent} from "./admin/components/admin-utilisateurs/admin-utilisateurs.component";
+import {adminGuard} from "./core/guards/admin.guard";
+import {LogoutComponent} from "./auth/components/logout/logout.component";
 
 // tableau des routes
 const routes: Routes = [
   {path: '', component: AccueilComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
+  {path: 'logout', component: LogoutComponent},
   {path: 'maListe', component: MaListeComponent, canActivate: [authGuard]},
   {path: 'search', component: MediaListComponent, canActivate: [authGuard]},
-  {path: 'adminUtilisateurs', component: AdminUtilisateursComponent, canActivate: [authGuard]},
+  {path: 'adminUtilisateurs', component: AdminUtilisateursComponent, canActivate: [adminGuard]},
   {path: 'mesPreferences', component: MesPreferencesComponent, canActivate: [authGuard]},
   {path: 'selection/:movieId', component: DetailMediaComponent, canActivate: [authGuard]}
 ];

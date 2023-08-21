@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from "../../../environments/environment";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {MessageService} from "../../core/services/common/message.service";
@@ -9,6 +9,7 @@ interface Credentials {
   email: string;
   motDePasse: string;
 }
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,15 +18,17 @@ export class AuthService {
   USER_API = environment.USER_SERVER;
   token!: string;
   private _isAuthenticated: boolean = false;
+  private _isAdmin: boolean = false;
 
   constructor(private http: HttpClient,
-              private messageSvc: MessageService) {}
+              private messageSvc: MessageService) {
+  }
 
-  login(credentials : Credentials): Observable<any>{
+  login(credentials: Credentials): Observable<any> {
     let endpoint = '/login';
     return this.http.post<any>(this.USER_API + endpoint, credentials)
       .pipe(
-        tap( {
+        tap({
           error: (err: unknown) => {
             if (err instanceof HttpErrorResponse) {
               if (err.status == 403) {
@@ -36,19 +39,19 @@ export class AuthService {
               }
             }
           },
-          next : () => {
+          next: () => {
             this._isAuthenticated = true;
           }
         })
       )
   }
 
-  registerUser(data:any):Observable<any>{
+  registerUser(data: any): Observable<any> {
     let endpoint = '/utilisateur';
     return this.http.post<any>(this.USER_API + endpoint, data)
       .pipe(
         tap({
-          next : () => {
+          next: () => {
             this._isAuthenticated = true;
           }
         })
@@ -63,5 +66,32 @@ export class AuthService {
 
   isAuthenticatedUser(): boolean {
     return this._isAuthenticated;
+  }
+
+  isAdmin(): boolean {
+    //récupération des rôles :
+    let jwt = localStorage.getItem('token');
+    if (jwt) {
+      let jwtData = jwt.split('.')[1];
+      console.log("jwtData : " + jwtData);
+      let decodedJwtJsonData = window.atob(jwtData);
+      console.log("decodedJwtJsonData : " + decodedJwtJsonData);
+      let decodedJwtData = JSON.parse(decodedJwtJsonData);
+      console.log("decodedJwtData : " + decodedJwtData);
+//              let objetJwt = JSON.parse(decodedJwtJsonData);
+//              console.log("objetJwt : " + objetJwt)
+      if (decodedJwtData.roles.includes('ROLE_ADMIN')) {
+        this._isAdmin = true;
+      } else {
+        this._isAdmin = false;
+      }
+      console.log("isAdmin " + this._isAdmin);
+    } else {
+      console.log("jwt non trouvé dans LocalStorage");
+      this._isAdmin = false;
+    }
+
+
+    return this._isAdmin;
   }
 }
