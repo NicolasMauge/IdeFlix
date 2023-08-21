@@ -32,7 +32,8 @@
 
         </div>
 
-
-        <button type="submit" class="btn btn-light">Ajouter à ma liste</button>
+        <button *ngIf="buttonAdd == true" ng-click="OnSubmitAdd()" class="btn btn-light">Ajouter à ma liste</button>
+        <button *ngIf="buttonDelete == true" ng-click="OnSubmitDelete()" class="btn btn-light">Supprimer de ma liste</button>
+        <button *ngIf="buttonModify == true" ng-click="OnSubmitModify()" class="btn btn-light">Modifier dans ma liste</button>
       </form>
 </div>
