@@ -1,6 +1,6 @@
 export enum Status {
-  Completed = 'vu',
+  Completed = 'Vu',
   ToSee = 'A voir',
   InProgress = 'En cours',
-  Pending = 'Abandonné'
+  Dropped = 'Abandonné'
 }
