@@ -9,6 +9,7 @@ import {GenreAppModel} from "../../shared/model/GenreAppModel";
 import {MediaToAppService} from "../../shared/services/media-to-app.service";
 import {GenreToAppService} from "../../shared/services/genre-to-app.service";
 import {MediaMaListeModel} from "../../../ma-liste-de-selection/models/media-ma-liste.model";
+import {MediaDatabaseModel} from "../../../core/models/media-database.model";
 
 // fonction pour la correspondance entre les status provenant du backend et les status affichés sur l'ihm
 function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
@@ -44,7 +45,7 @@ export class AjoutMediaComponent {
   buttonModify: boolean = false;
   buttonDelete : boolean = false;
 
-  @Input() media!: MediaModel;
+  @Input() media!: MediaDatabaseModel;
   @Input() typeMedia!:boolean;
 
 
@@ -72,7 +73,7 @@ export class AjoutMediaComponent {
   }
 
   loadMediaSelectionne() {
-    this.mediaAppService.trouveMediaSelectionnePourEmailEtIdTmdb(this.email!, this.media.idTmdb);
+    this.mediaAppService.trouveMediaSelectionnePourEmailEtIdTmdb(this.email!, this.media.idDataBase.toString());
     this.mediaAppService.mediaSelectionne$.subscribe((data:MediaMaListeModel[])=> {
       if(data.length>0) {
         this.buttonAdd = false;
@@ -123,7 +124,7 @@ export class AjoutMediaComponent {
                 dateSelection: '2023-08-17',
                 etiquetteList: this.nouveauMedia.listTag,
                 statutMedia: statusApp,
-                mediaIdTmdb: this.media.idTmdb,
+                mediaIdTmdb: this.media.idDataBase,
                 email: this.email,
                 dateModification: '2023-08-17',
                 numeroSaison: 0,
