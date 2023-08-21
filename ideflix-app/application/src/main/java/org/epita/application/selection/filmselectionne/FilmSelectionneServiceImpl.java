@@ -11,6 +11,7 @@ import org.epita.infrastructure.selection.FilmSelectionneRepository;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,5 +77,17 @@ public class FilmSelectionneServiceImpl implements FilmSelectionneService {
     @Override
     public List<FilmSelectionneEntity> trouverFilmsSelectionnesParEmailUtilisateur(String email) {
         return this.filmSelectionneRepository.findFilmSelectionneEntitiesByUtilisateurEntity_EmailIs(email);
+    }
+
+    @Override
+    public List<FilmSelectionneEntity> trouverFilmSelectionnesParEmailUtilisateurEtIdTmdb(String email, String idTmdb) {
+        List<FilmSelectionneEntity> filmList = new ArrayList<>();
+
+        Optional<FilmSelectionneEntity> filmOpt = this.filmSelectionneRepository.findFilmSelectionneEntityByUtilisateurEntity_EmailAndMediaAudioVisuelEntity_IdTmdb(email, idTmdb);
+        if(filmOpt.isPresent()) {
+            filmList.add(filmOpt.get());
+        }
+
+        return filmList;
     }
 }

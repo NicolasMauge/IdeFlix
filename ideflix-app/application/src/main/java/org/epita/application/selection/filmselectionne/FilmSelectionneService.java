@@ -3,6 +3,7 @@ package org.epita.application.selection.filmselectionne;
 import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 
+import javax.swing.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,4 +19,6 @@ public interface FilmSelectionneService {
     List<FilmSelectionneEntity> trouverFilmSelectionneeParUtilisateur(UtilisateurEntity utilisateurEntity);
 
     List<FilmSelectionneEntity> trouverFilmsSelectionnesParEmailUtilisateur(String email);
+
+    List<FilmSelectionneEntity> trouverFilmSelectionnesParEmailUtilisateurEtIdTmdb(String email, String idTmdb);
 }
