@@ -52,6 +52,14 @@ public class UtilisateurIamEntity {
         this.jwt = jwt;
     }
 
+    public UtilisateurIamEntity(String email, String nom, String prenom, List<RoleIamEntity> listeRoleIamEntity) {
+        this.email = email;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.listeRoleIamEntity = listeRoleIamEntity;
+    }
+
+
     public UtilisateurIamEntity(String email, String nom, String prenom, LocalDateTime dateCreation) {
         this.email = email;
         this.nom = nom;

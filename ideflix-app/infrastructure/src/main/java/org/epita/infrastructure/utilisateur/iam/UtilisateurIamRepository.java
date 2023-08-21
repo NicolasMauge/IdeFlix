@@ -11,7 +11,7 @@ public interface UtilisateurIamRepository {
 
     UtilisateurIamEntity loginIam(UtilisateurIamEntity utilisateurIam);
 
-    List<UtilisateurIamEntity> getUtilisateursIam();
+    List<UtilisateurIamEntity> getUtilisateursIam(String headerAuthorization);
 
     void delUtilisateurIam(String email);
 

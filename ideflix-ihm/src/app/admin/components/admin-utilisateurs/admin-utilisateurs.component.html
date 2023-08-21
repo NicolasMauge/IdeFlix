@@ -1,0 +1,35 @@
+<div class="container-fluid pt-3">
+  <h1 class="text-center text-white">Liste des utilisateurs</h1>
+  <div class="pt-3 pb-5" *ngIf="utilisateurs">
+    <div class="card">
+      <div class="row text-center my-3 fs-4">
+        <div class="col-3">Nom</div>
+        <div class="col-3">Prénom</div>
+        <div class="col-3">Email</div>
+        <div class="col-3">Rôles</div>
+      </div>
+    </div>
+    <div *ngFor="let utilisateur of utilisateurs">
+      <div class="card my-2 utilisateur">
+        <div class="card-body">
+          <div class="row fs-5 align-middle">
+            <div class="col-3">{{utilisateur.nom}}</div>
+            <div class="col-3">{{utilisateur.prenom}}</div>
+            <div class="col-3">{{utilisateur.email}}</div>
+
+            <div class="col-3">
+                <span *ngFor="let role of utilisateur.roles"
+                      class="badge rounded-pill text-bg-secondary p-2 m-1">
+                  {{displayRole(role.nomRole)}}
+                </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pt-3 pb-5" *ngIf="!utilisateurs">
+    Liste des utilisateurs en cours de chargement.
+  </div>
+
+</div>

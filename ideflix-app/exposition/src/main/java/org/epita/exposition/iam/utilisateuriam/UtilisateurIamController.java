@@ -1,13 +1,13 @@
 package org.epita.exposition.iam.utilisateuriam;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.epita.application.iam.service.UtilisateurIamService;
-import org.epita.exposition.iam.utilisateuriam.dto.UtilisateurIamCreationDto;
-import org.epita.exposition.iam.utilisateuriam.dto.UtilisateurIamCreationReponseDto;
-import org.epita.exposition.iam.utilisateuriam.dto.UtilisateurIamLoginDto;
-import org.epita.exposition.iam.utilisateuriam.dto.UtilisateurIamLoginReponseDto;
+import org.epita.exposition.iam.utilisateuriam.dto.*;
 import org.epita.exposition.iam.utilisateuriam.mapper.UtilisateurIamMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/iam")
@@ -81,5 +82,23 @@ public class UtilisateurIamController {
                 ));
     }
 
+
+    // ============================================== Administration ===================================================
+    //@ApiOperation(value = "Consulter la liste des utilisateurs")
+    @Operation(summary = "Consulter la liste des utilisateurs", security = @SecurityRequirement(name = "bearerAuth"))
+    @CrossOrigin(origins = "http://locahost:4200")
+    @GetMapping("/admin/utilisateur/all")
+    //@SecurityDefinition(@ApiKeyAuthDefinition(key = "ApiKey", in = "header", name = "Authorization", description = "Saisir Bearer suivi du JWT. Par exemple : Bearer eyxx.eyxx.xA"))
+    ResponseEntity<List<UtilisateurIamDto>> getAllUtilisateurs(
+            @RequestHeader(value = "Authorization") String authorizationHeader
+
+    ) {
+        logger.debug("Ideflix - Liste des utilisateurs - En-tête Authorization : " + authorizationHeader);
+
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(utilisateurIamMapper.mapEntityListToUtilisateurIamDto(utilisateurIamService.getUtilisateursIam(authorizationHeader)));
+    }
 
 }
