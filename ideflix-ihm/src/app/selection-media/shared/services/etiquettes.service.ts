@@ -39,4 +39,11 @@ export class EtiquettesService {
       .subscribe((data: EtiquetteModel[])=> this._etiquettes$.next(data)
       );
   }
+
+  saveToApp(etiquette: EtiquetteModel) {
+    let endpoint = '/etiquette';
+
+    return this.http
+      .post(this.IDEFLIX_API + endpoint, etiquette, {responseType: 'text'});
+  }
 }

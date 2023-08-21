@@ -34,9 +34,9 @@ public class FilmSelectionneServiceImpl implements FilmSelectionneService {
                 this.filmRepository.findByIdTmdb(idTmdb);
         if(film.isPresent()) {
             film.get().setId(filmSelectionneEntity.getMediaAudioVisuelEntity().getId());
-        } else {
+        } /*else {
             this.filmService.creerFilm((FilmEntity) filmSelectionneEntity.getMediaAudioVisuelEntity());
-        }
+        } */
 
         Optional<FilmSelectionneEntity> filmSelectionneEntityOptional =
                 this.filmSelectionneRepository.findFilmSelectionneEntityByMediaAudioVisuelEntity_IdTmdb(idTmdb);

@@ -15,7 +15,6 @@ export class GenreToAppService {
 
   saveToApp(genres:GenreAppModel[]): Observable<any> {
     let endpoint = '/genre/masse';
-    let success = false;
 
     return this.http
       .post(this.IDEFLIX_API + endpoint, genres, {responseType: 'text'});
