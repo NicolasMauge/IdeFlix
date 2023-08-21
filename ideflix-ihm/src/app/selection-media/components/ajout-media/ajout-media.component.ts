@@ -46,7 +46,7 @@ export class AjoutMediaComponent {
   buttonDelete : boolean = false;
 
   @Input() media!: MediaDatabaseModel;
-  @Input() typeMedia!:boolean;
+  @Input() typeMedia!:string;
 
 
   constructor(private etiquetteService:EtiquettesService,

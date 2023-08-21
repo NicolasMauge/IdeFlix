@@ -12,7 +12,7 @@ import {MediaDatabaseModel} from "../../../core/models/media-database.model";
 export class DetailMediaComponent {
   movieId!: number;
   media!:MediaDatabaseModel;
-  typeMedia:boolean = true; // TODO : avoir le boolean film / serie
+  typeMedia!:string; // TODO : avoir le boolean film / serie
 
   constructor(private route:ActivatedRoute, private movieService:MediaService) {}
 

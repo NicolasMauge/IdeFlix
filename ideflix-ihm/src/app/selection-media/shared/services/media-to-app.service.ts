@@ -15,10 +15,10 @@ export class MediaToAppService {
 
   constructor(private http: HttpClient) { }
 
-  saveToApp(media: MediaDatabaseModel, typeMedia: boolean): Observable<any>{
+  saveToApp(media: MediaDatabaseModel, typeMedia: string): Observable<any>{
     let mediaApp = new MediaAppOutModel({
       idTmdb: media.idDataBase,
-      typeMedia: typeMedia ? "FILM" : "SERIE",
+      typeMedia: typeMedia,
       titre: media.titre,
       dateSortie: media.dateSortie,
       duree: media.duree,
@@ -29,7 +29,7 @@ export class MediaToAppService {
       genreList: media.genres.map((genre:any) => new GenreAppModel(genre))
     });
 
-    let endpoint= typeMedia ? '/film':'/serie';
+    let endpoint= typeMedia=="FILM" ? '/film':'/serie';
 
     return this.http.post(this.IDEFLIX_API + endpoint, mediaApp, {responseType: 'text'});
   }
