@@ -56,14 +56,18 @@ export class AjoutMediaComponent {
     this.email = localStorage.getItem('email');
 
     if (this.email !== null) {
-      this.etiquetteService.loadEtiquettes(this.email);
-      this.etiquetteService.etiquettes$.subscribe( (data: EtiquetteModel[]) => this.etiquettes = data);
+      this.loadEtiquettes();
     }
     else {
       console.log('email non présent dans le localstorage');
       //this.messageSvc.show('erreur de conexion - veuillez vous reconnecter', 'error')
       //this.route.navigate(['/login']);
     }
+  }
+
+  loadEtiquettes() {
+    this.etiquetteService.loadEtiquettes(this.email!);
+    this.etiquetteService.etiquettes$.subscribe( (data: EtiquetteModel[]) => this.etiquettes = data);
   }
 
   public createEtiquette() {
