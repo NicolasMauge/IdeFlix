@@ -1,13 +1,11 @@
 package org.epita.exposition.iam.utilisateuriam.mapper;
 
 import org.epita.domaine.utilisateuriam.UtilisateurIamEntity;
-import org.epita.exposition.iam.utilisateuriam.dto.UtilisateurIamCreationDto;
-import org.epita.exposition.iam.utilisateuriam.dto.UtilisateurIamCreationReponseDto;
-import org.epita.exposition.iam.utilisateuriam.dto.UtilisateurIamLoginDto;
-import org.epita.exposition.iam.utilisateuriam.dto.UtilisateurIamLoginReponseDto;
+import org.epita.exposition.iam.utilisateuriam.dto.*;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Component
 public class UtilisateurIamMapper { // Ici, on n'étend pas la classe Mapper
@@ -59,6 +57,26 @@ public class UtilisateurIamMapper { // Ici, on n'étend pas la classe Mapper
                 utilisateurIamEntity.getPrenom(),
                 dateCreation
         );
+
+    }
+
+    public List<UtilisateurIamDto> mapEntityListToUtilisateurIamDto(List<UtilisateurIamEntity> utilisateursIam) {
+
+
+        return utilisateursIam
+                .stream()
+                .map(this::mapUtilisateurIamEntityToUtilisateurIamDto)
+                .toList();
+
+
+    }
+
+    private UtilisateurIamDto mapUtilisateurIamEntityToUtilisateurIamDto(UtilisateurIamEntity utilisateurIam) {
+
+        return new UtilisateurIamDto(utilisateurIam.getNom(),
+                utilisateurIam.getPrenom(),
+                utilisateurIam.getEmail(),
+                roleIamMapper.mapListEntityToDto(utilisateurIam.getListeRoleIamEntity()));
 
     }
 }

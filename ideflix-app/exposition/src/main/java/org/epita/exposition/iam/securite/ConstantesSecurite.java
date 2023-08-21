@@ -85,7 +85,7 @@ public final class ConstantesSecurite {
     };
 
     public final static String[] PATH_GET_ADMINISTRATEUR_WHITELIST = {
-            "/iam/admin/utilisateurs"
+            "/iam/admin/utilisateur/all"
     };
 
     public final static String[] PATH_POST_ADMINISTRATEUR_WHITELIST = {
@@ -96,7 +96,7 @@ public final class ConstantesSecurite {
             "/film/*",
             "/genre/*",
             "/serie/*",
-            "/iam/admin/utilisateurs/*"
+            "/iam/admin/utilisateur/*"
 
     };
 }

@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UtilisateurModel} from "../../models/utilisateur.model";
 import {Subscription} from "rxjs";
-import {UtilisateursService} from "../../../core/services/admin/utilisateurs.service";
+import {UtilisateursService} from "../../services/utilisateurs.service";
 
 @Component({
   selector: 'app-admin-utilisateurs',
@@ -34,7 +34,9 @@ export class AdminUtilisateursComponent implements OnInit, OnDestroy {
 
 
   displayRole(roleSource: string): string {
+
     let roleAffichage: string = "";
+
     switch (roleSource) {
       case "ROLE_ADMIN":
         roleAffichage = "Administrateur";
@@ -45,6 +47,7 @@ export class AdminUtilisateursComponent implements OnInit, OnDestroy {
       default:
         roleAffichage = roleSource;
     }
+
     return roleAffichage;
   }
 
