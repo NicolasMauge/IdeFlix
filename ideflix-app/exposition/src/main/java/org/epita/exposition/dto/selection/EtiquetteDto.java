@@ -1,6 +1,7 @@
 package org.epita.exposition.dto.selection;
 
 public class EtiquetteDto {
+    private Long id;
     private String nomTag;
 
     private Long idUtilisateur;
@@ -8,9 +9,18 @@ public class EtiquetteDto {
     public EtiquetteDto() {
     }
 
-    public EtiquetteDto(String nomTag, Long idUtilisateur) {
+    public EtiquetteDto(Long id, String nomTag, Long idUtilisateur) {
+        this.id = id;
         this.nomTag = nomTag;
         this.idUtilisateur = idUtilisateur;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNomTag() {

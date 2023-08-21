@@ -28,7 +28,7 @@ public abstract class MediaAudioVisuelEntity {
 
     private int noteTmdb;
 
-    @ManyToMany
+    @ManyToMany//(cascade = CascadeType.PERSIST)
     private List<GenreEntity> genreEntityList;
 
     public MediaAudioVisuelEntity() {

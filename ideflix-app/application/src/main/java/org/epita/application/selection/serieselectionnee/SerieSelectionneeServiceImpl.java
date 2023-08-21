@@ -29,6 +29,7 @@ public class SerieSelectionneeServiceImpl implements SerieSelectionneeService {
     @Override
     public void creerSerieSelectionnee(SerieSelectionneeEntity serieSelectionneeEntity) {
         String idTmdb = serieSelectionneeEntity.getMediaAudioVisuelEntity().getIdTmdb();
+        String email = serieSelectionneeEntity.getUtilisateurEntity().getEmail();
 
         Optional<SerieEntity> film = this.serieRepository.findByIdTmdb(idTmdb);
         if(film.isPresent()) {
@@ -38,7 +39,8 @@ public class SerieSelectionneeServiceImpl implements SerieSelectionneeService {
         }
 
         Optional<SerieSelectionneeEntity> serieSelectionneeEntityOptional =
-                this.serieSelectionneeRepository.findSerieSelectionneeEntityByMediaAudioVisuelEntityIdTmdb(idTmdb);
+                // this.serieSelectionneeRepository.findSerieSelectionneeEntityByMediaAudioVisuelEntityIdTmdb(idTmdb);
+                this.serieSelectionneeRepository.findSerieSelectionneeEntityByUtilisateurEntity_EmailAndMediaAudioVisuelEntity_IdTmdb(email, idTmdb);
         if(serieSelectionneeEntityOptional.isPresent()) {
             serieSelectionneeEntityOptional.get().setId(serieSelectionneeEntity.getId());
         }

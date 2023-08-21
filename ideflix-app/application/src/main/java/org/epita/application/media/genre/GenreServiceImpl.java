@@ -1,8 +1,12 @@
 package org.epita.application.media.genre;
 
+import org.epita.application.media.film.FilmServiceImpl;
 import org.epita.domaine.common.EntityNotFoundException;
+import org.epita.domaine.media.FilmEntity;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.infrastructure.media.GenreRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +14,8 @@ import java.util.Optional;
 
 @Service
 public class GenreServiceImpl implements GenreService {
+    public static final Logger logger = LoggerFactory.getLogger(GenreServiceImpl.class);
+
     private GenreRepository genreRepository;
 
     public GenreServiceImpl(GenreRepository genreRepository) {
@@ -18,6 +24,14 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public void creerGenre(GenreEntity genreEntity) {
+        Optional<GenreEntity> genreTrouve = this.genreRepository.findGenreEntityByIdTmdb(genreEntity.getIdTmdb());
+        if(genreTrouve.isPresent()) {
+            genreEntity.setId(genreTrouve.get().getId());
+        }
+        else {
+            logger.debug("IdeFlix - creerGenre - Tentative création du genre : {idTmdb : " + genreEntity.getIdTmdb() + ", nomGenre : " +genreEntity.getNomGenre()+"}");
+        }
+
         this.genreRepository.save(genreEntity);
     }
 

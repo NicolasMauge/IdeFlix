@@ -18,6 +18,7 @@ public class EtiquetteMapper extends Mapper<EtiquetteEntity, EtiquetteDto> {
     @Override
     public EtiquetteDto mapEntityToDto(EtiquetteEntity input) {
         return new EtiquetteDto(
+                input.getId(),
                 input.getNomTag(),
                 input.getUtilisateurEntity().getId());
     }
@@ -28,6 +29,7 @@ public class EtiquetteMapper extends Mapper<EtiquetteEntity, EtiquetteDto> {
         utilisateur.setId(input.getIdUtilisateur());
 
         return new EtiquetteEntity(
+                input.getId(),
                 input.getNomTag(),
                 utilisateur);
     }

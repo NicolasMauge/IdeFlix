@@ -30,6 +30,7 @@ public class SerieSelectionneeController {
         return new ResponseEntity<>("UP", HttpStatus.OK);
     }
 
+    /* Utiliser MediaSelectionneController
     @PostMapping
     public ResponseEntity<String> creerSerieSelectionnee(@RequestBody SerieSelectionneeDto serieSelectionneeDto) {
         this.serieSelectionneeService
@@ -37,7 +38,7 @@ public class SerieSelectionneeController {
                         this.serieSelectionneeMapper.mapDtoToEntity(serieSelectionneeDto));
 
         return new ResponseEntity<String>("Série sélectionnée créée", HttpStatus.CREATED);
-    }
+    }*/
 
     @GetMapping("/{id}")
     public SerieSelectionneeDto trouverSerieSelectionneeParId(@PathVariable("id") Long id) {
