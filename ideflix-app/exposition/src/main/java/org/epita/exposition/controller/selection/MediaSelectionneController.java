@@ -63,7 +63,7 @@ public class MediaSelectionneController {
         return mediaDtoList;
     }
 
-    @GetMapping("/utilisateur/{email}/idtmdb/{idTmdb")
+    @GetMapping("/utilisateur/{email}/idtmdb/{idTmdb}")
     public List<MediaSelectionneCompletDto> trouverMediasParUtilisateurEtIdTmdb(@PathVariable("email") String email, @PathVariable("idTmdb") String idTmdb) {
         List<FilmSelectionneEntity> filmList = this.filmSelectionneService.trouverFilmSelectionnesParEmailUtilisateurEtIdTmdb(email, idTmdb);
 
