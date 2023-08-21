@@ -14,4 +14,6 @@ public interface SerieSelectionneeRepository extends JpaRepository<SerieSelectio
     List<SerieSelectionneeEntity> findByUtilisateurEntity(UtilisateurEntity utilisateurEntity);
     List<SerieSelectionneeEntity> findSerieSelectionneeEntitiesByUtilisateurEntityEmailIs(String email);
     Optional<SerieSelectionneeEntity> findSerieSelectionneeEntityByMediaAudioVisuelEntityIdTmdb(String idTmdb);
+
+    Optional<SerieSelectionneeEntity> findSerieSelectionneeEntityByUtilisateurEntity_EmailAndMediaAudioVisuelEntity_IdTmdb(String email, String idTmdb);
 }

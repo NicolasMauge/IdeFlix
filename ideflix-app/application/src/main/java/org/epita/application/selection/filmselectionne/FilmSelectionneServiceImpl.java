@@ -29,6 +29,7 @@ public class FilmSelectionneServiceImpl implements FilmSelectionneService {
     @Override
     public void creerFilmSelectionne(FilmSelectionneEntity filmSelectionneEntity) {
         String idTmdb = filmSelectionneEntity.getMediaAudioVisuelEntity().getIdTmdb();
+        String email = filmSelectionneEntity.getUtilisateurEntity().getEmail();
 
         Optional<FilmEntity> film =
                 this.filmRepository.findByIdTmdb(idTmdb);
@@ -39,7 +40,8 @@ public class FilmSelectionneServiceImpl implements FilmSelectionneService {
         } */
 
         Optional<FilmSelectionneEntity> filmSelectionneEntityOptional =
-                this.filmSelectionneRepository.findFilmSelectionneEntityByMediaAudioVisuelEntity_IdTmdb(idTmdb);
+                //this.filmSelectionneRepository.findFilmSelectionneEntityByMediaAudioVisuelEntity_IdTmdb(idTmdb);
+                this.filmSelectionneRepository.findFilmSelectionneEntityByUtilisateurEntity_EmailAndMediaAudioVisuelEntity_IdTmdb(email, idTmdb);
         if(filmSelectionneEntityOptional.isPresent()) {
             filmSelectionneEntityOptional.get().setId(filmSelectionneEntity.getId());
         }
