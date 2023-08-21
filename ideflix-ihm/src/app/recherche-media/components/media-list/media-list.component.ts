@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {MediaModel} from "../../../core/models/media.model";
 import {Subscription} from "rxjs";
 import {MenuService} from "../../../core/services/common/menu.service";
 import {MediaService} from "../../../core/services/media/media.service";

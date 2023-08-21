@@ -13,6 +13,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   USER_API = environment.USER_SERVER;
   IDEFLIX_API = environment.IDEFLIX_SERVER;
+  MOVIEDATABASE_API = environment.MOVIEDATABASE_SERVER;
 
   constructor() {}
 
@@ -44,6 +45,15 @@ export class TokenInterceptor implements HttpInterceptor {
 
     //token doit être ajouté lors des appels vers API Ideflix
     if (cloneReq.url.includes(this.IDEFLIX_API)) {
+      cloneReq = cloneReq.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+
+    //token doit être ajouté lors des appels vers API pour acces base des  films et series
+    if (cloneReq.url.includes(this.MOVIEDATABASE_API)) {
       cloneReq = cloneReq.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`,
