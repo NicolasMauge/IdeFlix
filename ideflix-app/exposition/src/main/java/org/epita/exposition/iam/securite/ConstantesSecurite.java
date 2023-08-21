@@ -55,6 +55,7 @@ public final class ConstantesSecurite {
             "/MovieDataBase/rechercheFilm/*",
             "/MovieDataBase/rechercheSerie/*",
             "/MovieDataBase/detailFilm/*",
+            "/MovieDataBase/detailSerie/*",
             "/MovieDataBase/suggestionsFilm/*"
     };
 

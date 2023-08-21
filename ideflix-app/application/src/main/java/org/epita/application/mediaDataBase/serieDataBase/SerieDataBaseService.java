@@ -7,4 +7,6 @@ import java.util.List;
 public interface SerieDataBaseService {
 
     List<SerieDataBase> searchSeries(String query);
+
+    SerieDataBase findSerieById(long Id);
 }
