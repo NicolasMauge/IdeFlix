@@ -8,7 +8,7 @@ import {MediaListComponent} from "./recherche-media/components/media-list/media-
 import {authGuard} from "./core/guards/auth.guard";
 import {MesPreferencesComponent} from "./mes-preferences/components/mes-preferences/mes-preferences.component";
 import {DetailMediaComponent} from "./selection-media/components/detail-media/detail-media.component";
-import {AdminUtilisateursComponent} from "./admin-utilisateurs/admin-utilisateurs.component";
+import {AdminUtilisateursComponent} from "./admin/components/admin-utilisateurs/admin-utilisateurs.component";
 
 // tableau des routes
 const routes: Routes = [
