@@ -156,4 +156,19 @@ public class MovieDataBaseServiceTest {
 //        assertThat(filmTrouve).isEqualTo(movie1);
         assertThat(filmTrouve.getTitre()).isEqualTo(movie1.getTitre());
     }
+
+    @Test
+    public void rechercherSuggestionDeFilms_Pour_Page_1_appel_API() {
+        // Given
+        int page = 1;
+
+        // When
+        final List<MovieDataBase> trouves = this.movieDataBaseService.searchSuggestedMovies(page);
+
+        // Then
+
+        //le tableau des films trouvés est de 20
+        assertThat(trouves).hasSize(20);
+
+    }
 }
