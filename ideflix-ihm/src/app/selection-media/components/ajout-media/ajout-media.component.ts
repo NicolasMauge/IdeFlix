@@ -140,10 +140,10 @@ export class AjoutMediaComponent {
   }
 
   OnSubmitDelete() {
-
+    console.log("supprimer");
   }
 
   OnSubmitModify() {
-
+    console.log("modifier");
   }
 }
