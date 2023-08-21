@@ -23,12 +23,18 @@ public class MovieDataBaseServiceImpl implements MovieDataBaseService {
     public List<MovieDataBase> searchMovies(String query) {
 
 //        logger.debug("recherche liste films selon " + query);
-        return movieDataBaseRepository.searchMovieDataBase(query);
+        return movieDataBaseRepository.searchAllMovieDataBaseWithQuery(query);
     }
 
     @Override
     public MovieDataBase findMovieById(long Id) {
 //        logger.debug("recherche détail d'un films selon id" + Id);
         return movieDataBaseRepository.findDetailMovieDataBase(Id);
+    }
+
+    @Override
+    public List<MovieDataBase> searchSuggestedMovies(int page) {
+        logger.debug("recherche suggestion des films , page: " + page);
+        return movieDataBaseRepository.searchSuggestedMovieDatabase(page);
     }
 }

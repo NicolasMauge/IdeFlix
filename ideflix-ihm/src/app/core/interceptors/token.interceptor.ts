@@ -17,18 +17,13 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    return next.handle(request);
 
-    let token: string | null = localStorage.getItem('token');
+    let cloneReq = request;
+    // return next.handle(request);
+    const token: string | null = localStorage.getItem('token');
 
-    let cloneReq: HttpRequest<unknown>;
-    // cloneReq = request.clone({
-    //   headers: request.headers.set(
-    //     'Authorization',
-    //     token ?? ''
-    //   )
-    // });
     if (token) {
+      // ajouter le token aux requêtes sortantes
       cloneReq = request.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`
@@ -37,15 +32,23 @@ export class TokenInterceptor implements HttpInterceptor {
     }
 
 // token doit être ajouté lors des appels vers API IAM  (sauf login et création de compte)
-    if (request.url.includes(this.USER_API)
-        && !request.url.includes('/login')
-        && !request.url.includes('/utilisateur')) {
-      request = cloneReq
+    if (cloneReq.url.includes(this.USER_API)
+        && !cloneReq.url.includes('/login')
+        && !cloneReq.url.includes('/utilisateur')) {
+      cloneReq = cloneReq.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
     }
 
     //token doit être ajouté lors des appels vers API Ideflix
-    if (request.url.includes(this.IDEFLIX_API)) {
-      request = cloneReq
+    if (cloneReq.url.includes(this.IDEFLIX_API)) {
+      cloneReq = cloneReq.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
     }
 
     return next.handle(request);

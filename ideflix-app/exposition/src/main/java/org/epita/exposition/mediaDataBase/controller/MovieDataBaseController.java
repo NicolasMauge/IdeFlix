@@ -57,4 +57,17 @@ public class MovieDataBaseController {
                                 this.movieDataBaseService.findMovieById(id)));
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/suggestionsFilm/{page}")
+    public ResponseEntity<List<MediaDataBaseResponseDto>> trouverSuggestionFilmsParPage(@PathVariable("page") int page){
+
+//        logger.debug("IdeFlix - recherche Des suggestions de films de la page: " + page);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(this.movieDataBaseMapper
+                        .mapListEntityToDto(
+                                this.movieDataBaseService.searchSuggestedMovies(page)));
+    }
+
 }

@@ -38,10 +38,10 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
     }
 
     @Override
-    public List<MovieDataBase> searchMovieDataBase(String query)  {
+    public List<MovieDataBase> searchAllMovieDataBaseWithQuery(String query)  {
         String url = BASE_URL + "search/movie?query=" + query + "&api_key=" + tmdbConfig.getTmdbApiKey() + "&include_adult=" + INCLUDE_ADULT +  "&language=" + LANGUAGE;
 
-//        System.out.println(url);
+        System.out.println(url);
 
         logger.debug("recherche liste films selon " + query);
 
@@ -71,7 +71,7 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
     public MovieDataBase findDetailMovieDataBase(long idTmdb) {
         String url = BASE_URL + "movie/" + idTmdb + "?&api_key=" + tmdbConfig.getTmdbApiKey() +  "&language=" + LANGUAGE;
 
-//        System.out.println(url);
+        System.out.println(url);
 
         logger.debug("recherche détail d'un films selon id" + idTmdb);
 
@@ -98,8 +98,39 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
         }
     }
 
+    @Override
+    public List<MovieDataBase> searchSuggestedMovieDatabase(int page) {
+        String url = BASE_URL + "discover/movie?"
+                + "&api_key=" + tmdbConfig.getTmdbApiKey()
+                + "&include_adult=" + INCLUDE_ADULT
+                +  "&language=" + LANGUAGE
+                + "&sort_by=" + "popularity.desc";
+//'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=1&sort_by=popularity.desc'
+        System.out.println(url);
 
+        logger.debug("recherche d'un suggestion de films page: " + page);
 
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .addHeader("accept", "application/json")
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                String jsonResponse = response.body().string(); // réponse JSON brute en tant que chaîne
+                SearchMoviesResponseDto searchMoviesResponseDto = objectMapper.readValue(jsonResponse, SearchMoviesResponseDto.class);
+                return movieApiMapper.mapSearchMoviesResponseDtoToEntityList(searchMoviesResponseDto);
+
+            } else {
+                throw new MovieDataBaseException("APP - Tmdb - Echec recherche suggestion de films de la page:  " +  page + " avec un code retour API: " + response.code());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
 

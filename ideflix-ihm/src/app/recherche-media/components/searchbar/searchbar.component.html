@@ -24,7 +24,7 @@
     <ul *ngIf="moviesDataBaseResult.length>0" class="list-group">
       <li *ngFor="let media of moviesDataBaseResult"
           class="list-group-item list-group-item-action list-group-item-light">
-        <a [routerLink]="['/selection', media.idDataBase ]">{{ media.titre }}</a>
+        <a [routerLink]="['/selection',media.typeMedia, media.idDataBase ]">{{ media.titre }}</a>
       </li>
     </ul>
   </div>
@@ -38,7 +38,7 @@
     <ul *ngIf="seriesDataBaseResult.length>0" class="list-group">
       <li *ngFor="let media of seriesDataBaseResult"
           class="list-group-item list-group-item-action list-group-item-light">
-        <a [routerLink]="['/selection', media.idDataBase ]">{{ media.titre }}</a>
+        <a [routerLink]="['/selection',media.typeMedia, media.idDataBase]">{{ media.titre }}</a>
       </li>
     </ul>
   </div>
