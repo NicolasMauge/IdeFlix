@@ -10,6 +10,7 @@ import org.epita.exposition.dto.selection.MediaSelectionneCompletDto;
 import org.epita.exposition.dto.selection.MediaSelectionneDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -60,5 +61,22 @@ public class MediaSelectionneController {
         serieSelectionnee.stream().forEach(s->mediaDtoList.add(s));
 
         return mediaDtoList;
+    }
+
+    @GetMapping("/utilisateur/{email}/idtmdb/{idTmdb}")
+    public List<MediaSelectionneCompletDto> trouverMediasParUtilisateurEtIdTmdb(@PathVariable("email") String email, @PathVariable("idTmdb") String idTmdb) {
+        List<FilmSelectionneEntity> filmList = this.filmSelectionneService.trouverFilmSelectionnesParEmailUtilisateurEtIdTmdb(email, idTmdb);
+
+        if (filmList.size() > 0) {
+            return this.filmCompletMapper.mapListEntityToDto(filmList);
+        }
+
+        List<SerieSelectionneeEntity> serieList = this.serieSelectionneeService.trouverSeriesSelectionneesParEmailUtilisateurEtIdTmdb(email, idTmdb);
+
+        if (serieList.size() > 0) {
+            return this.serieCompletMapper.mapListEntityToDto(serieList);
+        }
+
+        return new ArrayList<>();
     }
 }

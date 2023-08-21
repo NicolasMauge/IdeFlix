@@ -5,6 +5,7 @@ import {MediaModel} from "../../../core/models/media.model";
 import {GenreAppModel} from "../model/GenreAppModel";
 import {MediaAppOutModel} from "../model/MediaAppOutModel";
 import {Observable} from "rxjs";
+import {MediaDatabaseModel} from "../../../core/models/media-database.model";
 
 @Injectable({
   providedIn: 'root'
@@ -14,21 +15,21 @@ export class MediaToAppService {
 
   constructor(private http: HttpClient) { }
 
-  saveToApp(media: MediaModel, typeMedia: boolean): Observable<any>{
+  saveToApp(media: MediaDatabaseModel, typeMedia: string): Observable<any>{
     let mediaApp = new MediaAppOutModel({
-      idTmdb: media.idTmdb,
-      typeMedia: typeMedia ? "FILM" : "SERIE",
+      idTmdb: media.idDataBase,
+      typeMedia: typeMedia,
       titre: media.titre,
-      dateSortie: media.date,
-      duree: media.duration,
+      dateSortie: media.dateSortie,
+      duree: media.duree,
       resume: media.resume,
       cheminAffichePortrait: media.image_portrait,
-      cheminAffichePaysage: media.image_landscape,
-      noteTmdb: media.score,
+      cheminAffichePaysage: media.image_paysage,
+      noteTmdb: media.scoreDataBase,
       genreList: media.genres.map((genre:any) => new GenreAppModel(genre))
     });
 
-    let endpoint= typeMedia ? '/film':'/serie';
+    let endpoint= typeMedia=="FILM" ? '/film':'/serie';
 
     return this.http.post(this.IDEFLIX_API + endpoint, mediaApp, {responseType: 'text'});
   }

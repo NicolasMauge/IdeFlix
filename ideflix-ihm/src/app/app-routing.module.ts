@@ -22,7 +22,7 @@ const routes: Routes = [
   {path: 'search', component: MediaListComponent, canActivate: [authGuard]},
   {path: 'adminUtilisateurs', component: AdminUtilisateursComponent, canActivate: [adminGuard]},
   {path: 'mesPreferences', component: MesPreferencesComponent, canActivate: [authGuard]},
-  {path: 'selection/:movieId', component: DetailMediaComponent, canActivate: [authGuard]}
+  {path: 'selection/:typeMedia/:movieId', component: DetailMediaComponent, canActivate: [authGuard]}
 ];
 
 @NgModule({

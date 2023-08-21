@@ -11,4 +11,6 @@ public interface MovieDataBaseService {
 
     MovieDataBase findMovieById(long Id);
 
+    List<MovieDataBase> searchSuggestedMovies(int page);
+
 }

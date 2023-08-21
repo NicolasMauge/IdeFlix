@@ -1,6 +1,7 @@
 package org.epita.infrastructure.mediaDataBase.mapper;
 
 import org.epita.domaine.mediaDataBase.GenreDataBase;
+import org.epita.domaine.mediaDataBase.MovieDataBase;
 import org.epita.domaine.mediaDataBase.SerieDataBase;
 import org.epita.infrastructure.mediaDataBase.apidto.*;
 import org.springframework.stereotype.Component;
@@ -54,5 +55,34 @@ public class SerieApiMapper {
         }
 
         return serieDataBaseList;
+    }
+
+    public SerieDataBase mapDetailSerieResponseDtoToEntity(DetailSerieResponseDto detailSerieResponseDto) {
+
+        int duree = 0;
+
+        List<GenreDataBase> genreDataBases = GenreApiMapper.mapFromGenreResponseDtoList(detailSerieResponseDto.getGenres());
+
+        LocalDate dateSortie;
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+
+        if (detailSerieResponseDto.getFirst_air_date() != null && !detailSerieResponseDto.getFirst_air_date().isEmpty()) {
+            dateSortie = LocalDate.parse(detailSerieResponseDto.getFirst_air_date(), dateFormatter);
+            System.out.println("date sortie: " + dateSortie);
+        } else {
+            dateSortie = LocalDate.of(1900, 1, 1); // valeur par défaut quand date inexistante
+        }
+
+        return new SerieDataBase(detailSerieResponseDto.getId(),
+                detailSerieResponseDto.getName(),
+                genreDataBases,
+                detailSerieResponseDto.getOverview(),
+                detailSerieResponseDto.getPoster_path(),
+                detailSerieResponseDto.getBackdrop_path(),
+                dateSortie,
+                duree,
+                detailSerieResponseDto.getVote_average(),
+                detailSerieResponseDto.getNumber_of_seasons());
     }
 }

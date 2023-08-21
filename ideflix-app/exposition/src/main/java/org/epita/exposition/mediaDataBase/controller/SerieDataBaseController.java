@@ -43,4 +43,17 @@ public class SerieDataBaseController {
                         .mapListEntityToDto(
                                 this.serieDataBaseService.searchSeries(query)));
     }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/detailSerie/{id}")
+    public ResponseEntity<MediaDataBaseResponseDto> trouverSerieSelonId(@PathVariable("id") long id){
+
+        logger.debug("IdeFlix - recherche du détail d'une série pour Id: " + id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(this.serieDataBaseMapper
+                        .mapEntityToDto(
+                                this.serieDataBaseService.findSerieById(id)));
+    }
 }

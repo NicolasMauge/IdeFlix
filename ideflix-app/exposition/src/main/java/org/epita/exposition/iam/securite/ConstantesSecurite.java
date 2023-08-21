@@ -37,6 +37,8 @@ public final class ConstantesSecurite {
             "/genre/*",
             "/genre/health-check",
             "/mediaselectionne/utilisateur/*",
+            "/mediaselectionne/utilisateur/**",
+//            "/mediaselectionne/utilisateur/*/idtmdb/*",
             "/preferences",
             "/preferences/*",
             "/preferences/health-check",
@@ -54,7 +56,9 @@ public final class ConstantesSecurite {
             "/utilisateur/health-check",
             "/MovieDataBase/rechercheFilm/*",
             "/MovieDataBase/rechercheSerie/*",
-            "/MovieDataBase/detailFilm/*"
+            "/MovieDataBase/detailFilm/*",
+            "/MovieDataBase/detailSerie/*",
+            "/MovieDataBase/suggestionsFilm/*"
     };
 
     public final static String[] PATH_POST_UTILISATEUR_WHITELIST = {

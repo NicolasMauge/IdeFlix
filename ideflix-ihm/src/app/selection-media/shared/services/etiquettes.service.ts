@@ -26,7 +26,7 @@ export class EtiquettesService {
     return this._etiquettes$.asObservable();
   }
 
-  loadEtiquettes(email: String): void {
+  loadEtiquettes(email: string): void {
     let endpoint = '/etiquette/utilisateur/'+email;
 
     this.http.get<String[]>(this.IDEFLIX_API + endpoint)

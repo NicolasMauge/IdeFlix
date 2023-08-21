@@ -1,5 +1,5 @@
 <div class = "container">
-      <form (submit)="OnSubmitAdd($event)">
+      <form name = "modifyList" novalidate>
         <div class="form-group">
           <div class="row d-flex align-items-center">
             <div class="col-md-4">
@@ -32,7 +32,8 @@
 
         </div>
 
-
-        <button type="submit" class="btn btn-light">Ajouter à ma liste</button>
+        <button type="submit" *ngIf="buttonAdd == true" ng-click="OnSubmitAdd()" class="btn btn-light">Ajouter à ma liste</button>
+        <button type="submit" *ngIf="buttonDelete == true" ng-click="OnSubmitDelete()" class="btn btn-light">Supprimer de ma liste</button>
+        <button type="submit" *ngIf="buttonModify == true" ng-click="OnSubmitModify()" class="btn btn-light">Modifier dans ma liste</button>
       </form>
 </div>

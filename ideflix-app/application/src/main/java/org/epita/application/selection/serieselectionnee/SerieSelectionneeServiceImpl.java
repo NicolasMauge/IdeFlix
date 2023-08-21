@@ -11,6 +11,7 @@ import org.epita.infrastructure.media.SerieRepository;
 import org.epita.infrastructure.selection.SerieSelectionneeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,5 +76,17 @@ public class SerieSelectionneeServiceImpl implements SerieSelectionneeService {
     @Override
     public List<SerieSelectionneeEntity> trouverSeriesSelectionneesParEmailUtilisateur(String email) {
         return this.serieSelectionneeRepository.findSerieSelectionneeEntitiesByUtilisateurEntityEmailIs(email);
+    }
+
+    @Override
+    public List<SerieSelectionneeEntity> trouverSeriesSelectionneesParEmailUtilisateurEtIdTmdb(String email, String idTmdb) {
+        List<SerieSelectionneeEntity> seriesList = new ArrayList<>();
+
+        Optional<SerieSelectionneeEntity> seriesOpt = this.serieSelectionneeRepository.findSerieSelectionneeEntityByUtilisateurEntity_EmailAndMediaAudioVisuelEntity_IdTmdb(email, idTmdb);
+        if(seriesOpt.isPresent()) {
+            seriesList.add(seriesOpt.get());
+        }
+
+        return seriesList;
     }
 }

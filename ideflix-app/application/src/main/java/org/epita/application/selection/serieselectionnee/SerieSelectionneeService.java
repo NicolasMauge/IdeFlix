@@ -17,4 +17,6 @@ public interface SerieSelectionneeService {
 
     List<SerieSelectionneeEntity> trouverSerieParUtilisateur(UtilisateurEntity utilisateurEntity);
     List<SerieSelectionneeEntity> trouverSeriesSelectionneesParEmailUtilisateur(String email);
+
+    List<SerieSelectionneeEntity> trouverSeriesSelectionneesParEmailUtilisateurEtIdTmdb(String email, String idTmdb);
 }

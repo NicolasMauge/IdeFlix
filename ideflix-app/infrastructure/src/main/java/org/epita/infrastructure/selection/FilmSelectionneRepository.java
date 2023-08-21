@@ -15,6 +15,5 @@ public interface FilmSelectionneRepository extends JpaRepository<FilmSelectionne
     List<FilmSelectionneEntity> findByUtilisateurEntity(UtilisateurEntity utilisateurEntity);
     List<FilmSelectionneEntity> findFilmSelectionneEntitiesByUtilisateurEntity_EmailIs(String email);
     Optional<FilmSelectionneEntity> findFilmSelectionneEntityByMediaAudioVisuelEntity_IdTmdb(String idTmdb);
-
     Optional<FilmSelectionneEntity> findFilmSelectionneEntityByUtilisateurEntity_EmailAndMediaAudioVisuelEntity_IdTmdb(String email, String idTmdb);
 }

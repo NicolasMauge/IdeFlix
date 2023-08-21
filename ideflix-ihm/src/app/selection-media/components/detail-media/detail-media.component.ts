@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {MediaService} from "../../../core/services/media/media.service";
-import {MediaModel} from "../../../core/models/media.model";
+import {MediaDatabaseModel} from "../../../core/models/media-database.model";
 
 @Component({
   selector: 'app-detail-media',
@@ -10,16 +10,16 @@ import {MediaModel} from "../../../core/models/media.model";
 })
 export class DetailMediaComponent {
   movieId!: number;
-  media!:MediaModel;
-  typeMedia:boolean = true; // TODO : avoir le boolean film / serie
+  media!:MediaDatabaseModel;
+  typeMedia!:string; // TODO : avoir le boolean film / serie
 
   constructor(private route:ActivatedRoute, private movieService:MediaService) {}
 
   ngOnInit() {
     this.movieId = this.route.snapshot.params['movieId'];
 
-    this.movieService.getDetails(this.movieId).subscribe(
-      (data:MediaModel) => this.media=data);
+    this.movieService.getDetailsMovie(this.movieId).subscribe(
+      (data:MediaDatabaseModel) => this.media=data);
   }
 
   // getters

@@ -24,4 +24,10 @@ public class SerieDataBaseServiceImpl implements SerieDataBaseService {
         logger.debug("recherche liste séries selon " + query);
         return serieDataBaseRepository.searchSeriesDataBase(query);
     }
+
+    @Override
+    public SerieDataBase findSerieById(long Id) {
+        logger.debug("recherche détail d'une série selon id" + Id);
+        return serieDataBaseRepository.findDetailSerieDataBase(Id);
+    }
 }

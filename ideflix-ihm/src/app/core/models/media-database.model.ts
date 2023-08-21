@@ -32,9 +32,14 @@ export class MediaDatabaseModel {
     this.image_paysage = movieFromApi.cheminAffichePaysage;
     this.image_portrait = movieFromApi.cheminAffichePortrait;
     this.scoreDataBase = movieFromApi.noteDataBase;
+    // this.genres = movieFromApi.genreDataBaseResponseDtos != undefined ?
+    //   movieFromApi.genreDataBaseResponseDtos.map((idDataBase: number) => {
+    //     return {idDataBase:idDataBase, nomGenre:''}
+    //   }) :
+    //   [...movieFromApi.genres];
     this.genres = movieFromApi.genreDataBaseResponseDtos != undefined ?
-      movieFromApi.genreDataBaseResponseDtos.map((idDataBase: number) => {
-        return {idDataBase:idDataBase, nomGenre:''}
+      movieFromApi.genreDataBaseResponseDtos.map((genre: any) => {
+        return {idDatabase:genre.idDataBase, nomGenre:genre.nomGenre}
       }) :
       [...movieFromApi.genres];
     this.dateSortie = new Date(movieFromApi.dateSortie);

@@ -6,14 +6,14 @@
 
     <ul class="row">
 
-      <li [routerLink]="['/selection', media.id ]" *ngFor="let media of medias" class="col-12 col-md-3" >
+      <li [routerLink]="['/selection',media.typeMedia, media.idDataBase ]" *ngFor="let media of medias" class="col-12 col-md-3" >
         <div class="card">
-          <img [title]="media.resume" [src]="media.image_landscape | printImg" [alt]="media.titre">
+          <img [title]="media.resume" [src]="media.image_paysage | printImg" [alt]="media.titre">
           <div class="card-body">
             <h2>{{ media.titre }}</h2>
             <span *ngFor="let genre of media.genres"
                   class="badge badge-large rounded-pill text-bg-secondary">
-              {{ genre.id }}
+              {{ genre.idDatabase }}
             </span>
           </div>
         </div>

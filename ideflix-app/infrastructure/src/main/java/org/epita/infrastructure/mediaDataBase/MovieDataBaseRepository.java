@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface MovieDataBaseRepository {
 
-    List<MovieDataBase> searchMovieDataBase(String query);
+    List<MovieDataBase> searchAllMovieDataBaseWithQuery(String query);
 
     MovieDataBase findDetailMovieDataBase(long idTmdb);
+
+    List<MovieDataBase> searchSuggestedMovieDatabase(int page);
 }
