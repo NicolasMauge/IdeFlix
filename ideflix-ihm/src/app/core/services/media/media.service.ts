@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {BehaviorSubject, map, Observable} from "rxjs";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {MediaDatabaseModel} from "../../models/media-database.model";
 
 @Injectable({
@@ -9,8 +9,8 @@ import {MediaDatabaseModel} from "../../models/media-database.model";
 })
 export class MediaService {
 
-  TMDB_API = 'https://api.themoviedb.org/3';
-  TMDB_APIKEY = environment.APIKEY_TMDB;
+  // TMDB_API = 'https://api.themoviedb.org/3';
+  // TMDB_APIKEY = environment.APIKEY_TMDB;
   MOVIEDATABASE_API = environment.MOVIEDATABASE_SERVER;
 
   // private _movies$ = new BehaviorSubject(<MediaModel[]>([]));
@@ -200,7 +200,7 @@ export class MediaService {
 
     let endpoint = '/detailFilm/' + movieId;
 
-    return this.http.get<MediaDatabaseModel>(this.TMDB_API + endpoint)
+    return this.http.get<MediaDatabaseModel>(this.MOVIEDATABASE_API + endpoint)
       .pipe(map ((movieFromApi: any) =>
         new MediaDatabaseModel(movieFromApi))
       )
@@ -211,7 +211,7 @@ export class MediaService {
 
     let endpoint = '/detailSerie/' + movieId;
 
-    return this.http.get<MediaDatabaseModel>(this.TMDB_API + endpoint)
+    return this.http.get<MediaDatabaseModel>(this.MOVIEDATABASE_API + endpoint)
       .pipe(map ((movieFromApi: any) =>
         new MediaDatabaseModel(movieFromApi))
       )
@@ -222,15 +222,15 @@ export class MediaService {
    * @param movieId
    * @returns
    */
-  getVideos(movieId : number): Observable<any> {
-    /* https://api.themoviedb.org/3/movie/385687/videos?api_key=5f871496b04d6b713429ccba8a599149&language=en-FR*/
-    let endpoint = '/movie/' + movieId + '/videos';
-    let options = new HttpParams()
-      .set('api_key', this.TMDB_APIKEY )
-      .set('language', 'fr');
-
-    return this.http.get<any>(this.TMDB_API + endpoint, { params:options })
-      .pipe(map ((idVideoUrl: any) => idVideoUrl.results[0].key))
-  }
+  // getVideos(movieId : number): Observable<any> {
+  //   /* https://api.themoviedb.org/3/movie/385687/videos?api_key=5f871496b04d6b713429ccba8a599149&language=en-FR*/
+  //   let endpoint = '/movie/' + movieId + '/videos';
+  //   let options = new HttpParams()
+  //     .set('api_key', this.TMDB_APIKEY )
+  //     .set('language', 'fr');
+  //
+  //   return this.http.get<any>(this.TMDB_API + endpoint, { params:options })
+  //     .pipe(map ((idVideoUrl: any) => idVideoUrl.results[0].key))
+  // }
 
 }

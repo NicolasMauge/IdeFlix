@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {MediaService} from "../../../core/services/media/media.service";
-import {MediaModel} from "../../../core/models/media.model";
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
 
 @Component({
