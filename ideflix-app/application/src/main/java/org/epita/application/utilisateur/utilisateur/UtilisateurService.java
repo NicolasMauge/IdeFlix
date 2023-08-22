@@ -1,6 +1,7 @@
 package org.epita.application.utilisateur.utilisateur;
 
 import org.epita.domaine.utilisateur.UtilisateurEntity;
+
 import java.util.List;
 
 public interface UtilisateurService {
@@ -13,4 +14,6 @@ public interface UtilisateurService {
     List<UtilisateurEntity> trouverTousLesUtilisateurs();
 
     void supprimerUtilisateurParId(Long id);
+
+    void supprimerUtilisateurParEmail(String email);
 }

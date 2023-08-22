@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UtilisateurModel} from "../../models/utilisateur.model";
 import {Subscription} from "rxjs";
 import {UtilisateursService} from "../../services/utilisateurs.service";
+import {MessageService} from "../../../core/services/common/message.service";
 
 @Component({
   selector: 'app-admin-utilisateurs',
@@ -17,7 +18,8 @@ export class AdminUtilisateursComponent implements OnInit, OnDestroy {
   utilisateurs: UtilisateurModel[] = [];
   souscription!: Subscription;
 
-  constructor(private service: UtilisateursService) {
+  constructor(private service: UtilisateursService,
+              private messageService: MessageService) {
   }
 
   ngOnInit(): void {
@@ -51,4 +53,17 @@ export class AdminUtilisateursComponent implements OnInit, OnDestroy {
     return roleAffichage;
   }
 
+  supprimerUtilisateur(email: string) {
+
+
+    this.service.supprimerUtilisateur(email).subscribe(
+      res => {
+        this.messageService.show("Utilisateur " + email + " supprimé.", "success");
+
+      },
+      err => {
+        this.messageService.show("Suppression de " + email + " impossible.", "error");
+      }
+    );
+  }
 }

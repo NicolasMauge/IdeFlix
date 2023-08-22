@@ -24,7 +24,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public UtilisateurEntity trouverUtilisateurParId(Long id) {
         Optional<UtilisateurEntity> utilisateurEntityOptional = this.utilisateurRepository.findById(id);
-        if(utilisateurEntityOptional.isPresent()) {
+        if (utilisateurEntityOptional.isPresent()) {
             return utilisateurEntityOptional.get();
         }
         throw new EntityNotFoundException("Utilisateur non trouvé");
@@ -33,7 +33,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public UtilisateurEntity trouverUtilisateurParEmail(String email) {
         Optional<UtilisateurEntity> utilisateurEntityOptional = this.utilisateurRepository.findByEmail(email);
-        if(utilisateurEntityOptional.isPresent()) {
+        if (utilisateurEntityOptional.isPresent()) {
             return utilisateurEntityOptional.get();
         }
         throw new EntityNotFoundException("Utilisateur non trouvé");
@@ -47,5 +47,16 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public void supprimerUtilisateurParId(Long id) {
         this.utilisateurRepository.deleteById(id);
+    }
+
+    @Override
+    public void supprimerUtilisateurParEmail(String email) {
+        Optional<UtilisateurEntity> utilisateurEntityOptional = this.utilisateurRepository.findByEmail(email);
+        if (utilisateurEntityOptional.isPresent()) {
+            this.utilisateurRepository.deleteById(utilisateurEntityOptional.get().getId());
+            return;
+        }
+        throw new EntityNotFoundException("Suppression de " + email + " impossible : utilisateur non trouvé.");
+
     }
 }

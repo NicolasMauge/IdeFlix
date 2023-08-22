@@ -30,4 +30,10 @@ export class UtilisateursService {
   get utilisateurs$(): Observable<UtilisateurModel[]> {
     return this._utilisateurs$.asObservable();
   }
+
+  supprimerUtilisateur(email: string) {
+    console.log("supprimerUtilisateur (" + email + ") : fonction non implémentée.");
+    let query_string: string = this.USER_API + "/admin/utilisateur/" + email;
+    return this.http.delete<any>(query_string);
+  }
 }
