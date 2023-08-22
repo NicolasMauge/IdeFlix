@@ -1,5 +1,49 @@
 <div class = "container">
-      <form name = "modifyList" novalidate>
+  <form name="test" [formGroup]="userForm" (ngSubmit)="OnSubmit()">
+    <div class="row d-flex align-items-center">
+      <div class="col-md-4">
+        <!--<label>Status:</label>
+        <select formControlName="status">
+          <option *ngFor="let status of statusEnum | valuesFromKey" [ngValue]="status">{{status}}</option>
+        </select>-->
+        <mat-form-field>
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option *ngFor="let status of statusEnum | valuesFromKey" [value]="status">
+              {{status}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4">
+        <label>Etiquettes :</label>
+        <!--
+        <select multiple formControlName="etiquettes">
+          <option value="">Etiquettes</option>
+          <option *ngFor="let etiquette of etiquettes$ | async" [ngValue]="etiquette">{{etiquette.nomTag}}</option>
+        </select> -->
+
+        <mat-form-field>
+          <mat-label>Etiquettes</mat-label>
+          <mat-select formControlName="etiquettes" multiple>
+            <mat-option *ngFor="let etiquette of etiquettes$ | async" [value]="etiquette">{{etiquette.nomTag}}</mat-option>
+          </mat-select>
+
+        </mat-form-field>
+
+      </div>
+
+      <button type="submit" *ngIf="buttonAdd == true" (click)="OnSubmitAdd()" class="btn btn-light">Ajouter à ma liste</button>
+      <button type="submit" *ngIf="buttonDelete == true" (click)="OnSubmitDelete()" class="btn btn-light">Supprimer de ma liste</button>
+      <button type="submit" *ngIf="buttonModify == true" (click)="OnSubmitModify()" class="btn btn-light">Modifier dans ma liste</button>
+    </div>
+  </form>
+
+
+<!--
+  <form name = "modifyList">
+
         <div class="form-group">
           <div class="row d-flex align-items-center">
             <div class="col-md-4">
@@ -36,4 +80,5 @@
         <button type="submit" *ngIf="buttonDelete == true" ng-click="OnSubmitDelete()" class="btn btn-light">Supprimer de ma liste</button>
         <button type="submit" *ngIf="buttonModify == true" ng-click="OnSubmitModify()" class="btn btn-light">Modifier dans ma liste</button>
       </form>
+      -->
 </div>

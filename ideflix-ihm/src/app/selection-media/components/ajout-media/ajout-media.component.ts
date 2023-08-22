@@ -3,13 +3,14 @@ import {Status} from "../../../core/models/status";
 import {EtiquettesService} from "../../shared/services/etiquettes.service";
 import {EtiquetteModel} from "../../shared/model/EtiquetteModel";
 import {MediaSelectionneToAppService} from "../../shared/services/media-selectionne-to-app.service";
-import {MediaModel} from "../../../core/models/media.model";
 import {MediaSelectionneModel} from "../../shared/model/MediaSelectionneModel";
 import {GenreAppModel} from "../../shared/model/GenreAppModel";
 import {MediaToAppService} from "../../shared/services/media-to-app.service";
 import {GenreToAppService} from "../../shared/services/genre-to-app.service";
 import {MediaMaListeModel} from "../../../ma-liste-de-selection/models/media-ma-liste.model";
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Observable} from "rxjs";
 
 // fonction pour la correspondance entre les status provenant du backend et les status affichés sur l'ihm
 function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
@@ -37,8 +38,8 @@ export class AjoutMediaComponent {
   nouveauMedia: any = {status: '', listTag: []};
   protected readonly Status = Status;
   statusEnum = Status;
-  etiquettes: EtiquetteModel[] = [];
-  mediaSelectionne: MediaMaListeModel[] = [];
+
+  etiquettes$!: Observable<EtiquetteModel[]>;
   email: string|null = "";
 
   buttonAdd: boolean = true;
@@ -48,22 +49,26 @@ export class AjoutMediaComponent {
   @Input() media!: MediaDatabaseModel;
   @Input() typeMedia!:string;
 
+  userForm!: FormGroup;
 
   constructor(private etiquetteService:EtiquettesService,
               private mediaAppService:MediaSelectionneToAppService,
               private mediaService: MediaToAppService,
-              private genreService: GenreToAppService) {
+              private genreService: GenreToAppService,
+              private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
     this.email = localStorage.getItem('email');
 
     if (this.email !== null) {
+      this.userForm = this.formBuilder.group({
+        status: [null, [ Validators.required ] ],
+        etiquettes:  [null]
+      });
+
       this.loadEtiquettes();
-
-      let mediaSelectionne = this.loadMediaSelectionne();
-
-
+      this.loadMediaSelectionne();
     }
     else {
       console.log('email non présent dans le localstorage');
@@ -88,11 +93,16 @@ export class AjoutMediaComponent {
 
   loadEtiquettes() {
     this.etiquetteService.loadEtiquettes(this.email!);
-    this.etiquetteService.etiquettes$.subscribe( (data: EtiquetteModel[]) => this.etiquettes = data);
+    this.etiquettes$ = this.etiquetteService.etiquettes$;
+    //this.etiquetteService.etiquettes$.subscribe( (data: EtiquetteModel[]) => /*this.etiquettesSansObs = data*/ console.log(data));
   }
 
   public createEtiquette() {
     console.log("ajouter étiquette");
+  }
+
+  get etiquette$(): Observable<EtiquetteModel[]> {
+    return this.etiquetteService.etiquettes$;
   }
 
   public addEtiquette(etiquette: EtiquetteModel) {
@@ -108,21 +118,23 @@ export class AjoutMediaComponent {
     }
   }
 
-  OnSubmitAdd(event: Event) {
-    event.preventDefault();
+  OnSubmitAdd() {
+    //event.preventDefault();
 
-    if (this.nouveauMedia.status != '') {
+    console.log(this.userForm.value);
+
+    if (this.userForm.value.status != '') {
       //sauvegarde de la partie genre
       this.genreService.saveToApp(this.media.genres.map((genre:any) => new GenreAppModel(genre)))
         .subscribe(data => this.mediaService.saveToApp(this.media, this.typeMedia)
           .subscribe(data => {
-              let statusApp = mapIhmStatusToBackendStatus(this.nouveauMedia.status);
+              let statusApp = mapIhmStatusToBackendStatus(this.userForm.value.status);
 
               let mediaSelectionneObject = {
-                typeMedia: this.typeMedia ? "FILM" : "SERIE",
+                typeMedia: this.typeMedia,
                 avisPouce: false,
                 dateSelection: '2023-08-17',
-                etiquetteList: this.nouveauMedia.listTag,
+                etiquetteList: this.userForm.value.etiquettes,
                 statutMedia: statusApp,
                 mediaIdTmdb: this.media.idDataBase,
                 email: this.email,
@@ -142,9 +154,12 @@ export class AjoutMediaComponent {
 
   OnSubmitDelete() {
     console.log("supprimer");
+    console.log(this.userForm.value);
   }
 
   OnSubmitModify() {
     console.log("modifier");
+    console.log(this.userForm.value);
   }
+
 }

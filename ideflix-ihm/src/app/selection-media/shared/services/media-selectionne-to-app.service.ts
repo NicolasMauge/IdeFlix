@@ -46,4 +46,8 @@ export class MediaSelectionneToAppService {
       )
       .subscribe((data: MediaMaListeModel[])=> this._mediaSelectionne$.next(data));
   }
+
+  deleteFromApp() {
+
+  }
 }
