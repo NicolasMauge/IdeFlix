@@ -5,6 +5,7 @@ import {RegisterComponent} from "./components/register/register.component";
 import {ReactiveFormsModule} from "@angular/forms";
 import {AccueilComponent} from "./components/accueil/accueil.component";
 import {RouterModule} from "@angular/router";
+import { LogoutComponent } from './components/logout/logout.component';
 
 
 
@@ -12,7 +13,8 @@ import {RouterModule} from "@angular/router";
   declarations: [
     AccueilComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    LogoutComponent
   ],
   imports: [
     CommonModule,

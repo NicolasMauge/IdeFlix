@@ -2,28 +2,32 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, map, Observable} from "rxjs";
 import {UtilisateurModel} from "../models/utilisateur.model";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class UtilisateursService {
 
-    private _utilisateurs$ = new BehaviorSubject(<UtilisateurModel[]>([]));
+  USER_API: string = environment.USER_SERVER;
 
-    constructor(private http: HttpClient) {
-    }
+  private _utilisateurs$ = new BehaviorSubject(<UtilisateurModel[]>([]));
 
-    getTousUtilisateurs() {
-        let query_string: string = "http://localhost:8081/api/v1/iam/admin/utilisateur/all";
+  constructor(private http: HttpClient) {
+  }
 
-        return this.http.get<UtilisateurModel[]>(query_string);
-    }
+  getTousUtilisateurs() {
+    //let query_string: string = "http://localhost:8081/api/v1/iam/admin/utilisateur/all";
+    let query_string: string = this.USER_API + "/admin/utilisateur/all";
 
-    getValueOfUtilisateurs$(): UtilisateurModel[] {
-        return this._utilisateurs$.getValue();
-    }
+    return this.http.get<UtilisateurModel[]>(query_string);
+  }
 
-    get utilisateurs$(): Observable<UtilisateurModel[]> {
-        return this._utilisateurs$.asObservable();
-    }
+  getValueOfUtilisateurs$(): UtilisateurModel[] {
+    return this._utilisateurs$.getValue();
+  }
+
+  get utilisateurs$(): Observable<UtilisateurModel[]> {
+    return this._utilisateurs$.asObservable();
+  }
 }

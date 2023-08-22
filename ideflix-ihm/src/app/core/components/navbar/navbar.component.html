@@ -16,8 +16,8 @@
             <li><a class="dropdown-item" [routerLink]="['maListe']">Ma liste</a></li>
             <li><a class="dropdown-item" [routerLink]="['mesPreferences']">Mes préférences</a></li>
             <li><a class="dropdown-item" [routerLink]="['search']">Rechercher</a></li>
-            <li><a class="dropdown-item" [routerLink]="['adminUtilisateurs']">Administration</a></li>
-            <li><a class="dropdown-item" href="#">Se déconnecter</a></li>
+            <li *ngIf='isAdmin()'><a class="dropdown-item" [routerLink]="['adminUtilisateurs']">Administration</a></li>
+            <li><a class="dropdown-item" [routerLink]="['logout']">Se déconnecter</a></li>
           </ul>
         </div>
 
