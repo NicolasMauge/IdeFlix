@@ -27,6 +27,7 @@ public class GenreServiceImpl implements GenreService {
         Optional<GenreEntity> genreTrouve = this.genreRepository.findGenreEntityByIdTmdb(genreEntity.getIdTmdb());
         if(genreTrouve.isPresent()) {
             genreEntity.setId(genreTrouve.get().getId());
+            logger.debug("IdeFlix - creerGenre - Genre déjà existant : {id : "+genreEntity.getId()+", idTmdb : " + genreEntity.getIdTmdb() + ", nomGenre : " +genreEntity.getNomGenre()+"}");
         }
         else {
             logger.debug("IdeFlix - creerGenre - Tentative création du genre : {idTmdb : " + genreEntity.getIdTmdb() + ", nomGenre : " +genreEntity.getNomGenre()+"}");

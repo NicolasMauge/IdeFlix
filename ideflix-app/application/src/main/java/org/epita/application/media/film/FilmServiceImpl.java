@@ -19,25 +19,24 @@ public class FilmServiceImpl implements FilmService {
     public static final Logger logger = LoggerFactory.getLogger(FilmServiceImpl.class);
 
     private FilmRepository filmRepository;
-    private GenreService genreService;
     private GenreRepository genreRepository;
 
-    public FilmServiceImpl(FilmRepository filmRepository, GenreService genreService, GenreRepository genreRepository) {
+    public FilmServiceImpl(FilmRepository filmRepository, GenreRepository genreRepository) {
         this.filmRepository = filmRepository;
-        this.genreService = genreService;
         this.genreRepository = genreRepository;
     }
 
     @Override
     public void creerFilm(FilmEntity filmEntity) {
-        // pour tous les genres, on voit pour les créer
+        // compléter les id des genres
         filmEntity.getGenreList().forEach(genre-> {
             Optional<GenreEntity> genreTrouve = this.genreRepository.findGenreEntityByIdTmdb(genre.getIdTmdb());
             if(genreTrouve.isPresent()) {
                 genre.setId(genreTrouve.get().getId());
+                logger.debug("IdeFlix - creerFilm - Genre déjà existant : {id : "+genre.getId()+", idTmdb : " + genre.getIdTmdb() + ", nomGenre : " +genre.getNomGenre()+"}");
             }
             else {
-                logger.debug("IdeFlix - creerFilm - Tentative création du genre : {idTmdb : " + genre.getIdTmdb() + ", nomGenre : " +genre.getNomGenre()+"}");
+                logger.debug("IdeFlix - creerFilm - Problème : un genre n'existe pas, il faut d'abord le créer");
             }
         });
 
