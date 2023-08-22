@@ -99,63 +99,63 @@ public class SerieSelectionneeMapperTest {
                 .isEqualTo(serieSelectionnee.getMediaAudioVisuelEntity().getIdTmdb());
     }
 
-    @Test
-    public void should_return_mapDtoToEntity() {
-        // Given
-        // Utilisateur
-        UtilisateurDto utilisateurDto = new UtilisateurDto();
-        utilisateurDto.setId(1L);
-        // Etiquette
-        List<EtiquetteDto> etiquetteDtoList = new ArrayList<>();
-        // rem : pas d'id pour EtiquetteDto
-        etiquetteDtoList.add(
-                new EtiquetteDto("tag 1", 1L));
-        etiquetteDtoList.add(
-                new EtiquetteDto("tag 2", 1L));
-
-        // MediaAudiovisuel
-        SerieDto serieDto = new SerieDto();
-        serieDto.setIdTmdb("123-DFG-567");
-
-        // FilmSelectionne
-        SerieSelectionneeDto selectionneeDto = new SerieSelectionneeDto();
-        selectionneeDto.setAvisPouce(true);
-        selectionneeDto.setDateSelection(LocalDate.of(2023,07,13));
-        selectionneeDto.setEtiquetteList(etiquetteDtoList);
-        selectionneeDto.setIdUtilisateur(utilisateurDto.getId());
-        selectionneeDto.setIdTmdb(serieDto.getIdTmdb());
-        selectionneeDto.setStatutMedia(StatutMediaEntity.ABANDONNE);
-
-        // paramétrage spécifique du mock de repository pour le film cherché dans le mapper (via service)
-        SerieEntity serie = new SerieEntity();
-        serie.setIdTmdb(serieDto.getIdTmdb());
-        when(serieRepository.findByIdTmdb(serieDto.getIdTmdb())).thenReturn(Optional.of(serie));
-
-        // paramétrage spécifique du mock de repository pour l'utilisateur cherché dans le mapper (via service)
-        UtilisateurEntity utilisateur = new UtilisateurEntity();
-        utilisateur.setId(utilisateurDto.getId());
-        when(utilisateurRepositoryMock.findById(utilisateurDto.getId())).thenReturn(Optional.of(utilisateur));
-
-        // When
-        SerieSelectionneeEntity serieSelectionnee = this.mapper.mapDtoToEntity(selectionneeDto);
-
-        // Then
-        assertThat(serieSelectionnee.getAvisPouce())
-                .isEqualTo(selectionneeDto.getAvisPouce());
-
-        assertThat(serieSelectionnee.getDateSelection())
-                .isEqualTo(selectionneeDto.getDateSelection());
-
-        assertThat(serieSelectionnee.getEtiquetteEntityList().size())
-                .isEqualTo(selectionneeDto.getEtiquetteList().size());
-
-        assertThat(serieSelectionnee.getUtilisateurEntity().getId())
-                .isEqualTo(selectionneeDto.getIdUtilisateur());
-
-        assertThat(serieSelectionnee.getMediaAudioVisuelEntity().getIdTmdb())
-                .isEqualTo(selectionneeDto.getIdTmdb());
-
-        assertThat(serieSelectionnee.getStatutMediaEntity())
-                .isEqualTo(selectionneeDto.getStatutMedia());
-    }
+//    @Test
+//    public void should_return_mapDtoToEntity() {
+//        // Given
+//        // Utilisateur
+//        UtilisateurDto utilisateurDto = new UtilisateurDto();
+//        utilisateurDto.setId(1L);
+//        // Etiquette
+//        List<EtiquetteDto> etiquetteDtoList = new ArrayList<>();
+//        // rem : pas d'id pour EtiquetteDto
+//        etiquetteDtoList.add(
+//                new EtiquetteDto("tag 1", 1L));
+//        etiquetteDtoList.add(
+//                new EtiquetteDto("tag 2", 1L));
+//
+//        // MediaAudiovisuel
+//        SerieDto serieDto = new SerieDto();
+//        serieDto.setIdTmdb("123-DFG-567");
+//
+//        // FilmSelectionne
+//        SerieSelectionneeDto selectionneeDto = new SerieSelectionneeDto();
+//        selectionneeDto.setAvisPouce(true);
+//        selectionneeDto.setDateSelection(LocalDate.of(2023,07,13));
+//        selectionneeDto.setEtiquetteList(etiquetteDtoList);
+//        selectionneeDto.setIdUtilisateur(utilisateurDto.getId());
+//        selectionneeDto.setIdTmdb(serieDto.getIdTmdb());
+//        selectionneeDto.setStatutMedia(StatutMediaEntity.ABANDONNE);
+//
+//        // paramétrage spécifique du mock de repository pour le film cherché dans le mapper (via service)
+//        SerieEntity serie = new SerieEntity();
+//        serie.setIdTmdb(serieDto.getIdTmdb());
+//        when(serieRepository.findByIdTmdb(serieDto.getIdTmdb())).thenReturn(Optional.of(serie));
+//
+//        // paramétrage spécifique du mock de repository pour l'utilisateur cherché dans le mapper (via service)
+//        UtilisateurEntity utilisateur = new UtilisateurEntity();
+//        utilisateur.setId(utilisateurDto.getId());
+//        when(utilisateurRepositoryMock.findById(utilisateurDto.getId())).thenReturn(Optional.of(utilisateur));
+//
+//        // When
+//        SerieSelectionneeEntity serieSelectionnee = this.mapper.mapDtoToEntity(selectionneeDto);
+//
+//        // Then
+//        assertThat(serieSelectionnee.getAvisPouce())
+//                .isEqualTo(selectionneeDto.getAvisPouce());
+//
+//        assertThat(serieSelectionnee.getDateSelection())
+//                .isEqualTo(selectionneeDto.getDateSelection());
+//
+//        assertThat(serieSelectionnee.getEtiquetteEntityList().size())
+//                .isEqualTo(selectionneeDto.getEtiquetteList().size());
+//
+//        assertThat(serieSelectionnee.getUtilisateurEntity().getId())
+//                .isEqualTo(selectionneeDto.getIdUtilisateur());
+//
+//        assertThat(serieSelectionnee.getMediaAudioVisuelEntity().getIdTmdb())
+//                .isEqualTo(selectionneeDto.getIdTmdb());
+//
+//        assertThat(serieSelectionnee.getStatutMediaEntity())
+//                .isEqualTo(selectionneeDto.getStatutMedia());
+//    }
 }

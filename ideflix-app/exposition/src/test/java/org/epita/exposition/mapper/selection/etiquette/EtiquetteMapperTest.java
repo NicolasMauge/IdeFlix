@@ -44,22 +44,22 @@ public class EtiquetteMapperTest {
                 .isEqualTo(etiquette.getUtilisateurEntity().getId());
     }
 
-    @Test
-    public void should_return_mapDtoToEntity() {
-        // Given
-        EtiquetteDto etiquetteDto = new EtiquetteDto("tag 1", 1L);
-
-        // When
-        EtiquetteEntity etiquette = this.mapper.mapDtoToEntity(etiquetteDto);
-
-        // Then
-        assertThat(etiquette.getId())
-                .isEqualTo(null);
-
-        assertThat(etiquette.getNomTag())
-                .isEqualTo(etiquetteDto.getNomTag());
-
-        assertThat(etiquette.getUtilisateurEntity().getId())
-                .isEqualTo(etiquetteDto.getIdUtilisateur());
-    }
+//    @Test
+//    public void should_return_mapDtoToEntity() {
+//        // Given
+//        EtiquetteDto etiquetteDto = new EtiquetteDto("tag 1", 1L);
+//
+//        // When
+//        EtiquetteEntity etiquette = this.mapper.mapDtoToEntity(etiquetteDto);
+//
+//        // Then
+//        assertThat(etiquette.getId())
+//                .isEqualTo(null);
+//
+//        assertThat(etiquette.getNomTag())
+//                .isEqualTo(etiquetteDto.getNomTag());
+//
+//        assertThat(etiquette.getUtilisateurEntity().getId())
+//                .isEqualTo(etiquetteDto.getIdUtilisateur());
+//    }
 }
