@@ -110,9 +110,9 @@ public class FilmSelectionneMapperTest {
         List<EtiquetteDto> etiquetteDtoList = new ArrayList<>();
         // rem : pas d'id pour EtiquetteDto
         etiquetteDtoList.add(
-                new EtiquetteDto("tag 1", 1L));
+                new EtiquetteDto(1L, "tag 1", 1L));
         etiquetteDtoList.add(
-                new EtiquetteDto("tag 2", 1L));
+                new EtiquetteDto(2L, "tag 2", 1L));
 
         // MediaAudiovisuel
         FilmDto filmDto = new FilmDto();

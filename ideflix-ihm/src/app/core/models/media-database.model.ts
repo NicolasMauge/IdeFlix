@@ -1,15 +1,11 @@
+import {SaisonModel} from "./saison.model";
+
 interface Genre {
   idDatabase: number;
-  // idTmdb: string;
   nomGenre: string;
 }
 
 export class MediaDatabaseModel {
-
-  // cette classe sert :
-  //- de type (respect de la convention de type)
-  // - d'instancier des objets MediaModel = mappage de nos objets pour s'affranchir de la réponse de l'API
-
 
   //déclaration des propriétés
   idDataBase!: number;
@@ -22,7 +18,8 @@ export class MediaDatabaseModel {
   scoreDataBase!: number;
   genres!: Genre[];
   typeMedia!: string;
-  nombreSaisons!: number;
+  nombreSaisons!: number | undefined;
+  saisons: SaisonModel[] = [];
 
   constructor(movieFromApi: any) {
     this.idDataBase = movieFromApi.idDataBase;
@@ -32,11 +29,6 @@ export class MediaDatabaseModel {
     this.image_paysage = movieFromApi.cheminAffichePaysage;
     this.image_portrait = movieFromApi.cheminAffichePortrait;
     this.scoreDataBase = movieFromApi.noteDataBase;
-    // this.genres = movieFromApi.genreDataBaseResponseDtos != undefined ?
-    //   movieFromApi.genreDataBaseResponseDtos.map((idDataBase: number) => {
-    //     return {idDataBase:idDataBase, nomGenre:''}
-    //   }) :
-    //   [...movieFromApi.genres];
     this.genres = movieFromApi.genreDataBaseResponseDtos != undefined ?
       movieFromApi.genreDataBaseResponseDtos.map((genre: any) => {
         return {idDatabase:genre.idDataBase, nomGenre:genre.nomGenre}
@@ -45,5 +37,17 @@ export class MediaDatabaseModel {
     this.dateSortie = new Date(movieFromApi.dateSortie);
     this.typeMedia = movieFromApi.typeMedia;
     this.nombreSaisons = movieFromApi.nombreSaisons;
+    this.saisons = movieFromApi.saisonDataBaseResponseDtos != undefined ?
+      movieFromApi.saisonDataBaseResponseDtos.map((saison: any) => {
+        return {dateSortieSaison:saison.dateSortie,
+          nombreEpisodes:saison.nombreEpisodes,
+          idDatabaseSaison:saison.idDataBase,
+          titreSaison:saison.titre,
+          resumeSaison:saison.resume,
+          image_portraitSaison:saison.cheminAffichePortrait,
+          numeroSaison:saison.numeroSaison,
+          scoreDataBaseSaison:saison.noteDataBase}
+      }) :
+      [];
   }
 }

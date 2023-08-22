@@ -85,6 +85,7 @@ public final class ConstantesSecurite {
             "/etiquette/*",
             "/filmselectionne/*",
             "/serieselectionnee/*",
+            "/mediaselectionne/*/*",
             "/utilisateur/*"
     };
 

@@ -28,6 +28,8 @@ export class MediaToAppService {
       noteTmdb: media.scoreDataBase,
       genreList: media.genres.map((genre:any) => new GenreAppModel(genre))
     });
+  console.log(typeMedia);
+  console.log(mediaApp);
 
     let endpoint= typeMedia=="FILM" ? '/film':'/serie';
 

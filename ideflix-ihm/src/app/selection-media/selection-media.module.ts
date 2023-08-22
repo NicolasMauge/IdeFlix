@@ -8,7 +8,8 @@ import { AjoutMediaComponent } from './components/ajout-media/ajout-media.compon
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { EtiquetteComponent } from './components/etiquette/etiquette.component';
 import {MatMenuModule} from "@angular/material/menu";
-
+import {MatInputModule} from "@angular/material/input";
+import {MatSelectModule} from "@angular/material/select";
 
 
 @NgModule({
@@ -24,7 +25,10 @@ import {MatMenuModule} from "@angular/material/menu";
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    MatMenuModule
+    MatMenuModule,
+    MatInputModule,
+    MatSelectModule,
+    // TODO : à supprimer dès que possible
   ],
   exports: [
     DetailMediaComponent

@@ -3,7 +3,7 @@ export class GenreAppModel {
   nomGenre: string;
 
   constructor(genreFromApi: any) {
-    this.idTmdb = genreFromApi.id;
-    this.nomGenre = genreFromApi.name;
+    this.idTmdb = genreFromApi.idDatabase;
+    this.nomGenre = genreFromApi.nomGenre;
   }
 }

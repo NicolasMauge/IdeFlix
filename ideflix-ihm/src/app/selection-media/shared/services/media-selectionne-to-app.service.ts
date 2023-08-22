@@ -46,4 +46,10 @@ export class MediaSelectionneToAppService {
       )
       .subscribe((data: MediaMaListeModel[])=> this._mediaSelectionne$.next(data));
   }
+
+  deleteFromApp(email: string, idTmdb: string) {
+    let endpoint = '/mediaselectionne/'+email+"/"+idTmdb;
+
+    this.http.delete(this.IDEFLIX_API + endpoint, {observe: "body", responseType: 'arraybuffer'}).subscribe();
+  }
 }
