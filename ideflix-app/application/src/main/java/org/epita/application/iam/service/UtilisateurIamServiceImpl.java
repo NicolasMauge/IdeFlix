@@ -1,6 +1,9 @@
 package org.epita.application.iam.service;
 
+import org.epita.application.utilisateur.preferences.PreferencesUtilisateurService;
 import org.epita.application.utilisateur.utilisateur.UtilisateurService;
+import org.epita.domaine.common.EntityNotFoundException;
+import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.domaine.utilisateuriam.UtilisateurIamEntity;
 import org.epita.infrastructure.utilisateur.iam.UtilisateurIamRepository;
@@ -17,10 +20,14 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
 
     UtilisateurIamRepository utilisateurIamRepository;
     UtilisateurService utilisateurService;
+    PreferencesUtilisateurService preferencesUtilisateurService;
 
-    public UtilisateurIamServiceImpl(UtilisateurIamRepository utilisateurIamRepository, UtilisateurService utilisateurService) {
+    public UtilisateurIamServiceImpl(UtilisateurIamRepository utilisateurIamRepository,
+                                     UtilisateurService utilisateurService,
+                                     PreferencesUtilisateurService preferencesUtilisateurService) {
         this.utilisateurIamRepository = utilisateurIamRepository;
         this.utilisateurService = utilisateurService;
+        this.preferencesUtilisateurService = preferencesUtilisateurService;
     }
 
     @Override
@@ -68,8 +75,38 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
 
     // pour les administrateurs :
     @Override
-    public void delUtilisateurIam(String email) {
-        logger.warn("APP - IAM - Effacement de l'utilisateur " + email + ". (non implémenté)");
+    public void delUtilisateurIam(String headerAuthorization, String email) {
+        logger.warn("IdeFlix - Effacement de l'utilisateur " + email + ".");
+
+        // Effacement dans l'IAM
+        utilisateurIamRepository.delUtilisateurIam(headerAuthorization, email);
+        logger.debug("IdeFlix - IAM - Utilisateur " + email + " effacé.");
+
+        // Effacement dans l'APP
+        PreferencesUtilisateurEntity preferencesUtilisateur = null;
+        Boolean utilisateurPossedeDesPreferences;
+
+        try {
+            preferencesUtilisateur = preferencesUtilisateurService.trouverPreferenceUtilisateurParEmailUtilisateur(email);
+            if (preferencesUtilisateur != null) {
+                utilisateurPossedeDesPreferences = true;
+            } else {
+                utilisateurPossedeDesPreferences = false;
+            }
+        } catch (EntityNotFoundException e) {
+            utilisateurPossedeDesPreferences = false;
+        }
+
+        if (utilisateurPossedeDesPreferences) {
+            logger.debug("IdeFlix - APP - Effacement des préférences de l'utilisateur " + email + ".");
+            preferencesUtilisateurService.supprimerPreferencesUtilisateurParId(preferencesUtilisateur.getId());
+            logger.debug("IdeFlix - APP - Préférences de l'utilisateur " + email + " effacées.");
+        } else {
+            logger.debug("IdeFlix - APP - L'utilisateur " + email + " n'avait pas de préférences.");
+        }
+
+        utilisateurService.supprimerUtilisateurParEmail(email);
+        logger.debug("IdeFlix - APP - Utilisateur " + email + " effacé.");
 
     }
 }

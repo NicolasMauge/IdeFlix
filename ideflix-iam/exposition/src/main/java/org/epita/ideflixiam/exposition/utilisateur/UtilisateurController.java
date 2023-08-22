@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 import static org.epita.ideflixiam.application.common.UtileRole.ROLE_UTILISATEUR;
@@ -44,8 +45,12 @@ public class UtilisateurController {
     public UtilisateurController(UtilisateurService utilisateurService, UtilisateurConvertisseur utilisateurConvertisseur) {
         this.utilisateurService = utilisateurService;
         this.utilisateurConvertisseur = utilisateurConvertisseur;
-
     }
+
+//    @PostConstruct
+//    public void initialiserIam() {
+//        this.utilisateurService.verifieQueIamEstInitialisee(nomAdmin, prenomAdmin, emailAdmin, motDePasseAdmin);
+//    }
 
     /**
      * Cette méthode permet de s'enrôler comme utilisateur standard quand on n'est pas connecté.
@@ -94,6 +99,8 @@ public class UtilisateurController {
     public List<UtilisateurDetailDto> getUtilisateurs() {
 
         logger.debug("IAM - Récupération de tous utilisateurs");
+
+        utilisateurService.verifieQueIamEstInitialisee(nomAdmin, prenomAdmin, emailAdmin, motDePasseAdmin);
 
         return utilisateurService
                 .recupererUtilisateurs()
