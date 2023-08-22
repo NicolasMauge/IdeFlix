@@ -23,10 +23,10 @@ export class AdminUtilisateursComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.service.getTousUtilisateurs();
     this.souscription = this.service
-      .getTousUtilisateurs()
-      .subscribe(data => this.utilisateurs = data)
-    ;
+      .utilisateurs$
+      .subscribe(data => this.utilisateurs = data);
   }
 
 
@@ -53,17 +53,21 @@ export class AdminUtilisateursComponent implements OnInit, OnDestroy {
     return roleAffichage;
   }
 
-  supprimerUtilisateur(email: string) {
+  supprimerUtilisateur(email: string): boolean {
+    this.service
+      .supprimerUtilisateur(email)
+      .subscribe(
+        () => {
+          this.messageService.show("Utilisateur " + email + " supprimé.", "success");
+          let nouvelleListeUtilisateurs =
+            this.service
+              .getValueOfUtilisateurs$()
+              .filter((utilisateur: UtilisateurModel) => utilisateur.email != email);
 
+          this.service._utilisateurs$.next(nouvelleListeUtilisateurs);
 
-    this.service.supprimerUtilisateur(email).subscribe(
-      res => {
-        this.messageService.show("Utilisateur " + email + " supprimé.", "success");
-
-      },
-      err => {
-        this.messageService.show("Suppression de " + email + " impossible.", "error");
-      }
-    );
+        }
+      );
+    return true;
   }
 }

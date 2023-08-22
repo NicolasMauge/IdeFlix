@@ -26,9 +26,39 @@
                 </span>
             </div>
             <div class="col-2 col-lg-1 text-center">
-              <button class="btn btn-danger" (click)="supprimerUtilisateur(utilisateur.email)">
+
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                      [attr.data-bs-target]="'#Modal_'+utilisateur.email">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
+
+              <!-- Modal -->
+              <div class="modal fade" [attr.id]="'Modal_'+utilisateur.email" tabindex="-1"
+                   [attr.aria-labelledby]="'ModalLabel_'+utilisateur.email"
+                   aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title text-dark fs-5" [attr.id]="'ModalLabel_'+utilisateur.email">Suppression
+                        d'un utilisateur</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-start text-dark">
+                      Voulez vraiment supprimer {{utilisateur.email}} ?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Non</button>
+                      <button type="button" class="btn btn-danger" (click)="supprimerUtilisateur(utilisateur.email)"
+                              data-bs-dismiss="modal">
+                        Oui
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--              Fin modal               -->
+
+
             </div>
           </div>
         </div>
@@ -41,3 +71,5 @@
 <div class="pt-3 pb-5" *ngIf="!utilisateurs">
   Liste des utilisateurs en cours de chargement.
 </div>
+
+

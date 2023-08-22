@@ -60,7 +60,9 @@ export class AuthService {
 
 
     logout() {
+        localStorage.clear();
         this._isAuthenticated = false;
+        this._isAdmin = false;
     }
 
 
@@ -81,10 +83,8 @@ export class AuthService {
                 this._isAdmin = false;
             }
         } else {
-            console.log("jwt non trouvé dans LocalStorage");
             this._isAdmin = false;
         }
-
 
         return this._isAdmin;
     }
