@@ -9,19 +9,28 @@
 
 <ul class="row">
 
-  <li [routerLink]="['/selection', media.media.typeMedia, media.media.idTmdb ]" *ngFor="let media of medias" class="col-12 col-md-3">
-    <div class="card" routerLink="/selection">
+  <li [routerLink]="['/selection', media.media.typeMedia, media.media.idTmdb ]" *ngFor="let media of medias" class=" col-12 col-md-3">
+    <div class="card" >
+<!--      <div class="card" routerLink="/selection">-->
       <img [title]="media.media.titre" [src]="media.media.cheminAffichePortrait | printImg" [alt]="media.media.titre">
       <div class="card-body">
         <h2>{{ media.media.titre }}</h2>
-        <span *ngFor="let genre of media.media.genreList"
-              class="badge badge-large rounded-pill text-bg-secondary">
-                    {{ genre.nomGenre }}
-                </span>
-        <span *ngFor="let tag of media.etiquetteList"
-              class="badge badge-large rounded-pill text-bg-secondary">
-                    {{ tag.nomTag }}
-                </span>
+
+        <div class="line-container">
+          <span *ngFor="let genre of media.media.genreList"
+                class="badge badge-large rounded-pill text-bg-secondary">
+                    {{ genre.nomGenre }}</span>
+        </div>
+        <div class="line-container">
+          <span *ngFor="let tag of media.etiquetteList"
+                class="badge badge-large rounded-pill text-bg-info">
+                    {{ tag.nomTag }}</span>
+        </div>
+        <div class="line-container">
+          <div class="badge badge-large rounded-pill text-bg-warning">
+            {{ media.statutMedia | mapBackendStatutToIhm | uppercase }}</div>
+        </div>
+
       </div>
     </div>
   </li>
