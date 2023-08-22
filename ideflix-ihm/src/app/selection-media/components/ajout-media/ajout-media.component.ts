@@ -11,7 +11,7 @@ import {MediaMaListeModel} from "../../../ma-liste-de-selection/models/media-ma-
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Observable} from "rxjs";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 
 // fonction pour la correspondance entre les status provenant du backend et les status affichés sur l'ihm
 function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
@@ -29,6 +29,8 @@ function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
       return undefined;
   }
 }
+
+
 
 @Component({
   selector: 'app-ajout-media',
@@ -64,7 +66,7 @@ export class AjoutMediaComponent {
 
     if (this.email !== null) {
       this.userForm = this.formBuilder.group({
-        status: [null, [ Validators.required ] ],
+        status: [Status.ToSee, [ Validators.required ] ],
         etiquettes:  [[]]
       });
 
@@ -85,17 +87,39 @@ export class AjoutMediaComponent {
         this.buttonAdd = false;
         this.buttonModify = true;
         this.buttonDelete = true;
-      } else {
+
+        let defaultStatus: Status;
+        switch (data[0].statutMedia) {
+          case "ABANDONNE":
+            defaultStatus = Status.Dropped;
+            break;
+          case "A_VOIR":
+            defaultStatus = Status.ToSee;
+            break;
+          case "EN_COURS":
+            defaultStatus = Status.InProgress;
+            break;
+          case "VU":
+            defaultStatus = Status.Completed;
+            break;
+          default:
+            defaultStatus = Status.ToSee;
+        }
+        this.userForm.get('status')?.setValue(defaultStatus);
+      }
+      else {
         this.buttonAdd = true;
         this.buttonModify = false;
         this.buttonDelete = false;
-      }});
+
+        this.userForm.get('status')?.setValue(Status.ToSee);
+      }
+    });
   }
 
   loadEtiquettes() {
     this.etiquetteService.loadEtiquettes(this.email!);
     this.etiquettes$ = this.etiquetteService.etiquettes$;
-    //this.etiquetteService.etiquettes$.subscribe( (data: EtiquetteModel[]) => /*this.etiquettesSansObs = data*/ console.log(data));
   }
 
   public createEtiquette() {
@@ -144,10 +168,4 @@ export class AjoutMediaComponent {
     this.mediaAppService.deleteFromApp(this.email!, this.media.idDataBase.toString());
     this.route.navigate(['/maListe']);
   }
-
-  OnSubmitModify() {
-    console.log("modifier");
-    console.log(this.userForm.value);
-  }
-
 }
