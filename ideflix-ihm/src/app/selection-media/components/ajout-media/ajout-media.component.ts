@@ -109,14 +109,9 @@ export class AjoutMediaComponent {
   OnSubmitAdd() {
     //event.preventDefault();
 
-    console.log(this.userForm.value);
-
     if (this.userForm.value.status != '') {
       //sauvegarde de la partie genre
-      console.log(this.media.genres);
-
-
-      this.genreService.saveToApp(this.media.genres.map((genre:any) => {console.log(new GenreAppModel(genre)); return new GenreAppModel(genre);}))
+      this.genreService.saveToApp(this.media.genres.map((genre:any) => {return new GenreAppModel(genre);}))
         .subscribe(() => this.mediaService.saveToApp(this.media, this.typeMedia)
             .subscribe(() => {
               let statusApp = mapIhmStatusToBackendStatus(this.userForm.value.status);
