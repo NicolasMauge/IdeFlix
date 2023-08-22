@@ -11,17 +11,18 @@ export class UtilisateursService {
 
   USER_API: string = environment.USER_SERVER;
 
-  private _utilisateurs$ = new BehaviorSubject(<UtilisateurModel[]>([]));
+  _utilisateurs$: BehaviorSubject<any> = new BehaviorSubject(<UtilisateurModel[]>([]));
 
   constructor(private http: HttpClient) {
   }
 
-  getTousUtilisateurs() {
-    //let query_string: string = "http://localhost:8081/api/v1/iam/admin/utilisateur/all";
+  public getTousUtilisateurs(): void {
     let query_string: string = this.USER_API + "/admin/utilisateur/all";
 
-    return this.http.get<UtilisateurModel[]>(query_string);
+    this.http.get(query_string)
+      .subscribe((donnees: any) => this._utilisateurs$.next(donnees));
   }
+
 
   getValueOfUtilisateurs$(): UtilisateurModel[] {
     return this._utilisateurs$.getValue();
@@ -29,5 +30,11 @@ export class UtilisateursService {
 
   get utilisateurs$(): Observable<UtilisateurModel[]> {
     return this._utilisateurs$.asObservable();
+  }
+
+  supprimerUtilisateur(email: string) {
+    console.log("supprimerUtilisateur (" + email + ")");
+    let query_string: string = this.USER_API + "/admin/utilisateur/" + email;
+    return this.http.delete<any>(query_string);
   }
 }

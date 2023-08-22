@@ -52,9 +52,9 @@ public class UtilisateurIamMapper { // Ici, on n'étend pas la classe Mapper
         String dateCreation = utilisateurIamEntity.getDateCreation().format(dateTimeFormatter);
 
         return new UtilisateurIamCreationReponseDto(
-                utilisateurIamEntity.getEmail(),
                 utilisateurIamEntity.getNom(),
                 utilisateurIamEntity.getPrenom(),
+                utilisateurIamEntity.getEmail(),
                 dateCreation
         );
 

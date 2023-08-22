@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.epita.application.iam.service.UtilisateurIamService;
+import org.epita.exposition.common.ResponseEntityCommune;
+import org.epita.exposition.dto.common.ReponseCommuneDto;
 import org.epita.exposition.iam.utilisateuriam.dto.*;
 import org.epita.exposition.iam.utilisateuriam.mapper.UtilisateurIamMapper;
 import org.slf4j.Logger;
@@ -99,6 +101,19 @@ public class UtilisateurIamController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(utilisateurIamMapper.mapEntityListToUtilisateurIamDto(utilisateurIamService.getUtilisateursIam(authorizationHeader)));
+    }
+
+    @DeleteMapping("/admin/utilisateur/{email}")
+    ResponseEntity<ReponseCommuneDto> deleteUtilisateur(
+            @RequestHeader(value = "Authorization") String authorizationHeader,
+            @PathVariable("email") String email
+    ) {
+        logger.debug("Ideflix - Effacer " + email + ". En-tête Authorization : " + authorizationHeader);
+
+        utilisateurIamService.delUtilisateurIam(authorizationHeader, email);
+        return ResponseEntityCommune.get("IdeFlix - Utilisateur " + email + " effacé.", HttpStatus.OK);
+
+
     }
 
 }

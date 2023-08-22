@@ -33,6 +33,8 @@ import java.util.Objects;
 @Repository
 public class UtilisateurIamRepositoryImpl implements UtilisateurIamRepository {
 
+    public static final String IAM_BASE_URL = "http://localhost:8080/api/v1/iam";
+
     private static final Logger logger = LoggerFactory.getLogger(UtilisateurIamRepositoryImpl.class);
     UtilisateurIamApiMapper utilisateurIamApiMapper;
 
@@ -43,7 +45,7 @@ public class UtilisateurIamRepositoryImpl implements UtilisateurIamRepository {
     @Override
     public UtilisateurIamEntity creerUtilisateurIam(UtilisateurIamEntity nouvelUtilisateurIam) {
 
-        final String iamCreationEndpointUrl = "http://localhost:8080/api/v1/iam/utilisateur";
+        final String iamCreationEndpointUrl = IAM_BASE_URL + "/utilisateur";
         RestTemplate restTemplate = new RestTemplate();
 
         try {
@@ -82,7 +84,7 @@ public class UtilisateurIamRepositoryImpl implements UtilisateurIamRepository {
 
     @Override
     public UtilisateurIamEntity loginIam(UtilisateurIamEntity utilisateurIam) {
-        final String iamLoginEndpointUrl = "http://localhost:8080/api/v1/iam/login";
+        final String iamLoginEndpointUrl = IAM_BASE_URL + "/login";
         RestTemplate restTemplate = new RestTemplate();
 
         try {
@@ -146,7 +148,7 @@ public class UtilisateurIamRepositoryImpl implements UtilisateurIamRepository {
     @Override
     public List<UtilisateurIamEntity> getUtilisateursIam(String headerAuthorization) {
 
-        final String iamGetUtilisateursEndpointUrl = "http://localhost:8080/api/v1/iam/admin/utilisateurs";
+        final String iamGetUtilisateursEndpointUrl = IAM_BASE_URL + "/admin/utilisateurs";
         RestTemplate restTemplate = new RestTemplate();
 
         logger.debug("IdeFlix - getUtilisateursIam - Appel GET à " + iamGetUtilisateursEndpointUrl);
@@ -188,8 +190,35 @@ public class UtilisateurIamRepositoryImpl implements UtilisateurIamRepository {
 
     }
 
+    // ================================================================================================================
     @Override
-    public void delUtilisateurIam(String email) {
+    public void delUtilisateurIam(String headerAuthorization, String email) {
+
+        final String iamSupprimerUtilisateursEndpointUrl = IAM_BASE_URL + "/admin/utilisateurs/" + email;
+
+
+        RestTemplate restTemplate = new RestTemplate();
+
+
+        try {
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.set("Authorization", headerAuthorization);
+
+            HttpEntity<Void> requestEntity = new HttpEntity<>(httpHeaders);
+
+            restTemplate.exchange(iamSupprimerUtilisateursEndpointUrl, HttpMethod.DELETE, requestEntity, String.class);
+
+            logger.debug("IdeFlix - delUtilisateurIam(" + email + ") - Appel DELETE à " + iamSupprimerUtilisateursEndpointUrl);
+
+        } catch (HttpClientErrorException e) {
+            throw new IamException("IdeFlix - Erreur delUtilisateurIam - Code retour : " + e.getStatusCode());
+        } catch (Exception ex) {
+
+            logger.error("IdeFlix - delUtilisateurIam - Exception non prévue  : "
+                    + ex.getMessage()
+                    + (ex.getCause() == null ? " - " : " - " + ex.getCause()) + ex.getCause());
+            throw new IamException("IdeFlix - delUtilisateurIam");
+        }
 
     }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MesPreferencesService} from "../../services/preferences/mes-preferences.service";
 import {MessageService} from "../../../core/services/common/message.service";
@@ -19,7 +19,7 @@ export class MesPreferencesComponent {
 
   // propriétés pour chargement de tous les genres existants en Bdd
   genreList!: FormArray;
-  allGenres : GenreModel[] = [];
+  allGenres: GenreModel[] = [];
   subGenre!: Subscription;
 
   // propriétés pour chargement des préférences de l'utilisateur
@@ -29,19 +29,20 @@ export class MesPreferencesComponent {
 
   // propriétés du formulaire
   preferencesForm!: FormGroup;
-  isFormSubmitted: boolean =  false;
+  isFormSubmitted: boolean = false;
 
   constructor(private fb: FormBuilder,
-              private mesPreferencesService : MesPreferencesService,
+              private mesPreferencesService: MesPreferencesService,
               private messageSvc: MessageService,
               private route: Router,
               private genreService: GenreService,
-              private addCheckedPropertyPipe : AddCheckedPropertyPipe) {}
+              private addCheckedPropertyPipe: AddCheckedPropertyPipe) {
+  }
 
   ngOnInit() {
 
     // abonnement à la source service.genres$ via un subscribe pour récupérer la liste de tous les genres possibles
-    this.subGenre = this.genreService.genres$.subscribe( (data: GenreModel[]) => {
+    this.subGenre = this.genreService.genres$.subscribe((data: GenreModel[]) => {
       this.allGenres = data;
     });
 
@@ -51,28 +52,28 @@ export class MesPreferencesComponent {
     if (email !== null) {
       this.mesPreferencesService.getPreferencesFromApi(email);
       // abonnement à la source service.preferences$ via un subscribe
-      this.subPreferences = this.mesPreferencesService.preferences$.subscribe( (data: PreferenceModel) => {
-        this.preferences = data;
-        //  ajouter un checked à true sur les genres des préférences de l'utilisateur
-        this.genresListChecked = this.getFormattedGenres(this.allGenres, this.preferences.genreList);
-        this.initFormBuilder();
-      }
+      this.subPreferences = this.mesPreferencesService.preferences$.subscribe((data: PreferenceModel) => {
+          this.preferences = data;
+          //  ajouter un checked à true sur les genres des préférences de l'utilisateur
+          this.genresListChecked = this.getFormattedGenres(this.allGenres, this.preferences.genreList);
+          this.initFormBuilder();
+        }
       );
 
     } else {
       console.log('email non présent dans le localstorage');
-      this.messageSvc.show('erreur de conexion - veuillez vous reconnecter', 'error')
+      this.messageSvc.show('erreur de connexion - veuillez vous reconnecter', 'error')
       this.route.navigate(['/login']);
     }
 
   }
 
-  initFormBuilder(){
+  initFormBuilder() {
 
-  // initialisation du formulaire this.preferencesForm avec pré affichage des préférences utilisateurs enregsitrées en BDD
+    // initialisation du formulaire this.preferencesForm avec pré affichage des préférences utilisateurs enregsitrées en BDD
     this.preferencesForm = this.fb.group({
       email: localStorage.getItem('email'),
-      pseudo: [this.preferences?.pseudo,Validators.required],
+      pseudo: [this.preferences?.pseudo, Validators.required],
       genreList: this.fb.array(
         this.genresListChecked.map(genre =>
           this.fb.group({
@@ -90,13 +91,13 @@ export class MesPreferencesComponent {
     return <FormArray>this.preferencesForm.get("genreList");
   }
 
-  onSubmit(event:Event) {
+  onSubmit(event: Event) {
     event.preventDefault();
 
     this.isFormSubmitted = true;
     if (this.preferencesForm.valid) {
 
-    // formattage des préférences pour appel à l'API (email + pseudo + genreList)
+      // formattage des préférences pour appel à l'API (email + pseudo + genreList)
       const selectedGenres = this.getGenresChecked();
       const data = {
         email: this.preferencesForm.get('email')?.value,
@@ -105,18 +106,20 @@ export class MesPreferencesComponent {
       };
 
 
-    // enregistrement des préférences créées ou modifiées en BDD
+      // enregistrement des préférences créées ou modifiées en BDD
       this.mesPreferencesService.registerPreferences(data)
-        .subscribe({next : () => {
+        .subscribe({
+          next: () => {
             this.messageSvc.show('préférences enregistrées', 'success')
             this.route.navigate(['/maListe']);
-          }})
-      this.isFormSubmitted= false;
+          }
+        })
+      this.isFormSubmitted = false;
     }
   }
 
   // fonction pour matcher entre la liste des préférences choisies par l'utilisateur et la liste de tous les genres
-  getFormattedGenres(allGenre : GenreModel[], preferencesGenre: GenreModel[]): GenreModel[] {
+  getFormattedGenres(allGenre: GenreModel[], preferencesGenre: GenreModel[]): GenreModel[] {
     return this.addCheckedPropertyPipe.transform(allGenre, preferencesGenre);
   }
 
@@ -133,7 +136,7 @@ export class MesPreferencesComponent {
     return selectedGenres;
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.subGenre.unsubscribe
     this.subPreferences.unsubscribe()
   }

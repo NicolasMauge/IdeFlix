@@ -13,7 +13,7 @@ public interface UtilisateurIamRepository {
 
     List<UtilisateurIamEntity> getUtilisateursIam(String headerAuthorization);
 
-    void delUtilisateurIam(String email);
+    void delUtilisateurIam(String headerAuthorization, String email);
 
 
 }
