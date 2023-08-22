@@ -47,7 +47,7 @@ public class FilmServiceImpl implements FilmService {
             logger.debug("IdeFlix - creerFilm : film trouvé avec l'idTmdb = " + filmEntity.getIdTmdb());
         }
 
-        logger.debug("IdeFlix - creerFilm : tentative de création avec l'idTmdb = " + filmEntity.getIdTmdb());
+        logger.debug("IdeFlix - creerFilm : tentative de création/modification avec l'idTmdb = " + filmEntity.getIdTmdb());
 
         this.filmRepository.save(filmEntity);
     }

@@ -1,5 +1,6 @@
 package org.epita.application.selection.serieselectionnee;
 
+import org.epita.application.media.film.FilmServiceImpl;
 import org.epita.application.media.serie.SerieService;
 import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.media.FilmEntity;
@@ -9,6 +10,8 @@ import org.epita.domaine.selection.SerieSelectionneeEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.media.SerieRepository;
 import org.epita.infrastructure.selection.SerieSelectionneeRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,6 +20,8 @@ import java.util.Optional;
 
 @Service
 public class SerieSelectionneeServiceImpl implements SerieSelectionneeService {
+    public static final Logger logger = LoggerFactory.getLogger(FilmServiceImpl.class);
+
     SerieSelectionneeRepository serieSelectionneeRepository;
     SerieRepository serieRepository;
     SerieService serieService;
@@ -28,25 +33,29 @@ public class SerieSelectionneeServiceImpl implements SerieSelectionneeService {
     }
 
     @Override
-    public void creerSerieSelectionnee(SerieSelectionneeEntity serieSelectionneeEntity) {
-        String idTmdb = serieSelectionneeEntity.getMediaAudioVisuelEntity().getIdTmdb();
-        String email = serieSelectionneeEntity.getUtilisateurEntity().getEmail();
+    public void creerSerieSelectionnee(SerieSelectionneeEntity serieSelectionnee) {
+        String idTmdb = serieSelectionnee.getMediaAudioVisuelEntity().getIdTmdb();
+        String email = serieSelectionnee.getUtilisateurEntity().getEmail();
 
         Optional<SerieEntity> film = this.serieRepository.findByIdTmdb(idTmdb);
         if(film.isPresent()) {
-            serieSelectionneeEntity.getMediaAudioVisuelEntity().setId(film.get().getId());
-        } else {
-            this.serieService.creerSerie((SerieEntity) serieSelectionneeEntity.getMediaAudioVisuelEntity());
+            serieSelectionnee.getMediaAudioVisuelEntity().setId(film.get().getId());
+            logger.debug("IdeFlix - creerSerieSelectionnee - série déjà existante : {idTmdb : "+ serieSelectionnee.getMediaAudioVisuelEntity().getIdTmdb()+"}");
         }
 
         Optional<SerieSelectionneeEntity> serieSelectionneeEntityOptional =
-                // this.serieSelectionneeRepository.findSerieSelectionneeEntityByMediaAudioVisuelEntityIdTmdb(idTmdb);
                 this.serieSelectionneeRepository.findSerieSelectionneeEntityByUtilisateurEntity_EmailAndMediaAudioVisuelEntity_IdTmdb(email, idTmdb);
         if(serieSelectionneeEntityOptional.isPresent()) {
-            serieSelectionneeEntityOptional.get().setId(serieSelectionneeEntity.getId());
+            serieSelectionnee.setId(serieSelectionneeEntityOptional.get().getId());
+            logger.debug("IdeFlix - creerSerieSelectionnee - serieSelectionnee déjà existante");
         }
 
-        this.serieSelectionneeRepository.save(serieSelectionneeEntity);
+        logger.debug("IdeFlix - creerSerieSelectionnee - détails : {id : "+serieSelectionnee.getId()
+                +", titre du média : " + serieSelectionnee.getMediaAudioVisuelEntity().getTitre()
+                +", id du média :" + serieSelectionnee.getMediaAudioVisuelEntity().getId()
+                + ", idTmdb : " +serieSelectionnee.getMediaAudioVisuelEntity().getIdTmdb()+"}");
+
+        this.serieSelectionneeRepository.save(serieSelectionnee);
     }
 
     @Override
