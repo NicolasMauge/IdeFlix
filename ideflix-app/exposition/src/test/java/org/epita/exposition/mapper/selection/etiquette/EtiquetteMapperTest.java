@@ -47,14 +47,14 @@ public class EtiquetteMapperTest {
     @Test
     public void should_return_mapDtoToEntity() {
         // Given
-        EtiquetteDto etiquetteDto = new EtiquetteDto("tag 1", 1L);
+        EtiquetteDto etiquetteDto = new EtiquetteDto(1L, "tag 1", 1L);
 
         // When
         EtiquetteEntity etiquette = this.mapper.mapDtoToEntity(etiquetteDto);
 
         // Then
         assertThat(etiquette.getId())
-                .isEqualTo(null);
+                .isEqualTo(1L);
 
         assertThat(etiquette.getNomTag())
                 .isEqualTo(etiquetteDto.getNomTag());
