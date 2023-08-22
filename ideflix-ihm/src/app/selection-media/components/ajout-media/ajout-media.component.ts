@@ -64,7 +64,7 @@ export class AjoutMediaComponent {
     if (this.email !== null) {
       this.userForm = this.formBuilder.group({
         status: [null, [ Validators.required ] ],
-        etiquettes:  [null]
+        etiquettes:  [[]]
       });
 
       this.loadEtiquettes();
@@ -125,9 +125,12 @@ export class AjoutMediaComponent {
 
     if (this.userForm.value.status != '') {
       //sauvegarde de la partie genre
+      console.log(this.media.genres);
+
+
       this.genreService.saveToApp(this.media.genres.map((genre:any) => new GenreAppModel(genre)))
-        .subscribe(data => this.mediaService.saveToApp(this.media, this.typeMedia)
-          .subscribe(data => {
+        .subscribe(() => this.mediaService.saveToApp(this.media, this.typeMedia)
+            .subscribe(() => {
               let statusApp = mapIhmStatusToBackendStatus(this.userForm.value.status);
 
               let mediaSelectionneObject = {
@@ -148,7 +151,8 @@ export class AjoutMediaComponent {
               let mediaSelectionne = new MediaSelectionneModel(mediaSelectionneObject);
 
               this.mediaAppService.saveToApp(mediaSelectionne);
-          }));
+            })
+        );
     }
   }
 
