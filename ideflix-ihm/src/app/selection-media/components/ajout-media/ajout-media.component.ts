@@ -155,6 +155,7 @@ export class AjoutMediaComponent {
   OnSubmitDelete() {
     console.log("supprimer");
     console.log(this.userForm.value);
+    this.mediaAppService.deleteFromApp(this.email!, this.media.idDataBase.toString());
   }
 
   OnSubmitModify() {
