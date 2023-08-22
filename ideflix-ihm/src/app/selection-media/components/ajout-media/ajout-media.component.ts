@@ -36,7 +36,6 @@ function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
   styleUrls: ['./ajout-media.component.css']
 })
 export class AjoutMediaComponent {
-  nouveauMedia: any = {status: '', listTag: []};
   protected readonly Status = Status;
   statusEnum = Status;
 
@@ -107,19 +106,6 @@ export class AjoutMediaComponent {
     return this.etiquetteService.etiquettes$;
   }
 
-  public addEtiquette(etiquette: EtiquetteModel) {
-    let found = false;
-    for(let i=0;i<this.nouveauMedia.listTag.length;i++) {
-      if(this.nouveauMedia.listTag[i].nomTag == etiquette.nomTag) {
-        found = true;
-        break;
-      }
-    }
-    if(!found) {
-      this.nouveauMedia.listTag.push(etiquette);
-    }
-  }
-
   OnSubmitAdd() {
     //event.preventDefault();
 
@@ -130,7 +116,7 @@ export class AjoutMediaComponent {
       console.log(this.media.genres);
 
 
-      this.genreService.saveToApp(this.media.genres.map((genre:any) => new GenreAppModel(genre)))
+      this.genreService.saveToApp(this.media.genres.map((genre:any) => {console.log(new GenreAppModel(genre)); return new GenreAppModel(genre);}))
         .subscribe(() => this.mediaService.saveToApp(this.media, this.typeMedia)
             .subscribe(() => {
               let statusApp = mapIhmStatusToBackendStatus(this.userForm.value.status);
@@ -160,8 +146,6 @@ export class AjoutMediaComponent {
   }
 
   OnSubmitDelete() {
-    console.log("supprimer");
-    console.log(this.userForm.value);
     this.mediaAppService.deleteFromApp(this.email!, this.media.idDataBase.toString());
     this.route.navigate(['/maListe']);
   }
