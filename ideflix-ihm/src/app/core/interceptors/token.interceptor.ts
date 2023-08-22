@@ -17,23 +17,24 @@ export class TokenInterceptor implements HttpInterceptor {
 
   constructor() {}
 
+  // la methode intercept est appelé pour chaque requête et reçoit la requête comme argument en plus de l'objet next
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
     let cloneReq = request;
     const token: string | null = localStorage.getItem('token');
 
-    if (token) {
-      cloneReq = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-    }
+    // if (token) {
+    //   cloneReq = request.clone({
+    //     setHeaders: {
+    //       Authorization: `Bearer ${token}`
+    //     }
+    //   });
+    // }
 
 // token doit être ajouté lors des appels vers API IAM  (sauf login et création de compte)
-    if (cloneReq.url.includes(this.USER_API)
-      && !cloneReq.url.includes('/login')
-      && !cloneReq.url.includes('/utilisateur')) {
+    if (token && cloneReq.url.includes(this.USER_API)
+      && !cloneReq.url.includes('/iam/login')
+      && !cloneReq.url.includes('/iam/utilisateur')) {
       cloneReq = cloneReq.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`,
@@ -42,7 +43,7 @@ export class TokenInterceptor implements HttpInterceptor {
     }
 
     //token doit être ajouté lors des appels vers API Ideflix
-    if (cloneReq.url.includes(this.IDEFLIX_API)) {
+    if (token && cloneReq.url.includes(this.IDEFLIX_API)) {
       cloneReq = cloneReq.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`,
@@ -51,7 +52,7 @@ export class TokenInterceptor implements HttpInterceptor {
     }
 
     //token doit être ajouté lors des appels vers API pour acces base des  films et series
-    if (cloneReq.url.includes(this.MOVIEDATABASE_API)) {
+    if (token && cloneReq.url.includes(this.MOVIEDATABASE_API)) {
       cloneReq = cloneReq.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`,
@@ -59,7 +60,7 @@ export class TokenInterceptor implements HttpInterceptor {
       });
     }
 
-    return next.handle(request);
+    return next.handle(cloneReq);
   }}
 
 //-----------------avant IDF-80--------------------------------------------------------------
