@@ -11,6 +11,7 @@ import {MediaMaListeModel} from "../../../ma-liste-de-selection/models/media-ma-
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Observable} from "rxjs";
+import {ActivatedRoute, Router} from "@angular/router";
 
 // fonction pour la correspondance entre les status provenant du backend et les status affichés sur l'ihm
 function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
@@ -55,7 +56,8 @@ export class AjoutMediaComponent {
               private mediaAppService:MediaSelectionneToAppService,
               private mediaService: MediaToAppService,
               private genreService: GenreToAppService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private route: Router) {
   }
 
   ngOnInit() {
@@ -154,12 +156,14 @@ export class AjoutMediaComponent {
             })
         );
     }
+    this.route.navigate(['/maListe']);
   }
 
   OnSubmitDelete() {
     console.log("supprimer");
     console.log(this.userForm.value);
     this.mediaAppService.deleteFromApp(this.email!, this.media.idDataBase.toString());
+    this.route.navigate(['/maListe']);
   }
 
   OnSubmitModify() {
