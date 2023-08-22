@@ -109,14 +109,9 @@ export class AjoutMediaComponent {
   OnSubmitAdd() {
     //event.preventDefault();
 
-    console.log(this.userForm.value);
-
     if (this.userForm.value.status != '') {
       //sauvegarde de la partie genre
-      console.log(this.media.genres);
-
-
-      this.genreService.saveToApp(this.media.genres.map((genre:any) => {console.log(new GenreAppModel(genre)); return new GenreAppModel(genre);}))
+      this.genreService.saveToApp(this.media.genres.map((genre:any) => {return new GenreAppModel(genre);}))
         .subscribe(() => this.mediaService.saveToApp(this.media, this.typeMedia)
             .subscribe(() => {
               let statusApp = mapIhmStatusToBackendStatus(this.userForm.value.status);
@@ -124,12 +119,12 @@ export class AjoutMediaComponent {
               let mediaSelectionneObject = {
                 typeMedia: this.typeMedia,
                 avisPouce: false,
-                dateSelection: '2023-08-17',
+                dateSelection: new Date(),
                 etiquetteList: this.userForm.value.etiquettes,
                 statutMedia: statusApp,
                 mediaIdTmdb: this.media.idDataBase,
                 email: this.email,
-                dateModification: '2023-08-17',
+                dateModification: new Date(),
                 numeroSaison: 0,
                 idTmdbSaison: 0,
                 numeroEpisode: 0,
