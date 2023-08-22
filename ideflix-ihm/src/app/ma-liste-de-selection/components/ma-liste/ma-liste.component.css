@@ -1,6 +1,28 @@
 .card {
-  margin-bottom: 20px;
-  margin-top: 40px;
+  margin-bottom: 10px;
+  margin-top: 30px;
+  border: transparent;
+  cursor: pointer;
+  transition-duration: 500ms;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  z-index: 1;
+  cursor: pointer;
+}
+
+.card-body {
+  margin-bottom: 10px;
+}
+
+.line-container {
+  display: flex;          /* Utiliser le modèle flexbox */
+  flex-wrap: wrap;        /* Permettre le retour à la ligne en cas de manque d'espace */
+}
+
+.line-container > * {
+  margin-bottom: 8px;     /* Espacement en bas de chaque élément */
 }
 
 
