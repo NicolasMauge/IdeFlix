@@ -20,7 +20,17 @@ export class DetailMediaComponent {
     this.typeMedia = this.route.snapshot.params['typeMedia'];
 
     this.movieService.getDetailsMovie(this.movieId).subscribe(
-      (data:MediaDatabaseModel) => this.media=data);
+      (data:MediaDatabaseModel) =>
+        this.media=data);
+
+    //CARO--- --- tests pour voir si GetDetail est OK et c'est bien OK !!!!-------
+    // this.movieService.getDetailsSerie(this.movieId).subscribe(
+    //   (data:MediaDatabaseModel) => {
+    //     this.media=data;
+    //     for (const saison of this.media.saisons) {
+    //       console.log("Saison:", saison);
+    //     }
+    //   });
   }
 
   // getters

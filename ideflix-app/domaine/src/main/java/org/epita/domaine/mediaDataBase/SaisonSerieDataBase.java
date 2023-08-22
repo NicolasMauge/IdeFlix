@@ -1,8 +1,13 @@
 package org.epita.domaine.mediaDataBase;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.LocalDate;
+
 public class SaisonSerieDataBase {
 
-    private String air_date;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate air_date;
     private int episode_count;
     private long id;
     private String name;
@@ -14,7 +19,7 @@ public class SaisonSerieDataBase {
     public SaisonSerieDataBase() {
     }
 
-    public SaisonSerieDataBase(String air_date, int episode_count, long id, String name, String overview, String poster_path, int season_number, float vote_average) {
+    public SaisonSerieDataBase(LocalDate air_date, int episode_count, long id, String name, String overview, String poster_path, int season_number, float vote_average) {
         this.air_date = air_date;
         this.episode_count = episode_count;
         this.id = id;
@@ -25,11 +30,11 @@ public class SaisonSerieDataBase {
         this.vote_average = vote_average;
     }
 
-    public String getAir_date() {
+    public LocalDate getAir_date() {
         return air_date;
     }
 
-    public void setAir_date(String air_date) {
+    public void setAir_date(LocalDate air_date) {
         this.air_date = air_date;
     }
 

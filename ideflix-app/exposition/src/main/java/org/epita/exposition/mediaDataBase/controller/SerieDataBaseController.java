@@ -1,12 +1,10 @@
 package org.epita.exposition.mediaDataBase.controller;
 
 import org.epita.application.mediaDataBase.serieDataBase.SerieDataBaseService;
-import org.epita.domaine.mediaDataBase.MovieDataBase;
-import org.epita.domaine.mediaDataBase.SerieDataBase;
-import org.epita.exposition.common.Mapper;
 import org.epita.exposition.mediaDataBase.dto.MediaDataBaseResponseDto;
-import org.epita.exposition.mediaDataBase.mapper.MovieDataBaseMapper;
+import org.epita.exposition.mediaDataBase.dto.SerieDataBaseResponseDto;
 import org.epita.exposition.mediaDataBase.mapper.SerieDataBaseMapper;
+import org.epita.exposition.mediaDataBase.mapper.SerieWithSaisonDataBaseMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -25,10 +23,13 @@ public class SerieDataBaseController {
 
     private final SerieDataBaseMapper serieDataBaseMapper;
 
+    private final SerieWithSaisonDataBaseMapper serieWithSaisonDataBaseMapper;
 
-    public SerieDataBaseController(SerieDataBaseService serieDataBaseService, SerieDataBaseMapper serieDataBaseMapper) {
+
+    public SerieDataBaseController(SerieDataBaseService serieDataBaseService, SerieDataBaseMapper serieDataBaseMapper, SerieWithSaisonDataBaseMapper serieWithSaisonDataBaseMapper) {
         this.serieDataBaseService = serieDataBaseService;
         this.serieDataBaseMapper = serieDataBaseMapper;
+        this.serieWithSaisonDataBaseMapper = serieWithSaisonDataBaseMapper;
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
@@ -46,13 +47,13 @@ public class SerieDataBaseController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/detailSerie/{id}")
-    public ResponseEntity<MediaDataBaseResponseDto> trouverSerieSelonId(@PathVariable("id") long id){
+    public ResponseEntity<SerieDataBaseResponseDto> trouverSerieSelonId(@PathVariable("id") long id){
 
         logger.debug("IdeFlix - recherche du détail d'une série pour Id: " + id);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(this.serieDataBaseMapper
+                .body(this.serieWithSaisonDataBaseMapper
                         .mapEntityToDto(
                                 this.serieDataBaseService.findSerieById(id)));
     }

@@ -1,7 +1,7 @@
 package org.epita.infrastructure.mediaDataBase.mapper;
 
 import org.epita.domaine.mediaDataBase.GenreDataBase;
-import org.epita.domaine.mediaDataBase.MovieDataBase;
+import org.epita.domaine.mediaDataBase.SaisonSerieDataBase;
 import org.epita.domaine.mediaDataBase.SerieDataBase;
 import org.epita.infrastructure.mediaDataBase.apidto.*;
 import org.springframework.stereotype.Component;
@@ -19,6 +19,9 @@ public class SerieApiMapper {
         int duree = 0;
 
         int nombreSaisons = 0;
+
+        List<SaisonSerieDataBase> listSaisons = new ArrayList<>();
+        listSaisons = null;
 
         List<GenreDataBase> listGenres = new ArrayList<>();
         for (int i = 0; i < serieLightResponseDto.getGenre_ids().size(); i++) {
@@ -43,7 +46,8 @@ public class SerieApiMapper {
                 dateSortie,
                 duree,
                 serieLightResponseDto.getVote_average(),
-                nombreSaisons);
+                nombreSaisons,
+                listSaisons);
     }
 
     public List<SerieDataBase> mapSearchSeriesResponseDtoToEntityList(SearchSeriesResponseDto searchSeriesResponseDto) {
@@ -62,6 +66,8 @@ public class SerieApiMapper {
         int duree = 0;
 
         List<GenreDataBase> genreDataBases = GenreApiMapper.mapFromGenreResponseDtoList(detailSerieResponseDto.getGenres());
+
+        List<SaisonSerieDataBase> saisonSerieDataBases = SaisonApiMapper.mapFromSaisonResponseDtoList(detailSerieResponseDto.getSeasons());
 
         LocalDate dateSortie;
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -83,6 +89,7 @@ public class SerieApiMapper {
                 dateSortie,
                 duree,
                 detailSerieResponseDto.getVote_average(),
-                detailSerieResponseDto.getNumber_of_seasons());
+                detailSerieResponseDto.getNumber_of_seasons(),
+                saisonSerieDataBases);
     }
 }
