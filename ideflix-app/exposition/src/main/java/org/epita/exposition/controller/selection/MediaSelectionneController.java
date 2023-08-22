@@ -64,7 +64,8 @@ public class MediaSelectionneController {
     }
 
     @GetMapping("/utilisateur/{email}/idtmdb/{idTmdb}")
-    public List<MediaSelectionneCompletDto> trouverMediasParUtilisateurEtIdTmdb(@PathVariable("email") String email, @PathVariable("idTmdb") String idTmdb) {
+    public List<MediaSelectionneCompletDto> trouverMediasParUtilisateurEtIdTmdb(@PathVariable("email") String email,
+                                                                                @PathVariable("idTmdb") String idTmdb) {
         List<FilmSelectionneEntity> filmList = this.filmSelectionneService.trouverFilmSelectionnesParEmailUtilisateurEtIdTmdb(email, idTmdb);
 
         if (filmList.size() > 0) {
@@ -78,5 +79,24 @@ public class MediaSelectionneController {
         }
 
         return new ArrayList<>();
+    }
+
+    @DeleteMapping("/{email}/{idTmdb}")
+    public ResponseEntity<String> supprimerMediaSelectionneePourIdTmdb(@PathVariable("email") String email,
+                                                                       @PathVariable("idTmdb") String idTmdb) {
+        System.out.println("suppression");
+        List<FilmSelectionneEntity> films = this.filmSelectionneService.trouverFilmSelectionnesParEmailUtilisateurEtIdTmdb(email, idTmdb);
+        if(films.size() > 0) {
+            this.filmSelectionneService.supprimerFilmSelectionneParId(films.get(0).getId());
+            return new ResponseEntity<>("Media sélectionné supprimé", HttpStatus.ACCEPTED);
+        }
+
+        List<SerieSelectionneeEntity> series = this.serieSelectionneeService.trouverSeriesSelectionneesParEmailUtilisateurEtIdTmdb(email, idTmdb);
+        if(series.size() > 0) {
+            this.serieSelectionneeService.supprimerSerieSelectionneeParId(series.get(0).getId());
+            return new ResponseEntity<>("Media sélectionné supprimé", HttpStatus.ACCEPTED);
+        }
+
+        return new ResponseEntity<>("Media sélectionné supprimé", HttpStatus.ACCEPTED);
     }
 }
