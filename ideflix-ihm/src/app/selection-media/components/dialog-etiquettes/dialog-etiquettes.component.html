@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Ajout d'une étiquette</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Nouvelle étiquette</mat-label>
+    <input matInput [(ngModel)]="data.ajoutEtiquette">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Abandon</button>
+  <button mat-button [mat-dialog-close]="data.ajoutEtiquette" cdkFocusInitial>Ok</button>
+</div>
+

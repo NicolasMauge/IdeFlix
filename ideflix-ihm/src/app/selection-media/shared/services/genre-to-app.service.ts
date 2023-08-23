@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
-import {MediaSelectionneModel} from "../model/MediaSelectionneModel";
+import {MediaSelectionneDtoModel} from "../model/MediaSelectionneDtoModel";
 import {GenreAppModel} from "../model/GenreAppModel";
 import {firstValueFrom, Observable} from "rxjs";
 

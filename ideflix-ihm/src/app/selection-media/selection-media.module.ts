@@ -10,6 +10,8 @@ import { EtiquetteComponent } from './components/etiquette/etiquette.component';
 import {MatMenuModule} from "@angular/material/menu";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
+import { DialogEtiquettesComponent } from './components/dialog-etiquettes/dialog-etiquettes.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 @NgModule({
@@ -18,7 +20,8 @@ import {MatSelectModule} from "@angular/material/select";
     PrintDurationPipe,
     StarComponent,
     AjoutMediaComponent,
-    EtiquetteComponent
+    EtiquetteComponent,
+    DialogEtiquettesComponent
   ],
   imports: [
     CommonModule,
@@ -28,6 +31,7 @@ import {MatSelectModule} from "@angular/material/select";
     MatMenuModule,
     MatInputModule,
     MatSelectModule,
+    MatDialogModule,
     // TODO : à supprimer dès que possible
   ],
   exports: [
