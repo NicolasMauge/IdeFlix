@@ -3,7 +3,6 @@ package org.epita.exposition.dto.selection;
 public class EtiquetteDto {
     private Long id;
     private String nomTag;
-
     private Long idUtilisateur;
 
     public EtiquetteDto() {
