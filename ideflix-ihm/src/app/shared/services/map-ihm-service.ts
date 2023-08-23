@@ -8,7 +8,7 @@ import {Status} from "../../core/models/status";
 export class MapIhmService {
 
   //faire correspondre les statuts IHM avec ceux du backend (IHM vers backend)
-  mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
+  mapIhmStatusToBackendStatus(ihmStatus: Status): string {
     switch (ihmStatus) {
       case Status.Completed:
         return "VU";
@@ -19,12 +19,12 @@ export class MapIhmService {
       case Status.Dropped:
         return "ABANDONNE";
       default:
-        return undefined;
+        return "";
     }
   }
 
   //faire correspondre les statuts IHM avec ceux du backend (backend vers IHM)
-  mapBackendStatusToIhmStatus(backendStatus: string): string | undefined {
+  mapBackendStatusToIhmStatus(backendStatus: string): Status {
     switch (backendStatus) {
       case "VU":
         return Status.Completed;
@@ -35,7 +35,7 @@ export class MapIhmService {
       case "ABANDONNE":
         return Status.Dropped;
       default:
-        return undefined;
+        return Status.ToSee;
     }
   }
 }

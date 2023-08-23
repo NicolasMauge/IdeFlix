@@ -44,25 +44,27 @@ export class MaListeComponent {
       this.messageSvc.show('erreur de conexion - veuillez vous reconnecter', 'error')
       this.route.navigate(['/login']);
     }
-
   }
 
   ngOnDestroy(){
     this.sub.unsubscribe
   }
 
-  store(filterEvent: {status: string, genre : string}){
+  store(filterEvent: {status: string, genre : string, etiquette : string}){
     console.log('status: ' + filterEvent.status);
     console.log('genre: ' + filterEvent.genre);
+    console.log('etiquette: ' + filterEvent.etiquette);
 
     this.myFilter.status = filterEvent.status;
     this.myFilter.genre = filterEvent.genre;
-    if (this.myFilter.status === '' && this.myFilter.genre === '') {
+    this.myFilter.etiquette = filterEvent.etiquette;
+    if (this.myFilter.status === '' && this.myFilter.genre === '' && this.myFilter.etiquette === '') {
       this.ReinitializedMediaList();
     } else {
       this.updateFilteredMediaList();
     }
   }
+
 
   updateFilteredMediaList() {
     //repartir de la liste initiale avant d'appliquer le filtre

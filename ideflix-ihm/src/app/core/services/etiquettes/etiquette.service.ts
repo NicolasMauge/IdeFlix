@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {BehaviorSubject, map, Observable} from "rxjs";
+import {EtiquetteModel} from "../../../selection-media/shared/model/EtiquetteModel";
 import {HttpClient} from "@angular/common/http";
-import {EtiquetteModel} from "../../../core/models/etiquette.model";
-
 
 @Injectable({
   providedIn: 'root'
 })
-export class EtiquettesService {
+export class EtiquetteService {
+
   IDEFLIX_API = environment.IDEFLIX_SERVER;
   // private genres: GenreModel[] = [];
   private _etiquettes$ = new BehaviorSubject(<EtiquetteModel[]>([]));
@@ -40,12 +40,10 @@ export class EtiquettesService {
       );
   }
 
-  saveToApp(etiquette: EtiquetteModel, email: string) {
-    console.log("sauve étiquette");
-    console.log(etiquette);
-    console.log(email);
-    let endpoint = '/etiquette/utilisateur/'+email;
+  saveToApp(etiquette: EtiquetteModel) {
+    let endpoint = '/etiquette';
 
-    this.http.post(this.IDEFLIX_API + endpoint, etiquette, {responseType: 'text'}).subscribe();
+    return this.http
+      .post(this.IDEFLIX_API + endpoint, etiquette, {responseType: 'text'});
   }
 }

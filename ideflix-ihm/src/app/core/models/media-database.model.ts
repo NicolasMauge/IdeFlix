@@ -13,12 +13,12 @@ export class MediaDatabaseModel {
   dateSortie!: Date;
   duree!: number | undefined;
   resume!: string;
-  image_portrait!: string;
-  image_paysage!: string;
+  image_portrait!: string | undefined;
+  image_paysage!: string | undefined;
   scoreDataBase!: number;
   genres!: Genre[];
   typeMedia!: string;
-  nombreSaisons!: number | undefined;
+  nombreSaisons!: number;
   saisons: SaisonModel[] = [];
 
   constructor(movieFromApi: any) {
@@ -26,8 +26,8 @@ export class MediaDatabaseModel {
     this.titre = movieFromApi.titre;
     this.duree = movieFromApi.duree? movieFromApi.duree : undefined;
     this.resume = movieFromApi.resume;
-    this.image_paysage = movieFromApi.cheminAffichePaysage;
-    this.image_portrait = movieFromApi.cheminAffichePortrait;
+    this.image_paysage = movieFromApi.cheminAffichePaysage? movieFromApi.cheminAffichePaysage : undefined;
+    this.image_portrait = movieFromApi.cheminAffichePortrait? movieFromApi.cheminAffichePortrait : undefined;
     this.scoreDataBase = movieFromApi.noteDataBase;
     this.genres = movieFromApi.genreDataBaseResponseDtos != undefined ?
       movieFromApi.genreDataBaseResponseDtos.map((genre: any) => {
