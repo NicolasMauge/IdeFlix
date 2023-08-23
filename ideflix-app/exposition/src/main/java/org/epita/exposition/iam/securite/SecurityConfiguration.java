@@ -56,8 +56,8 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.POST, PATH_POST_ANONYME_WHITELIST).permitAll() // autorisé sans authentification
                 .antMatchers(HttpMethod.GET, PATH_GET_ANONYME_WHITELIST).permitAll()   // autorisé sans authentification
                 .antMatchers(HttpMethod.GET, SWAGGER_WHITELIST).permitAll()
-                .antMatchers(SWAGGER_WHITELIST).hasRole(roleAdmin)
-                .antMatchers(HttpMethod.GET, PATH_GET_UTILISATEUR_WHITELIST).hasRole(roleUtilisateur)
+                .antMatchers(SWAGGER_WHITELIST).hasRole(roleAdmin)  // avec rôle admin uniquement
+                .antMatchers(HttpMethod.GET, PATH_GET_UTILISATEUR_WHITELIST).hasRole(roleUtilisateur) // avec rôle utilisateur
                 .antMatchers(HttpMethod.POST, PATH_POST_UTILISATEUR_WHITELIST).hasRole(roleUtilisateur)
                 .antMatchers(HttpMethod.DELETE, PATH_DELETE_UTILISATEUR_WHITELIST).hasRole(roleUtilisateur)
                 .antMatchers(HttpMethod.GET, PATH_GET_ADMINISTRATEUR_WHITELIST).hasRole(roleAdmin)
