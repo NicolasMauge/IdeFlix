@@ -26,6 +26,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.client.UnknownContentTypeException;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -218,6 +219,38 @@ public class UtilisateurIamRepositoryImpl implements UtilisateurIamRepository {
                     + ex.getMessage()
                     + (ex.getCause() == null ? " - " : " - " + ex.getCause()) + ex.getCause());
             throw new IamException("IdeFlix - delUtilisateurIam");
+        }
+
+    }
+
+    @Override
+    public UtilisateurIamEntity initIam() {
+        // TODO : appel au point d'accès init de l'IAM
+
+        final String iamInitUrl = IAM_BASE_URL + "/init";
+        RestTemplate restTemplate = new RestTemplate();
+
+        try {
+            ResponseEntity<UtilisateurIamCreationReponseApiDto> getInitResponse = restTemplate.getForEntity(iamInitUrl,
+                    UtilisateurIamCreationReponseApiDto.class);
+
+            UtilisateurIamCreationReponseApiDto adminUtilisateurIamCreationReponseApiDto = getInitResponse.getBody();
+
+            if (adminUtilisateurIamCreationReponseApiDto != null)
+                return utilisateurIamApiMapper.mapCreationReponseDtoToEntity(adminUtilisateurIamCreationReponseApiDto);
+            else
+                throw new IamException("IdeFlix - IAM - Echec récupération de l'admin.");
+        } catch (HttpClientErrorException e) {
+            switch (e.getStatusCode()) {
+                default:
+                    logger.error("IdeFlix - IAM - Init échoué . L'IAM a répondu : " + e.getStatusCode()
+                            + " - " + e.getResponseBodyAsString());
+
+                    throw new IamException("IdeFlix - IAM - Echec récupération de l'admin. Code retour : " + e.getStatusCode());
+            }
+        } catch (Exception e) {
+            logger.error("IdeFlix - IAM - Récupération de l'admin: exception non prévue.");
+            throw new IamException("IdeFlix - IAM - Echec de la récupération de l'admin.");
         }
 
     }
