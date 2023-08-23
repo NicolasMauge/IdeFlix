@@ -9,7 +9,8 @@
 
   <div class="row">
     <div class="col-6 col-md-4">
-      <img [title]="titre" [src]="media.image_paysage | printImg" [alt]="titre" class="rounded w-100">
+      <!--<img [title]="titre" [src]="media.image_paysage | printImg" [alt]="titre" class="rounded w-100"> -->
+      <img [title]="titre" [src]="imagePortrait | printImg" [alt]="titre" class="rounded w-100">
     </div>
 
     <div class="col-12 col-md-6">
@@ -33,4 +34,4 @@
 
 </div>
 
-<app-ajout-media [media]="media" [typeMedia]="typeMedia"></app-ajout-media>
+<app-ajout-media [media]="media" [typeMedia]="typeMedia" (emitterParentDetail)="setAvancement($event)"></app-ajout-media>

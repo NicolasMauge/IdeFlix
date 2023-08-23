@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Status} from "../../../core/models/status";
 import {EtiquettesService} from "../../shared/services/etiquettes.service";
 import {EtiquetteModel} from "../../shared/model/Etiquette.model";
@@ -54,6 +54,7 @@ export class AjoutMediaComponent {
 
   @Input() media!: MediaDatabaseModel;
   @Input() typeMedia!:string;
+  @Output() emitterParentDetail = new EventEmitter<string>();
 
   userForm!: FormGroup;
 
@@ -215,7 +216,8 @@ export class AjoutMediaComponent {
   setAvancement(saisonEpisodeCourant: SerieCurrentSaisonEpisode) {
     this.userForm.get('avancement')?.setValue(saisonEpisodeCourant);
 
-    console.log("--------");
-    console.log(this.userForm.value);
+    //console.log("--------");
+    //console.log(this.userForm.value);
+    this.emitterParentDetail.emit(this.media.saisons[saisonEpisodeCourant.saison-1].image_portraitSaison);
   }
 }
