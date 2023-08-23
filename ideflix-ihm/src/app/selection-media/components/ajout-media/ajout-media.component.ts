@@ -17,8 +17,7 @@ import {DialogEtiquettesComponent} from "../dialog-etiquettes/dialog-etiquettes.
 import {MapIhmService} from "../../../shared/services/map-ihm-service";
 
 // fonction pour la correspondance entre les status provenant du backend et les status affichés sur l'ihm
-function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
-  // TODO : à supprimer quand fonction disponible
+/*function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
   switch (ihmStatus) {
     case Status.Completed:
       return "VU";
@@ -31,7 +30,7 @@ function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
     default:
       return undefined;
   }
-}
+}*/
 
 export interface DialogData {
   ajoutEtiquette: string;
@@ -206,14 +205,12 @@ export class AjoutMediaComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       // fermeture de la page dialog
-      this.ajoutEtiquette = result; // TODO : supprimer quand fonction dispo
       this.saveEtiquette(result);
       this.loadEtiquettes();
     });
   }
 
   saveEtiquette(nouvelleEtiquette: string) {
-    console.log(nouvelleEtiquette);
     this.etiquetteService.saveToApp(new EtiquetteModel({nomTag: nouvelleEtiquette}), this.email!);
   }
 }
