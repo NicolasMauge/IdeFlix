@@ -13,7 +13,8 @@ export class DetailMediaComponent {
   media!:MediaDatabaseModel;
   typeMedia!:string;
 
-  constructor(private route:ActivatedRoute, private movieService:MediaService) {}
+  constructor(private route:ActivatedRoute,
+              private movieService:MediaService) {}
 
   ngOnInit() {
     this.movieId = this.route.snapshot.params['movieId'];

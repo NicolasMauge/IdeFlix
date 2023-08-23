@@ -7,7 +7,6 @@ import {MediaSelectionneDtoModel} from "../../shared/model/MediaSelectionneDto.m
 import {GenreAppModel} from "../../shared/model/GenreApp.model";
 import {MediaToAppService} from "../../shared/services/media-to-app.service";
 import {GenreToAppService} from "../../shared/services/genre-to-app.service";
-import {MediaMaListeModel} from "../../../ma-liste-de-selection/models/media-ma-liste.model";
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Observable} from "rxjs";
@@ -15,6 +14,7 @@ import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogEtiquettesComponent} from "../dialog-etiquettes/dialog-etiquettes.component";
 import {MapIhmService} from "../../../shared/services/map-ihm-service";
+import {SerieCurrentSaisonEpisode} from "../choix-saison-episode/choix-saison-episode.component";
 
 // fonction pour la correspondance entre les status provenant du backend et les status affichés sur l'ihm
 /*function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
@@ -110,11 +110,10 @@ export class AjoutMediaComponent {
         }*/
         let defaultStatus: Status|undefined = this.mapStatus.mapBackendStatusToIhmStatus(data[0].statutMedia);
 
-        //let etiquettesExistantes: EtiquetteModel[] = data[0].etiquetteList.map((etiquette)=>new EtiquetteModel(etiquette));
-
         this.userForm = this.formBuilder.group({
           status: [defaultStatus, [ Validators.required ] ],
-          etiquettes:  []
+          etiquettes:  [],
+          avancement: []
         });
 
         this.etiquettes$.subscribe((etiquettes) => {
@@ -129,7 +128,8 @@ export class AjoutMediaComponent {
 
           this.userForm = this.formBuilder.group({
             status: [Status.ToSee, [ Validators.required ] ],
-            etiquettes:  [etiquettesChecked]
+            etiquettes:  [etiquettesChecked],
+            avancement: []
           });
         })
       }
@@ -140,7 +140,8 @@ export class AjoutMediaComponent {
 
         this.userForm = this.formBuilder.group({
           status: [Status.ToSee, [ Validators.required ] ],
-          etiquettes:  [[]]
+          etiquettes:  [[]],
+          avancement: []
         });
       }
     });
@@ -175,10 +176,10 @@ export class AjoutMediaComponent {
                 mediaIdTmdb: this.media.idDataBase,
                 email: this.email,
                 dateModification: new Date(),
-                numeroSaison: 0,
-                idTmdbSaison: 0,
-                numeroEpisode: 0,
-                idTmdbEpisode: 0
+                numeroSaison: this.typeMedia=="SERIE"?this.userForm.value.avancement.saison:0,
+                idTmdbSaison: this.typeMedia=="SERIE"?this.userForm.value.avancement.idSaisonTmdb:"",
+                numeroEpisode: this.typeMedia=="SERIE"?this.userForm.value.avancement.episode:0,
+                idTmdbEpisode: ""
               }
 
               let mediaSelectionne = new MediaSelectionneDtoModel(mediaSelectionneObject);
@@ -209,5 +210,12 @@ export class AjoutMediaComponent {
 
   saveEtiquette(nouvelleEtiquette: string) {
     this.etiquetteService.saveToApp(new EtiquetteModel({nomTag: nouvelleEtiquette}), this.email!);
+  }
+
+  setAvancement(saisonEpisodeCourant: SerieCurrentSaisonEpisode) {
+    this.userForm.get('avancement')?.setValue(saisonEpisodeCourant);
+
+    console.log("--------");
+    console.log(this.userForm.value);
   }
 }
