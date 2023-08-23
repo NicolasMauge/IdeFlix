@@ -3,6 +3,7 @@ import {MediaAppModel} from "../../core/models/media-app.model";
 interface Etiquette {
   id: number;
   nomTag: string;
+  idUtilisateur: number;
 }
 
 export class MediaMaListeModel {
@@ -26,10 +27,10 @@ export class MediaMaListeModel {
     this.avisPouce = mediaSelectionneFromApi.avisPouce;
     this.dateSelection = mediaSelectionneFromApi.dateSelecetion;
     this.etiquetteList = mediaSelectionneFromApi.etiquetteList != undefined ?
-      mediaSelectionneFromApi.etiquetteList.map((id: number, nomTag: string) => {
-        return {id:id, nomTag: nomTag}
+      mediaSelectionneFromApi.etiquetteList.map((etiquette : Etiquette) => {
+        return {id: etiquette.id, nomTag: etiquette.nomTag, idUtilisateur: etiquette.idUtilisateur}
       }) :
-      [...mediaSelectionneFromApi.genreList];
+      [...mediaSelectionneFromApi.etiquetteList];
     this.statutMedia = mediaSelectionneFromApi.statutMedia;
     this.media = mediaSelectionneFromApi.media;
     this.email = mediaSelectionneFromApi.email;

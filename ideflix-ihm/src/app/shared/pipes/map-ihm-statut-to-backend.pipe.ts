@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {MapIhmService} from "../services/map-ihm-service";
+import {Status} from "../../core/models/status";
 
 @Pipe({
   name: 'mapIhmStatutToBackend'
@@ -7,7 +8,7 @@ import {MapIhmService} from "../services/map-ihm-service";
 export class MapIhmStatutToBackendPipe implements PipeTransform {
 
   constructor(private mapIhmService: MapIhmService) {}
-  transform(ihmStatus: string): string | undefined {
+  transform(ihmStatus: Status): string  {
     return this.mapIhmService.mapIhmStatusToBackendStatus(ihmStatus);
   }
 }
