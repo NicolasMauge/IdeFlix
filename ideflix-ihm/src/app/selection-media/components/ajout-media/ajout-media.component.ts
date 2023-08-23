@@ -12,6 +12,9 @@ import {MediaDatabaseModel} from "../../../core/models/media-database.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {DialogEtiquettesComponent} from "../dialog-etiquettes/dialog-etiquettes.component";
+import {MapIhmService} from "../../../shared/services/map-ihm-service";
 
 // fonction pour la correspondance entre les status provenant du backend et les status affichés sur l'ihm
 function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
@@ -30,7 +33,9 @@ function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
   }
 }
 
-
+export interface DialogData {
+  ajoutEtiquette: string;
+}
 
 @Component({
   selector: 'app-ajout-media',
@@ -53,12 +58,16 @@ export class AjoutMediaComponent {
 
   userForm!: FormGroup;
 
+  ajoutEtiquette: string | undefined;
+
   constructor(private etiquetteService:EtiquettesService,
               private mediaAppService:MediaSelectionneToAppService,
               private mediaService: MediaToAppService,
               private genreService: GenreToAppService,
               private formBuilder: FormBuilder,
-              private route: Router) {
+              private route: Router,
+              public dialog: MatDialog,
+              private mapStatus: MapIhmService) {
   }
 
   ngOnInit() {
@@ -88,7 +97,7 @@ export class AjoutMediaComponent {
         this.buttonModify = true;
         this.buttonDelete = true;
 
-        let defaultStatus: Status;
+        /*let defaultStatus: Status;
         switch (data[0].statutMedia) {
           case "ABANDONNE":
             defaultStatus = Status.Dropped;
@@ -104,7 +113,9 @@ export class AjoutMediaComponent {
             break;
           default:
             defaultStatus = Status.ToSee;
-        }
+        }*/
+        let defaultStatus: Status|undefined = this.mapStatus.mapBackendStatusToIhmStatus(data[0].statutMedia);
+
         this.userForm.get('status')?.setValue(defaultStatus);
       }
       else {
@@ -167,5 +178,23 @@ export class AjoutMediaComponent {
   OnSubmitDelete() {
     this.mediaAppService.deleteFromApp(this.email!, this.media.idDataBase.toString());
     this.route.navigate(['/maListe']);
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogEtiquettesComponent, {
+      data: {name: this.ajoutEtiquette},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // fermeture de la page dialog
+      this.ajoutEtiquette = result; // TODO : supprimer quand fonction dispo
+      this.saveEtiquette(result);
+      this.loadEtiquettes();
+    });
+  }
+
+  saveEtiquette(nouvelleEtiquette: string) {
+    console.log(nouvelleEtiquette);
+    this.etiquetteService.saveToApp(new EtiquetteModel({nomTag: nouvelleEtiquette}), this.email!);
   }
 }
