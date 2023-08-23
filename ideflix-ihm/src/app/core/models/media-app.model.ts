@@ -15,8 +15,8 @@ export class MediaAppModel {
   dateSortie!: Date;
   duree!: number | undefined;
   resume!: string | undefined;
-  cheminAffichePortrait!: string;
-  cheminAffichePaysage!: string;
+  cheminAffichePortrait!: string | undefined;
+  cheminAffichePaysage!: string | undefined;
   noteTmdb!: number;
   genreList!: Genre[];
   nombreSaisons: number;
@@ -29,8 +29,8 @@ export class MediaAppModel {
     this.dateSortie = mediaFromApi.dateSortie;
     this.duree = mediaFromApi.duree? mediaFromApi.duree : undefined;
     this.resume = mediaFromApi.resume ? mediaFromApi.resume : undefined;
-    this.cheminAffichePortrait = mediaFromApi.cheminAffichePortrait;
-    this.cheminAffichePaysage = mediaFromApi.cheminAffichePaysage;
+    this.cheminAffichePortrait = mediaFromApi.cheminAffichePortrait? mediaFromApi.cheminAffichePortrait : undefined;
+    this.cheminAffichePaysage = mediaFromApi.cheminAffichePaysage? mediaFromApi.cheminAffichePaysage : undefined;
     this.noteTmdb = mediaFromApi.noteTmdb;
     this.genreList = mediaFromApi.genreList != undefined ?
       mediaFromApi.genreList.map((id: number, idTmdb: string, nomGenre: string) => {

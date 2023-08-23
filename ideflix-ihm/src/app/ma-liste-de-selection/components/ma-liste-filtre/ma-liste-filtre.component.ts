@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {Status} from "../../../core/models/status";
-import {filter} from "rxjs";
+
 
 @Component({
   selector: 'app-ma-liste-filtre',
@@ -9,16 +9,17 @@ import {filter} from "rxjs";
 })
 export class MaListeFiltreComponent {
 
-  myFilter: any = {status: '', genre: ''};
+  myFilter: any = {status: '', genre: '', etiquette: ''};
   statusEnum = Status;
   genres: string[] = ['Action', 'Drame', 'Comédie', 'Aventure', 'Science-Fiction']; //TODO en attendant d'avoir la table des genres via API
+  etiquettes: string[] = ['tag1', 'tag2', 'tag3', 'tag4', 'super bien!' ];
 
-  @Output() filterEvent = new EventEmitter<{status : string, genre : string}>();
+  @Output() filterEvent = new EventEmitter<{status : string, genre : string, etiquette : string}>();
   // filterEvent: EventEmitter<{ status: string, genre: string }> = new EventEmitter<{ status: string, genre: string }>();
-  onSubmitFilter(statusInput: string, genreInput: string) {
-    this.filterEvent.emit({status: statusInput, genre: genreInput});
+  onSubmitFilter(statusInput: string, genreInput: string, etiquetteInput: string) {
+    this.filterEvent.emit({status: statusInput, genre: genreInput, etiquette: etiquetteInput});
   }
 
-  protected readonly Status = Status;
-  protected readonly filter = filter;
+  // protected readonly Status = Status;
+  // protected readonly filter = filter;
 }

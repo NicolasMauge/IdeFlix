@@ -77,7 +77,8 @@ public final class ConstantesSecurite {
             "/utilisateur",
             "/utilisateur/etpref/*",
             "/utilisateur/masse",
-            "/mediaselectionne"
+            "/mediaselectionne",
+            "/etiquette/utilisateur/*"
     };
 
     public final static String[] PATH_DELETE_UTILISATEUR_WHITELIST = {

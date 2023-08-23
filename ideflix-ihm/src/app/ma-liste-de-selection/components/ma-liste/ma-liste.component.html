@@ -7,9 +7,9 @@
 
     <app-ma-liste-filtre (filterEvent)="store($event)"></app-ma-liste-filtre>
 
-<ul class="row">
+<div class="row">
 
-  <li [routerLink]="['/selection', media.media.typeMedia, media.media.idTmdb ]" *ngFor="let media of medias" class=" col-12 col-md-3">
+  <div [routerLink]="['/selection', media.media.typeMedia, media.media.idTmdb ]" *ngFor="let media of medias" class=" col-12 col-md-4">
     <div class="card" >
 <!--      <div class="card" routerLink="/selection">-->
       <img [title]="media.media.titre" [src]="media.media.cheminAffichePortrait | printImg" [alt]="media.media.titre">
@@ -33,8 +33,8 @@
 
       </div>
     </div>
-  </li>
-</ul>
+  </div>
+</div>
   </div>
 
 <!--  <app-actionbar></app-actionbar>-->

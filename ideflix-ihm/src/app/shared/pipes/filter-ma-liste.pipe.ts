@@ -49,6 +49,13 @@ export class FilterMaListePipe implements PipeTransform {
                                  .some(genre => genre.nomGenre.toUpperCase()
                                    .includes(filter.genre.toUpperCase())));
     }
+
+    if (filter.etiquette) {
+      filteredList = filteredList.filter(media => media.etiquetteList
+        .some(etiquette => etiquette.nomTag
+          .includes(filter.etiquette)));
+    }
+
     return filteredList;
   }
 }

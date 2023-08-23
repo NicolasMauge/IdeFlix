@@ -1,8 +1,8 @@
 <div class = "container">
   <div class="row">
     <div class="col-md-12 offset-md-3">
-      <!--          <form [formGroup]="registerForm" (submit)="register($event)">-->
-      <form (submit)="onSubmitFilter(status.value, genre.value)">
+
+      <form (submit)="onSubmitFilter(status.value, genre.value, etiquette.value)">
         <div class="form-group">
           <div class="mb-3">
             <label>Status:</label>
@@ -21,6 +21,17 @@
               <option value="">Tous Genres</option>
               <option *ngFor="let genre of genres" [value]="genre">
                 {{ genre }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="mb-3">
+            <label>Etiquette:</label>
+            <select #etiquette class="form-control" [(ngModel)]="myFilter.etiquette" [ngModelOptions]="{standalone: true}">
+              <option value="">Toutes étiquettes</option>
+              <option *ngFor="let etiquette of etiquettes" [value]="etiquette">
+                {{ etiquette }}
               </option>
             </select>
           </div>
