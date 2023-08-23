@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,22 +39,22 @@ public class SerieSelectionneeServiceImpl implements SerieSelectionneeService {
         String email = serieSelectionnee.getUtilisateurEntity().getEmail();
 
         Optional<SerieEntity> film = this.serieRepository.findByIdTmdb(idTmdb);
-        if(film.isPresent()) {
+        if (film.isPresent()) {
             serieSelectionnee.getMediaAudioVisuelEntity().setId(film.get().getId());
-            logger.debug("IdeFlix - creerSerieSelectionnee - série déjà existante : {idTmdb : "+ serieSelectionnee.getMediaAudioVisuelEntity().getIdTmdb()+"}");
+            logger.debug("IdeFlix - creerSerieSelectionnee - série déjà existante : {idTmdb : " + serieSelectionnee.getMediaAudioVisuelEntity().getIdTmdb() + "}");
         }
 
         Optional<SerieSelectionneeEntity> serieSelectionneeEntityOptional =
                 this.serieSelectionneeRepository.findSerieSelectionneeEntityByUtilisateurEntity_EmailAndMediaAudioVisuelEntity_IdTmdb(email, idTmdb);
-        if(serieSelectionneeEntityOptional.isPresent()) {
+        if (serieSelectionneeEntityOptional.isPresent()) {
             serieSelectionnee.setId(serieSelectionneeEntityOptional.get().getId());
             logger.debug("IdeFlix - creerSerieSelectionnee - serieSelectionnee déjà existante");
         }
 
-        logger.debug("IdeFlix - creerSerieSelectionnee - détails : {id : "+serieSelectionnee.getId()
-                +", titre du média : " + serieSelectionnee.getMediaAudioVisuelEntity().getTitre()
-                +", id du média :" + serieSelectionnee.getMediaAudioVisuelEntity().getId()
-                + ", idTmdb : " +serieSelectionnee.getMediaAudioVisuelEntity().getIdTmdb()+"}");
+        logger.debug("IdeFlix - creerSerieSelectionnee - détails : {id : " + serieSelectionnee.getId()
+                + ", titre du média : " + serieSelectionnee.getMediaAudioVisuelEntity().getTitre()
+                + ", id du média :" + serieSelectionnee.getMediaAudioVisuelEntity().getId()
+                + ", idTmdb : " + serieSelectionnee.getMediaAudioVisuelEntity().getIdTmdb() + "}");
 
         this.serieSelectionneeRepository.save(serieSelectionnee);
     }
@@ -61,7 +62,7 @@ public class SerieSelectionneeServiceImpl implements SerieSelectionneeService {
     @Override
     public SerieSelectionneeEntity trouverSerieSelectionneeParId(Long id) {
         Optional<SerieSelectionneeEntity> serieSelectionneeEntityOptional = this.serieSelectionneeRepository.findById(id);
-        if(serieSelectionneeEntityOptional.isPresent()) {
+        if (serieSelectionneeEntityOptional.isPresent()) {
             return serieSelectionneeEntityOptional.get();
         }
         throw new EntityNotFoundException("Série sélectionnée non trouvée");
@@ -92,10 +93,15 @@ public class SerieSelectionneeServiceImpl implements SerieSelectionneeService {
         List<SerieSelectionneeEntity> seriesList = new ArrayList<>();
 
         Optional<SerieSelectionneeEntity> seriesOpt = this.serieSelectionneeRepository.findSerieSelectionneeEntityByUtilisateurEntity_EmailAndMediaAudioVisuelEntity_IdTmdb(email, idTmdb);
-        if(seriesOpt.isPresent()) {
+        if (seriesOpt.isPresent()) {
             seriesList.add(seriesOpt.get());
         }
 
         return seriesList;
+    }
+
+    @Override
+    public void supprimerSeriesSelectionneesParEmail(String email) {
+        serieSelectionneeRepository.deleteByUtilisateurEntity_Email(email);
     }
 }
