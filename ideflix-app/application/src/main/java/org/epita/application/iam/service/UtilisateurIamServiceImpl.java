@@ -1,5 +1,7 @@
 package org.epita.application.iam.service;
 
+import org.epita.application.selection.filmselectionne.FilmSelectionneService;
+import org.epita.application.selection.serieselectionnee.SerieSelectionneeService;
 import org.epita.application.utilisateur.preferences.PreferencesUtilisateurService;
 import org.epita.application.utilisateur.utilisateur.UtilisateurService;
 import org.epita.domaine.common.EntityNotFoundException;
@@ -11,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -22,12 +25,19 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
     UtilisateurService utilisateurService;
     PreferencesUtilisateurService preferencesUtilisateurService;
 
+    FilmSelectionneService filmSelectionneService;
+    SerieSelectionneeService serieSelectionneeService;
+
     public UtilisateurIamServiceImpl(UtilisateurIamRepository utilisateurIamRepository,
                                      UtilisateurService utilisateurService,
-                                     PreferencesUtilisateurService preferencesUtilisateurService) {
+                                     PreferencesUtilisateurService preferencesUtilisateurService,
+                                     FilmSelectionneService filmSelectionneService,
+                                     SerieSelectionneeService serieSelectionneeService) {
         this.utilisateurIamRepository = utilisateurIamRepository;
         this.utilisateurService = utilisateurService;
         this.preferencesUtilisateurService = preferencesUtilisateurService;
+        this.filmSelectionneService = filmSelectionneService;
+        this.serieSelectionneeService = serieSelectionneeService;
     }
 
     @Override
@@ -75,14 +85,12 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
 
     // pour les administrateurs :
     @Override
+    @Transactional
     public void delUtilisateurIam(String headerAuthorization, String email) {
         logger.warn("IdeFlix - Effacement de l'utilisateur " + email + ".");
 
-        // Effacement dans l'IAM
-        utilisateurIamRepository.delUtilisateurIam(headerAuthorization, email);
-        logger.debug("IdeFlix - IAM - Utilisateur " + email + " effacé.");
-
-        // Effacement dans l'APP
+        // 1 - Effacement dans l'APP
+        // 1.1 - Effacement des préférences :
         PreferencesUtilisateurEntity preferencesUtilisateur = null;
         Boolean utilisateurPossedeDesPreferences;
 
@@ -98,15 +106,30 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
         }
 
         if (utilisateurPossedeDesPreferences) {
-            logger.debug("IdeFlix - APP - Effacement des préférences de l'utilisateur " + email + ".");
+            logger.trace("IdeFlix - APP - Effacement des préférences de l'utilisateur " + email + "...");
             preferencesUtilisateurService.supprimerPreferencesUtilisateurParId(preferencesUtilisateur.getId());
-            logger.debug("IdeFlix - APP - Préférences de l'utilisateur " + email + " effacées.");
+            //logger.debug("IdeFlix - APP - Préférences de l'utilisateur " + email + " effacées.");
         } else {
-            logger.debug("IdeFlix - APP - L'utilisateur " + email + " n'avait pas de préférences.");
+            //logger.debug("IdeFlix - APP - L'utilisateur " + email + " n'avait pas de préférences.");
         }
 
+        // 1.2 - Effacement des films sélectionnés
+        logger.trace("IdeFlix - APP - Effacement des films sélectionnés par " + email + "...");
+        filmSelectionneService.supprimerFilmsSelectionnesParEmail(email);
+
+        // 1.3 - Effacement des séries sélectionnées
+        logger.trace("IdeFlix - APP - Effacement des films sélectionnés par " + email + "...");
+        serieSelectionneeService.supprimerSeriesSelectionneesParEmail(email);
+
+        // 1.4 - Effacement de l'utilisateur APP :
+        logger.trace("IdeFlix - APP - Effacement de l'utilisateur " + email + "...");
         utilisateurService.supprimerUtilisateurParEmail(email);
-        logger.debug("IdeFlix - APP - Utilisateur " + email + " effacé.");
+
+        // 2 - Effacement dans l'IAM
+        logger.trace("IdeFlix - IAM - Effacement de l'utilisateur " + email + "...");
+        utilisateurIamRepository.delUtilisateurIam(headerAuthorization, email);
+        logger.warn("IdeFlix - IAM - Utilisateur " + email + " effacé.");
+
 
     }
 }

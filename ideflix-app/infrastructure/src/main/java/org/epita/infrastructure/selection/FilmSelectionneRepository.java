@@ -13,7 +13,12 @@ import java.util.Optional;
 @Repository
 public interface FilmSelectionneRepository extends JpaRepository<FilmSelectionneEntity, Long> {
     List<FilmSelectionneEntity> findByUtilisateurEntity(UtilisateurEntity utilisateurEntity);
+
     List<FilmSelectionneEntity> findFilmSelectionneEntitiesByUtilisateurEntity_EmailIs(String email);
+
     Optional<FilmSelectionneEntity> findFilmSelectionneEntityByMediaAudioVisuelEntity_IdTmdb(String idTmdb);
+
     Optional<FilmSelectionneEntity> findFilmSelectionneEntityByUtilisateurEntity_EmailAndMediaAudioVisuelEntity_IdTmdb(String email, String idTmdb);
+
+    void deleteByUtilisateurEntity_Email(String email);
 }
