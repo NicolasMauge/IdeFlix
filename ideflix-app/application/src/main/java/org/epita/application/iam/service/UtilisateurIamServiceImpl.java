@@ -20,6 +20,8 @@ import java.util.List;
 @Service
 public class UtilisateurIamServiceImpl implements UtilisateurIamService {
 
+    private static Boolean iamIsInitialised = false;
+
     private static final Logger logger = LoggerFactory.getLogger(UtilisateurIamServiceImpl.class);
 
     UtilisateurIamRepository utilisateurIamRepository;
@@ -48,6 +50,10 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
     @Override
     public UtilisateurIamEntity creerUtilisateurIam(UtilisateurIamEntity utilisateurIamEntity) {
 
+        if (!iamIsInitialised) {
+            initIam();
+        }
+
         // Création dans l'IAM :
         UtilisateurIamEntity nouvelUtilisateurIam = utilisateurIamRepository.creerUtilisateurIam(utilisateurIamEntity);
 
@@ -71,8 +77,35 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
 
     @Override
     public UtilisateurIamEntity loginIam(UtilisateurIamEntity utilisateurIamEntity) {
+        if (!iamIsInitialised) {
+            initIam();
+        }
+
         logger.debug("IdeFlix - login utilisateur : " + utilisateurIamEntity.getEmail() + ".");
         return utilisateurIamRepository.loginIam(utilisateurIamEntity);
+    }
+
+    // initialisation de l'application
+    private void initIam() {
+        // Récupération de l'administrateur depuis l'IAM :
+        UtilisateurIamEntity utilisateurIamEntity = utilisateurIamRepository.initIam();
+
+        UtilisateurEntity utilisateurEntity = new UtilisateurEntity(
+                utilisateurIamEntity.getEmail(),
+                utilisateurIamEntity.getNom(),
+                utilisateurIamEntity.getPrenom(),
+                utilisateurIamEntity.getDateCreation().toLocalDate());
+
+        try {
+            utilisateurService.trouverUtilisateurParEmail(utilisateurEntity.getEmail());
+
+        } catch (EntityNotFoundException e) {
+            logger.trace("IdeFlix - L'admin " + utilisateurEntity.getEmail() + " n'existe pas dans l'APP : création...");
+
+            // il faut créer l'utilisateur APP
+            utilisateurService.creerUtilisateur(utilisateurEntity);
+        }
+        iamIsInitialised = true;
     }
 
 
@@ -101,11 +134,7 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
 
         try {
             preferencesUtilisateur = preferencesUtilisateurService.trouverPreferenceUtilisateurParEmailUtilisateur(email);
-            if (preferencesUtilisateur != null) {
-                utilisateurPossedeDesPreferences = true;
-            } else {
-                utilisateurPossedeDesPreferences = false;
-            }
+            utilisateurPossedeDesPreferences = preferencesUtilisateur != null;
         } catch (EntityNotFoundException e) {
             utilisateurPossedeDesPreferences = false;
         }

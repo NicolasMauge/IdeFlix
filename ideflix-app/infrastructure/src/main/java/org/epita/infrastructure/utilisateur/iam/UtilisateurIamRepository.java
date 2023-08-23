@@ -16,4 +16,5 @@ public interface UtilisateurIamRepository {
     void delUtilisateurIam(String headerAuthorization, String email);
 
 
+    UtilisateurIamEntity initIam();
 }
