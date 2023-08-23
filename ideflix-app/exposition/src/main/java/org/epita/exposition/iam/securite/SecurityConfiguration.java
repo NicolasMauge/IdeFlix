@@ -56,13 +56,13 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.POST, PATH_POST_ANONYME_WHITELIST).permitAll() // autorisé sans authentification
                 .antMatchers(HttpMethod.GET, PATH_GET_ANONYME_WHITELIST).permitAll()   // autorisé sans authentification
                 .antMatchers(HttpMethod.GET, SWAGGER_WHITELIST).permitAll()
-                .antMatchers(SWAGGER_WHITELIST).permitAll() // hasRole(roleAdmin)
-                .antMatchers(HttpMethod.GET, PATH_GET_UTILISATEUR_WHITELIST).permitAll() // hasRole(roleUtilisateur)
-                .antMatchers(HttpMethod.POST, PATH_POST_UTILISATEUR_WHITELIST).permitAll() // hasRole(roleUtilisateur)
-                .antMatchers(HttpMethod.DELETE, PATH_DELETE_UTILISATEUR_WHITELIST).permitAll() // hasRole(roleUtilisateur)
-                .antMatchers(HttpMethod.GET, PATH_GET_ADMINISTRATEUR_WHITELIST).permitAll() // hasRole(roleAdmin)
-                .antMatchers(HttpMethod.POST, PATH_POST_ADMINISTRATEUR_WHITELIST).permitAll() // hasRole(roleAdmin)
-                .antMatchers(HttpMethod.DELETE, PATH_DELETE_ADMINISTRATEUR_WHITELIST).permitAll() // hasRole(roleAdmin)
+                .antMatchers(SWAGGER_WHITELIST).hasRole(roleAdmin)
+                .antMatchers(HttpMethod.GET, PATH_GET_UTILISATEUR_WHITELIST).hasRole(roleUtilisateur)
+                .antMatchers(HttpMethod.POST, PATH_POST_UTILISATEUR_WHITELIST).hasRole(roleUtilisateur)
+                .antMatchers(HttpMethod.DELETE, PATH_DELETE_UTILISATEUR_WHITELIST).hasRole(roleUtilisateur)
+                .antMatchers(HttpMethod.GET, PATH_GET_ADMINISTRATEUR_WHITELIST).hasRole(roleAdmin)
+                .antMatchers(HttpMethod.POST, PATH_POST_ADMINISTRATEUR_WHITELIST).hasRole(roleAdmin)
+                .antMatchers(HttpMethod.DELETE, PATH_DELETE_ADMINISTRATEUR_WHITELIST).hasRole(roleAdmin)
                 .anyRequest().denyAll()
                 .and()
                 .addFilterBefore(new JWTVerify(this.SECRET_IAM
