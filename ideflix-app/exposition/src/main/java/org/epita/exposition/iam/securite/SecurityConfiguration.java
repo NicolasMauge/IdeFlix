@@ -70,15 +70,6 @@ public class SecurityConfiguration {
                 .addFilterBefore(new JWTVerify(this.SECRET_IAM
                                 , utilisateurIamService)
                         , UsernamePasswordAuthenticationFilter.class)
-//                .addFilter(
-//                        new JWTAuthenticationManager(
-//                                authenticationManager(
-//                                        http.getSharedObject(
-//                                                AuthenticationConfiguration.class)),
-//                                this.SECRET_IAM,
-//                                utilisateurService,
-//                                utilisateurConvertisseur)  // La génération du JWT sera gérée par l'IAM
-//                )
                 .csrf().disable()                  // TODO configure CSRF protection
                 .formLogin().disable();
         return http.build();
