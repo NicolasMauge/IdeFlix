@@ -5,6 +5,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.epita.domaine.common.MediaDataBaseException;
+import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.mediaDataBase.GenreDataBase;
 import org.epita.infrastructure.mediaDataBase.apidto.AllGenresResponseDto;
 import org.epita.infrastructure.mediaDataBase.mapper.GenreApiMapper;
@@ -68,6 +69,47 @@ public class GenreDataBaseRepositoryImpl implements GenreDataBaseRepository {
                 String jsonResponse = response.body().string();
                 AllGenresResponseDto allGenresResponseDto = objectMapper.readValue(jsonResponse, AllGenresResponseDto.class);
                 return genreApiMapper.mapFromGenreResponseDtoList(allGenresResponseDto.getGenres());
+            } else {
+                throw new MediaDataBaseException("APP - Tmdb - Echec recherche liste des genres pour " + itemType + " avec un code retour API: " + response.code());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<GenreEntity> searchAllGenresEntityForTV() {
+        //https://api.themoviedb.org/3/genre/tv/list?language=fr
+        return searchAllGenresEntity("genre/tv/list");
+    }
+
+    @Override
+    public List<GenreEntity> searchAllGenresEntityForMovie() {
+        //https://api.themoviedb.org/3/genre/movie/list?language=fr
+        return searchAllGenresEntity("genre/movie/list");
+    }
+
+    private List<GenreEntity> searchAllGenresEntity(String endpoint) {
+        String url = BASE_URL + endpoint + "?api_key=" + tmdbConfig.getTmdbApiKey() + "&language=" + LANGUAGE;
+
+        System.out.println(url);
+
+        String itemType = endpoint.contains("movie") ? "films" : "séries";
+        logger.debug("recherche liste genres des " + itemType);
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .addHeader("accept", "application/json")
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                String jsonResponse = response.body().string();
+                AllGenresResponseDto allGenresResponseDto = objectMapper.readValue(jsonResponse, AllGenresResponseDto.class);
+                return genreApiMapper.mapFromGenreResponseDtoListEntity(allGenresResponseDto.getGenres());
             } else {
                 throw new MediaDataBaseException("APP - Tmdb - Echec recherche liste des genres pour " + itemType + " avec un code retour API: " + response.code());
             }

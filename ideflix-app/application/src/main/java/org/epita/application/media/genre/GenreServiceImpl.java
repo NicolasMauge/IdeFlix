@@ -1,13 +1,14 @@
 package org.epita.application.media.genre;
 
-import org.epita.application.media.film.FilmServiceImpl;
+
+import org.epita.application.mediaDataBase.genreDataBase.GenreDataBaseService;
 import org.epita.domaine.common.EntityNotFoundException;
-import org.epita.domaine.media.FilmEntity;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.infrastructure.media.GenreRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -18,8 +19,11 @@ public class GenreServiceImpl implements GenreService {
 
     private GenreRepository genreRepository;
 
-    public GenreServiceImpl(GenreRepository genreRepository) {
+    private GenreDataBaseService genreDataBaseService;
+
+    public GenreServiceImpl(GenreRepository genreRepository, GenreDataBaseService genreDataBaseService) {
         this.genreRepository = genreRepository;
+        this.genreDataBaseService = genreDataBaseService;
     }
 
     @Override
@@ -62,5 +66,15 @@ public class GenreServiceImpl implements GenreService {
             return genreEntityOptional.get();
         }
         throw new EntityNotFoundException("Genre non trouvé");
+    }
+
+    @Override
+    public void loadGenres() {
+        // récupérer tous les genres de mediaDataBase
+        List<GenreEntity> listGenres = this.genreDataBaseService.searchAllGenresEntity();
+        // charger les données
+        listGenres
+                .stream()
+                .forEach(g -> creerGenre(g));
     }
 }
