@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {BehaviorSubject, map, Observable} from "rxjs";
-import {EtiquetteModel} from "../../../selection-media/shared/model/EtiquetteModel";
+import {EtiquetteModel} from "../../../selection-media/shared/model/Etiquette.model";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable({

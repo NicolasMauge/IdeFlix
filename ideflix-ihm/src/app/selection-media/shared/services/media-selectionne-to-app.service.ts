@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {MediaSelectionneDtoModel} from "../model/MediaSelectionneDtoModel";
+import {MediaSelectionneDtoModel} from "../model/MediaSelectionneDto.model";
 import {BehaviorSubject, map, Observable} from "rxjs";
 import {environment} from "../../../../environments/environment";
 import {MediaMaListeModel} from "../../../ma-liste-de-selection/models/media-ma-liste.model";

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {Status} from "../../../core/models/status";
 import {MediaMaListeModel} from "../../../ma-liste-de-selection/models/media-ma-liste.model";
-import {EtiquetteModel} from "../../shared/model/EtiquetteModel";
+import {EtiquetteModel} from "../../shared/model/Etiquette.model";
 import {EtiquettesService} from "../../shared/services/etiquettes.service";
 import {Subscription} from "rxjs";
 

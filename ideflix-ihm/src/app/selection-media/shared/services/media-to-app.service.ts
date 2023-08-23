@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {MediaModel} from "../../../core/models/media.model";
-import {GenreAppModel} from "../model/GenreAppModel";
-import {MediaAppOutModel} from "../model/MediaAppOutModel";
+import {GenreAppModel} from "../model/GenreApp.model";
+import {MediaAppOutModel} from "../model/MediaAppOut.model";
 import {Observable} from "rxjs";
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
 
