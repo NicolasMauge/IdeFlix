@@ -1,11 +1,12 @@
 package org.epita.application.selection.etiquette;
 
-import org.epita.application.selection.etiquette.EtiquetteService;
+import org.epita.application.media.film.FilmServiceImpl;
 import org.epita.domaine.common.EntityNotFoundException;
-import org.epita.domaine.media.SerieEntity;
 import org.epita.domaine.selection.EtiquetteEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.selection.EtiquetteRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,8 @@ import java.util.Optional;
 
 @Service
 public class EtiquetteServiceImpl implements EtiquetteService {
+    public static final Logger logger = LoggerFactory.getLogger(FilmServiceImpl.class);
+
     EtiquetteRepository etiquetteRepository;
 
     public EtiquetteServiceImpl(EtiquetteRepository etiquetteRepository) {
@@ -20,8 +23,9 @@ public class EtiquetteServiceImpl implements EtiquetteService {
     }
 
     @Override
-    public void creerEtiquette(EtiquetteEntity etiquetteEntity) {
-        this.etiquetteRepository.save(etiquetteEntity);
+    public void creerEtiquette(EtiquetteEntity etiquette) {
+        logger.debug("IdeFlix - creerEtiquette - tentative de création de l'étiquette : {id : "+etiquette.getId()+", nom étiquette : " + etiquette.getNomTag() + ", email utilisateur : " +etiquette.getUtilisateurEntity().getEmail()+"}");
+        this.etiquetteRepository.save(etiquette);
     }
 
     @Override

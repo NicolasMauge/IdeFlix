@@ -63,6 +63,7 @@ public final class ConstantesSecurite {
 
     public final static String[] PATH_POST_UTILISATEUR_WHITELIST = {
             "/etiquette",
+            "/etiquette/utilisateur/*",
             "/film",
             "/film/*",
             "/filmselectionne",
