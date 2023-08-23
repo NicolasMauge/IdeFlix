@@ -1,0 +1,17 @@
+<div class="container-fluid">
+  <form name="ajout" [formGroup]="saisonForm">
+    <mat-form-field>
+      <mat-label>Saison</mat-label>
+      <mat-select (selectionChange)="onChangeSaison()" formControlName="saison">
+        <mat-option *ngFor="let saison of listeSaisons" [value]="saison.numeroSaison">{{saison.libelleSaison}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Episodes</mat-label>
+      <mat-select (selectionChange)="onChangeEpisode()"formControlName="episode">
+        <mat-option *ngFor="let episode of listeEpisodes" [value]="episode.numeroEpisode">{{episode.libelleEpisode}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>

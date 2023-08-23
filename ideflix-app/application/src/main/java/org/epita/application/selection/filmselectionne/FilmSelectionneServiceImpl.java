@@ -54,8 +54,6 @@ public class FilmSelectionneServiceImpl implements FilmSelectionneService {
                 + ", id du média : " + filmSelectionne.getMediaAudioVisuelEntity().getId()
                 + ", idTmdb : " + filmSelectionne.getMediaAudioVisuelEntity().getIdTmdb() + "}");
 
-        filmSelectionne.getEtiquetteEntityList().forEach(etiquette -> System.out.println(etiquette.getId()+" "+etiquette.getNomTag()));
-
         this.filmSelectionneRepository.save(filmSelectionne);
     }
 
