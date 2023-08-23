@@ -1,7 +1,7 @@
 import {EtiquetteModel} from "./EtiquetteModel";
 import {MediaAppModel} from "../../../core/models/media-app.model";
 
-export class MediaSelectionneModel {
+export class MediaSelectionneDtoModel {
   typeMedia: string;
   avisPouce:boolean;
   dateSelection: Date;
