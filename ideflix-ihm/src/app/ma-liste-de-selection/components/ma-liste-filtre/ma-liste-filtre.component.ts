@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {Status} from "../../../core/models/status";
+import {EtiquetteService} from "../../../core/services/etiquettes/etiquette.service";
+import {EtiquetteModel} from "../../../core/models/etiquette.model";
 
 
 @Component({
@@ -12,7 +14,21 @@ export class MaListeFiltreComponent {
   myFilter: any = {status: '', genre: '', etiquette: ''};
   statusEnum = Status;
   genres: string[] = ['Action', 'Drame', 'Comédie', 'Aventure', 'Science-Fiction']; //TODO en attendant d'avoir la table des genres via API
-  etiquettes: string[] = ['tag1', 'tag2', 'tag3', 'tag4', 'super bien!' ];
+  etiquettes: EtiquetteModel[] = [];
+
+  constructor(private etiquetteService: EtiquetteService) {}
+
+  ngOnInit() {
+    // Chargez les étiquettes en utilisant le service
+    const email = localStorage.getItem('email');
+    if (email !== null) {
+    this.etiquetteService.loadEtiquettes(email);
+
+    // Souscrivez aux changements de l'observable etiquettes$ pour mettre à jour la liste d'étiquettes dans le composant
+    this.etiquetteService.etiquettes$.subscribe((etiquettes: EtiquetteModel[]) => {
+      this.etiquettes = etiquettes;
+    });
+  }}
 
   @Output() filterEvent = new EventEmitter<{status : string, genre : string, etiquette : string}>();
   // filterEvent: EventEmitter<{ status: string, genre: string }> = new EventEmitter<{ status: string, genre: string }>();

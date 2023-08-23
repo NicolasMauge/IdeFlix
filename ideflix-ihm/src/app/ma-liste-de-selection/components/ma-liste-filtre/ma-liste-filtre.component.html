@@ -30,8 +30,8 @@
             <label>Etiquette:</label>
             <select #etiquette class="form-control" [(ngModel)]="myFilter.etiquette" [ngModelOptions]="{standalone: true}">
               <option value="">Toutes étiquettes</option>
-              <option *ngFor="let etiquette of etiquettes" [value]="etiquette">
-                {{ etiquette }}
+              <option *ngFor="let etiquette of etiquettes" [value]="etiquette.nomTag">
+                {{ etiquette.nomTag }}
               </option>
             </select>
           </div>

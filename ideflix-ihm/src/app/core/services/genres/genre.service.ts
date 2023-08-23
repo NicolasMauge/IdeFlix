@@ -38,5 +38,4 @@ export class GenreService {
       .subscribe((data: GenreModel[])=> this._genres$.next(data)
       );
   }
-
 }
