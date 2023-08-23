@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {BehaviorSubject, map, Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {MediaMaListeModel} from "../../models/media-ma-liste.model";
+import {MediaMaListeModel} from "../../../ma-liste-de-selection/models/media-ma-liste.model";
 
 @Injectable({
   providedIn: 'root'
