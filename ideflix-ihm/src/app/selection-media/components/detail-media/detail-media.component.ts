@@ -43,8 +43,6 @@ export class DetailMediaComponent {
     //       console.log("Saison:", saison);
     //     }
     //   });
-
-
   }
 
   // getters
