@@ -24,14 +24,14 @@ public class EtiquetteServiceImpl implements EtiquetteService {
 
     @Override
     public void creerEtiquette(EtiquetteEntity etiquette) {
-        logger.debug("IdeFlix - creerEtiquette - tentative de création de l'étiquette : {id : "+etiquette.getId()+", nom étiquette : " + etiquette.getNomTag() + ", email utilisateur : " +etiquette.getUtilisateurEntity().getEmail()+"}");
+        logger.debug("IdeFlix - creerEtiquette - tentative de création de l'étiquette : {id : " + etiquette.getId() + ", nom étiquette : " + etiquette.getNomTag() + ", email utilisateur : " + etiquette.getUtilisateurEntity().getEmail() + "}");
         this.etiquetteRepository.save(etiquette);
     }
 
     @Override
     public EtiquetteEntity trouverEtiquetteParId(Long id) {
         Optional<EtiquetteEntity> etiquetteEntityOptional = this.etiquetteRepository.findById(id);
-        if(etiquetteEntityOptional.isPresent()) {
+        if (etiquetteEntityOptional.isPresent()) {
             return etiquetteEntityOptional.get();
         }
         throw new EntityNotFoundException("Etiquette non trouvée");
@@ -45,6 +45,11 @@ public class EtiquetteServiceImpl implements EtiquetteService {
     @Override
     public void supprimerEtiquetteParId(Long id) {
         this.etiquetteRepository.deleteById(id);
+    }
+
+    @Override
+    public void supprimerEtiquettesParEmail(String email) {
+        this.etiquetteRepository.deleteByUtilisateurEntity_Email(email);
     }
 
     @Override

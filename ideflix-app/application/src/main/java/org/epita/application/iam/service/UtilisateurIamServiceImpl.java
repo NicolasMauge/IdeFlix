@@ -1,5 +1,6 @@
 package org.epita.application.iam.service;
 
+import org.epita.application.selection.etiquette.EtiquetteService;
 import org.epita.application.selection.filmselectionne.FilmSelectionneService;
 import org.epita.application.selection.serieselectionnee.SerieSelectionneeService;
 import org.epita.application.utilisateur.preferences.PreferencesUtilisateurService;
@@ -28,16 +29,20 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
     FilmSelectionneService filmSelectionneService;
     SerieSelectionneeService serieSelectionneeService;
 
+    EtiquetteService etiquetteService;
+
     public UtilisateurIamServiceImpl(UtilisateurIamRepository utilisateurIamRepository,
                                      UtilisateurService utilisateurService,
                                      PreferencesUtilisateurService preferencesUtilisateurService,
                                      FilmSelectionneService filmSelectionneService,
-                                     SerieSelectionneeService serieSelectionneeService) {
+                                     SerieSelectionneeService serieSelectionneeService,
+                                     EtiquetteService etiquetteService) {
         this.utilisateurIamRepository = utilisateurIamRepository;
         this.utilisateurService = utilisateurService;
         this.preferencesUtilisateurService = preferencesUtilisateurService;
         this.filmSelectionneService = filmSelectionneService;
         this.serieSelectionneeService = serieSelectionneeService;
+        this.etiquetteService = etiquetteService;
     }
 
     @Override
@@ -110,7 +115,7 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
             preferencesUtilisateurService.supprimerPreferencesUtilisateurParId(preferencesUtilisateur.getId());
             //logger.debug("IdeFlix - APP - Préférences de l'utilisateur " + email + " effacées.");
         } else {
-            //logger.debug("IdeFlix - APP - L'utilisateur " + email + " n'avait pas de préférences.");
+            logger.trace("IdeFlix - APP - L'utilisateur " + email + " n'avait pas de préférences.");
         }
 
         // 1.2 - Effacement des films sélectionnés
@@ -121,7 +126,11 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
         logger.trace("IdeFlix - APP - Effacement des films sélectionnés par " + email + "...");
         serieSelectionneeService.supprimerSeriesSelectionneesParEmail(email);
 
-        // 1.4 - Effacement de l'utilisateur APP :
+        // 1.4 - Effacement des étiquettes de l'utilisateur
+        logger.trace("IdeFlix - APP - Effacement des étiquettes de " + email + "...");
+        etiquetteService.supprimerEtiquettesParEmail(email);
+
+        // 1.5 - Effacement de l'utilisateur APP :
         logger.trace("IdeFlix - APP - Effacement de l'utilisateur " + email + "...");
         utilisateurService.supprimerUtilisateurParEmail(email);
 
