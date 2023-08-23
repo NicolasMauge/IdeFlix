@@ -4,6 +4,7 @@ import org.epita.application.iam.service.UtilisateurIamService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -27,8 +28,9 @@ public class SecurityConfiguration {
 
     private final static Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
 
-    //    @Value("${org.epita.ideflixapp.secretiam}")
-    public String SECRET_IAM = "1234567890IAM";
+    @Value("${org.epita.ideflixapp.secretiam}")
+    public String SECRET_IAM;
+    //public String SECRET_IAM = "1234567890IAM";
 
     private UtilisateurIamService utilisateurIamService;
 
