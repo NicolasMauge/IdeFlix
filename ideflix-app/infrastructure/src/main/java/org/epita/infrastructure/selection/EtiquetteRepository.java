@@ -10,5 +10,8 @@ import java.util.List;
 @Repository
 public interface EtiquetteRepository extends JpaRepository<EtiquetteEntity, Long> {
     List<EtiquetteEntity> findByUtilisateurEntity(UtilisateurEntity utilisateurEntity);
+
     List<EtiquetteEntity> findByUtilisateurEntity_Email(String email);
+
+    void deleteByUtilisateurEntity_Email(String email);
 }

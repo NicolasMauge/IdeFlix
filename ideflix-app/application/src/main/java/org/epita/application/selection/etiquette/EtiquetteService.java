@@ -15,6 +15,8 @@ public interface EtiquetteService {
 
     void supprimerEtiquetteParId(Long id);
 
+    void supprimerEtiquettesParEmail(String email);
+
     List<EtiquetteEntity> trouverEtiquetteParUtilisateur(UtilisateurEntity utilisateurEntity);
 
     List<EtiquetteEntity> trouverEtiquettesParEmailUtilisateur(String email);

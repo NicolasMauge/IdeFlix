@@ -54,13 +54,13 @@ public class JWTVerify extends OncePerRequestFilter {
 
 
         //---------Verify token
-        logger.debug("SECRET_IAM = " + this.SECRET_IAM);
+        logger.trace("IdeFlix - SECRET_IAM = " + this.SECRET_IAM);
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(this.SECRET_IAM)).build();
         //DecodedJWT decodedJWT = verifier.verify(token);
 
         // Bearer token -> Supprimer 'Bearer ' pour obtenir le token à vérifier
         String token = bearerToken.replace("Bearer ", "");
-        logger.debug("JWT = " + token);
+        logger.trace("IdeFlix - JWT = " + token);
         DecodedJWT decodedJWT = verifier.verify(token);
         String username = decodedJWT.getSubject();
 
