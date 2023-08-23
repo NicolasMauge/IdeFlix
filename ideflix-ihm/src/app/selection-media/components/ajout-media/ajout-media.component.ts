@@ -1,10 +1,10 @@
 import {Component, Input} from '@angular/core';
 import {Status} from "../../../core/models/status";
 import {EtiquettesService} from "../../shared/services/etiquettes.service";
-import {EtiquetteModel} from "../../shared/model/EtiquetteModel";
+import {EtiquetteModel} from "../../shared/model/Etiquette.model";
 import {MediaSelectionneToAppService} from "../../shared/services/media-selectionne-to-app.service";
-import {MediaSelectionneDtoModel} from "../../shared/model/MediaSelectionneDtoModel";
-import {GenreAppModel} from "../../shared/model/GenreAppModel";
+import {MediaSelectionneDtoModel} from "../../shared/model/MediaSelectionneDto.model";
+import {GenreAppModel} from "../../shared/model/GenreApp.model";
 import {MediaToAppService} from "../../shared/services/media-to-app.service";
 import {GenreToAppService} from "../../shared/services/genre-to-app.service";
 import {MediaMaListeModel} from "../../../ma-liste-de-selection/models/media-ma-liste.model";
@@ -17,8 +17,7 @@ import {DialogEtiquettesComponent} from "../dialog-etiquettes/dialog-etiquettes.
 import {MapIhmService} from "../../../shared/services/map-ihm-service";
 
 // fonction pour la correspondance entre les status provenant du backend et les status affichés sur l'ihm
-function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
-  // TODO : à supprimer quand fonction disponible
+/*function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
   switch (ihmStatus) {
     case Status.Completed:
       return "VU";
@@ -31,7 +30,7 @@ function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
     default:
       return undefined;
   }
-}
+}*/
 
 export interface DialogData {
   ajoutEtiquette: string;
@@ -92,7 +91,7 @@ export class AjoutMediaComponent {
         this.buttonModify = true;
         this.buttonDelete = true;
 
-        let defaultStatus: Status;
+        /*let defaultStatus: Status;
         switch (data[0].statutMedia) {
           case "ABANDONNE":
             defaultStatus = Status.Dropped;
@@ -108,15 +107,10 @@ export class AjoutMediaComponent {
             break;
           default:
             defaultStatus = Status.ToSee;
-        }
-        //let defaultStatus: Status|undefined = this.mapStatus.mapBackendStatusToIhmStatus(data[0].statutMedia);
+        }*/
+        let defaultStatus: Status|undefined = this.mapStatus.mapBackendStatusToIhmStatus(data[0].statutMedia);
 
-        //this.userForm.get('status')?.setValue(defaultStatus);
-        // this.userForm.get('etiquettes')?.setValue(data[0].etiquetteList.map((etiquette)=>new EtiquetteModel(etiquette)));
-
-        let etiquettesExistantes: EtiquetteModel[] = data[0].etiquetteList.map((etiquette)=>new EtiquetteModel(etiquette));
-        console.log(data[0].etiquetteList);
-        console.log(etiquettesExistantes);
+        //let etiquettesExistantes: EtiquetteModel[] = data[0].etiquetteList.map((etiquette)=>new EtiquetteModel(etiquette));
 
         this.userForm = this.formBuilder.group({
           status: [defaultStatus, [ Validators.required ] ],
@@ -141,9 +135,6 @@ export class AjoutMediaComponent {
             etiquettes:  [etiquettesChecked]
           });
         })
-
-
-        console.log(this.userForm.value);
       }
       else {
         this.buttonAdd = true;
@@ -175,7 +166,8 @@ export class AjoutMediaComponent {
       this.genreService.saveToApp(this.media.genres.map((genre:any) => {return new GenreAppModel(genre);}))
         .subscribe(() => this.mediaService.saveToApp(this.media, this.typeMedia)
             .subscribe(() => {
-              let statusApp = mapIhmStatusToBackendStatus(this.userForm.value.status); // TODO :
+              //let statusApp = mapIhmStatusToBackendStatus(this.userForm.value.status);
+              let statusApp = this.mapStatus.mapIhmStatusToBackendStatus(this.userForm.value.status);
 
               let mediaSelectionneObject = {
                 typeMedia: this.typeMedia,
@@ -213,14 +205,12 @@ export class AjoutMediaComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       // fermeture de la page dialog
-      this.ajoutEtiquette = result; // TODO : supprimer quand fonction dispo
       this.saveEtiquette(result);
       this.loadEtiquettes();
     });
   }
 
   saveEtiquette(nouvelleEtiquette: string) {
-    console.log(nouvelleEtiquette);
     this.etiquetteService.saveToApp(new EtiquetteModel({nomTag: nouvelleEtiquette}), this.email!);
   }
 }

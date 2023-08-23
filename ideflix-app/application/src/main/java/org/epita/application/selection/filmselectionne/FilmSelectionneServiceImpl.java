@@ -51,8 +51,10 @@ public class FilmSelectionneServiceImpl implements FilmSelectionneService {
 
         logger.debug("IdeFlix - creerFilmSelectionne - détails : {id : " + filmSelectionne.getId()
                 + ", titre du média : " + filmSelectionne.getMediaAudioVisuelEntity().getTitre()
-                + ", id du média :" + filmSelectionne.getMediaAudioVisuelEntity().getId()
+                + ", id du média : " + filmSelectionne.getMediaAudioVisuelEntity().getId()
                 + ", idTmdb : " + filmSelectionne.getMediaAudioVisuelEntity().getIdTmdb() + "}");
+
+        filmSelectionne.getEtiquetteEntityList().forEach(etiquette -> System.out.println(etiquette.getId()+" "+etiquette.getNomTag()));
 
         this.filmSelectionneRepository.save(filmSelectionne);
     }

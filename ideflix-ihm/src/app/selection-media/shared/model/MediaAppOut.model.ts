@@ -1,4 +1,4 @@
-import {GenreAppModel} from "./GenreAppModel";
+import {GenreAppModel} from "./GenreApp.model";
 
 export class MediaAppOutModel {
   idTmdb!: string;
