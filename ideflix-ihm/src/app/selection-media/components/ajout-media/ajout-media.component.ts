@@ -120,11 +120,8 @@ export class AjoutMediaComponent {
         this.etiquettes$.subscribe((etiquettes) => {
           let etiquettesChecked: EtiquetteModel[] = [];
           data[0].etiquetteList.map((etiquette) => {
-            console.log(etiquettes);
             let etiquetteFound: EtiquetteModel|undefined = etiquettes.find(tag => tag.id == etiquette.id);
 
-            console.log("Etiquette found");
-            console.log(etiquetteFound);
             if(etiquetteFound!=undefined) {
               etiquettesChecked.push(etiquetteFound);
             }
