@@ -106,9 +106,13 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
     @Override
-    public void verifieQueIamEstInitialisee(String nomAdmin, String prenomAdmin, String emailAdmin, String motDePasseAdmin) {
+    public UtilisateurEntity verifieQueIamEstInitialisee(String nomAdmin, String prenomAdmin, String emailAdmin, String motDePasseAdmin) {
 
-        if (utilisateurRepository.findByEmail(emailAdmin).isEmpty()) {
+        UtilisateurEntity utilisateurEntity;
+
+        Optional<UtilisateurEntity> utilisateurEntityOptional = utilisateurRepository.findByEmail(emailAdmin);
+
+        if (utilisateurEntityOptional.isEmpty()) {
             // Si le premier administrateur n'existe pas, on le crée ainsi que les rôles.
             // (si le premier admin existe, c'est que les rôles sont déjà créés)
 
@@ -135,7 +139,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
             UtilisateurEntity utilisateur = new UtilisateurEntity(nomAdmin, prenomAdmin, emailAdmin, motDePasseAdmin, listeRole);
 
-            creerUtilisateur(utilisateur);
+            utilisateurEntity = creerUtilisateur(utilisateur);
+        } else {
+            utilisateurEntity = utilisateurEntityOptional.get();
+
         }
+        return utilisateurEntity;
     }
 }

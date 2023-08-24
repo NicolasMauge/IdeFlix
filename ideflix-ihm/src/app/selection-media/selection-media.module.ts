@@ -12,6 +12,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import { DialogEtiquettesComponent } from './components/dialog-etiquettes/dialog-etiquettes.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { ChoixSaisonEpisodeComponent } from './components/choix-saison-episode/choix-saison-episode.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import {MatDialogModule} from "@angular/material/dialog";
     StarComponent,
     AjoutMediaComponent,
     EtiquetteComponent,
-    DialogEtiquettesComponent
+    DialogEtiquettesComponent,
+    ChoixSaisonEpisodeComponent
   ],
   imports: [
     CommonModule,

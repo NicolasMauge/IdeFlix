@@ -47,10 +47,6 @@ public class UtilisateurController {
         this.utilisateurConvertisseur = utilisateurConvertisseur;
     }
 
-//    @PostConstruct
-//    public void initialiserIam() {
-//        this.utilisateurService.verifieQueIamEstInitialisee(nomAdmin, prenomAdmin, emailAdmin, motDePasseAdmin);
-//    }
 
     /**
      * Cette méthode permet de s'enrôler comme utilisateur standard quand on n'est pas connecté.
@@ -71,9 +67,7 @@ public class UtilisateurController {
     @PostMapping("/utilisateur")
     public ResponseEntity<UtilisateurSimpleDto> creerUtilisateur(@RequestBody UtilisateurEntreeDto utilisateurEntreeDto) throws IdeFlixIamException {
 
-        logger.debug("Creation utilisateur : " + utilisateurEntreeDto.getEmail());
-
-        utilisateurService.verifieQueIamEstInitialisee(nomAdmin, prenomAdmin, emailAdmin, motDePasseAdmin);
+        logger.debug("IAM - Création de l'utilisateur " + utilisateurEntreeDto.getEmail());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -84,6 +78,25 @@ public class UtilisateurController {
                                                 ROLE_UTILISATEUR))));
 
     }
+
+
+    @GetMapping("/init")
+    @ApiOperation(value = "Initialisation de l'IAM.", nickname = "initIam", notes = "Cette ressource doit être appelée par l'APP pour récupérer l'admin par défaut si ce n'est déjà fait.", response = UtilisateurSimpleDto.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "L'initialisation a réussi ou l'application est déjà initialisée."),
+    })
+    @CrossOrigin(origins = ORIGINES_IDEFLIX_STRING)
+    public ResponseEntity<UtilisateurSimpleDto> initialiserIam() {
+        logger.debug("IAM - Initialisation du compte d'administration fourni en paramètre lors du démarrage de l'application.");
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(utilisateurConvertisseur.convertirEntiteVersSimpleDto(
+                        this.utilisateurService.verifieQueIamEstInitialisee(nomAdmin, prenomAdmin, emailAdmin, motDePasseAdmin)));
+
+
+    }
+
 
     // ========================================== Administrateurs ===================================================
 
@@ -99,8 +112,6 @@ public class UtilisateurController {
     public List<UtilisateurDetailDto> getUtilisateurs() {
 
         logger.debug("IAM - Récupération de tous utilisateurs");
-
-        utilisateurService.verifieQueIamEstInitialisee(nomAdmin, prenomAdmin, emailAdmin, motDePasseAdmin);
 
         return utilisateurService
                 .recupererUtilisateurs()

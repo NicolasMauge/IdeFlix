@@ -12,8 +12,10 @@ export class DetailMediaComponent {
   movieId!: number;
   media!:MediaDatabaseModel;
   typeMedia!:string;
+  image! : string;
 
-  constructor(private route:ActivatedRoute, private movieService:MediaService) {}
+  constructor(private route:ActivatedRoute,
+              private movieService:MediaService) {}
 
   ngOnInit() {
     this.movieId = this.route.snapshot.params['movieId'];
@@ -21,13 +23,17 @@ export class DetailMediaComponent {
 
     if(this.typeMedia == "FILM") {
       this.movieService.getDetailsMovie(this.movieId).subscribe(
-        (data: MediaDatabaseModel) =>
-          this.media = data);
+        (data: MediaDatabaseModel) => {
+          this.media = data;
+          this.image = this.media.image_portrait?this.media.image_portrait:"";
+        });
     }
     else {
       this.movieService.getDetailsSerie(this.movieId).subscribe(
-        (data: MediaDatabaseModel) =>
-          this.media = data);
+        (data: MediaDatabaseModel) => {
+          this.media = data;
+          this.image = this.media.image_portrait?this.media.image_portrait:"";
+        });
     }
     //CARO--- --- tests pour voir si GetDetail est OK et c'est bien OK !!!!-------
     // this.movieService.getDetailsSerie(this.movieId).subscribe(
@@ -42,6 +48,14 @@ export class DetailMediaComponent {
   // getters
   get titre() {
     return(this.media && this.media.titre) ? this.media.titre : null;
+  }
+
+  setAvancement(image: string) {
+    this.image = image;
+  }
+
+  get imagePortrait() {
+    return this.image;
   }
 
 }

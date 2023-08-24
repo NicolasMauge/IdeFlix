@@ -21,7 +21,7 @@ public interface UtilisateurService {
 
     void supprimerUtilisateur(UtilisateurEntity utilisateurEntity);
 
-    void verifieQueIamEstInitialisee(String nomAdmin, String prenomAdmin, String emailAdmin, String motDePasseAdmin);
+    UtilisateurEntity verifieQueIamEstInitialisee(String nomAdmin, String prenomAdmin, String emailAdmin, String motDePasseAdmin);
 
 
 }

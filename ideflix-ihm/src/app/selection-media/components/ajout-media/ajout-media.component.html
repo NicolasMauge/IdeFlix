@@ -1,5 +1,5 @@
 <div class = "container">
-  <form name="test" [formGroup]="userForm">
+  <form name="ajout" [formGroup]="userForm">
     <div class="row d-flex align-items-center">
       <div class="col-md-4">
         <mat-form-field>
@@ -22,6 +22,8 @@
 
         <button mat-raised-button (click)="openDialog()"><i class="fa-solid fa-plus"></i></button>
       </div>
+
+      <app-choix-saison-episode *ngIf = "typeMedia=='SERIE'" [media]="media" (emitterParent)="setAvancement($event)"></app-choix-saison-episode>
 
       <button type="submit" *ngIf="buttonAdd == true" (click)="OnSubmitAdd()" class="btn btn-light">Ajouter à ma liste</button>
       <button type="submit" *ngIf="buttonDelete == true" (click)="OnSubmitDelete()" class="btn btn-light">Supprimer de ma liste</button>

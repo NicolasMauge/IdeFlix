@@ -68,6 +68,7 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.GET, SWAGGER_WHITELIST).permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/etat").permitAll()
+                .antMatchers(HttpMethod.GET, "/init").permitAll()
                 .antMatchers(HttpMethod.POST, "/utilisateur").permitAll()
                 .antMatchers(SWAGGER_WHITELIST).hasRole(roleAdmin)
                 .antMatchers(HttpMethod.GET, "/admin/utilisateurs").hasRole(roleAdmin)
