@@ -19,11 +19,11 @@
                   {{genre.nomGenre}}
       </span>
 
-      <h2>Date de sortie</h2>
-      <p>{{dateSortie | date:'dd/MM/yyyy'}}</p>
+      <h2>{{typeDateSortie}}</h2>
+      <p>{{dateSortie$ | date:'dd/MM/yyyy'}}</p>
 
-      <h2>Résumé</h2>
-      <p>{{resume}}</p>
+      <h2>{{typeResume}}</h2>
+      <p>{{resume$}}</p>
 
       <h2>Durée</h2>
       <p>{{duree | printDuration}}</p>
@@ -34,4 +34,7 @@
 
 </div>
 
-<app-ajout-media *ngIf="media" [media]="media" [typeMedia]="typeMedia" (emitterParentDetail)="setAvancement($event)"></app-ajout-media>
+<app-ajout-media *ngIf="media"
+                 [media]="media"
+                 [typeMedia]="typeMedia"
+                 (emitterParentNumeroSaison)="setSaison($event)"></app-ajout-media>

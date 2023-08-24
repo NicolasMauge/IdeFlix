@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
 import {MenuService} from "../../../core/services/common/menu.service";
-import {Subscription} from "rxjs";
-import {MediaMaListeService} from "../../../core/services/maListe/media-ma-liste.service";
+import {Observable} from "rxjs";
+import {MediaMaListeService} from "../../services/media-ma-liste.service";
 import {MediaMaListeModel} from "../../models/media-ma-liste.model";
 import {MessageService} from "../../../core/services/common/message.service";
 import {Router} from "@angular/router";
 import {FilterMaListePipe} from "../../../shared/pipes/filter-ma-liste.pipe";
+
 
 
 @Component({
@@ -16,11 +17,9 @@ import {FilterMaListePipe} from "../../../shared/pipes/filter-ma-liste.pipe";
 })
 export class MaListeComponent {
 
-  medias: MediaMaListeModel[] = [];
-  sub!: Subscription;
-  myFilter: any = {status: '', genre: ''};
-  // myFilter: any = {status: ''};
 
+  mediaMaListe$!: Observable<MediaMaListeModel[]>;
+  myFilter: any = {status: '', genre: ''};
 
   constructor(private menuService: MenuService,
               private mediaSvc: MediaMaListeService,
@@ -34,11 +33,12 @@ export class MaListeComponent {
     // requête pour récupérer les préférences de l'utilisateur et charger la page
     const email = localStorage.getItem('email');
     if (email !== null) {
-    // requête GET à TMDB pour récupérer la liste des films
+    // requête GET à API App-Ideflix pour récupérer la liste des films
     this.mediaSvc.getMoviesFromApi(email);
 
-    //abonnement à la source mediaMaListe$ contenant la liste de tous les médias sélectionnés   via un subscribe
-    this.sub = this.mediaSvc.mediaMaListe$.subscribe( (data: MediaMaListeModel[]) => this.medias = data);
+    //charger la liste de médias en utilisant le pipe async
+    this.mediaMaListe$ = this.mediaSvc.mediaMaListe$
+
   } else {
       console.log('email non présent dans le localstorage');
       this.messageSvc.show('erreur de conexion - veuillez vous reconnecter', 'error')
@@ -46,9 +46,6 @@ export class MaListeComponent {
     }
   }
 
-  ngOnDestroy(){
-    this.sub.unsubscribe
-  }
 
   store(filterEvent: {status: string, genre : string, etiquette : string}){
     console.log('status: ' + filterEvent.status);
@@ -65,18 +62,15 @@ export class MaListeComponent {
     }
   }
 
-
   updateFilteredMediaList() {
     //repartir de la liste initiale avant d'appliquer le filtre
     this.mediaSvc.reinitializedMediaList();
     // Utilisez le pipe de filtrage pour obtenir la liste filtrée
-    const filteredList = this.filtrerMaListePipe.transform(this.medias, this.myFilter);
+    const filteredList = this.filtrerMaListePipe.transform(this.mediaSvc.getValueOfMediaMaListe$(), this.myFilter);
     this.mediaSvc.updateFilteredMediaList(filteredList);
   }
 
   ReinitializedMediaList() {
     this.mediaSvc.reinitializedMediaList();
   }
-
-  // protected readonly filter = filter;
 }

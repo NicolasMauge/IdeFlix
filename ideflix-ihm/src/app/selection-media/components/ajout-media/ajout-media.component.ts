@@ -9,7 +9,7 @@ import {MediaToAppService} from "../../shared/services/media-to-app.service";
 import {GenreToAppService} from "../../shared/services/genre-to-app.service";
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Observable} from "rxjs";
+import {concatMap, Observable, of} from "rxjs";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogEtiquettesComponent} from "../dialog-etiquettes/dialog-etiquettes.component";
@@ -21,6 +21,11 @@ export interface DialogData {
   ajoutEtiquette: string;
 }
 
+export interface SaisonEpisode {
+  saison: number,
+  episode: number
+}
+
 @Component({
   selector: 'app-ajout-media',
   templateUrl: './ajout-media.component.html',
@@ -30,6 +35,7 @@ export class AjoutMediaComponent {
   statusEnum = Status;
 
   etiquettes$!: Observable<EtiquetteModel[]>;
+  mediaSelectionne$!: Observable<MediaSelectionneDtoModel[]>
 
   email: string|null = "";
 
@@ -39,7 +45,8 @@ export class AjoutMediaComponent {
 
   @Input() media!: MediaDatabaseModel;
   @Input() typeMedia!:string;
-  @Output() emitterParentDetail = new EventEmitter<string>();
+  @Output() emitterParentNumeroSaison = new EventEmitter<number>();
+  //@Output() emitterParentResume = new EventEmitter<string>();
 
   userForm!: FormGroup;
 
@@ -64,52 +71,57 @@ export class AjoutMediaComponent {
       avancement: [null]
     });
 
-    console.log(this.media);
+    //console.log(this.media);
 
     if (this.email !== null) {
       this.loadEtiquettes();
       this.loadMediaSelectionne();
+
+      this.buttonAdd = true;
+      this.buttonModify = false;
+      this.buttonDelete = false;
+
+      this.userForm.get('status')?.setValue(Status.ToSee);
+      this.userForm.get('etiquettes')?.setValue([]);
+
+      this.mediaSelectionne$.subscribe((data:MediaSelectionneDtoModel[]) => {
+        if(data.length > 0) {
+          this.initializeDefaultValues(data[0]);
+        }
+      })
     }
     else {
       console.log('email non présent dans le localstorage');
       //this.messageSvc.show('erreur de conexion - veuillez vous reconnecter', 'error')
-      //this.route.navigate(['/login']);
+      this.route.navigate(['/login']);
     }
+  }
+
+  initializeDefaultValues(mediaSelectionne: MediaSelectionneDtoModel) {
+    this.buttonAdd = false;
+    this.buttonModify = true;
+    this.buttonDelete = true;
+
+    let defaultStatus: Status|undefined = this.mapStatus.mapBackendStatusToIhmStatus(mediaSelectionne.statutMedia);
+    this.userForm.get('status')?.setValue(defaultStatus);
+
+    this.etiquettes$.subscribe((etiquettes) => {
+      let etiquettesChecked: EtiquetteModel[] = [];
+      mediaSelectionne.etiquetteList.map((etiquette) => {
+        let etiquetteFound: EtiquetteModel|undefined = etiquettes.find(tag => tag.id == etiquette.id);
+
+        if(etiquetteFound!=undefined) {
+          etiquettesChecked.push(etiquetteFound);
+        }
+      });
+
+      this.userForm.get('etiquettes')?.setValue(etiquettesChecked);
+    });
   }
 
   loadMediaSelectionne() {
     this.mediaAppService.trouveMediaSelectionnePourEmailEtIdTmdb(this.email!, this.media.idDataBase.toString());
-    this.mediaAppService.mediaSelectionne$.subscribe((data:MediaSelectionneDtoModel[])=> {
-      if(data.length>0) {
-        this.buttonAdd = false;
-        this.buttonModify = true;
-        this.buttonDelete = true;
-
-        let defaultStatus: Status|undefined = this.mapStatus.mapBackendStatusToIhmStatus(data[0].statutMedia);
-        this.userForm.get('status')?.setValue(defaultStatus);
-
-        this.etiquettes$.subscribe((etiquettes) => {
-          let etiquettesChecked: EtiquetteModel[] = [];
-          data[0].etiquetteList.map((etiquette) => {
-            let etiquetteFound: EtiquetteModel|undefined = etiquettes.find(tag => tag.id == etiquette.id);
-
-            if(etiquetteFound!=undefined) {
-              etiquettesChecked.push(etiquetteFound);
-            }
-          });
-
-          this.userForm.get('etiquettes')?.setValue(etiquettesChecked);
-        })
-      }
-      else {
-        this.buttonAdd = true;
-        this.buttonModify = false;
-        this.buttonDelete = false;
-
-        this.userForm.get('status')?.setValue(Status.ToSee);
-        this.userForm.get('etiquettes')?.setValue([]);
-      }
-    });
+    this.mediaSelectionne$ = this.mediaAppService.mediaSelectionne$;
   }
 
   loadEtiquettes() {
@@ -121,18 +133,21 @@ export class AjoutMediaComponent {
     return this.etiquettes$;
   }
 
+
   OnSubmitAdd() {
     //event.preventDefault();
 
     if (this.userForm.value.status != '') {
       //console.log("dans submit")
       //sauvegarde de la partie genre
-      this.genreService.saveToApp(this.media.genres.map((genre:any) => {return new GenreAppModel(genre);}))
-        .subscribe(() => this.mediaService.saveToApp(this.media, this.typeMedia)
-            .subscribe(() => {
-              let statusApp = this.mapStatus.mapIhmStatusToBackendStatus(this.userForm.value.status);
+      this.genreService.saveToApp(this.media.genres.map((genre: any) => new GenreAppModel(genre)))
+        .pipe(
+          //concatMap attend que chaque opération précédente soit terminée avant de déclencher la suivante
+          concatMap(() => this.mediaService.saveToApp(this.media, this.typeMedia)),
+          concatMap(() => {
+            const statusApp = this.mapStatus.mapIhmStatusToBackendStatus(this.userForm.value.status);
 
-              let mediaSelectionneObject = {
+              const mediaSelectionneObject = {
                 typeMedia: this.typeMedia,
                 avisPouce: false,
                 dateSelection: new Date(),
@@ -141,22 +156,62 @@ export class AjoutMediaComponent {
                 mediaIdTmdb: this.media.idDataBase,
                 email: this.email,
                 dateModification: new Date(),
-                numeroSaison: this.typeMedia=="SERIE"?this.userForm.value.avancement.saison:0,
-                idTmdbSaison: this.typeMedia=="SERIE"?this.userForm.value.avancement.idSaisonTmdb:"",
-                numeroEpisode: this.typeMedia=="SERIE"?this.userForm.value.avancement.episode:0,
+                numeroSaison: this.typeMedia == "SERIE" ? this.userForm.value.avancement.saison : 0,
+                idTmdbSaison: this.typeMedia == "SERIE" ? this.userForm.value.avancement.idSaisonTmdb : "",
+                numeroEpisode: this.typeMedia == "SERIE" ? this.userForm.value.avancement.episode : 0,
                 idTmdbEpisode: ""
-              }
+              };
 
-              let mediaSelectionne = new MediaSelectionneDtoModel(mediaSelectionneObject);
+            const mediaSelectionne = new MediaSelectionneDtoModel(mediaSelectionneObject);
 
-              console.log(mediaSelectionne);
+            this.mediaAppService.saveToApp(mediaSelectionne); // Appel sans retour d'Observable
 
-              this.mediaAppService.saveToApp(mediaSelectionne);
-            })
-        );
+            return of(null); // Retourne un observable qui émet une valeur nulle
+          })
+          )
+          .subscribe(() => {
+            // Toutes les opérations asynchrones sont terminées, navigation vers MaListe
+            this.route.navigate(['/maListe']);
+          });
+      }
     }
-    //this.route.navigate(['/maListe']);
-  }
+
+  // **********************************************************
+  // OnSubmitAdd() {
+  //   //event.preventDefault();
+  //
+  //   if (this.userForm.value.status != '') {
+  //     //sauvegarde de la partie genre
+  //     this.genreService.saveToApp(this.media.genres.map((genre:any) => {return new GenreAppModel(genre);}))
+  //       .subscribe(() => this.mediaService.saveToApp(this.media, this.typeMedia)
+  //         .subscribe(() => {
+  //           //let statusApp = mapIhmStatusToBackendStatus(this.userForm.value.status);
+  //           let statusApp = this.mapStatus.mapIhmStatusToBackendStatus(this.userForm.value.status);
+  //
+  //           let mediaSelectionneObject = {
+  //             typeMedia: this.typeMedia,
+  //             avisPouce: false,
+  //             dateSelection: new Date(),
+  //             etiquetteList: this.userForm.value.etiquettes,
+  //             statutMedia: statusApp,
+  //             mediaIdTmdb: this.media.idDataBase,
+  //             email: this.email,
+  //             dateModification: new Date(),
+  //             numeroSaison: this.typeMedia=="SERIE"?this.userForm.value.avancement.saison:0,
+  //             idTmdbSaison: this.typeMedia=="SERIE"?this.userForm.value.avancement.idSaisonTmdb:"",
+  //             numeroEpisode: this.typeMedia=="SERIE"?this.userForm.value.avancement.episode:0,
+  //             idTmdbEpisode: ""
+  //           }
+  //
+  //           let mediaSelectionne = new MediaSelectionneDtoModel(mediaSelectionneObject);
+  //
+  //           this.mediaAppService.saveToApp(mediaSelectionne);
+  //         })
+  //       );
+  //   }
+  //   this.route.navigate(['/maListe']);
+  // }
+  // ******************************************************************
 
   OnSubmitDelete() {
     this.mediaAppService.deleteFromApp(this.email!, this.media.idDataBase.toString());
@@ -181,6 +236,6 @@ export class AjoutMediaComponent {
   setAvancement(saisonEpisodeCourant: SerieCurrentSaisonEpisode) {
     this.userForm.get('avancement')?.setValue(saisonEpisodeCourant);
 
-    this.emitterParentDetail.emit(this.media.saisons[saisonEpisodeCourant.saison].image_portraitSaison);
+    this.emitterParentNumeroSaison.emit(saisonEpisodeCourant.saison);;
   }
 }

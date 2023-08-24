@@ -2,6 +2,8 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {MatSelectChange} from "@angular/material/select";
+import {Observable} from "rxjs";
+import {MediaSelectionneDtoModel} from "../../shared/model/MediaSelectionneDto.model";
 
 export interface SerieCurrentSaisonEpisode {
   saison: number,
@@ -19,6 +21,11 @@ export interface EpisodeElement {
   libelleEpisode: string
 }
 
+export interface SaisonEpisode {
+  saison: number,
+  episode: number
+}
+
 @Component({
   selector: 'app-choix-saison-episode',
   templateUrl: './choix-saison-episode.component.html',
@@ -26,6 +33,8 @@ export interface EpisodeElement {
 })
 export class ChoixSaisonEpisodeComponent {
   @Input() media!: MediaDatabaseModel;
+  @Input() mediaSelectionne!: Observable<MediaSelectionneDtoModel[]>
+
   @Output() emitterParent = new EventEmitter<SerieCurrentSaisonEpisode>();
   //saisonForm!: FormGroup;
   avancementSerie!: SerieCurrentSaisonEpisode;
@@ -41,9 +50,21 @@ export class ChoixSaisonEpisodeComponent {
   ngOnInit() {
     this.avancementSerie = {
       saison : this.saisonCurrent,
-      idSaisonTmdb: this.media.saisons[0].idDatabaseSaison.toString(),
+      idSaisonTmdb: this.media.saisons[this.saisonCurrent].idDatabaseSaison.toString(),
       episode: this.episodeCurrent
     };
+
+    this.mediaSelectionne.subscribe((data:MediaSelectionneDtoModel[]) => {
+      if(data.length>0) {
+        //console.log("dans choix saison");
+        //console.log(data[0]);
+
+        this.saisonCurrent = data[0].numeroSaison;
+        this.episodeCurrent = data[0].numeroEpisode;
+
+        this.emitToParent();
+      }
+    })
 
     this.defineListeSaisons();
     this.defineListeEpisodes();
