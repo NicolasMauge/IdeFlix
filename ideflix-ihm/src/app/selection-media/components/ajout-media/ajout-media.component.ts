@@ -30,7 +30,6 @@ export class AjoutMediaComponent {
   statusEnum = Status;
 
   etiquettes$!: Observable<EtiquetteModel[]>;
-  //etiquettesV!: EtiquetteModel[];
 
   email: string|null = "";
 
@@ -87,14 +86,6 @@ export class AjoutMediaComponent {
         let defaultStatus: Status|undefined = this.mapStatus.mapBackendStatusToIhmStatus(data[0].statutMedia);
         this.userForm.get('status')?.setValue(defaultStatus);
 
-        /*this.userForm = this.formBuilder.group({
-          status: [defaultStatus, [ Validators.required ] ],
-          etiquettes:  [],
-          avancement: []
-        });*/
-
-        console.log(data);
-
         this.etiquettes$.subscribe((etiquettes) => {
           let etiquettesChecked: EtiquetteModel[] = [];
           data[0].etiquetteList.map((etiquette) => {
@@ -105,11 +96,6 @@ export class AjoutMediaComponent {
             }
           });
 
-          /*this.userForm = this.formBuilder.group({
-            status: [Status.ToSee, [ Validators.required ] ],
-            etiquettes:  [etiquettesChecked],
-            avancement: []
-          });*/
           this.userForm.get('etiquettes')?.setValue(etiquettesChecked);
         })
       }
@@ -189,15 +175,9 @@ export class AjoutMediaComponent {
     });
   }
 
-  /*saveEtiquette(nouvelleEtiquette: string) {
-    this.etiquetteService.saveToApp(new EtiquetteModel({nomTag: nouvelleEtiquette}), this.email!);
-  }*/
-
   setAvancement(saisonEpisodeCourant: SerieCurrentSaisonEpisode) {
     this.userForm.get('avancement')?.setValue(saisonEpisodeCourant);
 
-    //console.log("--------");
-    //console.log(this.userForm.value);
     this.emitterParentDetail.emit(this.media.saisons[saisonEpisodeCourant.saison].image_portraitSaison);
   }
 }
