@@ -30,11 +30,11 @@ public class SerieToMediaSelectionneCompletMapper extends Mapper<SerieSelectionn
                 input.getStatutMediaEntity(),
                 this.mediaMapper.mapEntityToDto((SerieEntity) input.getMediaAudioVisuelEntity()),
                 input.getUtilisateurEntity().getEmail(),
-                null,
-                0,
-                null,
-                0,
-                null);
+                input.getDateModification(),
+                input.getNumeroSaison(),
+                input.getIdTmdbSaison(),
+                input.getNumeroEpisode(),
+                input.getIdTmdbEpisode());
     }
 
     @Override
