@@ -9,6 +9,11 @@ interface Genre {
   nomGenre: string;
 }
 
+export interface SaisonEpisode {
+  saison: number,
+  episode: number
+}
+
 @Component({
   selector: 'app-detail-media',
   templateUrl: './detail-media.component.html',

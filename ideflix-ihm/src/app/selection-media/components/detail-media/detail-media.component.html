@@ -28,7 +28,7 @@
       <h2>Durée</h2>
       <p>{{duree | printDuration}}</p>
 
-      <app-star [score]="scoreDataBase"></app-star>
+      <app-star *ngIf="media" [score]="media.scoreDataBase"></app-star>
     </div>
   </div>
 

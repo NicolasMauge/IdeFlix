@@ -61,6 +61,13 @@ export class ChoixSaisonEpisodeComponent {
     this.emitToParent();
   }
 
+  defineListeSaisons() {
+    this.listeSaisons = [];
+    for(let i:number=0;i<=this.media.nombreSaisons;i++) {
+      this.listeSaisons.push({numeroSaison: i, libelleSaison:this.media.saisons[i].titreSaison});
+    }
+  }
+
   defineListeEpisodes() {
     let nombreEpisodes: number = this.nombreEpisodesSaison(this.saisonCurrent);
     this.listeEpisodes = [];
@@ -71,14 +78,6 @@ export class ChoixSaisonEpisodeComponent {
 
     this.episodeCurrent = 1;
   }
-
-  defineListeSaisons() {
-    this.listeSaisons = [];
-    for(let i:number=0;i<=this.media.nombreSaisons;i++) {
-      this.listeSaisons.push({numeroSaison: i, libelleSaison:this.media.saisons[i].titreSaison});
-    }
-  }
-
   nombreEpisodesSaison(numeroSaison: number) {
     return this.media.saisons[numeroSaison].nombreEpisodes;
   }
