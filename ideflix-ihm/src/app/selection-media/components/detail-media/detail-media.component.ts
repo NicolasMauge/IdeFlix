@@ -2,6 +2,12 @@ import { Component } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {MediaService} from "../../../core/services/media/media.service";
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
+import {GenreModel} from "../../../core/models/genre.model";
+
+interface Genre {
+  idDatabase: number;
+  nomGenre: string;
+}
 
 @Component({
   selector: 'app-detail-media',
@@ -25,14 +31,14 @@ export class DetailMediaComponent {
       this.movieService.getDetailsMovie(this.movieId).subscribe(
         (data: MediaDatabaseModel) => {
           this.media = data;
-          this.image = this.media.image_portrait?this.media.image_portrait:"";
+          this.image = this.media.image_portrait ? this.media.image_portrait : "";
         });
     }
     else {
       this.movieService.getDetailsSerie(this.movieId).subscribe(
         (data: MediaDatabaseModel) => {
           this.media = data;
-          this.image = this.media.image_portrait?this.media.image_portrait:"";
+          this.image = this.media.image_portrait ? this.media.image_portrait : "";
         });
     }
     //CARO--- --- tests pour voir si GetDetail est OK et c'est bien OK !!!!-------
@@ -45,17 +51,40 @@ export class DetailMediaComponent {
     //   });
   }
 
-  // getters
-  get titre() {
-    return(this.media && this.media.titre) ? this.media.titre : null;
-  }
 
   setAvancement(image: string) {
     this.image = image;
   }
 
-  get imagePortrait() {
+  get imagePortrait$() {
     return this.image;
   }
 
+  // getters
+  get genreList(): Genre[] { // TODO : normalement, ce devrait être GenreModel mais il faudrait modifier MediaDatabaseModel
+    if(this.media) {
+      return this.media.genres;
+    }
+    return [];
+  }
+
+  get titre(): string|null {
+    return(this.media && this.media.titre) ? this.media.titre : null;
+  }
+
+  get dateSortie(): Date|null {
+    return(this.media)? this.media.dateSortie : null;
+  }
+
+  get resume(): string|null {
+    return(this.media) ? this.media.resume : "";
+  }
+
+  get duree(): number|undefined {
+    return(this.media) ? this.media.duree : undefined;
+  }
+
+  get scoreDataBase():number {
+    return(this.media) ? this.media.scoreDataBase : 0;
+  }
 }

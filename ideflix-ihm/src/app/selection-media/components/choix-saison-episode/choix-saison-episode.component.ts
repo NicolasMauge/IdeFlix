@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {MatSelectChange} from "@angular/material/select";
 
 export interface SerieCurrentSaisonEpisode {
   saison: number,
@@ -26,61 +27,80 @@ export interface EpisodeElement {
 export class ChoixSaisonEpisodeComponent {
   @Input() media!: MediaDatabaseModel;
   @Output() emitterParent = new EventEmitter<SerieCurrentSaisonEpisode>();
-  saisonForm!: FormGroup;
+  //saisonForm!: FormGroup;
   avancementSerie!: SerieCurrentSaisonEpisode;
   listeSaisons: SaisonElement[] = [];
   listeEpisodes: EpisodeElement[] = [];
 
-  constructor(private formBuilder: FormBuilder) {
+  saisonCurrent: number = 1;
+  episodeCurrent: number = 1;
+
+  constructor(/*private formBuilder: FormBuilder*/) {
   }
 
   ngOnInit() {
-    this.saisonForm = this.formBuilder.group({
+    /*this.saisonForm = this.formBuilder.group({
       saison: [1],
       episode: [1]
-    });
+    });*/
 
-    this.avancementSerie = {saison : 1,
-                            idSaisonTmdb: this.media.saisons[0].idDatabaseSaison.toString(),
-                            episode: 1};
+    this.avancementSerie = {
+      saison : this.saisonCurrent,
+      idSaisonTmdb: this.media.saisons[0].idDatabaseSaison.toString(),
+      episode: this.episodeCurrent
+    };
 
     this.defineListeSaisons();
     this.defineListeEpisodes();
 
     console.log(this.media);
+    this.emitToParent();
   }
 
-  onChangeSaison() {
+  onChangeSaison(numeroSaison: MatSelectChange) {
+    this.saisonCurrent = numeroSaison.value;
+
     this.defineListeEpisodes();
+    this.emitToParent();
   }
 
-  onChangeEpisode() {
-    this.avancementSerie = {saison: this.saisonForm.value.saison,
-                            idSaisonTmdb: this.media.saisons[this.saisonForm.value.saison-1].idDatabaseSaison.toString(),
-                            episode: this.saisonForm.value.episode};
-    this.emitterParent.emit(this.avancementSerie);
+  onChangeEpisode(numeroEpisode: MatSelectChange) {
+    this.episodeCurrent = numeroEpisode.value;
+
+    this.emitToParent();
   }
 
   defineListeEpisodes() {
-    let numeroSaisonChoisie : number = this.saisonForm.value.saison;
-    let nombreEpisodes: number = this.nombreEpisodesSaison(numeroSaisonChoisie-1);
+    //let numeroSaisonChoisie : number = this.saisonCurrent;
+    let nombreEpisodes: number = this.nombreEpisodesSaison(this.saisonCurrent);
     this.listeEpisodes = [];
 
     for(let i:number=1;i<=nombreEpisodes;i++) {
       this.listeEpisodes.push({numeroEpisode: i, libelleEpisode:"Episode "+i});
     }
 
-    this.saisonForm.get('episode')?.setValue(1);
+    //this.saisonForm.get('episode')?.setValue(1);
+    this.episodeCurrent = 1;
   }
 
   defineListeSaisons() {
     this.listeSaisons = [];
-    for(let i:number=1;i<=this.media.nombreSaisons;i++) {
-      this.listeSaisons.push({numeroSaison: i, libelleSaison:"Saison "+i});
+    for(let i:number=0;i<=this.media.nombreSaisons;i++) {
+      this.listeSaisons.push({numeroSaison: i, libelleSaison:this.media.saisons[i].titreSaison});
     }
   }
 
-  nombreEpisodesSaison(numeroSaisonAPartirDeZero: number) {
-    return this.media.saisons[numeroSaisonAPartirDeZero].nombreEpisodes;
+  nombreEpisodesSaison(numeroSaison: number) {
+    return this.media.saisons[numeroSaison].nombreEpisodes;
+  }
+
+  emitToParent() {
+    this.avancementSerie = {
+      saison: this.saisonCurrent,
+      idSaisonTmdb: this.media.saisons[this.saisonCurrent].idDatabaseSaison.toString(),
+      episode: this.episodeCurrent
+    };
+
+    this.emitterParent.emit(this.avancementSerie);
   }
 }

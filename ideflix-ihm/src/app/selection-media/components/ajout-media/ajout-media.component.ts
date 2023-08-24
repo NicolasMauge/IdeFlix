@@ -16,21 +16,6 @@ import {DialogEtiquettesComponent} from "../dialog-etiquettes/dialog-etiquettes.
 import {MapIhmService} from "../../../shared/services/map-ihm-service";
 import {SerieCurrentSaisonEpisode} from "../choix-saison-episode/choix-saison-episode.component";
 
-// fonction pour la correspondance entre les status provenant du backend et les status affichés sur l'ihm
-/*function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
-  switch (ihmStatus) {
-    case Status.Completed:
-      return "VU";
-    case Status.ToSee:
-      return "A_VOIR";
-    case Status.InProgress:
-      return "EN_COURS";
-    case Status.Dropped:
-      return "ABANDONNE";
-    default:
-      return undefined;
-  }
-}*/
 
 export interface DialogData {
   ajoutEtiquette: string;
@@ -42,10 +27,11 @@ export interface DialogData {
   styleUrls: ['./ajout-media.component.css']
 })
 export class AjoutMediaComponent {
-  protected readonly Status = Status;
   statusEnum = Status;
 
   etiquettes$!: Observable<EtiquetteModel[]>;
+  //etiquettesV!: EtiquetteModel[];
+
   email: string|null = "";
 
   buttonAdd: boolean = true;
@@ -73,6 +59,12 @@ export class AjoutMediaComponent {
   ngOnInit() {
     this.email = localStorage.getItem('email');
 
+    this.userForm = this.formBuilder.group({
+      status: [Status.ToSee, [ Validators.required ] ],
+      etiquettes:  [[]],
+      avancement: [null]
+    });
+
     if (this.email !== null) {
       this.loadEtiquettes();
       this.loadMediaSelectionne();
@@ -92,30 +84,14 @@ export class AjoutMediaComponent {
         this.buttonModify = true;
         this.buttonDelete = true;
 
-        /*let defaultStatus: Status;
-        switch (data[0].statutMedia) {
-          case "ABANDONNE":
-            defaultStatus = Status.Dropped;
-            break;
-          case "A_VOIR":
-            defaultStatus = Status.ToSee;
-            break;
-          case "EN_COURS":
-            defaultStatus = Status.InProgress;
-            break;
-          case "VU":
-            defaultStatus = Status.Completed;
-            break;
-          default:
-            defaultStatus = Status.ToSee;
-        }*/
         let defaultStatus: Status|undefined = this.mapStatus.mapBackendStatusToIhmStatus(data[0].statutMedia);
+        this.userForm.get('status')?.setValue(defaultStatus);
 
-        this.userForm = this.formBuilder.group({
+        /*this.userForm = this.formBuilder.group({
           status: [defaultStatus, [ Validators.required ] ],
           etiquettes:  [],
           avancement: []
-        });
+        });*/
 
         this.etiquettes$.subscribe((etiquettes) => {
           let etiquettesChecked: EtiquetteModel[] = [];
@@ -127,23 +103,18 @@ export class AjoutMediaComponent {
             }
           });
 
-          this.userForm = this.formBuilder.group({
+          /*this.userForm = this.formBuilder.group({
             status: [Status.ToSee, [ Validators.required ] ],
             etiquettes:  [etiquettesChecked],
             avancement: []
-          });
+          });*/
+          this.userForm.get('etiquettes')?.setValue(etiquettesChecked);
         })
       }
       else {
         this.buttonAdd = true;
         this.buttonModify = false;
         this.buttonDelete = false;
-
-        this.userForm = this.formBuilder.group({
-          status: [Status.ToSee, [ Validators.required ] ],
-          etiquettes:  [[]],
-          avancement: []
-        });
       }
     });
   }
@@ -154,7 +125,7 @@ export class AjoutMediaComponent {
   }
 
   get etiquette$(): Observable<EtiquetteModel[]> {
-    return this.etiquetteService.etiquettes$;
+    return this.etiquettes$;
   }
 
   OnSubmitAdd() {
@@ -165,7 +136,6 @@ export class AjoutMediaComponent {
       this.genreService.saveToApp(this.media.genres.map((genre:any) => {return new GenreAppModel(genre);}))
         .subscribe(() => this.mediaService.saveToApp(this.media, this.typeMedia)
             .subscribe(() => {
-              //let statusApp = mapIhmStatusToBackendStatus(this.userForm.value.status);
               let statusApp = this.mapStatus.mapIhmStatusToBackendStatus(this.userForm.value.status);
 
               let mediaSelectionneObject = {
@@ -202,22 +172,27 @@ export class AjoutMediaComponent {
       data: {name: this.ajoutEtiquette},
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      // fermeture de la page dialog
-      this.saveEtiquette(result);
-      this.loadEtiquettes();
+    dialogRef.afterClosed().subscribe(nouvelleEtiquette => {
+      //console.log(result)
+      if(nouvelleEtiquette!=undefined) {
+        // fermeture de la page dialog
+        this.etiquetteService.saveToApp(new EtiquetteModel({nomTag: nouvelleEtiquette}), this.email!)
+            .subscribe(()=>
+                this.etiquetteService.loadEtiquettes(this.email!));
+        //this.loadEtiquettes();
+      }
     });
   }
 
-  saveEtiquette(nouvelleEtiquette: string) {
+  /*saveEtiquette(nouvelleEtiquette: string) {
     this.etiquetteService.saveToApp(new EtiquetteModel({nomTag: nouvelleEtiquette}), this.email!);
-  }
+  }*/
 
   setAvancement(saisonEpisodeCourant: SerieCurrentSaisonEpisode) {
     this.userForm.get('avancement')?.setValue(saisonEpisodeCourant);
 
     //console.log("--------");
     //console.log(this.userForm.value);
-    this.emitterParentDetail.emit(this.media.saisons[saisonEpisodeCourant.saison-1].image_portraitSaison);
+    this.emitterParentDetail.emit(this.media.saisons[saisonEpisodeCourant.saison].image_portraitSaison);
   }
 }
