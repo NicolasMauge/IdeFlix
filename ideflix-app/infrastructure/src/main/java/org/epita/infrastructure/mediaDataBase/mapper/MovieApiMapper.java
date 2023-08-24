@@ -15,11 +15,6 @@ import java.util.List;
 @Component
 public class MovieApiMapper {
 
-//    GenreApiMapper genreMapper;
-//
-//    public MovieApiMapper(GenreApiMapper genreMapper) {
-//        this.genreMapper = genreMapper;
-//    }
 
     public MovieDataBase mapMovieLightResponseDtoToEntity(MovieLightResponseDto movieLightResponseDto) {
 
