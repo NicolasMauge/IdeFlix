@@ -9,14 +9,13 @@ import {MediaToAppService} from "../../shared/services/media-to-app.service";
 import {GenreToAppService} from "../../shared/services/genre-to-app.service";
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Observable} from "rxjs";
+import {concatMap, Observable, of} from "rxjs";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogEtiquettesComponent} from "../dialog-etiquettes/dialog-etiquettes.component";
 import {MapIhmService} from "../../../shared/services/map-ihm-service";
 import {SerieCurrentSaisonEpisode} from "../choix-saison-episode/choix-saison-episode.component";
-import {MediaMaListeService} from "../../../core/services/maListe/media-ma-liste.service";
-import {MediaMaListeModel} from "../../../ma-liste-de-selection/models/media-ma-liste.model";
+
 
 // fonction pour la correspondance entre les status provenant du backend et les status affichés sur l'ihm
 /*function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
@@ -69,8 +68,7 @@ export class AjoutMediaComponent {
               private formBuilder: FormBuilder,
               private route: Router,
               public dialog: MatDialog,
-              private mapStatus: MapIhmService,
-              private maListeService: MediaMaListeService) {
+              private mapStatus: MapIhmService) {
   }
 
   ngOnInit() {
@@ -165,13 +163,14 @@ export class AjoutMediaComponent {
 
     if (this.userForm.value.status != '') {
       //sauvegarde de la partie genre
-      this.genreService.saveToApp(this.media.genres.map((genre:any) => {return new GenreAppModel(genre);}))
-        .subscribe(() => this.mediaService.saveToApp(this.media, this.typeMedia)
-            .subscribe(() => {
-              //let statusApp = mapIhmStatusToBackendStatus(this.userForm.value.status);
-              let statusApp = this.mapStatus.mapIhmStatusToBackendStatus(this.userForm.value.status);
+      this.genreService.saveToApp(this.media.genres.map((genre: any) => new GenreAppModel(genre)))
+        .pipe(
+          //concatMap attend que chaque opération précédente soit terminée avant de déclencher la suivante
+          concatMap(() => this.mediaService.saveToApp(this.media, this.typeMedia)),
+          concatMap(() => {
+            const statusApp = this.mapStatus.mapIhmStatusToBackendStatus(this.userForm.value.status);
 
-              let mediaSelectionneObject = {
+              const mediaSelectionneObject = {
                 typeMedia: this.typeMedia,
                 avisPouce: false,
                 dateSelection: new Date(),
@@ -180,20 +179,62 @@ export class AjoutMediaComponent {
                 mediaIdTmdb: this.media.idDataBase,
                 email: this.email,
                 dateModification: new Date(),
-                numeroSaison: this.typeMedia=="SERIE"?this.userForm.value.avancement.saison:0,
-                idTmdbSaison: this.typeMedia=="SERIE"?this.userForm.value.avancement.idSaisonTmdb:"",
-                numeroEpisode: this.typeMedia=="SERIE"?this.userForm.value.avancement.episode:0,
+                numeroSaison: this.typeMedia == "SERIE" ? this.userForm.value.avancement.saison : 0,
+                idTmdbSaison: this.typeMedia == "SERIE" ? this.userForm.value.avancement.idSaisonTmdb : "",
+                numeroEpisode: this.typeMedia == "SERIE" ? this.userForm.value.avancement.episode : 0,
                 idTmdbEpisode: ""
-              }
+              };
 
-              let mediaSelectionne = new MediaSelectionneDtoModel(mediaSelectionneObject);
+            const mediaSelectionne = new MediaSelectionneDtoModel(mediaSelectionneObject);
 
-              this.mediaAppService.saveToApp(mediaSelectionne);
-            })
-        );
+            this.mediaAppService.saveToApp(mediaSelectionne); // Appel sans retour d'Observable
+
+            return of(null); // Retourne un observable qui émet une valeur nulle
+          })
+          )
+          .subscribe(() => {
+            // Toutes les opérations asynchrones sont terminées, navigation vers MaListe
+            this.route.navigate(['/maListe']);
+          });
+      }
     }
-    this.route.navigate(['/maListe']);
-  }
+
+  // **********************************************************
+  // OnSubmitAdd() {
+  //   //event.preventDefault();
+  //
+  //   if (this.userForm.value.status != '') {
+  //     //sauvegarde de la partie genre
+  //     this.genreService.saveToApp(this.media.genres.map((genre:any) => {return new GenreAppModel(genre);}))
+  //       .subscribe(() => this.mediaService.saveToApp(this.media, this.typeMedia)
+  //         .subscribe(() => {
+  //           //let statusApp = mapIhmStatusToBackendStatus(this.userForm.value.status);
+  //           let statusApp = this.mapStatus.mapIhmStatusToBackendStatus(this.userForm.value.status);
+  //
+  //           let mediaSelectionneObject = {
+  //             typeMedia: this.typeMedia,
+  //             avisPouce: false,
+  //             dateSelection: new Date(),
+  //             etiquetteList: this.userForm.value.etiquettes,
+  //             statutMedia: statusApp,
+  //             mediaIdTmdb: this.media.idDataBase,
+  //             email: this.email,
+  //             dateModification: new Date(),
+  //             numeroSaison: this.typeMedia=="SERIE"?this.userForm.value.avancement.saison:0,
+  //             idTmdbSaison: this.typeMedia=="SERIE"?this.userForm.value.avancement.idSaisonTmdb:"",
+  //             numeroEpisode: this.typeMedia=="SERIE"?this.userForm.value.avancement.episode:0,
+  //             idTmdbEpisode: ""
+  //           }
+  //
+  //           let mediaSelectionne = new MediaSelectionneDtoModel(mediaSelectionneObject);
+  //
+  //           this.mediaAppService.saveToApp(mediaSelectionne);
+  //         })
+  //       );
+  //   }
+  //   this.route.navigate(['/maListe']);
+  // }
+  // ******************************************************************
 
   OnSubmitDelete() {
     this.mediaAppService.deleteFromApp(this.email!, this.media.idDataBase.toString());
