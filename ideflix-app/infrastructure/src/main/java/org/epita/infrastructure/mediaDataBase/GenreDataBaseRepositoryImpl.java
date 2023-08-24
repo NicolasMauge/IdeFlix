@@ -35,47 +35,47 @@ public class GenreDataBaseRepositoryImpl implements GenreDataBaseRepository {
         this.genreApiMapper = genreApiMapper;
     }
 
-    @Override
-    public List<GenreDataBase> searchAllGenresForTV() {
-        //https://api.themoviedb.org/3/genre/tv/list?language=fr
-        return searchAllGenres("genre/tv/list");
-    }
+//    @Override
+//    public List<GenreDataBase> searchAllGenresForTV() {
+//        //https://api.themoviedb.org/3/genre/tv/list?language=fr
+//        return searchAllGenres("genre/tv/list");
+//    }
+//
+//    @Override
+//    public List<GenreDataBase> searchAllGenresForMovie() {
+//
+//        //https://api.themoviedb.org/3/genre/movie/list?language=fr
+//        return searchAllGenres("genre/movie/list");
+//    }
 
-    @Override
-    public List<GenreDataBase> searchAllGenresForMovie() {
-
-        //https://api.themoviedb.org/3/genre/movie/list?language=fr
-        return searchAllGenres("genre/movie/list");
-    }
-
-    private List<GenreDataBase> searchAllGenres(String endpoint) {
-        String url = BASE_URL + endpoint + "?api_key=" + tmdbConfig.getTmdbApiKey() + "&language=" + LANGUAGE;
-
-        System.out.println(url);
-
-        String itemType = endpoint.contains("movie") ? "films" : "séries";
-        logger.debug("recherche liste genres des " + itemType);
-
-        OkHttpClient client = new OkHttpClient();
-
-        Request request = new Request.Builder()
-                .url(url)
-                .get()
-                .addHeader("accept", "application/json")
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            if (response.isSuccessful()) {
-                String jsonResponse = response.body().string();
-                AllGenresResponseDto allGenresResponseDto = objectMapper.readValue(jsonResponse, AllGenresResponseDto.class);
-                return genreApiMapper.mapFromGenreResponseDtoList(allGenresResponseDto.getGenres());
-            } else {
-                throw new MediaDataBaseException("APP - Tmdb - Echec recherche liste des genres pour " + itemType + " avec un code retour API: " + response.code());
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    private List<GenreDataBase> searchAllGenres(String endpoint) {
+//        String url = BASE_URL + endpoint + "?api_key=" + tmdbConfig.getTmdbApiKey() + "&language=" + LANGUAGE;
+//
+//        System.out.println(url);
+//
+//        String itemType = endpoint.contains("movie") ? "films" : "séries";
+//        logger.debug("recherche liste genres des " + itemType);
+//
+//        OkHttpClient client = new OkHttpClient();
+//
+//        Request request = new Request.Builder()
+//                .url(url)
+//                .get()
+//                .addHeader("accept", "application/json")
+//                .build();
+//
+//        try (Response response = client.newCall(request).execute()) {
+//            if (response.isSuccessful()) {
+//                String jsonResponse = response.body().string();
+//                AllGenresResponseDto allGenresResponseDto = objectMapper.readValue(jsonResponse, AllGenresResponseDto.class);
+//                return genreApiMapper.mapFromGenreResponseDtoList(allGenresResponseDto.getGenres());
+//            } else {
+//                throw new MediaDataBaseException("APP - Tmdb - Echec recherche liste des genres pour " + itemType + " avec un code retour API: " + response.code());
+//            }
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     @Override
     public List<GenreEntity> searchAllGenresEntityForTV() {
