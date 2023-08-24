@@ -12,14 +12,6 @@ import java.util.List;
 @Component
 public class SaisonApiMapper {
 
-//    public static List<GenreDataBase> mapFromGenreResponseDtoList(List<GenreResponseDto> genreResponseDtos) {
-//        List<GenreDataBase> genreDataBases = new ArrayList<>();
-//        for (GenreResponseDto genreResponseDto : genreResponseDtos) {
-//            GenreDataBase genreDataBase = new GenreDataBase(genreResponseDto.getId(), genreResponseDto.getName());
-//            genreDataBases.add(genreDataBase);
-//        }
-//        return genreDataBases;
-//    }
 
     public static List<SaisonSerieDataBase> mapFromSaisonResponseDtoList(List<SaisonResponseDto> saisonResponseDtos) {
         List<SaisonSerieDataBase> saisonSerieDataBases = new ArrayList<>();

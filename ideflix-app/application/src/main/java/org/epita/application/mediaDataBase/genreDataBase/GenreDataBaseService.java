@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface GenreDataBaseService {
 
-    List<GenreDataBase> searchAllGenres();
+//    List<GenreDataBase> searchAllGenres();
 
     List<GenreEntity> searchAllGenresEntity();
 }

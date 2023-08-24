@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {BehaviorSubject, map, Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
@@ -15,7 +15,9 @@ export class MediaService {
 
   // private _movies$ = new BehaviorSubject(<MediaModel[]>([]));
   private _medias$ = new BehaviorSubject(<MediaDatabaseModel[]>([]));
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient) {
+  }
 
   // getMoviesFromApi(): void {
   //
@@ -53,14 +55,14 @@ export class MediaService {
   //   this._movies$.next(data);
   // }
 
-  getMoviesFromApi2(page: number): void {
+  getMoviesFromApi(page: number): void {
 
 
     let endpoint = '/suggestionsFilm/' + page;
 
     this.http.get<MediaDatabaseModel[]>(this.MOVIEDATABASE_API + endpoint)
       .pipe(
-        map( (listMoviesApi: any) => {
+        map((listMoviesApi: any) => {
           return listMoviesApi
             // map de JavaScript
             .map((movieFromApi: any) => new MediaDatabaseModel(movieFromApi))
@@ -69,12 +71,13 @@ export class MediaService {
       //on envoie la valeur suivante du flux de donnée (Observable est un flux)
       .subscribe((data: MediaDatabaseModel[]) => this._medias$.next(data));
   }
+
   getValueOfMedias$(): MediaDatabaseModel[] {
     return this._medias$.getValue();
   }
 
   /**getter setter  */
-  get medias$():Observable<MediaDatabaseModel[]> {
+  get medias$(): Observable<MediaDatabaseModel[]> {
     //asObservable pour que personne ne puisse faire un next là-dessus. Avec un observable, on ne peut que souscrire.
     return this._medias$.asObservable();
   }
@@ -83,34 +86,34 @@ export class MediaService {
     this._medias$.next(data);
   }
 
- //  searchMovies(userInput: string): Observable<MediaModel[]> {
- //    /*
- //   searchMovies()
- //   rôle :> faire une request HTTP[GET] à l'API theMovieDB
- //         url API : https://api.themoviedb.org/3
- //         endpoint : /search/movie
- //         queryString : query:string api_key:string, language:string
- //         (le paramètre nommé query a pour valeur la saisie de l'utilisateur)
- // */
- //    /* api.themoviedb.org/3/search/movie?query=fast&api_key=5f871496b04d6b713429ccba8a599149&language=fr */
- //    // let endpoint = '/search/movie';
- //    // let endpoint = '/search/multi';
- //    let endpoint = '/search/movie';
- //    let options = new HttpParams()
- //      .set('query', userInput)
- //      .set('api_key', this.TMDB_APIKEY )
- //      .set('language', 'fr');
- //
- //    return this.http.get<MediaModel[]>(this.TMDB_API + endpoint, { params:options })
- //      .pipe(
- //        map( (listMoviesApi: any) => {
- //          return listMoviesApi.results
- //            .map((movieFromApi: any) => new MediaModel(movieFromApi))
- //        })
- //      )
- //  }
+  //  searchMovies(userInput: string): Observable<MediaModel[]> {
+  //    /*
+  //   searchMovies()
+  //   rôle :> faire une request HTTP[GET] à l'API theMovieDB
+  //         url API : https://api.themoviedb.org/3
+  //         endpoint : /search/movie
+  //         queryString : query:string api_key:string, language:string
+  //         (le paramètre nommé query a pour valeur la saisie de l'utilisateur)
+  // */
+  //    /* api.themoviedb.org/3/search/movie?query=fast&api_key=5f871496b04d6b713429ccba8a599149&language=fr */
+  //    // let endpoint = '/search/movie';
+  //    // let endpoint = '/search/multi';
+  //    let endpoint = '/search/movie';
+  //    let options = new HttpParams()
+  //      .set('query', userInput)
+  //      .set('api_key', this.TMDB_APIKEY )
+  //      .set('language', 'fr');
+  //
+  //    return this.http.get<MediaModel[]>(this.TMDB_API + endpoint, { params:options })
+  //      .pipe(
+  //        map( (listMoviesApi: any) => {
+  //          return listMoviesApi.results
+  //            .map((movieFromApi: any) => new MediaModel(movieFromApi))
+  //        })
+  //      )
+  //  }
 
-  searchMovies2(userInput: string): Observable<MediaDatabaseModel[]> {
+  searchMovies(userInput: string): Observable<MediaDatabaseModel[]> {
     /*
    searchMovies()
    rôle :> faire une request HTTP[GET] à l'API de app d'accès à Tmdb
@@ -123,7 +126,7 @@ export class MediaService {
 
     return this.http.get<MediaDatabaseModel[]>(this.MOVIEDATABASE_API + endpoint)
       .pipe(
-        map( (listMoviesApi: any) => {
+        map((listMoviesApi: any) => {
           return listMoviesApi
             .map((movieFromApi: any) => new MediaDatabaseModel(movieFromApi))
         })
@@ -143,39 +146,39 @@ export class MediaService {
 
     return this.http.get<MediaDatabaseModel[]>(this.MOVIEDATABASE_API + endpoint)
       .pipe(
-        map( (listMoviesApi: any) => {
+        map((listMoviesApi: any) => {
           return listMoviesApi
             .map((movieFromApi: any) => new MediaDatabaseModel(movieFromApi))
         })
       )
   }
 
- //  searchSeries(userInput: string): Observable<SerieModel[]> {
- //    /*
- //   searchMovies()
- //   rôle :> faire une request HTTP[GET] à l'API theMovieDB
- //         url API : https://api.themoviedb.org/3
- //         endpoint : /search/tv
- //         queryString : query:string api_key:string, language:string
- //         (le paramètre nommé query a pour valeur la saisie de l'utilisateur)
- // */
- //    /* api.themoviedb.org/3/search/tv?query=mi&api_key=5f871496b04d6b713429ccba8a599149&language=fr */
- //    // let endpoint = '/search/movie';
- //    // let endpoint = '/search/multi';
- //    let endpoint = '/search/tv';
- //    let options = new HttpParams()
- //      .set('query', userInput)
- //      .set('api_key', this.TMDB_APIKEY )
- //      .set('language', 'fr');
- //
- //    return this.http.get<SerieModel[]>(this.TMDB_API + endpoint, { params:options })
- //      .pipe(
- //        map( (listSeriesApi: any) => {
- //          return listSeriesApi.results
- //            .map((serieFromApi: any) => new SerieModel(serieFromApi))
- //        })
- //      )
- //  }
+  //  searchSeries(userInput: string): Observable<SerieModel[]> {
+  //    /*
+  //   searchMovies()
+  //   rôle :> faire une request HTTP[GET] à l'API theMovieDB
+  //         url API : https://api.themoviedb.org/3
+  //         endpoint : /search/tv
+  //         queryString : query:string api_key:string, language:string
+  //         (le paramètre nommé query a pour valeur la saisie de l'utilisateur)
+  // */
+  //    /* api.themoviedb.org/3/search/tv?query=mi&api_key=5f871496b04d6b713429ccba8a599149&language=fr */
+  //    // let endpoint = '/search/movie';
+  //    // let endpoint = '/search/multi';
+  //    let endpoint = '/search/tv';
+  //    let options = new HttpParams()
+  //      .set('query', userInput)
+  //      .set('api_key', this.TMDB_APIKEY )
+  //      .set('language', 'fr');
+  //
+  //    return this.http.get<SerieModel[]>(this.TMDB_API + endpoint, { params:options })
+  //      .pipe(
+  //        map( (listSeriesApi: any) => {
+  //          return listSeriesApi.results
+  //            .map((serieFromApi: any) => new SerieModel(serieFromApi))
+  //        })
+  //      )
+  //  }
 
   /**
    *
@@ -201,7 +204,7 @@ export class MediaService {
     let endpoint = '/detailFilm/' + movieId;
 
     return this.http.get<MediaDatabaseModel>(this.MOVIEDATABASE_API + endpoint)
-      .pipe(map ((movieFromApi: any) =>
+      .pipe(map((movieFromApi: any) =>
         new MediaDatabaseModel(movieFromApi))
       )
   }
@@ -212,7 +215,7 @@ export class MediaService {
     let endpoint = '/detailSerie/' + movieId;
 
     return this.http.get<MediaDatabaseModel>(this.MOVIEDATABASE_API + endpoint)
-      .pipe(map ((movieFromApi: any) =>
+      .pipe(map((movieFromApi: any) =>
         new MediaDatabaseModel(movieFromApi))
       )
   }

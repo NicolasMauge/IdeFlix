@@ -59,7 +59,8 @@ public final class ConstantesSecurite {
             "/MovieDataBase/detailFilm/*",
             "/MovieDataBase/detailSerie/*",
             "/MovieDataBase/suggestionsFilm/*",
-            "/MovieDataBase/rechercheListeGenres"
+            "/MovieDataBase/rechercheListeGenres",
+            "/MovieDataBase/detailEpisode/**"
     };
 
     public final static String[] PATH_POST_UTILISATEUR_WHITELIST = {

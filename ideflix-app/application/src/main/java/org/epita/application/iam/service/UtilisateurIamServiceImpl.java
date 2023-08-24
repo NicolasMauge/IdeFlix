@@ -20,8 +20,6 @@ import java.util.List;
 @Service
 public class UtilisateurIamServiceImpl implements UtilisateurIamService {
 
-    private static Boolean iamIsInitialised = false;
-
     private static final Logger logger = LoggerFactory.getLogger(UtilisateurIamServiceImpl.class);
 
     UtilisateurIamRepository utilisateurIamRepository;
@@ -50,10 +48,6 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
     @Override
     public UtilisateurIamEntity creerUtilisateurIam(UtilisateurIamEntity utilisateurIamEntity) {
 
-        if (!iamIsInitialised) {
-            initIam();
-        }
-
         // Création dans l'IAM :
         UtilisateurIamEntity nouvelUtilisateurIam = utilisateurIamRepository.creerUtilisateurIam(utilisateurIamEntity);
 
@@ -77,16 +71,12 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
 
     @Override
     public UtilisateurIamEntity loginIam(UtilisateurIamEntity utilisateurIamEntity) {
-        if (!iamIsInitialised) {
-            initIam();
-        }
-
         logger.debug("IdeFlix - login utilisateur : " + utilisateurIamEntity.getEmail() + ".");
         return utilisateurIamRepository.loginIam(utilisateurIamEntity);
     }
 
     // initialisation de l'application
-    private void initIam() {
+    public void initIam() {
         // Récupération de l'administrateur depuis l'IAM :
         UtilisateurIamEntity utilisateurIamEntity = utilisateurIamRepository.initIam();
 
@@ -105,7 +95,6 @@ public class UtilisateurIamServiceImpl implements UtilisateurIamService {
             // il faut créer l'utilisateur APP
             utilisateurService.creerUtilisateur(utilisateurEntity);
         }
-        iamIsInitialised = true;
     }
 
 

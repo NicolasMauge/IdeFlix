@@ -38,8 +38,8 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
     }
 
     @Override
-    public List<MovieDataBase> searchAllMovieDataBaseWithQuery(String query)  {
-        String url = BASE_URL + "search/movie?query=" + query + "&api_key=" + tmdbConfig.getTmdbApiKey() + "&include_adult=" + INCLUDE_ADULT +  "&language=" + LANGUAGE;
+    public List<MovieDataBase> searchAllMovieDataBaseWithQuery(String query) {
+        String url = BASE_URL + "search/movie?query=" + query + "&api_key=" + tmdbConfig.getTmdbApiKey() + "&include_adult=" + INCLUDE_ADULT + "&language=" + LANGUAGE;
 
         System.out.println(url);
 
@@ -54,22 +54,22 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
-                if (response.isSuccessful()) {
-                    String jsonResponse = response.body().string(); // réponse JSON brute en tant que chaîne
-                    SearchMoviesResponseDto searchMoviesResponseDto = objectMapper.readValue(jsonResponse, SearchMoviesResponseDto.class);
-                    return movieApiMapper.mapSearchMoviesResponseDtoToEntityList(searchMoviesResponseDto);
+            if (response.isSuccessful()) {
+                String jsonResponse = response.body().string(); // réponse JSON brute en tant que chaîne
+                SearchMoviesResponseDto searchMoviesResponseDto = objectMapper.readValue(jsonResponse, SearchMoviesResponseDto.class);
+                return movieApiMapper.mapSearchMoviesResponseDtoToEntityList(searchMoviesResponseDto);
 
-                } else {
-                    throw new MediaDataBaseException("APP - Tmdb - Echec recherche liste de films avec caractères:  " +  query + " avec un code retour API: " + response.code());
-                }
-    } catch (IOException e) {
+            } else {
+                throw new MediaDataBaseException("APP - Tmdb - Echec recherche liste de films avec caractères:  " + query + " avec un code retour API: " + response.code());
+            }
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
     public MovieDataBase findDetailMovieDataBase(long idTmdb) {
-        String url = BASE_URL + "movie/" + idTmdb + "?&api_key=" + tmdbConfig.getTmdbApiKey() +  "&language=" + LANGUAGE;
+        String url = BASE_URL + "movie/" + idTmdb + "?&api_key=" + tmdbConfig.getTmdbApiKey() + "&language=" + LANGUAGE;
 
         System.out.println(url);
 
@@ -91,7 +91,7 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
                 return movieApiMapper.mapDetailMovieResponseDtoToEntity(detailMovieResponseDto);
 
             } else {
-                throw new MediaDataBaseException("APP - Tmdb - Echec recherche du détail du film d'Id TMDB:  " +  idTmdb + " avec un code retour API: " + response.code());
+                throw new MediaDataBaseException("APP - Tmdb - Echec recherche du détail du film d'Id TMDB:  " + idTmdb + " avec un code retour API: " + response.code());
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -103,7 +103,8 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
         String url = BASE_URL + "discover/movie?"
                 + "&api_key=" + tmdbConfig.getTmdbApiKey()
                 + "&include_adult=" + INCLUDE_ADULT
-                +  "&language=" + LANGUAGE
+                + "&language=" + LANGUAGE
+                + "&page=" + page
                 + "&sort_by=" + "popularity.desc";
 //'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=1&sort_by=popularity.desc'
         System.out.println(url);
@@ -125,7 +126,7 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
                 return movieApiMapper.mapSearchMoviesResponseDtoToEntityList(searchMoviesResponseDto);
 
             } else {
-                throw new MediaDataBaseException("APP - Tmdb - Echec recherche suggestion de films de la page:  " +  page + " avec un code retour API: " + response.code());
+                throw new MediaDataBaseException("APP - Tmdb - Echec recherche suggestion de films de la page:  " + page + " avec un code retour API: " + response.code());
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
