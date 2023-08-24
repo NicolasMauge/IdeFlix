@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {MediaModel} from "../../../core/models/media.model";
 import {MediaService} from "../../../core/services/media/media.service";
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
@@ -28,7 +28,7 @@ export class SearchbarComponent {
         } else {
           this.moviesDataBaseResult = [];
         }
-    })
+      })
 
     this.debounceSubjectForSeries.pipe(debounceTime(300))  // délai de 300ms
       // Chaque fois que l'utilisateur entre une saisie, la méthode onKeyupWithDebounce est appelée,
@@ -52,21 +52,21 @@ export class SearchbarComponent {
   //     })
   // }
 
-  onKeyupStringOfMovie(userInput: string): void{
-      // requête GET à TMDB pour récupérer la liste des films
-      console.log('userInputMovie', userInput)
-      this.mediaSvc.searchMovies2(userInput)
-        .subscribe((data:MediaDatabaseModel[]) => {
-          (this.moviesDataBaseResult = data);
-          console.log('keyup', this.moviesDataBaseResult);
-        })
+  onKeyupStringOfMovie(userInput: string): void {
+    // requête GET à TMDB pour récupérer la liste des films
+    console.log('userInputMovie', userInput)
+    this.mediaSvc.searchMovies(userInput)
+      .subscribe((data: MediaDatabaseModel[]) => {
+        (this.moviesDataBaseResult = data);
+        console.log('keyup', this.moviesDataBaseResult);
+      })
   }
 
-  onKeyupStringOfSerie(userInput: string): void{
+  onKeyupStringOfSerie(userInput: string): void {
     // requête GET à TMDB pour récupérer la liste des films
     console.log('userInputSerie', userInput)
     this.mediaSvc.searchSeries(userInput)
-      .subscribe((data:MediaDatabaseModel[]) => {
+      .subscribe((data: MediaDatabaseModel[]) => {
         (this.seriesDataBaseResult = data);
         console.log('keyup', this.seriesDataBaseResult);
       })

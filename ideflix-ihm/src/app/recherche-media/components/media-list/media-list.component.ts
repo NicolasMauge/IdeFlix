@@ -34,7 +34,7 @@ export class MediaListComponent implements OnInit, OnDestroy {
     // this.sub = this.mediaSvc.movies$.subscribe( (data: MediaModel[]) => this.medias = data);
 
     // requête GET à TMDB pour récupérer la liste des films
-    this.mediaSvc.getMoviesFromApi2(this.page);
+    this.mediaSvc.getMoviesFromApi(this.page);
 
     //abonnement à la source service.movies$  via un subscribe
     this.sub = this.mediaSvc.medias$.subscribe((data: MediaDatabaseModel[]) => {
@@ -53,7 +53,7 @@ export class MediaListComponent implements OnInit, OnDestroy {
   chargerLaSuite() {
     this.page++;
     this.afficheChargementSuite = true;
-    this.mediaSvc.getMoviesFromApi2(this.page);
+    this.mediaSvc.getMoviesFromApi(this.page);
 
     // timeout pour éviter d'appeler l'api en boucle pendant le scrolling
     setTimeout(() => {
