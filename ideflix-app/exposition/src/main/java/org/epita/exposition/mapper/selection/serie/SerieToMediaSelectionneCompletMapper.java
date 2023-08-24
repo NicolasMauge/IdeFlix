@@ -23,7 +23,7 @@ public class SerieToMediaSelectionneCompletMapper extends Mapper<SerieSelectionn
     @Override
     public MediaSelectionneCompletDto mapEntityToDto(SerieSelectionneeEntity input) {
         return new MediaSelectionneCompletDto(
-                TypeMedia.FILM,
+                TypeMedia.SERIE,
                 input.getAvisPouce(),
                 input.getDateSelection(),
                 this.etiquetteMapper.mapListEntityToDto(input.getEtiquetteEntityList()),
