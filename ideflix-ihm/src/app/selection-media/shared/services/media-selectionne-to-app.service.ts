@@ -37,8 +37,13 @@ export class MediaSelectionneToAppService {
     this.http.get<String[]>(this.IDEFLIX_API + endpoint)
       .pipe(
         map(
-          (listMediaSelectionneApi: any) => listMediaSelectionneApi.map(
-            (mediaSelectionneApi: any) => new MediaSelectionneDtoModel(mediaSelectionneApi)
+          (listMediaSelectionneApi: any) =>
+            listMediaSelectionneApi.map((mediaSelectionneApi: any) => {
+              console.log("dans service");
+              console.log(mediaSelectionneApi);
+              console.log(new MediaSelectionneDtoModel(mediaSelectionneApi));
+              return new MediaSelectionneDtoModel(mediaSelectionneApi);
+            }
         ))
       )
       .subscribe((data: MediaSelectionneDtoModel[])=> this._mediaSelectionne$.next(data));

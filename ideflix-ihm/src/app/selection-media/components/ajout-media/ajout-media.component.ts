@@ -35,6 +35,7 @@ export class AjoutMediaComponent {
   statusEnum = Status;
 
   etiquettes$!: Observable<EtiquetteModel[]>;
+  mediaSelectionne$!: Observable<MediaSelectionneDtoModel[]>
 
   email: string|null = "";
 
@@ -49,8 +50,6 @@ export class AjoutMediaComponent {
   userForm!: FormGroup;
 
   ajoutEtiquette: string | undefined;
-
-  mediaSelectionne: MediaSelectionneDtoModel|null = null;
 
   constructor(private etiquetteService:EtiquettesService,
               private mediaAppService:MediaSelectionneToAppService,
@@ -76,6 +75,19 @@ export class AjoutMediaComponent {
     if (this.email !== null) {
       this.loadEtiquettes();
       this.loadMediaSelectionne();
+
+      this.buttonAdd = true;
+      this.buttonModify = false;
+      this.buttonDelete = false;
+
+      this.userForm.get('status')?.setValue(Status.ToSee);
+      this.userForm.get('etiquettes')?.setValue([]);
+
+      this.mediaSelectionne$.subscribe((data:MediaSelectionneDtoModel[]) => {
+        if(data.length > 0) {
+          this.initializeDefaultValues(data[0]);
+        }
+      })
     }
     else {
       console.log('email non présent dans le localstorage');
@@ -84,41 +96,31 @@ export class AjoutMediaComponent {
     }
   }
 
+  initializeDefaultValues(mediaSelectionne: MediaSelectionneDtoModel) {
+    this.buttonAdd = false;
+    this.buttonModify = true;
+    this.buttonDelete = true;
+
+    let defaultStatus: Status|undefined = this.mapStatus.mapBackendStatusToIhmStatus(mediaSelectionne.statutMedia);
+    this.userForm.get('status')?.setValue(defaultStatus);
+
+    this.etiquettes$.subscribe((etiquettes) => {
+      let etiquettesChecked: EtiquetteModel[] = [];
+      mediaSelectionne.etiquetteList.map((etiquette) => {
+        let etiquetteFound: EtiquetteModel|undefined = etiquettes.find(tag => tag.id == etiquette.id);
+
+        if(etiquetteFound!=undefined) {
+          etiquettesChecked.push(etiquetteFound);
+        }
+      });
+
+      this.userForm.get('etiquettes')?.setValue(etiquettesChecked);
+    });
+  }
+
   loadMediaSelectionne() {
     this.mediaAppService.trouveMediaSelectionnePourEmailEtIdTmdb(this.email!, this.media.idDataBase.toString());
-    this.mediaAppService.mediaSelectionne$.subscribe((data:MediaSelectionneDtoModel[])=> {
-      if(data.length>0) {
-        this.mediaSelectionne = data[0];
-
-        this.buttonAdd = false;
-        this.buttonModify = true;
-        this.buttonDelete = true;
-
-        let defaultStatus: Status|undefined = this.mapStatus.mapBackendStatusToIhmStatus(this.mediaSelectionne.statutMedia);
-        this.userForm.get('status')?.setValue(defaultStatus);
-
-        this.etiquettes$.subscribe((etiquettes) => {
-          let etiquettesChecked: EtiquetteModel[] = [];
-          this.mediaSelectionne!.etiquetteList.map((etiquette) => {
-            let etiquetteFound: EtiquetteModel|undefined = etiquettes.find(tag => tag.id == etiquette.id);
-
-            if(etiquetteFound!=undefined) {
-              etiquettesChecked.push(etiquetteFound);
-            }
-          });
-
-          this.userForm.get('etiquettes')?.setValue(etiquettesChecked);
-        })
-      }
-      else {
-        this.buttonAdd = true;
-        this.buttonModify = false;
-        this.buttonDelete = false;
-
-        this.userForm.get('status')?.setValue(Status.ToSee);
-        this.userForm.get('etiquettes')?.setValue([]);
-      }
-    });
+    this.mediaSelectionne$ = this.mediaAppService.mediaSelectionne$;
   }
 
   loadEtiquettes() {
@@ -129,6 +131,7 @@ export class AjoutMediaComponent {
   get etiquette$(): Observable<EtiquetteModel[]> {
     return this.etiquettes$;
   }
+
 
   OnSubmitAdd() {
     //event.preventDefault();
