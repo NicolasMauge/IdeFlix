@@ -23,53 +23,15 @@
         <button mat-raised-button (click)="openDialog()"><i class="fa-solid fa-plus"></i></button>
       </div>
 
-      <app-choix-saison-episode *ngIf = "typeMedia=='SERIE'" [media]="media" (emitterParent)="setAvancement($event)"></app-choix-saison-episode>
+      <app-choix-saison-episode *ngIf="typeMedia=='SERIE'"
+                                [media]="media"
+                                (emitterParent)="setAvancement($event)"
+                                [mediaSelectionne]="mediaSelectionne$">
+      </app-choix-saison-episode>
 
-      <button type="submit" *ngIf="buttonAdd == true" (click)="OnSubmitAdd()" class="btn btn-light">Ajouter à ma liste</button>
-      <button type="submit" *ngIf="buttonDelete == true" (click)="OnSubmitDelete()" class="btn btn-light">Supprimer de ma liste</button>
-      <button type="submit" *ngIf="buttonModify == true" (click)="OnSubmitAdd()" class="btn btn-light">Modifier dans ma liste</button>
+      <button type="submit" *ngIf="buttonAdd" (click)="OnSubmitAdd()" class="btn btn-light">Ajouter à ma liste</button>
+      <button type="submit" *ngIf="buttonDelete" (click)="OnSubmitDelete()" class="btn btn-light">Supprimer de ma liste</button>
+      <button type="submit" *ngIf="buttonModify" (click)="OnSubmitAdd()" class="btn btn-light">Modifier dans ma liste</button>
     </div>
   </form>
-
-
-<!--
-  <form name = "modifyList">
-
-        <div class="form-group">
-          <div class="row d-flex align-items-center">
-            <div class="col-md-4">
-              <label>Status:</label>
-              <select #status class="form-control" [(ngModel)]="nouveauMedia.status" [ngModelOptions]="{standalone: true}">
-                <option value="">Tous Status</option>
-                <option *ngFor="let status of statusEnum | valuesFromKey" [value]="status">
-                  {{ status }}
-                </option>
-              </select>
-            </div>
-
-            <div class="col-md-4">
-              <label>Etiquettes :</label>
-              <div class="mb-3">
-                <button [matMenuTriggerFor]="menu">Ajouter une étiquette</button>
-                <mat-menu #menu="matMenu">
-                  <button mat-menu-item (click)="createEtiquette()">Créer une étiquette</button>
-                  <button *ngFor="let etiquette of etiquettes" mat-menu-item (click)="addEtiquette(etiquette)">{{etiquette.nomTag}}</button>
-                </mat-menu>
-              </div>
-
-              <div class="mb-3">
-                <span *ngFor="let etiquette of nouveauMedia.listTag" class="badge badge-large rounded-pill text-bg-secondary">
-                      {{etiquette.nomTag}}
-                </span>
-              </div>
-          </div>
-        </div>
-
-        </div>
-
-        <button type="submit" *ngIf="buttonAdd == true" ng-click="OnSubmitAdd()" class="btn btn-light">Ajouter à ma liste</button>
-        <button type="submit" *ngIf="buttonDelete == true" ng-click="OnSubmitDelete()" class="btn btn-light">Supprimer de ma liste</button>
-        <button type="submit" *ngIf="buttonModify == true" ng-click="OnSubmitModify()" class="btn btn-light">Modifier dans ma liste</button>
-      </form>
-      -->
 </div>

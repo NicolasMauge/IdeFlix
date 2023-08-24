@@ -13,6 +13,7 @@ export class DialogEtiquettesComponent {
   }
 
   onNoClick(): void {
+    this.data.ajoutEtiquette = "";
     this.dialogRef.close();
   }
 }

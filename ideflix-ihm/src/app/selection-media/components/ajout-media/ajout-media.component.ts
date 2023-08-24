@@ -17,24 +17,13 @@ import {MapIhmService} from "../../../shared/services/map-ihm-service";
 import {SerieCurrentSaisonEpisode} from "../choix-saison-episode/choix-saison-episode.component";
 
 
-// fonction pour la correspondance entre les status provenant du backend et les status affichés sur l'ihm
-/*function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
-  switch (ihmStatus) {
-    case Status.Completed:
-      return "VU";
-    case Status.ToSee:
-      return "A_VOIR";
-    case Status.InProgress:
-      return "EN_COURS";
-    case Status.Dropped:
-      return "ABANDONNE";
-    default:
-      return undefined;
-  }
-}*/
-
 export interface DialogData {
   ajoutEtiquette: string;
+}
+
+export interface SaisonEpisode {
+  saison: number,
+  episode: number
 }
 
 @Component({
@@ -43,10 +32,11 @@ export interface DialogData {
   styleUrls: ['./ajout-media.component.css']
 })
 export class AjoutMediaComponent {
-  protected readonly Status = Status;
   statusEnum = Status;
 
   etiquettes$!: Observable<EtiquetteModel[]>;
+  mediaSelectionne$!: Observable<MediaSelectionneDtoModel[]>
+
   email: string|null = "";
 
   buttonAdd: boolean = true;
@@ -55,7 +45,8 @@ export class AjoutMediaComponent {
 
   @Input() media!: MediaDatabaseModel;
   @Input() typeMedia!:string;
-  @Output() emitterParentDetail = new EventEmitter<string>();
+  @Output() emitterParentNumeroSaison = new EventEmitter<number>();
+  //@Output() emitterParentResume = new EventEmitter<string>();
 
   userForm!: FormGroup;
 
@@ -74,79 +65,63 @@ export class AjoutMediaComponent {
   ngOnInit() {
     this.email = localStorage.getItem('email');
 
+    this.userForm = this.formBuilder.group({
+      status: [Status.ToSee, [ Validators.required ] ],
+      etiquettes:  [[]],
+      avancement: [null]
+    });
+
+    //console.log(this.media);
+
     if (this.email !== null) {
       this.loadEtiquettes();
       this.loadMediaSelectionne();
+
+      this.buttonAdd = true;
+      this.buttonModify = false;
+      this.buttonDelete = false;
+
+      this.userForm.get('status')?.setValue(Status.ToSee);
+      this.userForm.get('etiquettes')?.setValue([]);
+
+      this.mediaSelectionne$.subscribe((data:MediaSelectionneDtoModel[]) => {
+        if(data.length > 0) {
+          this.initializeDefaultValues(data[0]);
+        }
+      })
     }
     else {
       console.log('email non présent dans le localstorage');
       //this.messageSvc.show('erreur de conexion - veuillez vous reconnecter', 'error')
-      //this.route.navigate(['/login']);
+      this.route.navigate(['/login']);
     }
+  }
+
+  initializeDefaultValues(mediaSelectionne: MediaSelectionneDtoModel) {
+    this.buttonAdd = false;
+    this.buttonModify = true;
+    this.buttonDelete = true;
+
+    let defaultStatus: Status|undefined = this.mapStatus.mapBackendStatusToIhmStatus(mediaSelectionne.statutMedia);
+    this.userForm.get('status')?.setValue(defaultStatus);
+
+    this.etiquettes$.subscribe((etiquettes) => {
+      let etiquettesChecked: EtiquetteModel[] = [];
+      mediaSelectionne.etiquetteList.map((etiquette) => {
+        let etiquetteFound: EtiquetteModel|undefined = etiquettes.find(tag => tag.id == etiquette.id);
+
+        if(etiquetteFound!=undefined) {
+          etiquettesChecked.push(etiquetteFound);
+        }
+      });
+
+      this.userForm.get('etiquettes')?.setValue(etiquettesChecked);
+    });
   }
 
   loadMediaSelectionne() {
     this.mediaAppService.trouveMediaSelectionnePourEmailEtIdTmdb(this.email!, this.media.idDataBase.toString());
-    this.mediaAppService.mediaSelectionne$.subscribe((data:MediaSelectionneDtoModel[])=> {
-      if(data.length>0) {
-        this.buttonAdd = false;
-        this.buttonModify = true;
-        this.buttonDelete = true;
-
-        /*let defaultStatus: Status;
-        switch (data[0].statutMedia) {
-          case "ABANDONNE":
-            defaultStatus = Status.Dropped;
-            break;
-          case "A_VOIR":
-            defaultStatus = Status.ToSee;
-            break;
-          case "EN_COURS":
-            defaultStatus = Status.InProgress;
-            break;
-          case "VU":
-            defaultStatus = Status.Completed;
-            break;
-          default:
-            defaultStatus = Status.ToSee;
-        }*/
-        let defaultStatus: Status|undefined = this.mapStatus.mapBackendStatusToIhmStatus(data[0].statutMedia);
-
-        this.userForm = this.formBuilder.group({
-          status: [defaultStatus, [ Validators.required ] ],
-          etiquettes:  [],
-          avancement: []
-        });
-
-        this.etiquettes$.subscribe((etiquettes) => {
-          let etiquettesChecked: EtiquetteModel[] = [];
-          data[0].etiquetteList.map((etiquette) => {
-            let etiquetteFound: EtiquetteModel|undefined = etiquettes.find(tag => tag.id == etiquette.id);
-
-            if(etiquetteFound!=undefined) {
-              etiquettesChecked.push(etiquetteFound);
-            }
-          });
-
-          this.userForm = this.formBuilder.group({
-            status: [Status.ToSee, [ Validators.required ] ],
-            etiquettes:  [etiquettesChecked],
-            avancement: []
-          });
-        })
-      }
-      else {
-        this.buttonAdd = true;
-        this.buttonModify = false;
-        this.buttonDelete = false;
-
-        this.userForm = this.formBuilder.group({
-          status: [Status.ToSee, [ Validators.required ] ],
-          etiquettes:  [[]],
-          avancement: []
-        });
-      }
-    });
+    this.mediaSelectionne$ = this.mediaAppService.mediaSelectionne$;
   }
 
   loadEtiquettes() {
@@ -155,13 +130,15 @@ export class AjoutMediaComponent {
   }
 
   get etiquette$(): Observable<EtiquetteModel[]> {
-    return this.etiquetteService.etiquettes$;
+    return this.etiquettes$;
   }
+
 
   OnSubmitAdd() {
     //event.preventDefault();
 
     if (this.userForm.value.status != '') {
+      //console.log("dans submit")
       //sauvegarde de la partie genre
       this.genreService.saveToApp(this.media.genres.map((genre: any) => new GenreAppModel(genre)))
         .pipe(
@@ -246,22 +223,19 @@ export class AjoutMediaComponent {
       data: {name: this.ajoutEtiquette},
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      // fermeture de la page dialog
-      this.saveEtiquette(result);
-      this.loadEtiquettes();
+    dialogRef.afterClosed().subscribe(nouvelleEtiquette => {
+      if(nouvelleEtiquette!=undefined) {
+        // fermeture de la page dialog
+        this.etiquetteService.saveToApp(new EtiquetteModel({nomTag: nouvelleEtiquette}), this.email!)
+            .subscribe(()=>
+                this.etiquetteService.loadEtiquettes(this.email!));
+      }
     });
-  }
-
-  saveEtiquette(nouvelleEtiquette: string) {
-    this.etiquetteService.saveToApp(new EtiquetteModel({nomTag: nouvelleEtiquette}), this.email!);
   }
 
   setAvancement(saisonEpisodeCourant: SerieCurrentSaisonEpisode) {
     this.userForm.get('avancement')?.setValue(saisonEpisodeCourant);
 
-    //console.log("--------");
-    //console.log(this.userForm.value);
-    this.emitterParentDetail.emit(this.media.saisons[saisonEpisodeCourant.saison-1].image_portraitSaison);
+    this.emitterParentNumeroSaison.emit(saisonEpisodeCourant.saison);;
   }
 }

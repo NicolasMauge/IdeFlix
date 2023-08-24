@@ -1,6 +1,9 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {MatSelectChange} from "@angular/material/select";
+import {Observable} from "rxjs";
+import {MediaSelectionneDtoModel} from "../../shared/model/MediaSelectionneDto.model";
 
 export interface SerieCurrentSaisonEpisode {
   saison: number,
@@ -18,6 +21,11 @@ export interface EpisodeElement {
   libelleEpisode: string
 }
 
+export interface SaisonEpisode {
+  saison: number,
+  episode: number
+}
+
 @Component({
   selector: 'app-choix-saison-episode',
   templateUrl: './choix-saison-episode.component.html',
@@ -25,62 +33,83 @@ export interface EpisodeElement {
 })
 export class ChoixSaisonEpisodeComponent {
   @Input() media!: MediaDatabaseModel;
+  @Input() mediaSelectionne!: Observable<MediaSelectionneDtoModel[]>
+
   @Output() emitterParent = new EventEmitter<SerieCurrentSaisonEpisode>();
-  saisonForm!: FormGroup;
+  //saisonForm!: FormGroup;
   avancementSerie!: SerieCurrentSaisonEpisode;
   listeSaisons: SaisonElement[] = [];
   listeEpisodes: EpisodeElement[] = [];
 
-  constructor(private formBuilder: FormBuilder) {
+  saisonCurrent: number = 1;
+  episodeCurrent: number = 1;
+
+  constructor(/*private formBuilder: FormBuilder*/) {
   }
 
   ngOnInit() {
-    this.saisonForm = this.formBuilder.group({
-      saison: [1],
-      episode: [1]
-    });
+    this.avancementSerie = {
+      saison : this.saisonCurrent,
+      idSaisonTmdb: this.media.saisons[this.saisonCurrent].idDatabaseSaison.toString(),
+      episode: this.episodeCurrent
+    };
 
-    this.avancementSerie = {saison : 1,
-                            idSaisonTmdb: this.media.saisons[0].idDatabaseSaison.toString(),
-                            episode: 1};
+    this.mediaSelectionne.subscribe((data:MediaSelectionneDtoModel[]) => {
+      if(data.length>0) {
+        //console.log("dans choix saison");
+        //console.log(data[0]);
+
+        this.saisonCurrent = data[0].numeroSaison;
+        this.episodeCurrent = data[0].numeroEpisode;
+
+        this.emitToParent();
+      }
+    })
 
     this.defineListeSaisons();
     this.defineListeEpisodes();
 
     console.log(this.media);
+    this.emitToParent();
   }
 
   onChangeSaison() {
     this.defineListeEpisodes();
+    this.emitToParent();
   }
 
   onChangeEpisode() {
-    this.avancementSerie = {saison: this.saisonForm.value.saison,
-                            idSaisonTmdb: this.media.saisons[this.saisonForm.value.saison-1].idDatabaseSaison.toString(),
-                            episode: this.saisonForm.value.episode};
-    this.emitterParent.emit(this.avancementSerie);
+    this.emitToParent();
+  }
+
+  defineListeSaisons() {
+    this.listeSaisons = [];
+    for(let i:number=0;i<=this.media.nombreSaisons;i++) {
+      this.listeSaisons.push({numeroSaison: i, libelleSaison:this.media.saisons[i].titreSaison});
+    }
   }
 
   defineListeEpisodes() {
-    let numeroSaisonChoisie : number = this.saisonForm.value.saison;
-    let nombreEpisodes: number = this.nombreEpisodesSaison(numeroSaisonChoisie-1);
+    let nombreEpisodes: number = this.nombreEpisodesSaison(this.saisonCurrent);
     this.listeEpisodes = [];
 
     for(let i:number=1;i<=nombreEpisodes;i++) {
       this.listeEpisodes.push({numeroEpisode: i, libelleEpisode:"Episode "+i});
     }
 
-    this.saisonForm.get('episode')?.setValue(1);
+    this.episodeCurrent = 1;
+  }
+  nombreEpisodesSaison(numeroSaison: number) {
+    return this.media.saisons[numeroSaison].nombreEpisodes;
   }
 
-  defineListeSaisons() {
-    this.listeSaisons = [];
-    for(let i:number=1;i<=this.media.nombreSaisons;i++) {
-      this.listeSaisons.push({numeroSaison: i, libelleSaison:"Saison "+i});
-    }
-  }
+  emitToParent() {
+    this.avancementSerie = {
+      saison: this.saisonCurrent,
+      idSaisonTmdb: this.media.saisons[this.saisonCurrent].idDatabaseSaison.toString(),
+      episode: this.episodeCurrent
+    };
 
-  nombreEpisodesSaison(numeroSaisonAPartirDeZero: number) {
-    return this.media.saisons[numeroSaisonAPartirDeZero].nombreEpisodes;
+    this.emitterParent.emit(this.avancementSerie);
   }
 }
