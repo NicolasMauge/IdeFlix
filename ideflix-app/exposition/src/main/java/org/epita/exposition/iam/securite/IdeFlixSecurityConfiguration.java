@@ -24,9 +24,9 @@ import static org.epita.exposition.iam.securite.ConstantesSecurite.*;
 
 @Configuration
 //@EnableWebSecurity
-public class SecurityConfiguration {
+public class IdeFlixSecurityConfiguration {
 
-    private final static Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
+    private final static Logger logger = LoggerFactory.getLogger(IdeFlixSecurityConfiguration.class);
 
     @Value("${org.epita.ideflixapp.secretiam}")
     public String SECRET_IAM;
@@ -36,7 +36,7 @@ public class SecurityConfiguration {
 
     private DataSource dataSource;
 
-    public SecurityConfiguration(UtilisateurIamService utilisateurIamService, DataSource dataSource) {
+    public IdeFlixSecurityConfiguration(UtilisateurIamService utilisateurIamService, DataSource dataSource) {
         this.utilisateurIamService = utilisateurIamService;
         this.dataSource = dataSource;
     }

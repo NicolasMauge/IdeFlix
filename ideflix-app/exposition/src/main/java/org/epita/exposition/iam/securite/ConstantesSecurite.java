@@ -7,7 +7,7 @@ public final class ConstantesSecurite {
             "/swagger-resources/**",
             "/configuration/ui",
             "/configuration/security",
-            "/v3/api-docs/**",
+            "/api-docs/**",
             "/swagger-ui/**"
     };
 
