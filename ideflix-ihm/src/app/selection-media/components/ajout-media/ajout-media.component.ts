@@ -93,6 +93,8 @@ export class AjoutMediaComponent {
           avancement: []
         });*/
 
+        console.log(data);
+
         this.etiquettes$.subscribe((etiquettes) => {
           let etiquettesChecked: EtiquetteModel[] = [];
           data[0].etiquetteList.map((etiquette) => {
@@ -115,6 +117,9 @@ export class AjoutMediaComponent {
         this.buttonAdd = true;
         this.buttonModify = false;
         this.buttonDelete = false;
+
+        this.userForm.get('status')?.setValue(Status.ToSee);
+        this.userForm.get('etiquettes')?.setValue([]);
       }
     });
   }

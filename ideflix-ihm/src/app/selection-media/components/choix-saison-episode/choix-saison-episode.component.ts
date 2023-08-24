@@ -57,15 +57,15 @@ export class ChoixSaisonEpisodeComponent {
     this.emitToParent();
   }
 
-  onChangeSaison(numeroSaison: MatSelectChange) {
-    this.saisonCurrent = numeroSaison.value;
+  onChangeSaison() {
+    //this.saisonCurrent = numeroSaison.value;
 
     this.defineListeEpisodes();
     this.emitToParent();
   }
 
-  onChangeEpisode(numeroEpisode: MatSelectChange) {
-    this.episodeCurrent = numeroEpisode.value;
+  onChangeEpisode() {
+    //this.episodeCurrent = numeroEpisode.value;
 
     this.emitToParent();
   }
