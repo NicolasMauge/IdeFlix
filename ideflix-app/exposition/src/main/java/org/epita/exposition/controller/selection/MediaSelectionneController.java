@@ -28,19 +28,16 @@ public class MediaSelectionneController {
     Mapper<SerieSelectionneeEntity, MediaSelectionneDto> serieMapper;
     Mapper<SerieSelectionneeEntity, MediaSelectionneCompletDto> serieCompletMapper;
 
-    GenreMapper genreMapper;
-
     private FilmSelectionneService filmSelectionneService;
     private SerieSelectionneeService serieSelectionneeService;
 
-    public MediaSelectionneController(FilmSelectionneService filmSelectionneService, SerieSelectionneeService serieSelectionneeService, Mapper<FilmSelectionneEntity, MediaSelectionneDto> filmMapper, Mapper<FilmSelectionneEntity, MediaSelectionneCompletDto> filmCompletMapper, Mapper<SerieSelectionneeEntity, MediaSelectionneDto> serieMapper, Mapper<SerieSelectionneeEntity, MediaSelectionneCompletDto> serieCompletMapper, GenreMapper genreMapper) {
+    public MediaSelectionneController(FilmSelectionneService filmSelectionneService, SerieSelectionneeService serieSelectionneeService, Mapper<FilmSelectionneEntity, MediaSelectionneDto> filmMapper, Mapper<FilmSelectionneEntity, MediaSelectionneCompletDto> filmCompletMapper, Mapper<SerieSelectionneeEntity, MediaSelectionneDto> serieMapper, Mapper<SerieSelectionneeEntity, MediaSelectionneCompletDto> serieCompletMapper) {
         this.filmSelectionneService = filmSelectionneService;
         this.serieSelectionneeService = serieSelectionneeService;
         this.filmMapper = filmMapper;
         this.filmCompletMapper = filmCompletMapper;
         this.serieMapper = serieMapper;
         this.serieCompletMapper = serieCompletMapper;
-        this.genreMapper = genreMapper;
     }
 
     @PostMapping()
@@ -70,31 +67,6 @@ public class MediaSelectionneController {
         return mediaDtoList;
     }
 
-    @GetMapping("/utilisateur/{email}/genres")
-    public TreeSet<GenreDto> trouverTousLesGenresParUtilisateur(@PathVariable("email") String email) {
-        List<FilmSelectionneEntity> filmSelectionne = this.filmSelectionneService
-                .trouverFilmsSelectionnesParEmailUtilisateur(email);
-        List<SerieSelectionneeEntity> serieSelectionnee = this.serieSelectionneeService
-                .trouverSeriesSelectionneesParEmailUtilisateur(email);
-
-        List<GenreDto> genreDtoList = new ArrayList<>();
-        filmSelectionne.forEach(f -> f.getMediaAudioVisuelEntity().getGenreList().forEach(genreEntity -> genreDtoList.add(genreMapper.mapEntityToDto(genreEntity))));
-        serieSelectionnee.forEach(s -> s.getMediaAudioVisuelEntity().getGenreList().forEach(genreEntity -> genreDtoList.add(genreMapper.mapEntityToDto(genreEntity))));
-
-        TreeSet<GenreDto> genreSet = new TreeSet<>((genre1, genre2) -> {
-            if (genre1 == null || genre2 == null) return 1;
-            if (genre1.getIdTmdb().equals(genre2.getIdTmdb()))
-                return 0; // même id TMDB = identique
-            else {
-                int compare = genre1.getNomGenre().compareTo(genre2.getNomGenre());
-                if (compare < 0) return -1;
-                else if (compare > 0) return 1;
-                else return 1; // on veut garder les doublons s'ils ont un id TMDB différents.
-            }
-        });
-        genreSet.addAll(genreDtoList);
-        return genreSet;
-    }
 
     @GetMapping("/utilisateur/{email}/idtmdb/{idTmdb}")
     public List<MediaSelectionneCompletDto> trouverMediasParUtilisateurEtIdTmdb(@PathVariable("email") String email,

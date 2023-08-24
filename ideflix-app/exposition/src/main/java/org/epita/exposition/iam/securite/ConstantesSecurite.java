@@ -35,6 +35,7 @@ public final class ConstantesSecurite {
             "/filmselectionne/utilisateur/*",
             "/genre",
             "/genre/*",
+            "/genre/utilisateur/*",
             "/genre/health-check",
             "/mediaselectionne/utilisateur/*",
             "/mediaselectionne/utilisateur/**",
