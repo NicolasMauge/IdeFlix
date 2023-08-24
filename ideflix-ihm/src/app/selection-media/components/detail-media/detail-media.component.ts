@@ -23,7 +23,9 @@ export class DetailMediaComponent {
   movieId!: number;
   media!:MediaDatabaseModel;
   typeMedia!:string;
-  image! : string;
+  image : string = "";
+  resume: string = "";
+  typeResume: string = "Resumé";
 
   constructor(private route:ActivatedRoute,
               private movieService:MediaService) {}
@@ -37,6 +39,7 @@ export class DetailMediaComponent {
         (data: MediaDatabaseModel) => {
           this.media = data;
           this.image = this.media.image_portrait ? this.media.image_portrait : "";
+          this.resume = this.media.resume;
         });
     }
     else {
@@ -44,6 +47,7 @@ export class DetailMediaComponent {
         (data: MediaDatabaseModel) => {
           this.media = data;
           this.image = this.media.image_portrait ? this.media.image_portrait : "";
+          this.resume = this.media.resume;
         });
     }
     //CARO--- --- tests pour voir si GetDetail est OK et c'est bien OK !!!!-------
@@ -57,8 +61,14 @@ export class DetailMediaComponent {
   }
 
 
-  setAvancement(image: string) {
-    this.image = image;
+  setSaison(numeroSaison: number) {
+    this.image = this.media.saisons[numeroSaison].image_portraitSaison;
+    this.typeResume = "Résumé de la saison "+numeroSaison;
+    this.resume = this.media.saisons[numeroSaison].resumeSaison;
+  }
+
+  setResume(resume: string) {
+    this.resume = resume;
   }
 
   get imagePortrait$() {
@@ -67,10 +77,7 @@ export class DetailMediaComponent {
 
   // getters
   get genreList(): Genre[] { // TODO : normalement, ce devrait être GenreModel mais il faudrait modifier MediaDatabaseModel
-    if(this.media) {
-      return this.media.genres;
-    }
-    return [];
+    return (this.media)? this.media.genres : [];
   }
 
   get titre(): string|null {
@@ -81,8 +88,8 @@ export class DetailMediaComponent {
     return(this.media)? this.media.dateSortie : null;
   }
 
-  get resume(): string|null {
-    return(this.media) ? this.media.resume : "";
+  get resume$(): string|null {
+    return this.resume;
   }
 
   get duree(): number|undefined {

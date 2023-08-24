@@ -45,7 +45,8 @@ export class AjoutMediaComponent {
 
   @Input() media!: MediaDatabaseModel;
   @Input() typeMedia!:string;
-  @Output() emitterParentDetail = new EventEmitter<string>();
+  @Output() emitterParentNumeroSaison = new EventEmitter<number>();
+  //@Output() emitterParentResume = new EventEmitter<string>();
 
   userForm!: FormGroup;
 
@@ -161,7 +162,7 @@ export class AjoutMediaComponent {
 
               let mediaSelectionne = new MediaSelectionneDtoModel(mediaSelectionneObject);
 
-              console.log(mediaSelectionne);
+              //console.log(mediaSelectionne);
 
               this.mediaAppService.saveToApp(mediaSelectionne);
             })
@@ -193,6 +194,6 @@ export class AjoutMediaComponent {
   setAvancement(saisonEpisodeCourant: SerieCurrentSaisonEpisode) {
     this.userForm.get('avancement')?.setValue(saisonEpisodeCourant);
 
-    this.emitterParentDetail.emit(this.media.saisons[saisonEpisodeCourant.saison].image_portraitSaison);
+    this.emitterParentNumeroSaison.emit(saisonEpisodeCourant.saison);;
   }
 }
