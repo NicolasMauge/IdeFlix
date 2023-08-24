@@ -15,6 +15,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {DialogEtiquettesComponent} from "../dialog-etiquettes/dialog-etiquettes.component";
 import {MapIhmService} from "../../../shared/services/map-ihm-service";
 import {SerieCurrentSaisonEpisode} from "../choix-saison-episode/choix-saison-episode.component";
+import {MediaMaListeService} from "../../../core/services/maListe/media-ma-liste.service";
+import {MediaMaListeModel} from "../../../ma-liste-de-selection/models/media-ma-liste.model";
 
 // fonction pour la correspondance entre les status provenant du backend et les status affichés sur l'ihm
 /*function mapIhmStatusToBackendStatus(ihmStatus: string): string | undefined {
@@ -67,7 +69,8 @@ export class AjoutMediaComponent {
               private formBuilder: FormBuilder,
               private route: Router,
               public dialog: MatDialog,
-              private mapStatus: MapIhmService) {
+              private mapStatus: MapIhmService,
+              private maListeService: MediaMaListeService) {
   }
 
   ngOnInit() {

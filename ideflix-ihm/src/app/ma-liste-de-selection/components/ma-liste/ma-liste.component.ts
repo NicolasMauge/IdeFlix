@@ -31,19 +31,20 @@ export class MaListeComponent {
   ngOnInit() {
     this.menuService.hideMenu = false;
 
-    // requête pour récupérer les préférences de l'utilisateur et charger la page
-    const email = localStorage.getItem('email');
-    if (email !== null) {
-    // requête GET à TMDB pour récupérer la liste des films
-    this.mediaSvc.getMoviesFromApi(email);
-
-    //abonnement à la source mediaMaListe$ contenant la liste de tous les médias sélectionnés   via un subscribe
-    this.sub = this.mediaSvc.mediaMaListe$.subscribe( (data: MediaMaListeModel[]) => this.medias = data);
-  } else {
-      console.log('email non présent dans le localstorage');
-      this.messageSvc.show('erreur de conexion - veuillez vous reconnecter', 'error')
-      this.route.navigate(['/login']);
-    }
+  //   // requête pour récupérer les préférences de l'utilisateur et charger la page
+  //   const email = localStorage.getItem('email');
+  //   if (email !== null) {
+  //   // requête GET à TMDB pour récupérer la liste des films
+  //   this.mediaSvc.getMoviesFromApi(email);
+  //
+  //   //abonnement à la source mediaMaListe$ contenant la liste de tous les médias sélectionnés   via un subscribe
+  //   this.sub = this.mediaSvc.mediaMaListe$.subscribe( (data: MediaMaListeModel[]) => this.medias = data);
+  // } else {
+  //     console.log('email non présent dans le localstorage');
+  //     this.messageSvc.show('erreur de conexion - veuillez vous reconnecter', 'error')
+  //     this.route.navigate(['/login']);
+  //   }
+    this.chargementMaListe();
   }
 
   ngOnDestroy(){
@@ -78,5 +79,20 @@ export class MaListeComponent {
     this.mediaSvc.reinitializedMediaList();
   }
 
-  // protected readonly filter = filter;
+  chargementMaListe() : void {
+    // requête pour récupérer les préférences de l'utilisateur et charger la page
+    const email = localStorage.getItem('email');
+    if (email !== null) {
+      // requête GET à TMDB pour récupérer la liste des films
+      this.mediaSvc.getMoviesFromApi(email);
+
+      //abonnement à la source mediaMaListe$ contenant la liste de tous les médias sélectionnés   via un subscribe
+      this.sub = this.mediaSvc.mediaMaListe$.subscribe( (data: MediaMaListeModel[]) => this.medias = data);
+    } else {
+      console.log('email non présent dans le localstorage');
+      this.messageSvc.show('erreur de conexion - veuillez vous reconnecter', 'error')
+      this.route.navigate(['/login']);
+    }
+  }
+
 }
