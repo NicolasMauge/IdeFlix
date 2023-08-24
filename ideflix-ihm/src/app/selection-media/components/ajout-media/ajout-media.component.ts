@@ -21,6 +21,11 @@ export interface DialogData {
   ajoutEtiquette: string;
 }
 
+export interface SaisonEpisode {
+  saison: number,
+  episode: number
+}
+
 @Component({
   selector: 'app-ajout-media',
   templateUrl: './ajout-media.component.html',
@@ -44,6 +49,8 @@ export class AjoutMediaComponent {
   userForm!: FormGroup;
 
   ajoutEtiquette: string | undefined;
+
+  mediaSelectionne: MediaSelectionneDtoModel|null = null;
 
   constructor(private etiquetteService:EtiquettesService,
               private mediaAppService:MediaSelectionneToAppService,
@@ -73,7 +80,7 @@ export class AjoutMediaComponent {
     else {
       console.log('email non présent dans le localstorage');
       //this.messageSvc.show('erreur de conexion - veuillez vous reconnecter', 'error')
-      //this.route.navigate(['/login']);
+      this.route.navigate(['/login']);
     }
   }
 
@@ -81,16 +88,18 @@ export class AjoutMediaComponent {
     this.mediaAppService.trouveMediaSelectionnePourEmailEtIdTmdb(this.email!, this.media.idDataBase.toString());
     this.mediaAppService.mediaSelectionne$.subscribe((data:MediaSelectionneDtoModel[])=> {
       if(data.length>0) {
+        this.mediaSelectionne = data[0];
+
         this.buttonAdd = false;
         this.buttonModify = true;
         this.buttonDelete = true;
 
-        let defaultStatus: Status|undefined = this.mapStatus.mapBackendStatusToIhmStatus(data[0].statutMedia);
+        let defaultStatus: Status|undefined = this.mapStatus.mapBackendStatusToIhmStatus(this.mediaSelectionne.statutMedia);
         this.userForm.get('status')?.setValue(defaultStatus);
 
         this.etiquettes$.subscribe((etiquettes) => {
           let etiquettesChecked: EtiquetteModel[] = [];
-          data[0].etiquetteList.map((etiquette) => {
+          this.mediaSelectionne!.etiquetteList.map((etiquette) => {
             let etiquetteFound: EtiquetteModel|undefined = etiquettes.find(tag => tag.id == etiquette.id);
 
             if(etiquetteFound!=undefined) {
@@ -155,7 +164,7 @@ export class AjoutMediaComponent {
             })
         );
     }
-    //this.route.navigate(['/maListe']);
+    this.route.navigate(['/maListe']);
   }
 
   OnSubmitDelete() {

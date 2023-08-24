@@ -19,6 +19,11 @@ export interface EpisodeElement {
   libelleEpisode: string
 }
 
+export interface SaisonEpisode {
+  saison: number,
+  episode: number
+}
+
 @Component({
   selector: 'app-choix-saison-episode',
   templateUrl: './choix-saison-episode.component.html',
