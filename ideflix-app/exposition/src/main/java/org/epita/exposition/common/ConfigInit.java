@@ -1,4 +1,4 @@
-package org.epita.exposition.controller.media;
+package org.epita.exposition.common;
 
 import org.epita.application.media.genre.GenreService;
 import org.springframework.context.annotation.Configuration;
@@ -6,11 +6,11 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 
 @Configuration
-public class ConfigGenres {
+public class ConfigInit {
 
     private GenreService genreService;
 
-    public ConfigGenres(GenreService genreService) {
+    public ConfigInit(GenreService genreService) {
         this.genreService = genreService;
     }
 
