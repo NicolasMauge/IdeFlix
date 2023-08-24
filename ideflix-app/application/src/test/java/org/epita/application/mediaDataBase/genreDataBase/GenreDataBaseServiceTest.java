@@ -1,5 +1,6 @@
 package org.epita.application.mediaDataBase.genreDataBase;
 
+import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.mediaDataBase.GenreDataBase;
 import org.epita.infrastructure.mediaDataBase.GenreDataBaseRepositoryImpl;
 import org.epita.infrastructure.mediaDataBase.TmdbConfig;
@@ -26,7 +27,7 @@ public class GenreDataBaseServiceTest {
         // Given
 
         // When
-        final List<GenreDataBase> trouves = this.genreDataBaseService.searchAllGenres();
+        final List<GenreEntity> trouves = this.genreDataBaseService.searchAllGenresEntity();
         System.out.println("trouves: " + trouves);
 
         // Then
