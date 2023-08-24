@@ -1,5 +1,8 @@
 package org.epita.exposition.controller.media;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.epita.application.media.genre.GenreService;
 import org.epita.application.selection.filmselectionne.FilmSelectionneService;
 import org.epita.application.selection.serieselectionnee.SerieSelectionneeService;
@@ -67,8 +70,14 @@ public class GenreController {
     }
 
 
+    @ApiOperation(value = "Récupération des genres des films et séries d'un utilisateur.",
+            notes = "Chaque id TMDB est unique. Le résultat est trié par ordre alphabétique du nom du genre.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK."),
+            @ApiResponse(code = 403, message = "Non autorisé."),
+    })
     @GetMapping("/utilisateur/{email}")
-    public TreeSet<GenreDto> trouverGenreParEmailUtilisateur(@PathVariable("email") String email) {
+    public ResponseEntity<TreeSet<GenreDto>> trouverGenreParEmailUtilisateur(@PathVariable("email") String email) {
         List<FilmSelectionneEntity> filmSelectionne = this.filmSelectionneService
                 .trouverFilmsSelectionnesParEmailUtilisateur(email);
         List<SerieSelectionneeEntity> serieSelectionnee = this.serieSelectionneeService
@@ -86,11 +95,12 @@ public class GenreController {
                 int compare = genre1.getNomGenre().compareTo(genre2.getNomGenre());
                 if (compare < 0) return -1;
                 else if (compare > 0) return 1;
-                else return 1; // Pas 0 car on veut garder les doublons s'ils ont des id TMDB différents.
+                else if (genre1.getNomGenre().compareTo(genre2.getNomGenre()) > 0) return 1;
+                else return -1;
             }
         });
         genreSet.addAll(genreDtoList);
-        return genreSet;
+        return ResponseEntity.status(HttpStatus.OK).body(genreSet);
     }
 
     @GetMapping
