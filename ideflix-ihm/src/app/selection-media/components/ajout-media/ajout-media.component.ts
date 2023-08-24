@@ -64,6 +64,8 @@ export class AjoutMediaComponent {
       avancement: [null]
     });
 
+    console.log(this.media);
+
     if (this.email !== null) {
       this.loadEtiquettes();
       this.loadMediaSelectionne();
@@ -123,6 +125,7 @@ export class AjoutMediaComponent {
     //event.preventDefault();
 
     if (this.userForm.value.status != '') {
+      //console.log("dans submit")
       //sauvegarde de la partie genre
       this.genreService.saveToApp(this.media.genres.map((genre:any) => {return new GenreAppModel(genre);}))
         .subscribe(() => this.mediaService.saveToApp(this.media, this.typeMedia)
@@ -146,11 +149,13 @@ export class AjoutMediaComponent {
 
               let mediaSelectionne = new MediaSelectionneDtoModel(mediaSelectionneObject);
 
+              console.log(mediaSelectionne);
+
               this.mediaAppService.saveToApp(mediaSelectionne);
             })
         );
     }
-    this.route.navigate(['/maListe']);
+    //this.route.navigate(['/maListe']);
   }
 
   OnSubmitDelete() {
@@ -164,13 +169,11 @@ export class AjoutMediaComponent {
     });
 
     dialogRef.afterClosed().subscribe(nouvelleEtiquette => {
-      //console.log(result)
       if(nouvelleEtiquette!=undefined) {
         // fermeture de la page dialog
         this.etiquetteService.saveToApp(new EtiquetteModel({nomTag: nouvelleEtiquette}), this.email!)
             .subscribe(()=>
                 this.etiquetteService.loadEtiquettes(this.email!));
-        //this.loadEtiquettes();
       }
     });
   }
