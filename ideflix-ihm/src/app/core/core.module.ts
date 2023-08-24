@@ -1,17 +1,18 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {TokenInterceptor} from "./interceptors/token.interceptor";
 import {ErrorInterceptor} from "./interceptors/error.interceptor";
 import {NavbarComponent} from "./components/navbar/navbar.component";
 import {RouterModule} from "@angular/router";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-
+import {ActionbarComponent} from './components/actionbar/actionbar.component';
 
 
 @NgModule({
   declarations: [
-    NavbarComponent
+    NavbarComponent,
+    ActionbarComponent
   ],
   imports: [
     CommonModule,
@@ -20,12 +21,14 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     MatSnackBarModule
   ],
   exports: [
-    NavbarComponent
+    NavbarComponent,
+    ActionbarComponent
   ],
 
   providers: [
-    { provide : HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    { provide : HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
   ]
 })
-export class CoreModule { }
+export class CoreModule {
+}
