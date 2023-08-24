@@ -39,9 +39,9 @@ export class MediaSelectionneToAppService {
         map(
           (listMediaSelectionneApi: any) =>
             listMediaSelectionneApi.map((mediaSelectionneApi: any) => {
-              console.log("dans service");
+              /*console.log("dans service");
               console.log(mediaSelectionneApi);
-              console.log(new MediaSelectionneDtoModel(mediaSelectionneApi));
+              console.log(new MediaSelectionneDtoModel(mediaSelectionneApi));*/
               return new MediaSelectionneDtoModel(mediaSelectionneApi);
             }
         ))

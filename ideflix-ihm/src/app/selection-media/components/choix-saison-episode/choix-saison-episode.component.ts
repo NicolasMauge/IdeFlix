@@ -56,8 +56,8 @@ export class ChoixSaisonEpisodeComponent {
 
     this.mediaSelectionne.subscribe((data:MediaSelectionneDtoModel[]) => {
       if(data.length>0) {
-        console.log("dans choix saison");
-        console.log(data[0]);
+        //console.log("dans choix saison");
+        //console.log(data[0]);
 
         this.saisonCurrent = data[0].numeroSaison;
         this.episodeCurrent = data[0].numeroEpisode;

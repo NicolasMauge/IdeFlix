@@ -25,7 +25,9 @@ export class DetailMediaComponent {
   typeMedia!:string;
   image : string = "";
   resume: string = "";
+  dateSortie: Date = new Date();
   typeResume: string = "Resumé";
+  typeDateSortie: string = "Date de sortie";
 
   constructor(private route:ActivatedRoute,
               private movieService:MediaService) {}
@@ -40,6 +42,7 @@ export class DetailMediaComponent {
           this.media = data;
           this.image = this.media.image_portrait ? this.media.image_portrait : "";
           this.resume = this.media.resume;
+          this.dateSortie = this.media.dateSortie;
         });
     }
     else {
@@ -48,6 +51,7 @@ export class DetailMediaComponent {
           this.media = data;
           this.image = this.media.image_portrait ? this.media.image_portrait : "";
           this.resume = this.media.resume;
+          this.dateSortie = this.media.dateSortie;
         });
     }
     //CARO--- --- tests pour voir si GetDetail est OK et c'est bien OK !!!!-------
@@ -63,8 +67,12 @@ export class DetailMediaComponent {
 
   setSaison(numeroSaison: number) {
     this.image = this.media.saisons[numeroSaison].image_portraitSaison;
+
     this.typeResume = "Résumé de la saison "+numeroSaison;
     this.resume = this.media.saisons[numeroSaison].resumeSaison;
+
+    this.typeDateSortie = "Date de sortie de la saison "+numeroSaison;
+    this.dateSortie = this.media.saisons[numeroSaison].dateSortieSaison;
   }
 
   setResume(resume: string) {
@@ -84,8 +92,8 @@ export class DetailMediaComponent {
     return(this.media && this.media.titre) ? this.media.titre : null;
   }
 
-  get dateSortie(): Date|null {
-    return(this.media)? this.media.dateSortie : null;
+  get dateSortie$(): Date|null {
+    return this.dateSortie;
   }
 
   get resume$(): string|null {

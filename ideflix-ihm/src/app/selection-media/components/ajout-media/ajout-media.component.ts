@@ -71,7 +71,7 @@ export class AjoutMediaComponent {
       avancement: [null]
     });
 
-    console.log(this.media);
+    //console.log(this.media);
 
     if (this.email !== null) {
       this.loadEtiquettes();
