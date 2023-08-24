@@ -14,4 +14,6 @@ public interface UtilisateurIamService {
 
     void delUtilisateurIam(String headerAuthorization, String email);
 
+    public void initIam();
+
 }
