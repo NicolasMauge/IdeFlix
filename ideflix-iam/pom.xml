@@ -21,7 +21,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <ideflix-iam.version>1.0-SNAPSHOT</ideflix-iam.version>
-        <springboot.version>2.7.13</springboot.version>
+        <springboot.version>2.7.15</springboot.version>
         <postgresql.version>42.5.4</postgresql.version>
         <springfox.version>3.0.0</springfox.version>
         <java-jwt.version>4.4.0</java-jwt.version>

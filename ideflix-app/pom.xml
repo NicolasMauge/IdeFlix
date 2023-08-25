@@ -19,18 +19,19 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <springboot.version>2.7.13</springboot.version>
+        <springboot.version>2.7.15</springboot.version>
         <springfox.version>3.0.0</springfox.version>
         <jwt.version>4.4.0</jwt.version>
         <postgressql.version>42.5.4</postgressql.version>
         <flyway.version>6.0.8</flyway.version>
         <jaxb.version>2.3.1</jaxb.version>
-        <springframework.version>5.3.28</springframework.version>
-        <spring-security-test.version>5.8.4</spring-security-test.version>
+        <springframework.version>5.3.29</springframework.version>
+        <spring-security-test.version>5.7.10</spring-security-test.version>
         <hibernate-validator.version>6.2.5.Final</hibernate-validator.version>
         <jackson-core.version>2.15.2</jackson-core.version>
         <httpclient5.version>5.2.1</httpclient5.version>
         <okhttp.version>4.11.0</okhttp.version>
+        <junit.version>5.8.2</junit.version>
     </properties>
 
     <dependencyManagement>
@@ -174,11 +175,11 @@
             </dependency>
 
             <!-- json -->
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>2.13.3</version>
-            </dependency>
+            <!--            <dependency>-->
+            <!--                <groupId>com.fasterxml.jackson.core</groupId>-->
+            <!--                <artifactId>jackson-databind</artifactId>-->
+            <!--                <version>2.13.3</version>-->
+            <!--            </dependency>-->
 
 
             <!-- pour les tests -->
@@ -192,7 +193,7 @@
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
-                <version>5.9.3</version>
+                <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
 
