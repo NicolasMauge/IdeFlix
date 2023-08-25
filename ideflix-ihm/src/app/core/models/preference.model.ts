@@ -1,4 +1,4 @@
-import {GenreModel} from "../../core/models/genre.model";
+import {GenreModel} from "./genre.model";
 
 export class PreferenceModel {
 
