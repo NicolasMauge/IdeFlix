@@ -22,7 +22,8 @@
 }
 
 .line-container > * {
-  margin-bottom: 8px;     /* Espacement en bas de chaque élément */
+  margin-bottom: 4px;     /* Espacement en bas de chaque élément */
+  margin-right: 4px;
 }
 
 
