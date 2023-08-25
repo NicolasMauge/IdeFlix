@@ -40,10 +40,12 @@ export class EtiquetteService {
       );
   }
 
-  saveToApp(etiquette: EtiquetteModel) {
-    let endpoint = '/etiquette';
+  saveToApp(etiquette: EtiquetteModel, email: string): Observable<string> {
+    /*console.log("sauve étiquette");
+    console.log(etiquette);
+    console.log(email);*/
+    let endpoint = '/etiquette/utilisateur/'+email;
 
-    return this.http
-      .post(this.IDEFLIX_API + endpoint, etiquette, {responseType: 'text'});
+    return this.http.post(this.IDEFLIX_API + endpoint, etiquette, {responseType: 'text'});
   }
 }
