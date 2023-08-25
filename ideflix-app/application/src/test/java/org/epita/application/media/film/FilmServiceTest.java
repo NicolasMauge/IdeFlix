@@ -78,8 +78,17 @@ public class FilmServiceTest {
     @Test
     public void trouverTousLesFilms_should_return_2_elements() {
         // Given
+        GenreEntity genre = new GenreEntity();
+        genre.setId(1L);
+        GenreEntity genre2 = new GenreEntity();
+        genre2.setId(2L);
+        List<GenreEntity> genreEntityList = new ArrayList<>();
+        genreEntityList.add(genre);
+        genreEntityList.add(genre2);
+
         FilmEntity film2 = new FilmEntity();
         film2.setId(2L);
+        film2.setGenreList(genreEntityList);
 
         filmService.creerFilm(film2);
 
