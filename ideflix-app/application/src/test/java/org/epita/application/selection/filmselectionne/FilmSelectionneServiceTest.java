@@ -1,10 +1,14 @@
 package org.epita.application.selection.filmselectionne;
 
+import org.epita.application.media.film.FilmServiceImpl;
 import org.epita.domaine.common.EntityNotFoundException;
+import org.epita.domaine.media.FilmEntity;
 import org.epita.domaine.selection.EtiquetteEntity;
 import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.epita.domaine.selection.SerieSelectionneeEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
+import org.epita.infrastructure.media.FilmRepository;
+import org.epita.infrastructure.media.GenreRepository;
 import org.epita.infrastructure.selection.FilmSelectionneRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,13 +28,19 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {FilmSelectionneServiceImpl.class})
+@SpringBootTest(classes = {FilmSelectionneServiceImpl.class, FilmServiceImpl.class})
 public class FilmSelectionneServiceTest {
     @Autowired
     FilmSelectionneService filmSelectionneService;
 
     @MockBean
     FilmSelectionneRepository repositoryMock;
+
+    @MockBean
+    FilmRepository filmRepository;
+
+    @MockBean
+    GenreRepository genreRepository;
 
     FilmSelectionneEntity filmSelectionne;
 
@@ -51,6 +61,10 @@ public class FilmSelectionneServiceTest {
         entityList.add(etiquette);
         entityList.add(etiquette2);
 
+        // définition film
+        FilmEntity film = new FilmEntity();
+        film.setIdTmdb("IdTmdb");
+
         // définition de l'utilisateur
         utilisateur = new UtilisateurEntity();
         utilisateur.setId(1L);
@@ -61,6 +75,7 @@ public class FilmSelectionneServiceTest {
         filmSelectionne.setId(1L);
         filmSelectionne.setEtiquetteEntityList(entityList);
         filmSelectionne.setUtilisateurEntity(utilisateur);
+        filmSelectionne.setMediaAudioVisuelEntity(film);
 
         filmSelectionneService.creerFilmSelectionne(filmSelectionne);
 
@@ -87,8 +102,14 @@ public class FilmSelectionneServiceTest {
     @Test
     public void trouverTousLesFilmsSelectionnes_should_return_2_elements() {
         // Given
+        // Film
+        FilmEntity film2 = new FilmEntity();
+        film2.setIdTmdb("IdTmdb2");
+
         FilmSelectionneEntity filmSelectionne2 = new FilmSelectionneEntity();
         filmSelectionne2.setId(2L);
+        filmSelectionne2.setMediaAudioVisuelEntity(film2);
+        filmSelectionne2.setUtilisateurEntity(this.utilisateur);
 
         filmSelectionneService.creerFilmSelectionne(filmSelectionne2);
 
