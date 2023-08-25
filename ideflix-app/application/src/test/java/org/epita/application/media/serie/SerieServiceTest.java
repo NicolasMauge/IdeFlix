@@ -77,6 +77,12 @@ public class SerieServiceTest {
         SerieEntity serie2 = new SerieEntity();
         serie2.setId(2L);
 
+        GenreEntity genre = new GenreEntity();
+        genre.setId(1L);
+
+        GenreEntity genre2 = new GenreEntity();
+        genre2.setId(2L);
+
         serieService.creerSerie(serie2);
 
         List<SerieEntity> entities = new ArrayList<>();
