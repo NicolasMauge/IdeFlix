@@ -21,11 +21,15 @@ export class MediaListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    this.menuService.hideMenu = false;
+    this.page = 1;
     addEventListener("scrollend", () => {
       this.chargerLaSuite();
     });
-    this.menuService.hideMenu = false;
-    this.page = 1;
+
+    // this.menuService.hideMenu = false;
+    // this.page = 1;
 
     // // requête GET à TMDB pour récupérer la liste des films
     // this.mediaSvc.getMoviesFromApi();
