@@ -5,6 +5,7 @@ import org.epita.domaine.selection.EtiquetteEntity;
 import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.epita.domaine.selection.SerieSelectionneeEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
+import org.epita.infrastructure.media.SerieRepository;
 import org.epita.infrastructure.selection.SerieSelectionneeRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,9 @@ public class SerieSelectionneeServiceTest {
 
     @MockBean
     SerieSelectionneeRepository repositoryMock;
+
+    @MockBean
+    SerieRepository serieRepository;
 
     SerieSelectionneeEntity serieSelectionnee;
 

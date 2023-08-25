@@ -5,6 +5,7 @@ import org.epita.domaine.media.FilmEntity;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.selection.SerieSelectionneeEntity;
 import org.epita.infrastructure.media.FilmRepository;
+import org.epita.infrastructure.media.GenreRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,6 +30,9 @@ public class FilmServiceTest {
 
     @MockBean
     FilmRepository repositoryMock;
+
+    @MockBean
+    GenreRepository genreRepository;
 
     FilmEntity film;
 
