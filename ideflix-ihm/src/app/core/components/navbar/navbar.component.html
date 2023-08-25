@@ -33,7 +33,8 @@
         </a>
 
         <div>
-          <p>Bienvenue !!</p>
+          <div *ngIf="!afficherPseudo()">Bienvenue !!</div>
+          <div *ngIf="afficherPseudo()">{{texte_bienvenue}}</div>
         </div>
 
 

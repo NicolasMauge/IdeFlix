@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {BehaviorSubject, map, Observable} from "rxjs";
+import {BehaviorSubject, map, Observable, tap} from "rxjs";
 import {PreferenceModel} from "../../models/preference.model";
 import {MessageService} from "../common/message.service";
 
@@ -11,15 +11,28 @@ import {MessageService} from "../common/message.service";
 export class MesPreferencesService {
 
   IDEFLIX_API = environment.IDEFLIX_SERVER;
-  private _preferences$ = new BehaviorSubject<PreferenceModel>({email:'toto',pseudo:'',genreList:[]} );
+  private _preferences$ = new BehaviorSubject<PreferenceModel>({email: 'toto', pseudo: ' ', genreList: []});
 
 
   constructor(private http: HttpClient,
-              private messageSvc : MessageService) { }
+              private messageSvc: MessageService) {
+  }
 
-  registerPreferences(data:any):Observable<any>{
+  registerPreferences(data: any): Observable<any> {
     let endpoint = '/preferences';
-    return this.http.post<any>(this.IDEFLIX_API + endpoint, data);
+//    return this.http.post<any>(this.IDEFLIX_API + endpoint, data);
+    const email = localStorage.getItem('email');
+    if (email !== null) {
+      this.getPreferencesFromApi(email);
+
+      return this.http.post<any>(this.IDEFLIX_API + endpoint, data).pipe(
+        // Recharger les données après la sauvegarde
+        tap(() => this.getPreferencesFromApi(email)));
+    } else {
+      return this.http.post<any>(this.IDEFLIX_API + endpoint, data);
+    }
+
+
   }
 
   getPreferencesFromApi(email: string): void {
@@ -31,17 +44,18 @@ export class MesPreferencesService {
         map((preferencesFromApi: any) =>
           new PreferenceModel(preferencesFromApi))
       )
-      .subscribe((data: PreferenceModel)=> this._preferences$.next(data),
-         (err: unknown)=> {
-        if (err instanceof HttpErrorResponse) {
-          if (err.status == 404) {
-            this.messageSvc.show('Vous n\'avez pas de préférences', 'info')
-        }}
-    });
+      .subscribe((data: PreferenceModel) => this._preferences$.next(data),
+        (err: unknown) => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.status == 404) {
+              this.messageSvc.show('Vous n\'avez pas de préférences', 'info')
+            }
+          }
+        });
   }
 
   /**getter setter  */
-  get preferences$():Observable<PreferenceModel> {
+  get preferences$(): Observable<PreferenceModel> {
     //asObservable pour que personne ne puisse faire un next là-dessus. Avec un observable, on ne peut que souscrire.
     return this._preferences$.asObservable();
   }
