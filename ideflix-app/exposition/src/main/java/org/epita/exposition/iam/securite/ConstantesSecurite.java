@@ -33,7 +33,7 @@ public final class ConstantesSecurite {
             "/filmselectionne/*",
             "/filmselectionne/health-check",
             "/filmselectionne/utilisateur/*",
-            "/genre",
+            //"/genre", // doit être autorisé en anonyme car chargement dans le composant app-root
             "/genre/*",
             "/genre/utilisateur/*",
             "/genre/health-check",
