@@ -6,7 +6,7 @@ import {Router} from "@angular/router";
 import {GenreModel} from "../../../core/models/genre.model";
 import {Subscription} from "rxjs";
 import {GenreService} from "../../../core/services/genres/genre.service";
-import {PreferenceModel} from "../../models/preference.model";
+import {PreferenceModel} from "../../../core/models/preference.model";
 import {AddCheckedPropertyPipe} from "../../../shared/pipes/add-checked-property.pipe";
 
 @Component({
