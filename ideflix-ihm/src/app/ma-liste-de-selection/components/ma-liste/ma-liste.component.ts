@@ -48,9 +48,6 @@ export class MaListeComponent {
 
 
   store(filterEvent: {status: string, genre : string, etiquette : string}){
-    console.log('status: ' + filterEvent.status);
-    console.log('genre: ' + filterEvent.genre);
-    console.log('etiquette: ' + filterEvent.etiquette);
 
     this.myFilter.status = filterEvent.status;
     this.myFilter.genre = filterEvent.genre;

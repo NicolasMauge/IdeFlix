@@ -9,8 +9,8 @@
 
 <div class="row">
 
-  <div [routerLink]="['/selection', media.media.typeMedia, media.media.idTmdb ]" *ngFor="let media of mediaMaListe$ | async" class=" col-12 col-md-4">
-    <div class="card" >
+  <div [routerLink]="['/selection', media.media.typeMedia, media.media.idTmdb ]" *ngFor="let media of mediaMaListe$ | async" class="col-12 col-md-3 g-4">
+    <div class="card h-100" >
 <!--      <div class="card" routerLink="/selection">-->
       <img [title]="media.media.titre" [src]="media.media.cheminAffichePortrait | printImg" [alt]="media.media.titre">
       <div class="card-body">
