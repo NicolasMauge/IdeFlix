@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {MediaService} from "../../../core/services/media/media.service";
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
-import {GenreModel} from "../../../core/models/genre.model";
 
 interface Genre {
   idDatabase: number;

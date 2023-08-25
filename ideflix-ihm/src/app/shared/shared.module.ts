@@ -6,6 +6,7 @@ import {AddCheckedPropertyPipe} from "./pipes/add-checked-property.pipe";
 import {FilterMaListePipe} from "./pipes/filter-ma-liste.pipe";
 import { MapIhmStatutToBackendPipe } from './pipes/map-ihm-statut-to-backend.pipe';
 import { MapBackendStatutToIhmPipe } from './pipes/map-backend-statut-to-ihm.pipe';
+import {PrintDurationPipe} from "./pipes/print-duration.pipe";
 
 
 
@@ -17,7 +18,8 @@ import { MapBackendStatutToIhmPipe } from './pipes/map-backend-statut-to-ihm.pip
     PrintImgPipe,
     AddCheckedPropertyPipe,
     MapIhmStatutToBackendPipe,
-    MapBackendStatutToIhmPipe
+    MapBackendStatutToIhmPipe,
+    PrintDurationPipe
   ],
   imports: [
     CommonModule
@@ -27,7 +29,8 @@ import { MapBackendStatutToIhmPipe } from './pipes/map-backend-statut-to-ihm.pip
     ValuesFromKeyPipe,
     PrintImgPipe,
     AddCheckedPropertyPipe,
-    MapBackendStatutToIhmPipe
+    MapBackendStatutToIhmPipe,
+    PrintDurationPipe
   ]
 })
 export class SharedModule { }
