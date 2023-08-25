@@ -1,6 +1,8 @@
 package org.epita.application.media.genre;
 
 
+import org.epita.application.mediaDataBase.genreDataBase.GenreDataBaseService;
+import org.epita.application.mediaDataBase.genreDataBase.GenreDataBaseServiceTest;
 import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.media.FilmEntity;
 import org.epita.domaine.media.GenreEntity;
@@ -22,7 +24,7 @@ import java.util.Optional;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {GenreServiceImpl.class})
+@SpringBootTest(classes = {GenreServiceImpl.class, GenreDataBaseService.class})
 public class GenreServiceTest {
     @Autowired
     private GenreService genreService;
