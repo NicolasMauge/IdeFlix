@@ -13,4 +13,5 @@ public interface MovieDataBaseService {
 
     List<MovieDataBase> searchSuggestedMovies(int page);
 
+    List<MovieDataBase> searchSuggestedMoviesSelonPreferences(String email, int page);
 }
