@@ -34,7 +34,8 @@ public class SecurityConfiguration {
             "/swagger-resources/**",
             "/configuration/ui",
             "/configuration/security",
-            "/v3/api-docs/**",
+            "/api-docs/**",
+            "/iam/api-docs/**",
             "/swagger-ui/**"
     };
     @Value("${org.epita.ideflixiam.secretiam}")

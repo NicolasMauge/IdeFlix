@@ -1,5 +1,4 @@
-package org.epita.exposition.common;
-
+package org.epita.ideflixiam.common;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,13 +16,9 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 
-// Voir la documentation ici : http://springfox.github.io/springfox/docs/current/#quick-start-guides
-
 @Configuration
 @EnableSwagger2
 public class SwaggerConfiguration {
-
-
     @Bean
     public Docket postsApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -45,10 +40,10 @@ public class SwaggerConfiguration {
         List<VendorExtension> vendorExtensionList = Arrays.asList(extension1, extension2, extension3);
 
         return new ApiInfoBuilder()
-                .title("IdeFlix - APP")
-                .description("Gérez la liste des films et séries que vous voulez voir.")
+                .title("IdeFlix - IAM")
+                .description("Gestion des utilisateurs.")
                 .contact(new Contact("EPITA", "https://www.epita.fr", "contact@epita.fr"))
-                .version("IDEFLIX-APP V1.0.0")
+                .version("IDEFLIX-IAM V1.0.0")
                 .extensions(vendorExtensionList)
                 .build();
     }
@@ -70,7 +65,4 @@ public class SwaggerConfiguration {
         return singletonList(
                 new SecurityReference("Mettre ci-dessous Bearer suivi du JWT", authorizationScopes));
     }
-
 }
-
-
