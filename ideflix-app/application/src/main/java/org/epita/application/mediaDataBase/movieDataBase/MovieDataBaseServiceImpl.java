@@ -1,6 +1,5 @@
 package org.epita.application.mediaDataBase.movieDataBase;
 
-import org.epita.application.media.genre.GenreService;
 import org.epita.application.utilisateur.preferences.PreferencesUtilisateurService;
 import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.media.GenreEntity;
