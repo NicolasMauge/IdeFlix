@@ -19,8 +19,8 @@
             <label>Genre:</label>
             <select #genre class="form-control" [(ngModel)]="myFilter.genre" [ngModelOptions]="{standalone: true}">
               <option value="">Tous Genres</option>
-              <option *ngFor="let genre of genres" [value]="genre">
-                {{ genre }}
+              <option *ngFor="let genre of genres" [value]="genre.nomGenre">
+                {{ genre.nomGenre }}
               </option>
             </select>
           </div>
@@ -42,48 +42,3 @@
   </div>
 </div>
 
-<!--<div class="container-fluid pt-3">-->
-
-
-<!--  <div class = "pt-3 pb-5">-->
-<!--    <h1 class="text-center text-white">Ma Liste de films et séries</h1>-->
-
-
-<!--    <div class = "container">-->
-<!--      <div class="row">-->
-<!--        <div class="col-md-12 offset-md-3">-->
-<!--          &lt;!&ndash;          <form [formGroup]="registerForm" (submit)="register($event)">&ndash;&gt;-->
-<!--          <form (submit)="onSubmitFilter(status.value, genre.value)">-->
-<!--            <div class="form-group">-->
-<!--              <div class="mb-3">-->
-<!--                <label>Status:</label>-->
-<!--                <select #status class="form-control" [(ngModel)]="myFilter.status" [ngModelOptions]="{standalone: true}">-->
-<!--                  <option value="">Tous Status</option>-->
-<!--                  <option *ngFor="let status of statusEnum | valuesFromKey" [value]="status">-->
-<!--                    {{ status }}-->
-<!--                  </option>-->
-<!--                </select>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="form-group">-->
-<!--              <div class="mb-3">-->
-<!--                <label>Genre:</label>-->
-<!--                <select #genre class="form-control" [(ngModel)]="myFilter.genre" [ngModelOptions]="{standalone: true}">-->
-<!--                  <option value="">Tous Genres</option>-->
-<!--                  <option *ngFor="let genre of genres" [value]="genre">-->
-<!--                    {{ genre }}-->
-<!--                  </option>-->
-<!--                </select>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <button type="submit" class="btn btn-light">Filtrer</button>-->
-<!--          </form>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--    <app-ma-liste [filterEvent]="filterEvent"></app-ma-liste>-->
-
-<!--  </div>-->
-<!--  -->
-<!--</div>-->
