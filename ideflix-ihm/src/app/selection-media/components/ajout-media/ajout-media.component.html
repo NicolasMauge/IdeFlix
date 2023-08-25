@@ -11,29 +11,25 @@
             </mat-select>
           </mat-form-field>
 
-          <div class="row">
-            <div class="col-7">
-              <mat-form-field>
-                <mat-label>Etiquettes</mat-label>
-                <mat-select formControlName="etiquettes" multiple>
-                  <mat-option *ngFor="let etiquette of etiquettes$ | async" [value]="etiquette">{{etiquette.nomTag}}</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <div class="col-1">
-              <button class="btn btn-circle btn-sm btn-primary" (click)="openDialog()"><i class="fa-solid fa-plus"></i></button>
-            </div>
+          <div>
+          <mat-form-field>
+            <mat-label>Etiquettes</mat-label>
+            <mat-select formControlName="etiquettes" multiple>
+              <mat-option *ngFor="let etiquette of etiquettes$ | async" [value]="etiquette">{{etiquette.nomTag}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+
+          <button class="btn btn-circle btn-sm btn-primary" (click)="openDialog()"><i class="fa-solid fa-plus"></i></button>
           </div>
 
+          <app-choix-saison-episode *ngIf="typeMedia=='SERIE'"
+                                    [media]="media"
+                                    (emitterParent)="setAvancement($event)"
+                                    [mediaSelectionne]="mediaSelectionne$">
+          </app-choix-saison-episode>
+
       </div>
-
-
-      <app-choix-saison-episode *ngIf="typeMedia=='SERIE'"
-                                  [media]="media"
-                                  (emitterParent)="setAvancement($event)"
-                                  [mediaSelectionne]="mediaSelectionne$">
-      </app-choix-saison-episode>
-
 
       <div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-center">
