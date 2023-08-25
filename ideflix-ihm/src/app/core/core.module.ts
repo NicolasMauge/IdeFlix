@@ -6,10 +6,12 @@ import {ErrorInterceptor} from "./interceptors/error.interceptor";
 import {NavbarComponent} from "./components/navbar/navbar.component";
 import {RouterModule} from "@angular/router";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {StarComponent} from "./components/star/star.component";
 
 @NgModule({
   declarations: [
-    NavbarComponent
+    NavbarComponent,
+    StarComponent
   ],
   imports: [
     CommonModule,
@@ -18,7 +20,8 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     MatSnackBarModule
   ],
   exports: [
-    NavbarComponent
+    NavbarComponent,
+    StarComponent
   ],
 
   providers: [

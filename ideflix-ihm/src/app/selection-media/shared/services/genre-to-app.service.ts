@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
-import {MediaSelectionneDtoModel} from "../model/MediaSelectionneDto.model";
 import {GenreAppModel} from "../model/GenreApp.model";
-import {firstValueFrom, Observable} from "rxjs";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
