@@ -5,6 +5,7 @@ import org.epita.domaine.media.FilmEntity;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.selection.SerieSelectionneeEntity;
 import org.epita.infrastructure.media.FilmRepository;
+import org.epita.infrastructure.media.GenreRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,6 +30,9 @@ public class FilmServiceTest {
 
     @MockBean
     FilmRepository repositoryMock;
+
+    @MockBean
+    GenreRepository genreRepository;
 
     FilmEntity film;
 
@@ -74,8 +78,17 @@ public class FilmServiceTest {
     @Test
     public void trouverTousLesFilms_should_return_2_elements() {
         // Given
+        GenreEntity genre = new GenreEntity();
+        genre.setId(1L);
+        GenreEntity genre2 = new GenreEntity();
+        genre2.setId(2L);
+        List<GenreEntity> genreEntityList = new ArrayList<>();
+        genreEntityList.add(genre);
+        genreEntityList.add(genre2);
+
         FilmEntity film2 = new FilmEntity();
         film2.setId(2L);
+        film2.setGenreList(genreEntityList);
 
         filmService.creerFilm(film2);
 

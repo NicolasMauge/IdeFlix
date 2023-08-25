@@ -1,8 +1,10 @@
 package org.epita.application.selection.etiquette;
 
+import org.epita.application.mediaDataBase.genreDataBase.GenreDataBaseService;
 import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.selection.EtiquetteEntity;
+import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.selection.EtiquetteRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +24,7 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {EtiquetteServiceImpl.class})
+@SpringBootTest(classes = {EtiquetteServiceImpl.class, GenreDataBaseService.class})
 public class EtiquetteServiceTest {
     @Autowired
     EtiquetteService etiquetteService;
@@ -32,12 +34,20 @@ public class EtiquetteServiceTest {
 
     EtiquetteEntity etiquette;
 
+    UtilisateurEntity utilisateur;
+
     @BeforeEach
     public void setUp() {
+        // définition de l'utilisateur
+        utilisateur = new UtilisateurEntity();
+        utilisateur.setId(1L);
+        utilisateur.setEmail("test@test.com");
+
         // définition de l'étiquette utilisée pour les test
         etiquette = new EtiquetteEntity();
         etiquette.setId(1L);
         etiquette.setNomTag("tag 1");
+        etiquette.setUtilisateurEntity(this.utilisateur);
 
         etiquetteService.creerEtiquette(etiquette);
 
@@ -64,6 +74,7 @@ public class EtiquetteServiceTest {
         // Given
         EtiquetteEntity etiquette2 = new EtiquetteEntity();
         etiquette2.setId(2L);
+        etiquette2.setUtilisateurEntity(this.utilisateur);
 
         etiquetteService.creerEtiquette(etiquette2);
 

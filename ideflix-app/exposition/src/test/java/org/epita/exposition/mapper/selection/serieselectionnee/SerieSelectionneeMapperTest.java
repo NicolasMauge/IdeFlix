@@ -16,6 +16,7 @@ import org.epita.exposition.dto.selection.SerieSelectionneeDto;
 import org.epita.exposition.mapper.selection.serie.SerieSelectionneeMapper;
 import org.epita.exposition.dto.utilisateur.UtilisateurDto;
 import org.epita.exposition.mapper.utilisateur.UtilisateurMapper;
+import org.epita.infrastructure.media.GenreRepository;
 import org.epita.infrastructure.media.SerieRepository;
 import org.epita.infrastructure.utilisateur.UtilisateurRepository;
 import org.junit.jupiter.api.Test;
@@ -47,6 +48,9 @@ public class SerieSelectionneeMapperTest {
 
     @MockBean
     UtilisateurRepository utilisateurRepositoryMock;
+
+    @MockBean
+    GenreRepository genreRepository;
 
     @Test
     public void should_return_mapEntityToDto() {
