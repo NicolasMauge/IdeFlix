@@ -2,6 +2,7 @@ package org.epita.application.mediaDataBase.movieDataBase;
 
 import org.epita.application.media.genre.GenreService;
 import org.epita.application.utilisateur.preferences.PreferencesUtilisateurService;
+import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.mediaDataBase.GenreDataBase;
 import org.epita.domaine.mediaDataBase.MovieDataBase;
@@ -51,23 +52,49 @@ public class MovieDataBaseServiceImpl implements MovieDataBaseService {
 
         PreferencesUtilisateurEntity preferencesUtilisateur;
         List<GenreEntity> listeGenresPreferes;
+        List<Integer> listIdDatabaseGenresPreferes = null;
+        boolean preferencesExistent;
 
         logger.debug("recherche suggestion des films selon préférences utilisateur (" + email + "), page: " + page);
         List<MovieDataBase> movieDataBaseList = movieDataBaseRepository.searchSuggestedMovieDatabase(page);
 
 
-        preferencesUtilisateur = preferencesUtilisateurService.trouverPreferenceUtilisateurParEmailUtilisateur(email);
+        try {
+            preferencesUtilisateur = preferencesUtilisateurService.trouverPreferenceUtilisateurParEmailUtilisateur(email);
 
-        listeGenresPreferes = preferencesUtilisateur.getGenreList();
-        List<Integer> listIdDatabaseGenresPreferes = listeGenresPreferes.stream().map(genre -> Integer.parseInt(genre.getIdTmdb())).toList();
+            listeGenresPreferes = preferencesUtilisateur.getGenreList();
 
-        return movieDataBaseList.stream().filter(film -> {
-                    // on va chercher si au moins un des genres du film fait partie des genres préférés.
-                    List<Integer> listeIdDatabaseGenreDuFilm = film.getGenres().stream().map(GenreDataBase::getIdDatabase).toList();
-                    // il y a un genre préféré si l'intersection n'est pas vide :
-                    return !listeIdDatabaseGenreDuFilm.stream().filter(listIdDatabaseGenresPreferes::contains).toList().isEmpty();
+            if (listeGenresPreferes.isEmpty()) {
+                preferencesExistent = false;
+            } else {
+                listIdDatabaseGenresPreferes = listeGenresPreferes.stream().map(genre -> Integer.parseInt(genre.getIdTmdb())).toList();
+                if (listIdDatabaseGenresPreferes.isEmpty()) {
+                    preferencesExistent = false;
+                } else {
+                    preferencesExistent = true;
                 }
-        ).toList();
+            }
 
+        } catch (EntityNotFoundException e) {
+            preferencesExistent = false;
+        }
+
+
+        List<Integer> finalListIdDatabaseGenresPreferes = listIdDatabaseGenresPreferes;
+
+        if (preferencesExistent == false)
+            return movieDataBaseList;
+        else {
+            return movieDataBaseList.stream().filter(film -> {
+                        // on va chercher si au moins un des genres du film fait partie des genres préférés.
+                        List<Integer> listeIdDatabaseGenreDuFilm = film.getGenres().stream().map(GenreDataBase::getIdDatabase).toList();
+                        // il y a un genre préféré si l'intersection n'est pas vide :
+                        if (finalListIdDatabaseGenresPreferes == null)
+                            return false;
+                        else
+                            return !listeIdDatabaseGenreDuFilm.stream().filter(finalListIdDatabaseGenresPreferes::contains).toList().isEmpty();
+                    }
+            ).toList();
+        }
     }
 }
