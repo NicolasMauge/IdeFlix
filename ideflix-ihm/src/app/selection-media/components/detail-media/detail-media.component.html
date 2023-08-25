@@ -34,7 +34,7 @@
           <p class="text-justify">{{resume$}}</p>
         </div>
 
-        <div class="row">
+        <div *ngIf="typeMedia=='FILM'" class="row">
           <h2>Durée</h2>
           <p>{{duree | printDuration}}</p>
         </div>
@@ -45,7 +45,7 @@
             <app-star *ngIf="media" [score]="media.scoreDataBase"></app-star>
           </div>
           <div class="col-3">
-            <p>({{media.scoreDataBase}})</p>
+            <p>({{scoreDataBase}})</p>
           </div>
         </div>
       </div>
