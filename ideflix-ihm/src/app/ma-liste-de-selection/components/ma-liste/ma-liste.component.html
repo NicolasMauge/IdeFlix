@@ -9,29 +9,43 @@
 
 <div class="row">
 
-  <div [routerLink]="['/selection', media.media.typeMedia, media.media.idTmdb ]" *ngFor="let media of mediaMaListe$ | async" class=" col-12 col-md-4">
-    <div class="card" >
+  <div [routerLink]="['/selection', media.media.typeMedia, media.media.idTmdb ]" *ngFor="let media of mediaMaListe$ | async" class="col-12 col-md-3 g-4">
+    <div class="card h-100" >
 <!--      <div class="card" routerLink="/selection">-->
       <img [title]="media.media.titre" [src]="media.media.cheminAffichePortrait | printImg" [alt]="media.media.titre">
+
       <div class="card-body">
         <h2>{{ media.media.titre }}</h2>
 
-        <div class="line-container">
+        <h3 class="line-container">
           <span *ngFor="let genre of media.media.genreList"
-                class="badge badge-large rounded-pill text-bg-secondary">
+                class="badge rounded-pill text-bg-secondary">
                     {{ genre.nomGenre }}</span>
-        </div>
-        <div class="line-container">
+        </h3>
+        <h3 class="line-container">
           <span *ngFor="let tag of media.etiquetteList"
-                class="badge badge-large rounded-pill text-bg-info">
+                class="badge rounded-pill text-bg-info">
                     {{ tag.nomTag }}</span>
+        </h3>
+      </div>
+
+      <div>
+        <div class = "d-flex justify-content-center align-items-center">
+          <h2>
+          <span class="badge rounded-pill text-bg-warning">
+            {{ media.statutMedia | mapBackendStatutToIhm | uppercase }}</span>
+          </h2>
         </div>
-        <div class="line-container">
-          <div class="badge badge-large rounded-pill text-bg-warning">
-            {{ media.statutMedia | mapBackendStatutToIhm | uppercase }}</div>
+
+        <div class="text-center">
+          <div *ngIf="media.typeMedia === 'SERIE' && (media.numeroSaison != 0 || media.numeroEpisode != 0)"  >
+            <h3>Saison: <span>{{media.numeroSaison}}</span>
+              <div *ngIf="media.numeroEpisode != 0">Episode: <span>{{media.numeroEpisode}}</span></div></h3>
+          </div>
         </div>
 
       </div>
+
     </div>
   </div>
 </div>

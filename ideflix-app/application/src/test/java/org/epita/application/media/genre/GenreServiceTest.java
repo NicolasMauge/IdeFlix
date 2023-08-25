@@ -1,6 +1,9 @@
 package org.epita.application.media.genre;
 
 
+import org.epita.application.mediaDataBase.genreDataBase.GenreDataBaseService;
+import org.epita.application.mediaDataBase.genreDataBase.GenreDataBaseServiceImpl;
+import org.epita.application.mediaDataBase.genreDataBase.GenreDataBaseServiceTest;
 import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.media.FilmEntity;
 import org.epita.domaine.media.GenreEntity;
@@ -29,6 +32,9 @@ public class GenreServiceTest {
 
     @MockBean
     private GenreRepository repositoryMock;
+
+    @MockBean
+    GenreDataBaseService genreDataBaseService;
 
     private GenreEntity genre;
 

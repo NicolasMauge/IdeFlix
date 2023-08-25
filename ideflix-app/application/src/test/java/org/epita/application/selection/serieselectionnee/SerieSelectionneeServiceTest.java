@@ -1,10 +1,15 @@
 package org.epita.application.selection.serieselectionnee;
 
+import org.epita.application.media.serie.SerieServiceImpl;
 import org.epita.domaine.common.EntityNotFoundException;
+import org.epita.domaine.media.FilmEntity;
+import org.epita.domaine.media.SerieEntity;
 import org.epita.domaine.selection.EtiquetteEntity;
 import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.epita.domaine.selection.SerieSelectionneeEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
+import org.epita.infrastructure.media.GenreRepository;
+import org.epita.infrastructure.media.SerieRepository;
 import org.epita.infrastructure.selection.SerieSelectionneeRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,13 +29,19 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {SerieSelectionneeServiceImpl.class})
+@SpringBootTest(classes = {SerieSelectionneeServiceImpl.class, SerieServiceImpl.class})
 public class SerieSelectionneeServiceTest {
     @Autowired
     SerieSelectionneeService serieSelectionneeService;
 
     @MockBean
     SerieSelectionneeRepository repositoryMock;
+
+    @MockBean
+    SerieRepository serieRepository;
+
+    @MockBean
+    GenreRepository genreRepository;
 
     SerieSelectionneeEntity serieSelectionnee;
 
@@ -51,6 +62,10 @@ public class SerieSelectionneeServiceTest {
         entityList.add(etiquette);
         entityList.add(etiquette2);
 
+        // définition série
+        SerieEntity serie = new SerieEntity();
+        serie.setIdTmdb("IdTmdb");
+
         // définition de l'utilisateur
         utilisateur = new UtilisateurEntity();
         utilisateur.setId(1L);
@@ -61,6 +76,7 @@ public class SerieSelectionneeServiceTest {
         serieSelectionnee.setId(1L);
         serieSelectionnee.setEtiquetteEntityList(entityList);
         serieSelectionnee.setUtilisateurEntity(utilisateur);
+        serieSelectionnee.setMediaAudioVisuelEntity(serie);
 
         serieSelectionneeService.creerSerieSelectionnee(serieSelectionnee);
 
@@ -87,8 +103,14 @@ public class SerieSelectionneeServiceTest {
     @Test
     public void trouverToutesLesSeriesSelectionnees_should_return_2_elements() {
         // Given
+        // définition série
+        SerieEntity serie = new SerieEntity();
+        serie.setIdTmdb("IdTmdb");
+
         SerieSelectionneeEntity serieSelectionnee2 = new SerieSelectionneeEntity();
         serieSelectionnee2.setId(2L);
+        serieSelectionnee2.setMediaAudioVisuelEntity(serie);
+        serieSelectionnee2.setUtilisateurEntity(this.utilisateur);
 
         serieSelectionneeService.creerSerieSelectionnee(serieSelectionnee2);
 

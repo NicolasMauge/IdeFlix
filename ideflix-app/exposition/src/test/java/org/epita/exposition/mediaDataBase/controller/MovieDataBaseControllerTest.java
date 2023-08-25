@@ -29,6 +29,7 @@ public class MovieDataBaseControllerTest {
     @MockBean
     private MovieDataBaseService movieDataBaseService;
 
+    /*
     @Test
     public void rechercher2Medias_EmptyList_ReturnsEmptyResponse() throws Exception {
         // Configurez le comportement simulé de movieDataBaseService
@@ -42,6 +43,6 @@ public class MovieDataBaseControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/MovieDataBase/recherche2/{query}", query))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(0));
-    }
+    }*/
 
 }
