@@ -1,5 +1,6 @@
 package org.epita.application.selection.etiquette;
 
+import org.epita.application.mediaDataBase.genreDataBase.GenreDataBaseService;
 import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.selection.EtiquetteEntity;
@@ -23,7 +24,7 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {EtiquetteServiceImpl.class})
+@SpringBootTest(classes = {EtiquetteServiceImpl.class, GenreDataBaseService.class})
 public class EtiquetteServiceTest {
     @Autowired
     EtiquetteService etiquetteService;
