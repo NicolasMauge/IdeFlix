@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Status} from "../../../core/models/status";
-import {EtiquettesService} from "../../shared/services/etiquettes.service";
 import {EtiquetteModel} from "../../shared/model/Etiquette.model";
 import {MediaSelectionneToAppService} from "../../shared/services/media-selectionne-to-app.service";
 import {MediaSelectionneDtoModel} from "../../shared/model/MediaSelectionneDto.model";
@@ -15,6 +14,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {DialogEtiquettesComponent} from "../dialog-etiquettes/dialog-etiquettes.component";
 import {MapIhmService} from "../../../shared/services/map-ihm-service";
 import {SerieCurrentSaisonEpisode} from "../choix-saison-episode/choix-saison-episode.component";
+import {EtiquetteCoreService} from "../../../core/services/etiquettes/etiquette-core.service";
 
 
 export interface DialogData {
@@ -52,7 +52,7 @@ export class AjoutMediaComponent {
 
   ajoutEtiquette: string | undefined;
 
-  constructor(private etiquetteService:EtiquettesService,
+  constructor(private etiquetteService:EtiquetteCoreService,
               private mediaAppService:MediaSelectionneToAppService,
               private mediaService: MediaToAppService,
               private genreService: GenreToAppService,

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {Status} from "../../../core/models/status";
-import {EtiquetteService} from "../../../core/services/etiquettes/etiquette.service";
+import {EtiquetteCoreService} from "../../../core/services/etiquettes/etiquette-core.service";
 import {EtiquetteModel} from "../../../core/models/etiquette.model";
 import {GenreModel} from "../../../core/models/genre.model";
 import {GenreUtilisateurService} from "../../../core/services/genres/genre-utilisateur.service";
@@ -21,7 +21,7 @@ export class MaListeFiltreComponent {
   subEtiquette!: Subscription;
   subGenre!: Subscription;
 
-  constructor(private etiquetteService: EtiquetteService,
+  constructor(private etiquetteService: EtiquetteCoreService,
               private genreUtilisateurService: GenreUtilisateurService) {}
 
   ngOnInit() {
