@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MesPreferencesService} from "../../services/preferences/mes-preferences.service";
+import {MesPreferencesService} from "../../../core/services/preferences/mes-preferences.service";
 import {MessageService} from "../../../core/services/common/message.service";
 import {Router} from "@angular/router";
 import {GenreModel} from "../../../core/models/genre.model";
