@@ -105,8 +105,9 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
                 + "&include_adult=" + INCLUDE_ADULT
                 + "&language=" + LANGUAGE
                 + "&page=" + page
-                + "&sort_by=" + "popularity.desc";
-//'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=1&sort_by=popularity.desc'
+                + "&sort_by=" + "popularity.desc"
+                + "&with_origin_country=" + "FR%7CUS";  //pays d'origine des séries France et USA;
+        https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=1&sort_by=popularity.desc&with_origin_country=FR%7CUS'
         System.out.println(url);
 
         logger.debug("recherche d'un suggestion de films page: " + page);

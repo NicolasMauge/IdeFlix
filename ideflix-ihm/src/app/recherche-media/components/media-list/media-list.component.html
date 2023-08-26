@@ -3,21 +3,30 @@
 
   <div class="pt-3 pb-5">
     <div *ngIf="medias.length>0">
-      <h1 class="text-center text-white">les suggestions du moment</h1>
+      <h1 class="text-center text-white">les suggestions Ideflix selon vos préférences</h1>
 
       <div class="row">
 
         <div [routerLink]="['/selection',media.typeMedia, media.idDataBase ]" *ngFor="let media of medias"
              class="col-12 col-md-3">
           <div class="card h-100">
-            <img [title]="media.resume" [src]="media.image_paysage | printImg" [alt]="media.titre">
+
+
+            <img [title]="media.titre" [src]="media.image_paysage | printImg" [alt]="media.titre">
             <div class="card-body">
+              <div class = "d-flex justify-content-center align-items-center">
+                <h2><span class="badge rounded-pill text-bg-warning">{{ media.typeMedia }}</span></h2>
+              </div>
               <h2>{{ media.titre }}</h2>
-              <span *ngFor="let genre of media.genres"
-                    class="badge badge-large rounded-pill text-bg-secondary">
-              {{ genre.nomGenre }}
-            </span>
+              <h5>{{ media.resume}}</h5>
             </div>
+
+              <div clas="card-footer">
+                <span *ngFor="let genre of media.genres" class="badge badge-large rounded-pill text-bg-secondary">
+                 {{ genre.nomGenre }}
+                </span>
+              </div>
+
           </div>
         </div>
       </div>
