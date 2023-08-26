@@ -53,7 +53,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   afficherPseudo(): boolean {
     //this.mesPreferencesService.getPreferences();
     let result: boolean = !(['/', '/login', '/logout'].includes(this.router.url));
-    //console.log("URL : " + this.router.url + " - result = " + result);
+    //console.log("URL : " + this.router.url + " - affichage = " + result);
 
 
     return result;

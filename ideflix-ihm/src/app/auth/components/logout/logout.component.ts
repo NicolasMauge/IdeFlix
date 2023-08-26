@@ -18,11 +18,20 @@ export class LogoutComponent implements OnInit {
   ngOnInit(): void {
 
 
-    this.authSvc.logout();
+    this.authSvc.logout()
+      .subscribe({
+        error: err => {
+          this.route.navigate(['/']).then(() => {
+            this.messageSvc.show('Erreur lors de la déconnexion', 'error');
+          })
+        },
+        next: response => {
+          this.route.navigate(['/']).then(() => {
+            this.messageSvc.show('Vous avez bien été déconnecté.', 'success');
+          });
 
-    this.route.navigate(['']).then(() => {
-      this.messageSvc.show('Vous avez bien été déconnecté.', 'success');
-    });
+        }
+      });
 
 
   }

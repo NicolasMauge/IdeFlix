@@ -12,7 +12,7 @@ export class MesPreferencesService {
 
   IDEFLIX_API = environment.IDEFLIX_SERVER;
   private _preferences$ = new BehaviorSubject<PreferenceModel>({email: 'toto', pseudo: ' ', genreList: []});
-
+  preferencesVides = {email: 'toto', pseudo: ' ', genreList: []};
 
   constructor(private http: HttpClient,
               private messageSvc: MessageService) {
@@ -48,7 +48,9 @@ export class MesPreferencesService {
         (err: unknown) => {
           if (err instanceof HttpErrorResponse) {
             if (err.status == 404) {
-              this.messageSvc.show('Vous n\'avez pas de préférences', 'info')
+              this.messageSvc.show('Vous n\'avez pas de préférences', 'info');
+              // On vide les préférences précédentes (au cas où IdeFlix est utilisé par une autre personne) :
+              this._preferences$.next(this.preferencesVides);
             }
           }
         });

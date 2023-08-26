@@ -84,7 +84,7 @@ public class UtilisateurIamController {
                 ));
     }
 
-    // Déconnexion
+    // ======================================== Déconnexion d'un utilisateur ===========================================
     @ApiOperation(value = "Déconnexion", response = ReponseCommuneDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Déconnexion réussie.")
@@ -92,7 +92,7 @@ public class UtilisateurIamController {
     )
     @CrossOrigin(origins = "http://locahost:4200")
     @PostMapping("/logout")
-    ResponseEntity<ReponseCommuneDto> logout() {
+    ResponseEntity<ReponseCommuneDto> logout(@RequestBody String chaineVide) {
         logger.debug("IdeFlix - Déconnexion");
         return ResponseEntityCommune.get("Déconnexion IdeFlix", HttpStatus.OK);
     }

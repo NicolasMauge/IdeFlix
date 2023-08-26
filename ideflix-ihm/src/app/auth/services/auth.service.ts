@@ -60,12 +60,41 @@ export class AuthService {
 
 
   logout() {
+    let endpoint: string = '/logout';
+    console.log("Déconnexion en cours")
+    return this.http.post<any>(this.USER_API + endpoint, "{}")
+      .pipe(
+        tap({
+          error: (err: unknown) => {
+            console.log("Erreur lors de la déconnexion :");
+            if (err instanceof HttpErrorResponse) {
+              this.messageSvc.show('Erreur lors de la déconnexion', 'error')
+              console.log("ERREUR " + err.status + " - " + err.name + " - " + err.message);
+              // par sécurité, déconnexion côté IHM même en cas d'erreur
+              this.terminerLaConnexion();
+            }
+          },
+          next: () => {
+            console.log("Déconnexion de l'APP effectuée.")
+            this.terminerLaConnexion();
+          }
+        })
+      )
+  }
+
+  terminerLaConnexion() {
+    let email: string | null = localStorage.getItem("email");
+    if (email)
+      console.log("Déconnexion de " + email);
+    else
+      console.log("Déconnexion");
+
     localStorage.clear();
     sessionStorage.clear();
     this._isAuthenticated = false;
     this._isAdmin = false;
-  }
 
+  }
 
   isAuthenticatedUser(): boolean {
     return this._isAuthenticated;
