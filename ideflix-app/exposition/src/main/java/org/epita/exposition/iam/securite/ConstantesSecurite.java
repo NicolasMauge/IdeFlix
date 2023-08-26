@@ -37,6 +37,7 @@ public final class ConstantesSecurite {
             "/genre/*",
             "/genre/utilisateur/*",
             "/genre/health-check",
+            "/iam/logout",
             "/mediaselectionne/utilisateur/*",
             "/mediaselectionne/utilisateur/**",
 //            "/mediaselectionne/utilisateur/*/idtmdb/*",
@@ -73,6 +74,7 @@ public final class ConstantesSecurite {
             "/filmselectionne",
             "/genre",
             "/genre/masse",
+            "/iam/logout",
             "/preferences",
             "/preferences/addgenre/*",
             "/preferences/addgenre/**",
@@ -96,11 +98,12 @@ public final class ConstantesSecurite {
     };
 
     public final static String[] PATH_GET_ADMINISTRATEUR_WHITELIST = {
-            "/iam/admin/utilisateur/all"
+            "/iam/admin/utilisateur/all",
+            "/iam/logout",
     };
 
     public final static String[] PATH_POST_ADMINISTRATEUR_WHITELIST = {
-
+            "/iam/logout"
     };
 
     public final static String[] PATH_DELETE_ADMINISTRATEUR_WHITELIST = {
