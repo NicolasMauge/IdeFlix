@@ -24,12 +24,14 @@
       <!--      <app-actionbar (pageSuivanteEvent)="chargerLaSuite()"></app-actionbar>-->
     </div>
     <div class="text-center" *ngIf="medias.length==0">
-      <div class="spinner-border text-warning" role="status">
+      <div class="spinner-border text-warning grand-spinner-border" role="status"><i
+        class="fa-solid fa-dog grand-chien-border"></i>
         <span class="sr-only">Chargement en cours...</span>
       </div>
     </div>
     <div class="text-center" id="chargement_encours" *ngIf="afficheChargementSuite">
-      <div class="spinner-grow text-warning" role="status">
+      <div class="spinner-grow text-warning grand-spinner-grow" role="status">
+        <i class="fa-solid fa-dog grand-chien-grow"></i>
         <span class="sr-only">Chargement de la suite...</span>
       </div>
     </div>
