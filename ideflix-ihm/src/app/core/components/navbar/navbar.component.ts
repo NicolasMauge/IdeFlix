@@ -23,9 +23,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
               private router: Router) {
   }
 
-  // par défaut le menu s'affiche dans la barre de navigation
-  texte_bienvenue: string = "Bienvenue !!";
-
   get hideMenu(): boolean {
     return this.menuService.hideMenu;
   }

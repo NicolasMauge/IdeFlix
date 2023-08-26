@@ -32,22 +32,19 @@
           </div>
         </a>
 
-        <!--        <div>-->
-        <!--          <div *ngIf="!afficherPseudo()">Bienvenue !!</div>-->
-        <!--          <div *ngIf="afficherPseudo()">{{texte_bienvenue}}</div>-->
-        <!--          <div *ngIf="afficherPseudo()" class="badge badge-large">{{(preferences$ | async)?.pseudo}}<i-->
-        <!--            class="fa-solid fa-plug"></i></div>-->
-        <!--        </div>-->
-
-        <div>
-          <div *ngIf="!afficherPseudo()">Bienvenue !!</div>
-          <div *ngIf="afficherPseudo()">
-            <span>{{texte_bienvenue}}</span>
-            <a [routerLink]="['logout']"><span *ngIf="afficherPseudo()" class="badge bg-dark bg-gradient m-1">
-              <span class="ps-2"> {{(preferences$ | async)?.pseudo + "  "}}</span>
-              <i class="fa-solid fa-plug pe-2"></i>
-          </span></a>
-
+        <div class="fs-5">
+          Bienvenue !!
+          <div *ngIf="afficherPseudo()" class="d-inline">
+            <a class="deconnexion" [routerLink]="['logout']">
+              <div *ngIf="afficherPseudo()" class="badge bg-dark bg-gradient m-1">
+                <div class="tooltiptext badge px-2 bg-dark-subtle text-dark text-center">
+                  <i class="fa-solid fa-right-from-bracket pe-2"></i>
+                  Déconnexion
+                </div>
+                <span class="ps-2"> {{(preferences$ | async)?.pseudo + "  "}}</span>
+                <i class="fa-solid fa-plug pe-2"></i>
+              </div>
+            </a>
           </div>
         </div>
 
