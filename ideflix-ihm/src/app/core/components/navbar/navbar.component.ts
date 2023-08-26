@@ -3,7 +3,7 @@ import {MenuService} from "../../services/common/menu.service";
 import {AuthService} from "../../../auth/services/auth.service";
 import {MesPreferencesService} from "../../services/preferences/mes-preferences.service";
 import {PreferenceModel} from "../../models/preference.model";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {Router} from "@angular/router";
 
 @Component({
@@ -13,7 +13,8 @@ import {Router} from "@angular/router";
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 
-  preferences: PreferenceModel | undefined;
+  // preferences: PreferenceModel | undefined;
+  preferences$!: Observable<PreferenceModel>;
   souscription!: Subscription;
 
   constructor(private menuService: MenuService,
@@ -34,12 +35,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.preferences$ = this.mesPreferencesService.preferences$;
     const email = localStorage.getItem('email');
+    console.log("init NavbarComponent pour " + email);
     if (email !== null) {
       this.mesPreferencesService.getPreferencesFromApi(email);
       this.souscription = this.mesPreferencesService.preferences$.subscribe(data => {
-        this.preferences = data;
-        this.texte_bienvenue = "Bienvenue " + this.preferences?.pseudo;
       });
     }
 
@@ -52,7 +53,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   afficherPseudo(): boolean {
     //this.mesPreferencesService.getPreferences();
-    let result: boolean = !(['/', '/login', '/logout'].includes(this.router.url));
+    let result: boolean = !(['/', '/register', '/login', '/logout'].includes(this.router.url));
     //console.log("URL : " + this.router.url + " - affichage = " + result);
 
 

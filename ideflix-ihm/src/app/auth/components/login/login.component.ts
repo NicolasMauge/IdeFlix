@@ -4,6 +4,7 @@ import {AuthService} from "../../services/auth.service";
 import {MessageService} from "../../../core/services/common/message.service";
 import {Router} from "@angular/router";
 import {MenuService} from "../../../core/services/common/menu.service";
+import {MesPreferencesService} from "../../../core/services/preferences/mes-preferences.service";
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,9 @@ export class LoginComponent {
               private authService: AuthService,
               private messageSvc: MessageService,
               private route: Router,
-              private menuService: MenuService) {
+              private menuService: MenuService,
+              private mesPreferencesService: MesPreferencesService
+  ) {
   }
 
 
@@ -54,6 +57,9 @@ export class LoginComponent {
               this.messageSvc.show('Connexion réussie !', 'success')
               //rediriger l'utilisateur vers la page list
               this.route.navigate(['/maListe']);
+
+              // pour rafraichir le pseudo dans la barre de navigation :
+              this.mesPreferencesService.getPreferencesFromApi(response.email);
             },
           }
         )
