@@ -37,7 +37,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.preferences$ = this.mesPreferencesService.preferences$;
     const email = localStorage.getItem('email');
-    console.log("init NavbarComponent pour " + email);
     if (email !== null) {
       this.mesPreferencesService.getPreferencesFromApi(email);
       this.souscription = this.mesPreferencesService.preferences$.subscribe(data => {
