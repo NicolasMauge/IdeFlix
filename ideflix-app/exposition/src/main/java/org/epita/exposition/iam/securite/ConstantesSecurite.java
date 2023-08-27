@@ -8,6 +8,8 @@ public final class ConstantesSecurite {
             "/configuration/ui",
             "/configuration/security",
             "/api-docs/**",
+            "/v3/api-docs/**",
+            "/swagger-ui.html",
             "/swagger-ui/**"
     };
 

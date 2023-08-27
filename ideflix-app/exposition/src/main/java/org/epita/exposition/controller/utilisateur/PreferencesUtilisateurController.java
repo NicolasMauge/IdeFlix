@@ -2,7 +2,7 @@ package org.epita.exposition.controller.utilisateur;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import org.epita.application.media.genre.GenreService;
 import org.epita.application.utilisateur.preferences.PreferencesUtilisateurService;
 import org.epita.domaine.media.GenreEntity;
@@ -47,9 +47,8 @@ public class PreferencesUtilisateurController {
 
     //@PostMapping
     @PostMapping(value = "", produces = {"application/json"}, consumes = {"application/json"})
-    @ApiOperation(value = "Créer les préférences d'un utilisateur",
-            notes = "Permet de stocker le pseudo et les genres préférés de l'utilisateur.",
-            response = ReponseCommuneDto.class)
+    @Operation(summary = "Créer les préférences d'un utilisateur",
+            description = "Permet de stocker le pseudo et les genres préférés de l'utilisateur.")
     public ResponseEntity<ReponseCommuneDto> creerPreferencesUtilisateur(@RequestBody PreferencesUtilisateurDto preferencesUtilisateurDto) {
         this.preferencesUtilisateurService
                 .creerPreferencesUtilisateur(

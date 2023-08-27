@@ -15,7 +15,7 @@ public class StarterMain {
 
         logger.info("==========================================================");
         logger.info("= Démarrage Ideflix APP                                  =");
-        logger.info("= http://localhost:8081/api/v1/swagger-ui/               =");
+        logger.info("= http://localhost:8081/api/v1/swagger-ui.html           =");
         logger.info("==========================================================");
     }
 }
