@@ -44,6 +44,7 @@ div {
 .grand-chien-border {
   display: inline-block;
   font-size: 50px;
+  z-index: 100;
   /*transform: scale(-1, 1);*/
   /*transform: rotate(180deg);*/
 }
@@ -52,6 +53,7 @@ div {
   display: inline-block;
   font-size: 50px;
   translate: -25px -25px;
+  z-index: 100;
   /*transform: rotate(180deg);*/
 }
 

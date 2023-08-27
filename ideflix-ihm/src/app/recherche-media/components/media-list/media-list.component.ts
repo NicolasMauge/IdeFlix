@@ -46,17 +46,18 @@ export class MediaListComponent implements OnInit, OnDestroy {
     if (email !== null) {
       this.mediaSvc.getMoviesFromApi(email, this.page);
 
-    //abonnement à la source service.movies$  via un subscribe
+      //abonnement à la source service.movies$  via un subscribe
       this.sub = this.mediaSvc.medias$.subscribe((data: MediaDatabaseModel[]) => {
-      // this.medias = data; // Pour faire par page
-      this.medias = [...this.medias, ...data]; // Pour cumuler les pages supplémentaires dans la même page
-      this.afficheChargementSuite = false;
-      //console.log('getMovies: ', this.medias)
-    });
-  }else {
+        // this.medias = data; // Pour faire par page
+        this.medias = [...this.medias, ...data]; // Pour cumuler les pages supplémentaires dans la même page
+        this.afficheChargementSuite = false;
+        //console.log('getMovies: ', this.medias)
+      });
+    } else {
       console.log('email non présent dans le localstorage');
       this.messageSvc.show('erreur de connexion - veuillez vous reconnecter', 'error')
-      this.route.navigate(['/login']);}
+      this.route.navigate(['/login']);
+    }
   }
 
   ngOnDestroy() {
@@ -69,25 +70,20 @@ export class MediaListComponent implements OnInit, OnDestroy {
     this.afficheChargementSuite = true;
     const email = localStorage.getItem('email');
     if (email !== null) {
-      this.mediaSvc.getMoviesFromApi(email,this.page);
-
-    // timeout pour éviter d'appeler l'api en boucle pendant le scrolling
-      setTimeout(() => {
-        return;
-      }
-      , 250);
-  }else {
+      this.mediaSvc.getMoviesFromApi(email, this.page);
+    } else {
       console.log('email non présent dans le localstorage');
       this.messageSvc.show('erreur de connexion - veuillez vous reconnecter', 'error')
-      this.route.navigate(['/login']);}
+      this.route.navigate(['/login']);
+    }
   }
 
   @HostListener("window:scroll", ["$event"])
   onWindowScroll() {
-//In chrome and some browser scroll is given to body tag
+    //In chrome and some browser scroll is given to body tag
     let pos = (document.documentElement.scrollTop || document.body.scrollTop) + document.documentElement.offsetHeight;
     let max = document.documentElement.scrollHeight;
-// pos/max will give you the distance between scroll bottom and and bottom of screen in percentage.
+    // pos/max will give you the distance between scroll bottom and and bottom of screen in percentage.
     if (pos == max) {
       //Do your action here
       this.chargerLaSuite();
