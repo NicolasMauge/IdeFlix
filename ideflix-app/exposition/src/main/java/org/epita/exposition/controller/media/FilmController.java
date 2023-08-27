@@ -22,12 +22,13 @@ public class FilmController {
         this.filmMapper = filmMapper;
     }
 
+    /*
     @GetMapping("/health-check")
     public ResponseEntity<String> healthCheck() {
         //return "UP";
         return new ResponseEntity<>("UP", HttpStatus.OK);
     }
-
+*/
     @PostMapping
     public ResponseEntity<String> creerFilm(@RequestBody FilmDto filmDto) {
         this.filmService
@@ -45,13 +46,13 @@ public class FilmController {
                     this.filmService.trouverFilmParId(id));
     }*/
 
-    @Operation(summary = "Lister tous les films stockés en base")
+/*    @Operation(summary = "Lister tous les films stockés en base")
     @GetMapping
     public List<FilmDto> trouverTousLesFilms() {
         return this.filmMapper
                 .mapListEntityToDto(
                         this.filmService.trouverTousLesFilms());
-    }
+    }*/
 
     /*
     @DeleteMapping("/{id}")

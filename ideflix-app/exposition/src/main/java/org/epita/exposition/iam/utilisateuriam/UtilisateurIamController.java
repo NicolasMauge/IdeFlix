@@ -3,7 +3,6 @@ package org.epita.exposition.iam.utilisateuriam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import org.epita.application.iam.service.UtilisateurIamService;
 import org.epita.exposition.common.ResponseEntityCommune;
@@ -98,7 +97,6 @@ public class UtilisateurIamController {
 
 
     // ============================================== Administration ===================================================
-    //@ApiOperation(value = "Consulter la liste des utilisateurs")
     @Operation(summary = "Consulter la liste des utilisateurs", method = "getAllUtilisateurs",
             description = "Cette ressource permet à un administrateur de récupérer la liste des utilisateurs")
     @CrossOrigin(origins = "http://locahost:4200")

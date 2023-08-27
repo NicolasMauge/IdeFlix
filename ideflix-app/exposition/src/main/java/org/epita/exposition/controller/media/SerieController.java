@@ -21,14 +21,16 @@ public class SerieController {
         this.serieMapper = serieMapper;
     }
 
+/*
     @GetMapping("/health-check")
     public ResponseEntity<String> healthCheck() {
         //return "UP";
         return new ResponseEntity<>("UP", HttpStatus.OK);
     }
+*/
 
     @PostMapping
-    public ResponseEntity<String> creerSerie(@RequestBody SerieDto serieDto){
+    public ResponseEntity<String> creerSerie(@RequestBody SerieDto serieDto) {
         this.serieService
                 .creerSerie(
                         this.serieMapper.mapDtoToEntity(serieDto));
@@ -36,23 +38,27 @@ public class SerieController {
         return new ResponseEntity<String>("Série créée", HttpStatus.CREATED);
     }
 
+/*
     @GetMapping("/{id}")
     public SerieDto trouverSerieParId(@PathVariable("id") Long id) {
         return this.serieMapper
                 .mapEntityToDto(
                         this.serieService.trouverSerieParId(id));
     }
+*/
 
+/*
     @GetMapping
     public List<SerieDto> trouverToutesLesSeries() {
         return this.serieMapper
                 .mapListEntityToDto(this.serieService.trouverToutesLesSeries());
     }
+*/
 
-    @DeleteMapping("/{id}")
+/*    @DeleteMapping("/{id}")
     public ResponseEntity<String> supprimerSerieParId(@PathVariable("id") Long id) {
         this.serieService.supprimerSerieParId(id);
 
         return new ResponseEntity<String>("Série supprimée", HttpStatus.OK);
-    }
+    }*/
 }

@@ -36,12 +36,15 @@ public class GenreController {
         this.serieSelectionneeService = serieSelectionneeService;
     }
 
+/*
     @GetMapping("/health-check")
     public ResponseEntity<String> healthCheck() {
         //return "UP";
         return new ResponseEntity<>("UP", HttpStatus.OK);
     }
+*/
 
+/*
     @PostMapping
     public ResponseEntity<String> creerGenre(@RequestBody GenreDto genreDto) {
         this.genreService
@@ -50,6 +53,7 @@ public class GenreController {
 
         return new ResponseEntity<>("Genre créé", HttpStatus.CREATED);
     }
+*/
 
     @PostMapping("/masse")
     public ResponseEntity<String> creerPlusieursGenres(@RequestBody List<GenreDto> genreDtoList) {
@@ -63,12 +67,14 @@ public class GenreController {
         return new ResponseEntity<>("Genres créés", HttpStatus.CREATED);
     }
 
+/*
     @GetMapping("/{idtmdb}")
     public GenreDto trouverGenreParIdTmdb(@PathVariable("idtmdb") String idTmdb) {
         return this.genreMapper
                 .mapEntityToDto(
                         this.genreService.trouverGenreByIdTmdb(idTmdb));
     }
+*/
 
 
     @Operation(summary = "Récupération des genres des films et séries d'un utilisateur.",
@@ -114,10 +120,10 @@ public class GenreController {
                         this.genreService.trouverTousLesGenres());
     }
 
-    @DeleteMapping("/{id}")
+/*    @DeleteMapping("/{id}")
     public ResponseEntity<String> supprimerGenre(@PathVariable("id") Long id) {
         this.genreService.supprimerGenreParId(id);
 
         return new ResponseEntity<>("Genre supprimé", HttpStatus.OK);
-    }
+    }*/
 }

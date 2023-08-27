@@ -34,7 +34,7 @@ public class SerieDataBaseController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/rechercheSerie/{query}")
-    public ResponseEntity<List<MediaDataBaseResponseDto>> rechercherMedias(@PathVariable("query") String query){
+    public ResponseEntity<List<MediaDataBaseResponseDto>> rechercherMedias(@PathVariable("query") String query) {
 
         logger.debug("IdeFlix - recherche des séries pour " + query);
 
@@ -47,7 +47,7 @@ public class SerieDataBaseController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/detailSerie/{id}")
-    public ResponseEntity<SerieDataBaseResponseDto> trouverSerieSelonId(@PathVariable("id") long id){
+    public ResponseEntity<SerieDataBaseResponseDto> trouverSerieSelonId(@PathVariable("id") long id) {
 
         logger.debug("IdeFlix - recherche du détail d'une série pour Id: " + id);
 
@@ -58,7 +58,7 @@ public class SerieDataBaseController {
                                 this.serieDataBaseService.findSerieById(id)));
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+/*    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/suggestionsSerie/{page}")
     public ResponseEntity<List<MediaDataBaseResponseDto>> trouverSuggestionSeriesParPage(@PathVariable("page") int page) {
 
@@ -67,9 +67,9 @@ public class SerieDataBaseController {
                 .body(this.serieDataBaseMapper
                         .mapListEntityToDto(
                                 this.serieDataBaseService.searchSuggestedSeries(page)));
-    }
+    }*/
 
-    @CrossOrigin(origins = "http://localhost:4200")
+/*    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/suggestionsSerie/{email}/{page}")
     public ResponseEntity<List<MediaDataBaseResponseDto>> trouverSuggestionSeriesParPageSelonPreferences(
             @PathVariable("email") String email,
@@ -80,5 +80,5 @@ public class SerieDataBaseController {
                 .body(this.serieDataBaseMapper
                         .mapListEntityToDto(
                                 this.serieDataBaseService.searchSuggestedSeriesSelonPreferences(email, page)));
-    }
+    }*/
 }

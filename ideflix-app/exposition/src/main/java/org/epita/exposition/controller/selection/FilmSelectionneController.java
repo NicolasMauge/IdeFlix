@@ -24,11 +24,13 @@ public class FilmSelectionneController {
         this.filmSelectionneMapper = filmSelectionneMapper;
     }
 
+/*
     @GetMapping("/health-check")
     public ResponseEntity<String> healthCheck() {
         //return "UP";
         return new ResponseEntity<>("UP", HttpStatus.OK);
     }
+*/
 
     /*@PostMapping
     public ResponseEntity<String> creerFilmSelectionne(@RequestBody FilmSelectionneDto filmSelectionneDto) {
@@ -39,6 +41,7 @@ public class FilmSelectionneController {
         return new ResponseEntity<String>("Film sélectionné créé", HttpStatus.CREATED);
     }*/
 
+/*
     @GetMapping("/{id}")
     public FilmSelectionneDto trouverFilmSelectionneParId(@PathVariable("id") Long id) {
         return this.filmSelectionneMapper
@@ -46,7 +49,9 @@ public class FilmSelectionneController {
                     this.filmSelectionneService
                             .trouverFilmSelectionneParId(id));
     }
+*/
 
+/*
     @GetMapping
     public List<FilmSelectionneDto> trouverTousLesFilmsSelectionnes() {
         return this.filmSelectionneMapper
@@ -54,19 +59,22 @@ public class FilmSelectionneController {
                     this.filmSelectionneService
                             .trouverTousLesFilmsSelectionnes());
     }
+*/
 
+/*
     @DeleteMapping("/{id}")
     public ResponseEntity<String> supprimerFilmSelectionneParId(@PathVariable("id") Long id) {
         this.filmSelectionneService.supprimerFilmSelectionneParId(id);
 
         return new ResponseEntity<String>("Film sélectionné supprimé", HttpStatus.OK);
     }
+*/
 
-    @GetMapping("/utilisateur/{email}")
+/*    @GetMapping("/utilisateur/{email}")
     public List<FilmSelectionneDto> trouverFilmsSelectionnesParEmailUtilisateur(@PathVariable("email") String email) {
         return this.filmSelectionneMapper
                 .mapListEntityToDto(
                         this.filmSelectionneService
                                 .trouverFilmsSelectionnesParEmailUtilisateur(email));
-    }
+    }*/
 }

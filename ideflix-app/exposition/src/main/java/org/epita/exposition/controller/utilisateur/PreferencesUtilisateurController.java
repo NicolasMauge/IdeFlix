@@ -39,13 +39,14 @@ public class PreferencesUtilisateurController {
         this.genreMapper = genreMapper;
     }
 
+/*
     @GetMapping("/health-check")
     public ResponseEntity<String> healthCheck() {
         //return "UP";
         return new ResponseEntity<>("UP", HttpStatus.OK);
     }
+*/
 
-    //@PostMapping
     @PostMapping(value = "", produces = {"application/json"}, consumes = {"application/json"})
     @Operation(summary = "Créer les préférences d'un utilisateur",
             description = "Permet de stocker le pseudo et les genres préférés de l'utilisateur.")
@@ -57,6 +58,7 @@ public class PreferencesUtilisateurController {
         return ResponseEntityCommune.get("Préférences utilisateur créées", HttpStatus.CREATED);
     }
 
+/*
     @PostMapping("/masse")
     public ResponseEntity<String> creerPlusieursPreferences(@RequestBody List<PreferencesUtilisateurDto> preferencesUtilisateurDtoList) {
         preferencesUtilisateurDtoList
@@ -68,27 +70,34 @@ public class PreferencesUtilisateurController {
 
         return new ResponseEntity<String>("Preferences utilisateurs créées", HttpStatus.CREATED);
     }
+*/
 
+/*
     @GetMapping("/{id}")
     public PreferencesUtilisateurDto trouverPreferencesUtilisateurParId(@PathVariable("id") Long id) {
         return this.preferencesUtilisateurMapper
                 .mapEntityToDto(
                         this.preferencesUtilisateurService.trouverPreferencesUtilisateurParId(id));
     }
+*/
 
+/*
     @GetMapping
     public List<PreferencesUtilisateurDto> trouverToutesLesPreferencesUtilisateurs() {
         return this.preferencesUtilisateurMapper
                 .mapListEntityToDto(
                         this.preferencesUtilisateurService.trouverToutesLesPreferencesUtilisateurs());
     }
+*/
 
+/*
     @DeleteMapping("/{id}")
     public ResponseEntity<String> supprimerPreferencesUtilisateurParId(@PathVariable("id") Long id) {
         this.preferencesUtilisateurService.supprimerPreferencesUtilisateurParId(id);
 
         return new ResponseEntity<String>("Preference utilisateur supprimée", HttpStatus.OK);
     }
+*/
 
     @GetMapping("/utilisateur/{email}")
     public PreferencesUtilisateurDto trouverPreferencesUtilisateurParEmailUtilisateur(@Valid @PathVariable("email") String email) {

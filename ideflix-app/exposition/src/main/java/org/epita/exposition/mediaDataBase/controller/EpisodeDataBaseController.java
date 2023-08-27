@@ -31,7 +31,7 @@ public class EpisodeDataBaseController {
         this.mediaMapper = mediaMapper;
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+/*    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/detailEpisode/id={id}&saison={saison}&episode={episode}")
     public ResponseEntity<EpisodeDataBaseResponseDto> trouverDetailEpisode(
             @RequestHeader("Authorization") String authorizationHeader,
@@ -46,6 +46,6 @@ public class EpisodeDataBaseController {
                 .body(this.episodeDataBaseMapper
                         .mapEntityToDto(
                                 this.episodeDataBaseService.findEpisodeByNumberEpisodeAndNumberSeasonAndId(id,numeroSaison,numeroEpisode)));
-    }
+    }*/
 
 }
