@@ -2,43 +2,21 @@ package org.epita.ideflixiam.exposition.utilisateur;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public class UtilisateurEntreeDto {
-
-    @Schema(title = "Nom utilisateur", description = "Nom de l'utilisateur", example = "Dupont", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
-    private String nom;
-    @Schema(title = "Prénom utilisateur", description = "Prénom de l'utilisateur", example = "Charles", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String prenom;
+public class UtilisateurLoginDto {
     @Schema(title = "Email utilisateur", description = "Email de l'utilisateur", example = "charles.dupont@example.org", requiredMode = Schema.RequiredMode.REQUIRED)
     private String email;
 
     @Schema(title = "Mot de passe utilisateur", description = "Mot de passe de l'utilisateur", example = "F6565q$$CBS.", requiredMode = Schema.RequiredMode.REQUIRED)
     private String motDePasse;
 
-    public UtilisateurEntreeDto() {
-    }
-
-    public UtilisateurEntreeDto(String nom, String prenom, String email, String motDePasse) {
-        this.nom = nom;
-        this.prenom = prenom;
+    public UtilisateurLoginDto(String email, String motDePasse) {
         this.email = email;
         this.motDePasse = motDePasse;
     }
 
-    public String getNom() {
-        return nom;
+    public UtilisateurLoginDto() {
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
 
     public String getEmail() {
         return email;

@@ -1,11 +1,10 @@
 package org.epita.exposition.iam.utilisateuriam;
 
-import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import org.epita.application.iam.service.UtilisateurIamService;
 import org.epita.exposition.common.ResponseEntityCommune;
 import org.epita.exposition.dto.common.ReponseCommuneDto;
@@ -37,14 +36,13 @@ public class UtilisateurIamController {
     }
 
     // ======================================== Créer un utilisateur =============================================
-    @ApiOperation(value = "Créer un utilisateur standard.",
-            notes = "Lors du premier appel, l'administrateur IAM est créé selon les données fournies dans le fichier de configuration utilisé au démarrage d'IdeFlix-IAM.",
-            response = UtilisateurIamCreationReponseDto.class)
+    @Operation(summary = "Créer un utilisateur standard.", method = "creerUtilisateurIam",
+            description = "Lors du premier appel, l'administrateur IAM est créé selon les données fournies dans le fichier de configuration utilisé au démarrage d'IdeFlix-IAM.")
+    @SecurityRequirements(value = {})
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Non utilisé."),
-            @ApiResponse(code = 201, message = "Utilisateur créé avec succès."),
-            @ApiResponse(code = 400, message = "Requête erronée."),
-            @ApiResponse(code = 409, message = "L'utilisateur existe déjà.")
+            @ApiResponse(responseCode = "201", description = "Utilisateur créé avec succès."),
+            @ApiResponse(responseCode = "400", description = "Requête erronée."),
+            @ApiResponse(responseCode = "409", description = "L'utilisateur existe déjà.")
     })
     @CrossOrigin(origins = "http://locahost:4200")
     @PostMapping("/utilisateur")
@@ -62,16 +60,16 @@ public class UtilisateurIamController {
 
 
     // ======================================== Connexion d'un utilisateur =============================================
-    @ApiOperation(value = "Se connecter",
-            response = UtilisateurIamLoginReponseDto.class)
+    @PostMapping("/login")
+    @Operation(summary = "Se connecter", method = "login")
+    @SecurityRequirements(value = {})
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Connexion réussie."),
-            @ApiResponse(code = 400, message = "Requête erronée."),
-            @ApiResponse(code = 403, message = "Utilisateur ou mot de passe incorrect."),
-            @ApiResponse(code = 503, message = "Un problème de communication avec l'IAM a eu lieu.")
+            @ApiResponse(responseCode = "200", description = "Connexion réussie."),
+            @ApiResponse(responseCode = "400", description = "Requête erronée."),
+            @ApiResponse(responseCode = "403", description = "Utilisateur ou mot de passe incorrect."),
+            @ApiResponse(responseCode = "503", description = "Un problème de communication avec l'IAM a eu lieu.")
     })
     @CrossOrigin(origins = "http://locahost:4200")
-    @PostMapping("/login")
     ResponseEntity<UtilisateurIamLoginReponseDto> login(@Valid @RequestBody UtilisateurIamLoginDto utilisateurIamLoginDto) {
 
         logger.debug("IdeFlix - Connexion de l'utilisateur " + utilisateurIamLoginDto.getEmail());
@@ -85,9 +83,10 @@ public class UtilisateurIamController {
     }
 
     // ======================================== Déconnexion d'un utilisateur ===========================================
-    @ApiOperation(value = "Déconnexion", response = ReponseCommuneDto.class)
+    @Operation(summary = "Déconnexion", method = "logout")
+    @SecurityRequirements(value = {})
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Déconnexion réussie.")
+            @ApiResponse(responseCode = "200", description = "Déconnexion réussie.")
     }
     )
     @CrossOrigin(origins = "http://locahost:4200")
@@ -100,10 +99,10 @@ public class UtilisateurIamController {
 
     // ============================================== Administration ===================================================
     //@ApiOperation(value = "Consulter la liste des utilisateurs")
-    @Operation(summary = "Consulter la liste des utilisateurs", security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "Consulter la liste des utilisateurs", method = "getAllUtilisateurs",
+            description = "Cette ressource permet à un administrateur de récupérer la liste des utilisateurs")
     @CrossOrigin(origins = "http://locahost:4200")
     @GetMapping("/admin/utilisateur/all")
-    //@SecurityDefinition(@ApiKeyAuthDefinition(key = "ApiKey", in = "header", name = "Authorization", description = "Saisir Bearer suivi du JWT. Par exemple : Bearer eyxx.eyxx.xA"))
     ResponseEntity<List<UtilisateurIamDto>> getAllUtilisateurs(
             @RequestHeader(value = "Authorization") String authorizationHeader
 

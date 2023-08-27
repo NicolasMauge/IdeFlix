@@ -1,8 +1,9 @@
 package org.epita.exposition.controller.media;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import org.epita.application.media.genre.GenreService;
 import org.epita.application.selection.filmselectionne.FilmSelectionneService;
 import org.epita.application.selection.serieselectionnee.SerieSelectionneeService;
@@ -70,11 +71,12 @@ public class GenreController {
     }
 
 
-    @ApiOperation(value = "Récupération des genres des films et séries d'un utilisateur.",
-            notes = "Chaque id TMDB est unique. Le résultat est trié par ordre alphabétique du nom du genre.")
+    @Operation(summary = "Récupération des genres des films et séries d'un utilisateur.",
+            method = "trouverGenreParEmailUtilisateur",
+            description = "Chaque id TMDB est unique. Le résultat est trié par ordre alphabétique du nom du genre.")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK."),
-            @ApiResponse(code = 403, message = "Non autorisé."),
+            @ApiResponse(responseCode = "200", description = "OK."),
+            @ApiResponse(responseCode = "403", description = "Non autorisé."),
     })
     @GetMapping("/utilisateur/{email}")
     public ResponseEntity<TreeSet<GenreDto>> trouverGenreParEmailUtilisateur(@PathVariable("email") String email) {
@@ -104,6 +106,8 @@ public class GenreController {
     }
 
     @GetMapping
+    @Operation(summary = "Récupérer tous les genres.", method = "trouverTousLesGenres", description = "Ce point d'accès permet d'initialiser l'application avec la liste complète des genres de TMDB.")
+    @SecurityRequirements(value = {})
     public List<GenreDto> trouverTousLesGenres() {
         return this.genreMapper
                 .mapListEntityToDto(

@@ -20,7 +20,8 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <springboot.version>2.7.15</springboot.version>
-        <springfox.version>3.0.0</springfox.version>
+        <!--        <springfox.version>3.0.0</springfox.version>-->
+        <springdoc.version>1.7.0</springdoc.version>
         <jwt.version>4.4.0</jwt.version>
         <postgressql.version>42.5.4</postgressql.version>
         <flyway.version>6.0.8</flyway.version>
@@ -143,15 +144,15 @@
 
             <!-- ============================================= Swagger ============================================= -->
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-boot-starter</artifactId>
-                <version>${springfox.version}</version>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${springfox.version}</version>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-security</artifactId>
+                <version>${springdoc.version}</version>
             </dependency>
 
             <!-- sécurité -->

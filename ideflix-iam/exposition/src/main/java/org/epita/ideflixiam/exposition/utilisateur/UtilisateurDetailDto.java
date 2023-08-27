@@ -1,16 +1,20 @@
 package org.epita.ideflixiam.exposition.utilisateur;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.epita.ideflixiam.exposition.role.RoleDto;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class UtilisateurDetailDto {
 
+    @Schema(title = "Nom utilisateur", description = "Nom de l'utilisateur", example = "Dupont", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
     private String nom;
+    @Schema(title = "Prénom utilisateur", description = "Prénom de l'utilisateur", example = "Charles", requiredMode = Schema.RequiredMode.REQUIRED)
     private String prenom;
+    @Schema(title = "Email utilisateur", description = "Email de l'utilisateur", example = "charles.dupont@example.org", requiredMode = Schema.RequiredMode.REQUIRED)
     private String email;
 
+    @Schema(title = "Roles utilisateur", description = "Liste des rôles de l'utilisateur", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<RoleDto> listeRoles;
 
     public UtilisateurDetailDto() {

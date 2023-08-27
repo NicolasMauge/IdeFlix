@@ -34,7 +34,10 @@ public class SecurityConfiguration {
             "/swagger-resources/**",
             "/configuration/ui",
             "/configuration/security",
+            "/api-docs/**",
             "/v3/api-docs/**",
+            "/iam/api-docs/**",
+            "/swagger-ui.html",
             "/swagger-ui/**"
     };
     @Value("${org.epita.ideflixiam.secretiam}")
@@ -67,7 +70,7 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, SWAGGER_WHITELIST).permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
-                .antMatchers(HttpMethod.GET, "/etat").permitAll()
+                .antMatchers(HttpMethod.GET, "/health-check").permitAll()
                 .antMatchers(HttpMethod.GET, "/init").permitAll()
                 .antMatchers(HttpMethod.POST, "/utilisateur").permitAll()
                 .antMatchers(SWAGGER_WHITELIST).hasRole(roleAdmin)
