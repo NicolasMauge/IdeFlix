@@ -1,6 +1,6 @@
 <div class="container-xl mx-auto pt-3">
   <h1 class="text-center text-white">Liste des utilisateurs</h1>
-  <div class="pt-3 pb-5" *ngIf="utilisateurs">
+  <div class="pt-3 pb-5" *ngIf="utilisateurs.length>0">
     <div class="card fs-5">
       <div class="card-body">
         <div class="row">
@@ -65,11 +65,12 @@
       </div>
     </div>
   </div>
+  <div class="my-6 text-center" *ngIf="utilisateurs.length==0">
+    <div class="text-warning p-3 fs-6">Chargement en cours...</div>
+    <app-chargement-en-cours></app-chargement-en-cours>
+  </div>
+
 </div>
 
-
-<div class="pt-3 pb-5" *ngIf="!utilisateurs">
-  Liste des utilisateurs en cours de chargement.
-</div>
 
 
