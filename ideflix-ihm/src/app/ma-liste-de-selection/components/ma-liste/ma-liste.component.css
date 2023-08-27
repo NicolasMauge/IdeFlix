@@ -12,9 +12,9 @@
   cursor: pointer;
 }
 
-.card-body {
-  margin-bottom: 10px;
-}
+/*.card-body {*/
+/*  margin-bottom: 10px;*/
+/*}*/
 
 .line-container {
   display: flex;          /* Utiliser le modèle flexbox */

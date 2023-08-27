@@ -7,6 +7,20 @@ div {
 /*  margin-bottom: 20px;*/
 /*}*/
 
+.card {
+  margin-bottom: 10px;
+  margin-top: 30px;
+  border: transparent;
+  cursor: pointer;
+  transition-duration: 500ms;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  z-index: 1;
+  cursor: pointer;
+}
+
 .card-footer {
   margin-bottom: 20px;
 }
@@ -15,6 +29,6 @@ div {
   font-size: 12px;
   padding: 8px 12px;
   margin-right: 1px;
-  margin-left: 2px;
+  margin-left: 4px;
   margin-bottom: 2px;
 }
