@@ -12,6 +12,7 @@ import {AdminUtilisateursComponent} from "./admin/components/admin-utilisateurs/
 import {adminGuard} from "./core/guards/admin.guard";
 import {LogoutComponent} from "./auth/components/logout/logout.component";
 import {IndisponibleComponent} from "./core/components/indisponible/indisponible.component";
+import {PageNonTrouveeComponent} from "./core/components/page-non-trouvee/page-non-trouvee.component";
 
 // tableau des routes
 const routes: Routes = [
@@ -25,7 +26,7 @@ const routes: Routes = [
   {path: 'mesPreferences', component: MesPreferencesComponent, canActivate: [authGuard]},
   {path: 'selection/:typeMedia/:movieId', component: DetailMediaComponent, canActivate: [authGuard]},
   {path: 'indisponible', component: IndisponibleComponent, canActivate: [authGuard]},
-  {path: '**', component: IndisponibleComponent}
+  {path: '**', component: PageNonTrouveeComponent}
 ];
 
 @NgModule({
