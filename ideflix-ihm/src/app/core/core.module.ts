@@ -10,7 +10,7 @@ import {StarComponent} from "./components/star/star.component";
 import {ChargementEnCoursComponent} from './components/chargement-en-cours/chargement-en-cours.component';
 import {ChargementSuiteComponent} from './components/chargement-suite/chargement-suite.component';
 import { IndisponibleComponent } from './components/indisponible/indisponible.component';
-import { PageNonTrouveeComponent } from './components/page-non-trouvee/page-non-trouvee.component';
+import {PageNonTrouveeComponent} from "./components/page-non-trouvee/page-non-trouvee.component";
 
 @NgModule({
   declarations: [
