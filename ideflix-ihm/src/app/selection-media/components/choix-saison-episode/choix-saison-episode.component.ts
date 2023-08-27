@@ -1,7 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {MatSelectChange} from "@angular/material/select";
 import {Observable} from "rxjs";
 import {MediaSelectionneDtoModel} from "../../shared/model/MediaSelectionneDto.model";
 

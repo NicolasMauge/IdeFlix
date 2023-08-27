@@ -19,7 +19,8 @@ public final class ConstantesSecurite {
 
     public final static String[] PATH_POST_ANONYME_WHITELIST = {
             "/iam/login",
-            "/iam/utilisateur"
+            "/iam/utilisateur",
+            "/iam/logout"
     };
 
     public final static String[] PATH_GET_UTILISATEUR_WHITELIST = {
@@ -33,7 +34,7 @@ public final class ConstantesSecurite {
             "/filmselectionne/*",
             "/filmselectionne/health-check",
             "/filmselectionne/utilisateur/*",
-            "/genre",
+            //"/genre", // doit être autorisé en anonyme car chargement dans le composant app-root
             "/genre/*",
             "/genre/utilisateur/*",
             "/genre/health-check",
@@ -103,7 +104,6 @@ public final class ConstantesSecurite {
     };
 
     public final static String[] PATH_POST_ADMINISTRATEUR_WHITELIST = {
-
     };
 
     public final static String[] PATH_DELETE_ADMINISTRATEUR_WHITELIST = {

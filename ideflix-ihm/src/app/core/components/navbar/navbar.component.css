@@ -21,3 +21,17 @@
   margin: 0 16px;
 }
 
+
+.tooltiptext {
+  visibility: hidden !important;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute !important;
+  top: 100% !important;
+  z-index: 1 !important;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.deconnexion:hover .tooltiptext {
+  visibility: visible !important;
+}

@@ -23,14 +23,16 @@ import static org.epita.application.iam.common.ConstantesRole.ROLE_UTILISATEUR;
 import static org.epita.exposition.iam.securite.ConstantesSecurite.*;
 
 @Configuration
-//@EnableWebSecurity
+
 public class IdeFlixSecurityConfiguration {
 
     private final static Logger logger = LoggerFactory.getLogger(IdeFlixSecurityConfiguration.class);
 
     @Value("${org.epita.ideflixapp.secretiam}")
     public String SECRET_IAM;
-    //public String SECRET_IAM = "1234567890IAM";
+
+    @Value("${server.servlet.context-path}")
+    public String CONTEXT_PATH;
 
     private UtilisateurIamService utilisateurIamService;
 
@@ -47,12 +49,24 @@ public class IdeFlixSecurityConfiguration {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         final String roleAdmin = ROLE_ADMIN.substring("ROLE_".length());
         final String roleUtilisateur = ROLE_UTILISATEUR.substring("ROLE_".length());
 
+
+        logger.trace("chemin commun : " + CONTEXT_PATH);
+
         http
+                .logout(logout -> logout
+                                .logoutUrl(CONTEXT_PATH + "/iam/logout")
+                                //.logoutSuccessUrl("/my/index")
+                                //.logoutSuccessHandler(logoutSuccessHandler)
+                                .invalidateHttpSession(true)
+//                        .addLogoutHandler(logoutHandler)
+//                        .deleteCookies(cookieNamesToClear)
+                )
                 .cors().and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, PATH_POST_ANONYME_WHITELIST).permitAll() // autorisé sans authentification
