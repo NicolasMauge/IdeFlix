@@ -15,6 +15,7 @@ export class LoginComponent {
 
   loginForm!: FormGroup;
   isFormSubmitted: boolean = false;
+  isConnexionEnCours: boolean = false;
 
   token!: string;
 
@@ -31,6 +32,7 @@ export class LoginComponent {
   ngOnInit() {
     // pas de MENU sur page de login
     this.menuService.hideMenu = true;
+    this.isConnexionEnCours = false;
     // construire mon instance loginForm
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -44,6 +46,7 @@ export class LoginComponent {
     event.preventDefault();
 
     this.isFormSubmitted = true;
+    this.isConnexionEnCours = true;
     // vérifier à la soumission si le formulaire est valide-
     if (this.loginForm.valid) {
       //si valide, on execute la request de login à API Auth

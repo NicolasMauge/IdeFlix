@@ -24,6 +24,11 @@
 
     <button class="btn btn-light">Se Connecter</button>
 
+    <div class="my-6 text-center" *ngIf="isConnexionEnCours">
+      <div class="text-warning p-3 fs-6">Connexion en cours...</div>
+      <app-chargement-en-cours></app-chargement-en-cours>
+    </div>
+
 
   </form>
 </div>
