@@ -18,7 +18,8 @@
                 <h2><span class="badge rounded-pill text-bg-warning">{{ media.typeMedia }}</span></h2>
               </div>
               <h2>{{ media.titre }}</h2>
-              <h5>{{ media.resume}}</h5>
+              <app-star *ngIf="media" [score]="media.scoreDataBase"></app-star>
+              <p>{{ media.resume | slice:0:300 }}{{ media.resume.length > 300 ? '...' : '' }}</p>
             </div>
 
               <div clas="card-footer">
