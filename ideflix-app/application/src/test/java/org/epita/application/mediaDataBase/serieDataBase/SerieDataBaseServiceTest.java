@@ -1,29 +1,82 @@
 package org.epita.application.mediaDataBase.serieDataBase;
 
+import org.epita.application.utilisateur.preferences.PreferencesUtilisateurService;
+import org.epita.application.utilisateur.preferences.PreferencesUtilisateurServiceImpl;
+import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.mediaDataBase.GenreDataBase;
-import org.epita.domaine.mediaDataBase.MovieDataBase;
 import org.epita.domaine.mediaDataBase.SerieDataBase;
+import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
+import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.mediaDataBase.SerieDataBaseRepositoryImpl;
 import org.epita.infrastructure.mediaDataBase.TmdbConfig;
 import org.epita.infrastructure.mediaDataBase.mapper.SerieApiMapper;
+import org.epita.infrastructure.utilisateur.PreferencesUtilisateurRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {SerieDataBaseServiceImpl.class, SerieDataBaseRepositoryImpl.class, TmdbConfig.class, SerieApiMapper.class})
+@SpringBootTest(classes = {SerieDataBaseServiceImpl.class,
+                        SerieDataBaseRepositoryImpl.class,
+                        TmdbConfig.class,
+                        SerieApiMapper.class,
+                        PreferencesUtilisateurServiceImpl.class})
 public class SerieDataBaseServiceTest {
 
     @Autowired
     SerieDataBaseService serieDataBaseService;
+
+    @Autowired
+    PreferencesUtilisateurService preferencesUtilisateurService;
+
+    @MockBean
+    PreferencesUtilisateurRepository repositoryMock;
+
+    PreferencesUtilisateurEntity preferencesUtilisateur;
+
+    UtilisateurEntity utilisateur;
+
+    @BeforeEach
+    public void setUp() {
+        // définition de l'utilisateur
+        utilisateur = new UtilisateurEntity();
+        utilisateur.setId(1L);
+        utilisateur.setEmail("test@test.com");
+
+        preferencesUtilisateur = new PreferencesUtilisateurEntity();
+        preferencesUtilisateur.setId(1L);
+        preferencesUtilisateur.setPseudo("pseudo 1");
+        preferencesUtilisateur.setUtilisateur(this.utilisateur);
+
+        List<GenreEntity> genreEntityList = new ArrayList<>();
+        GenreEntity genre = new GenreEntity();
+        genre.setId(1L);
+        genre.setNomGenre("genre 1");
+        genreEntityList.add(genre);
+
+        GenreEntity genre2 = new GenreEntity();
+        genre2.setId(2L);
+        genre2.setNomGenre("genre 2");
+        genreEntityList.add(genre2);
+
+        preferencesUtilisateur.setGenreList(genreEntityList);
+
+        preferencesUtilisateurService.creerPreferencesUtilisateur(preferencesUtilisateur);
+
+        when(repositoryMock.findById(1L)).thenReturn(Optional.of(preferencesUtilisateur));
+    }
 
     @Test
     public void rechercherLaListeDeToutesLesSeries_contenant_caracteres_bienvenuechezleschtis() {
@@ -95,5 +148,35 @@ public class SerieDataBaseServiceTest {
         //comparaison du titre du film trouvé
 //        assertThat(filmTrouve).isEqualTo(movie1);
         assertThat(filmTrouve.getTitre()).isEqualTo(serie1.getTitre());
+    }
+
+    @Test
+    public void rechercherSuggestionDeSeries_Pour_Page_1_appel_API() {
+        // Given
+        int page = 1;
+
+        // When
+        final List<SerieDataBase> trouves = this.serieDataBaseService.searchSuggestedSeries(page);
+
+        // Then
+
+        //le tableau des films trouvés est de 20
+        assertThat(trouves).hasSize(20);
+    }
+
+    @Test
+    public void rechercherSuggestionDeSeries_Pour_Page_1_et_Pour_Utilisateur_appel_API() {
+        // Given
+        int page = 1;
+        String email = "caro@gmail.com";
+
+        // When
+        final List<SerieDataBase> trouves = this.serieDataBaseService.searchSuggestedSeriesSelonPreferences(email, page);
+        System.out.println("trouves: " + trouves);
+
+        // Then
+
+        //le tableau des films trouvés est de 20
+        assertThat(trouves).hasSize(20);
     }
 }

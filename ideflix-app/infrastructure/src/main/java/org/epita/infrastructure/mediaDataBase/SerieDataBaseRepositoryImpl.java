@@ -21,8 +21,8 @@ public class SerieDataBaseRepositoryImpl implements SerieDataBaseRepository{
 
     private static final Logger logger = LoggerFactory.getLogger(SerieDataBaseRepositoryImpl.class);
     private static final String BASE_URL = "https://api.themoviedb.org/3/";
-
     private static final boolean INCLUDE_ADULT = false;
+    private static final boolean INCLUDE_FIRST_AIR_DATE = false;
     private static final String LANGUAGE = "fr-FR";
     private final TmdbConfig tmdbConfig;
 
@@ -90,6 +90,44 @@ public class SerieDataBaseRepositoryImpl implements SerieDataBaseRepository{
 
             } else {
                 throw new MediaDataBaseException("APP - Tmdb - Echec recherche du détail de la série d'Id TMDB:  " +  idTmdb + " avec un code retour API: " + response.code());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<SerieDataBase> searchSuggestedSerieDataBase(int page) {
+        String url = BASE_URL + "discover/tv?"
+                + "&api_key=" + tmdbConfig.getTmdbApiKey()
+                + "&include_adult=" + INCLUDE_ADULT
+                + "include_null_first_air_dates=" + INCLUDE_FIRST_AIR_DATE
+                + "&language=" + LANGUAGE
+                + "&page=" + page
+                + "&sort_by=" + "popularity.desc"
+                + "&with_origin_country=" + "FR%7CUS";  //pays d'origine des séries France et USA
+//https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=fr-FR&page=1&sort_by=popularity.desc&with_origin_country=FR%7CUS''
+        System.out.println(url);
+
+        logger.debug("recherche d'un suggestion de série page: " + page);
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .addHeader("accept", "application/json")
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                String jsonResponse = response.body().string(); // réponse JSON brute en tant que chaîne
+                SearchSeriesResponseDto searchSeriesResponseDto = objectMapper.readValue(jsonResponse, SearchSeriesResponseDto.class);
+                System.out.println("retour repository: " + serieApiMapper.mapSearchSeriesResponseDtoToEntityList(searchSeriesResponseDto));
+                return serieApiMapper.mapSearchSeriesResponseDtoToEntityList(searchSeriesResponseDto);
+
+            } else {
+                throw new MediaDataBaseException("APP - Tmdb - Echec recherche suggestion de séries de la page:  " + page + " avec un code retour API: " + response.code());
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

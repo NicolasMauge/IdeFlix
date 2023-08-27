@@ -1,8 +1,10 @@
 package org.epita.infrastructure.mediaDataBase.mapper;
 
+import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.mediaDataBase.GenreDataBase;
 import org.epita.domaine.mediaDataBase.SaisonSerieDataBase;
 import org.epita.domaine.mediaDataBase.SerieDataBase;
+import org.epita.infrastructure.media.GenreRepository;
 import org.epita.infrastructure.mediaDataBase.apidto.*;
 import org.springframework.stereotype.Component;
 
@@ -10,9 +12,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class SerieApiMapper {
+
+    private GenreRepository genreRepository;
+
+    public SerieApiMapper(GenreRepository genreRepository) {
+        this.genreRepository = genreRepository;
+    }
 
     public SerieDataBase mapSerieLightResponseDtoToEntity(SerieLightResponseDto serieLightResponseDto) {
 
@@ -23,9 +32,20 @@ public class SerieApiMapper {
         List<SaisonSerieDataBase> listSaisons = new ArrayList<>();
         listSaisons = null;
 
+//        List<GenreDataBase> listGenres = new ArrayList<>();
+//        for (int i = 0; i < serieLightResponseDto.getGenre_ids().size(); i++) {
+//            listGenres.add(i,new GenreDataBase(serieLightResponseDto.getGenre_ids().get(i),""));
+//        }
+
         List<GenreDataBase> listGenres = new ArrayList<>();
-        for (int i = 0; i < serieLightResponseDto.getGenre_ids().size(); i++) {
-            listGenres.add(i,new GenreDataBase(serieLightResponseDto.getGenre_ids().get(i),""));
+        for (Integer genreId : serieLightResponseDto.getGenre_ids()) {
+            String genreIdString = String.valueOf(genreId);
+            Optional<GenreEntity> genreEntityOptional = genreRepository.findGenreEntityByIdTmdb(genreIdString);
+            if (genreEntityOptional.isPresent()) {
+                listGenres.add(new GenreDataBase(genreId, genreEntityOptional.get().getNomGenre()));
+            } else {
+                listGenres.add(new GenreDataBase(genreId, "Genre inconnu"));
+            }
         }
 
         LocalDate dateSortie;

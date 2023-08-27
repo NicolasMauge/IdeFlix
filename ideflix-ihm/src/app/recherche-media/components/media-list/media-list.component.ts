@@ -3,6 +3,8 @@ import {Subscription} from "rxjs";
 import {MenuService} from "../../../core/services/common/menu.service";
 import {MediaService} from "../../../core/services/media/media.service";
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
+import {MessageService} from "../../../core/services/common/message.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-media-list',
@@ -17,7 +19,9 @@ export class MediaListComponent implements OnInit, OnDestroy {
   afficheChargementSuite: boolean = false;
 
   constructor(private menuService: MenuService,
-              private mediaSvc: MediaService) {
+              private mediaSvc: MediaService,
+              private messageSvc: MessageService,
+              private route: Router) {
   }
 
   ngOnInit() {
@@ -38,15 +42,21 @@ export class MediaListComponent implements OnInit, OnDestroy {
     // this.sub = this.mediaSvc.movies$.subscribe( (data: MediaModel[]) => this.medias = data);
 
     // requête GET à TMDB pour récupérer la liste des films
-    this.mediaSvc.getMoviesFromApi(this.page);
+    const email = localStorage.getItem('email');
+    if (email !== null) {
+      this.mediaSvc.getMoviesFromApi(email, this.page);
 
     //abonnement à la source service.movies$  via un subscribe
-    this.sub = this.mediaSvc.medias$.subscribe((data: MediaDatabaseModel[]) => {
+      this.sub = this.mediaSvc.medias$.subscribe((data: MediaDatabaseModel[]) => {
       // this.medias = data; // Pour faire par page
       this.medias = [...this.medias, ...data]; // Pour cumuler les pages supplémentaires dans la même page
       this.afficheChargementSuite = false;
       //console.log('getMovies: ', this.medias)
     });
+  }else {
+      console.log('email non présent dans le localstorage');
+      this.messageSvc.show('erreur de connexion - veuillez vous reconnecter', 'error')
+      this.route.navigate(['/login']);}
   }
 
   ngOnDestroy() {
@@ -57,13 +67,19 @@ export class MediaListComponent implements OnInit, OnDestroy {
   chargerLaSuite() {
     this.page++;
     this.afficheChargementSuite = true;
-    this.mediaSvc.getMoviesFromApi(this.page);
+    const email = localStorage.getItem('email');
+    if (email !== null) {
+      this.mediaSvc.getMoviesFromApi(email,this.page);
 
     // timeout pour éviter d'appeler l'api en boucle pendant le scrolling
-    setTimeout(() => {
+      setTimeout(() => {
         return;
       }
       , 250);
+  }else {
+      console.log('email non présent dans le localstorage');
+      this.messageSvc.show('erreur de connexion - veuillez vous reconnecter', 'error')
+      this.route.navigate(['/login']);}
   }
 
   @HostListener("window:scroll", ["$event"])

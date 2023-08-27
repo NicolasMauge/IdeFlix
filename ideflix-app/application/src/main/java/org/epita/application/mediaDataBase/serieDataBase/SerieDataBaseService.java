@@ -9,4 +9,8 @@ public interface SerieDataBaseService {
     List<SerieDataBase> searchSeries(String query);
 
     SerieDataBase findSerieById(long Id);
+
+    List<SerieDataBase> searchSuggestedSeries(int page);
+
+    List<SerieDataBase> searchSuggestedSeriesSelonPreferences(String email, int page);
 }
