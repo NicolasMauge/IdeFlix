@@ -28,8 +28,7 @@
 
     </form>
   </div>
-  <div class="my-6 text-center" *ngIf="isConnexionEnCours">
-    <div class="text-warning p-3 fs-6">Connexion en cours...</div>
-    <app-chargement-en-cours></app-chargement-en-cours>
+  <div class="my-6" *ngIf="isConnexionEnCours">
+    <app-chargement-en-cours [message]="'Connexion en cours...'"></app-chargement-en-cours>
   </div>
 </div>

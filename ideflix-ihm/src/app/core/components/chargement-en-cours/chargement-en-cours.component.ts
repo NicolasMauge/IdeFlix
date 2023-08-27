@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-chargement-en-cours',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./chargement-en-cours.component.css']
 })
 export class ChargementEnCoursComponent {
-
+  @Input() message!: string;
 }
