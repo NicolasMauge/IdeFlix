@@ -1,5 +1,4 @@
 import {EtiquetteModel} from "./Etiquette.model";
-import {MediaAppModel} from "../../../core/models/media-app.model";
 
 export class MediaSelectionneDtoModel {
   typeMedia: string;

@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {AdminUtilisateursComponent} from "./components/admin-utilisateurs/admin-utilisateurs.component";
+import {CoreModule} from "../core/core.module";
 
 
 @NgModule({
@@ -8,7 +9,8 @@ import {AdminUtilisateursComponent} from "./components/admin-utilisateurs/admin-
     AdminUtilisateursComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    CoreModule
   ],
   exports: [
     AdminUtilisateursComponent

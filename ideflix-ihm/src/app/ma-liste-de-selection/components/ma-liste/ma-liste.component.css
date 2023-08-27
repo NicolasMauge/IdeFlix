@@ -12,9 +12,9 @@
   cursor: pointer;
 }
 
-.card-body {
-  margin-bottom: 10px;
-}
+/*.card-body {*/
+/*  margin-bottom: 10px;*/
+/*}*/
 
 .line-container {
   display: flex;          /* Utiliser le modèle flexbox */
@@ -22,7 +22,8 @@
 }
 
 .line-container > * {
-  margin-bottom: 8px;     /* Espacement en bas de chaque élément */
+  margin-bottom: 4px;     /* Espacement en bas de chaque élément */
+  margin-right: 4px;
 }
 
 

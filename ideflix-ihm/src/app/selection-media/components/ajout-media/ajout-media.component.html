@@ -1,37 +1,47 @@
 <div class = "container">
-  <form name="ajout" [formGroup]="userForm">
-    <div class="row d-flex align-items-center">
-      <div class="col-md-4">
-        <mat-form-field>
-          <mat-label>Status</mat-label>
-          <mat-select formControlName="status">
-            <mat-option *ngFor="let status of statusEnum | valuesFromKey" [value]="status">
-              {{status}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+  <div>
+    <form name="ajout" [formGroup]="userForm">
+      <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+          <mat-form-field>
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+              <mat-option *ngFor="let status of statusEnum | valuesFromKey" [value]="status">
+                {{status}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div>
+          <mat-form-field>
+            <mat-label>Etiquettes</mat-label>
+            <mat-select formControlName="etiquettes" multiple>
+              <mat-option *ngFor="let etiquette of etiquettes$ | async" [value]="etiquette">{{etiquette.nomTag}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+
+          <button class="btn btn-circle btn-sm btn-primary" (click)="openDialog()"><i class="fa-solid fa-plus"></i></button>
+          </div>
+
+          <app-choix-saison-episode *ngIf="typeMedia=='SERIE'"
+                                    [media]="media"
+                                    (emitterParent)="setAvancement($event)"
+                                    [mediaSelectionne]="mediaSelectionne$">
+          </app-choix-saison-episode>
+
       </div>
 
-      <div class="col-md-4">
-        <mat-form-field>
-          <mat-label>Etiquettes</mat-label>
-          <mat-select formControlName="etiquettes" multiple>
-            <mat-option *ngFor="let etiquette of etiquettes$ | async" [value]="etiquette">{{etiquette.nomTag}}</mat-option>
-          </mat-select>
-        </mat-form-field>
+      <div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
 
-        <button mat-raised-button (click)="openDialog()"><i class="fa-solid fa-plus"></i></button>
+            <button type="submit" *ngIf="buttonAdd" (click)="OnSubmitAdd()" class="btn btn-primary btn-lg">Ajouter à ma liste</button>
+
+            <button type="submit" *ngIf="buttonDelete" (click)="OnSubmitDelete()" class="btn btn-primary btn-lg">Supprimer de ma liste</button>
+
+            <button type="submit" *ngIf="buttonModify" (click)="OnSubmitAdd()" class="btn btn-primary btn-lg">Modifier dans ma liste</button>
+
+        </div>
       </div>
-
-      <app-choix-saison-episode *ngIf="typeMedia=='SERIE'"
-                                [media]="media"
-                                (emitterParent)="setAvancement($event)"
-                                [mediaSelectionne]="mediaSelectionne$">
-      </app-choix-saison-episode>
-
-      <button type="submit" *ngIf="buttonAdd" (click)="OnSubmitAdd()" class="btn btn-light">Ajouter à ma liste</button>
-      <button type="submit" *ngIf="buttonDelete" (click)="OnSubmitDelete()" class="btn btn-light">Supprimer de ma liste</button>
-      <button type="submit" *ngIf="buttonModify" (click)="OnSubmitAdd()" class="btn btn-light">Modifier dans ma liste</button>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>

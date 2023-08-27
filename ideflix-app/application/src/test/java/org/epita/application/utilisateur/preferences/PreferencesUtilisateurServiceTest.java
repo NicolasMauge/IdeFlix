@@ -3,6 +3,7 @@ package org.epita.application.utilisateur.preferences;
 import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
+import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.utilisateur.PreferencesUtilisateurRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,11 +34,19 @@ public class PreferencesUtilisateurServiceTest {
 
     PreferencesUtilisateurEntity preferencesUtilisateur;
 
+    UtilisateurEntity utilisateur;
+
     @BeforeEach
     public void setUp() {
+        // définition de l'utilisateur
+        utilisateur = new UtilisateurEntity();
+        utilisateur.setId(1L);
+        utilisateur.setEmail("test@test.com");
+
         preferencesUtilisateur = new PreferencesUtilisateurEntity();
         preferencesUtilisateur.setId(1L);
         preferencesUtilisateur.setPseudo("pseudo 1");
+        preferencesUtilisateur.setUtilisateur(this.utilisateur);
 
         List<GenreEntity> genreEntityList = new ArrayList<>();
         GenreEntity genre = new GenreEntity();
@@ -84,6 +93,7 @@ public class PreferencesUtilisateurServiceTest {
         PreferencesUtilisateurEntity preferencesUtilisateur2 = new PreferencesUtilisateurEntity();
         preferencesUtilisateur2.setId(2L);
         preferencesUtilisateur2.setPseudo("pseudo 2");
+        preferencesUtilisateur2.setUtilisateur(this.utilisateur);
 
         preferencesUtilisateurService.creerPreferencesUtilisateur(preferencesUtilisateur2);
 

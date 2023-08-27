@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import {GenreService} from "./core/services/genres/genre.service";
 import {GenreModel} from "./core/models/genre.model";
 import {Subscription} from "rxjs";
@@ -9,21 +9,27 @@ import {Subscription} from "rxjs";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  @HostListener("window:beforeunload", ["$event"])
+  clearLocalStorage() {
+    localStorage.clear();
+  }
+
   title = 'ideflix-ihm';
 
-  genres : GenreModel[] = [];
+  genres: GenreModel[] = [];
   sub!: Subscription;
 
-  constructor(private genreService : GenreService) {}
+  constructor(private genreService: GenreService) {
+  }
 
   ngOnInit(): void {
     // requête pour récupérer la liste des genres
     this.genreService.loadGenres();
     // abonnement à la source service.genres$ via un subscribe
-    this.sub = this.genreService.genres$.subscribe( (data: GenreModel[]) => this.genres = data);
+    this.sub = this.genreService.genres$.subscribe((data: GenreModel[]) => this.genres = data);
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.sub.unsubscribe
   }
 }

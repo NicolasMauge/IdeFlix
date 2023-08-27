@@ -57,4 +57,28 @@ public class SerieDataBaseController {
                         .mapEntityToDto(
                                 this.serieDataBaseService.findSerieById(id)));
     }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/suggestionsSerie/{page}")
+    public ResponseEntity<List<MediaDataBaseResponseDto>> trouverSuggestionSeriesParPage(@PathVariable("page") int page) {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(this.serieDataBaseMapper
+                        .mapListEntityToDto(
+                                this.serieDataBaseService.searchSuggestedSeries(page)));
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/suggestionsSerie/{email}/{page}")
+    public ResponseEntity<List<MediaDataBaseResponseDto>> trouverSuggestionSeriesParPageSelonPreferences(
+            @PathVariable("email") String email,
+            @PathVariable("page") int page) {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(this.serieDataBaseMapper
+                        .mapListEntityToDto(
+                                this.serieDataBaseService.searchSuggestedSeriesSelonPreferences(email, page)));
+    }
 }

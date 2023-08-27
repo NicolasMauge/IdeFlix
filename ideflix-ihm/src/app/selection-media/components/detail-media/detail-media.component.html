@@ -3,38 +3,62 @@
     <h1 class="text-center text-white">Ajouter/Modifier un film</h1>
   </div>
 
-  <div class="d-flex">
-    <h1>{{titre}}</h1>
-  </div>
-
-  <div class="row">
-    <div class="col-6 col-md-4">
-      <!--<img [title]="titre" [src]="media.image_paysage | printImg" [alt]="titre" class="rounded w-100"> -->
-      <img [title]="titre" [src]="imagePortrait$ | printImg" [alt]="titre" class="rounded w-100">
+  <div>
+    <div class="d-flex">
+      <h1>{{titre}}</h1>
     </div>
 
-    <div class="col-12 col-md-6">
-      <h2>Genres</h2>
-      <span *ngFor="let genre of genreList" class="badge badge-large rounded-pill text-bg-secondary">
-                  {{genre.nomGenre}}
-      </span>
+    <div class="row">
+      <div class="col-3">
+        <!--<img [title]="titre" [src]="media.image_paysage | printImg" [alt]="titre" class="rounded w-100"> -->
+        <img [title]="titre" [src]="imagePortrait$ | printImg" [alt]="titre" class="rounded w-100">
+      </div>
 
-      <h2>{{typeDateSortie}}</h2>
-      <p>{{dateSortie$ | date:'dd/MM/yyyy'}}</p>
+      <div class="col-9 align-self-center">
+        <div class="row">
+          <div class="col-6">
+            <h2>Genres</h2>
+            <span *ngFor="let genre of genreList" class="badge badge-large rounded-pill text-bg-secondary">
+                            {{genre.nomGenre}}
+            </span>
+          </div>
+        </div>
 
-      <h2>{{typeResume}}</h2>
-      <p>{{resume$}}</p>
+        <div class="row">
+          <h2>{{typeDateSortie}}</h2>
+          <p>{{dateSortie$ | date:'dd/MM/yyyy'}}</p>
+        </div>
 
-      <h2>Durée</h2>
-      <p>{{duree | printDuration}}</p>
+        <div class="row">
+          <h2>{{typeResume}}</h2>
+          <p class="text-justify">{{resume$}}</p>
+        </div>
 
-      <app-star *ngIf="media" [score]="media.scoreDataBase"></app-star>
+        <div *ngIf="typeMedia=='FILM'" class="row">
+          <h2>Durée</h2>
+          <p>{{duree | printDuration}}</p>
+        </div>
+
+        <div class="row">
+          <h2>Note</h2>
+          <div class="col-2">
+            <app-star *ngIf="media" [score]="media.scoreDataBase"></app-star>
+          </div>
+          <div class="col-3">
+            <p>({{scoreDataBase}})</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="pt-5">
+      <app-ajout-media *ngIf="media"
+                       [media]="media"
+                       [typeMedia]="typeMedia"
+                       (emitterParentNumeroSaison)="setSaison($event)"></app-ajout-media>
     </div>
   </div>
-
 </div>
 
-<app-ajout-media *ngIf="media"
-                 [media]="media"
-                 [typeMedia]="typeMedia"
-                 (emitterParentNumeroSaison)="setSaison($event)"></app-ajout-media>
+

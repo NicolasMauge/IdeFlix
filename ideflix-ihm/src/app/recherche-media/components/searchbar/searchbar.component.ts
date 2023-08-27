@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {MediaModel} from "../../../core/models/media.model";
 import {MediaService} from "../../../core/services/media/media.service";
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
 import {debounceTime, Subject} from "rxjs";

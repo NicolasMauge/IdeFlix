@@ -17,9 +17,11 @@ import org.epita.exposition.mapper.selection.film.FilmSelectionneMapper;
 import org.epita.exposition.dto.utilisateur.UtilisateurDto;
 import org.epita.exposition.mapper.utilisateur.UtilisateurMapper;
 import org.epita.infrastructure.media.FilmRepository;
+import org.epita.infrastructure.media.GenreRepository;
 import org.epita.infrastructure.utilisateur.UtilisateurRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -48,6 +50,9 @@ public class FilmSelectionneMapperTest {
 
     @MockBean
     UtilisateurRepository utilisateurRepositoryMock;
+
+    @MockBean
+    GenreRepository genreRepository;
 
     @Test
     public void should_return_mapEntityToDto() {

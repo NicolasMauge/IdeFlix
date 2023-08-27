@@ -3,11 +3,13 @@ package org.epita.application.media.serie;
 import org.epita.domaine.common.EntityNotFoundException;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.media.SerieEntity;
+import org.epita.infrastructure.media.GenreRepository;
 import org.epita.infrastructure.media.SerieRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -29,6 +31,9 @@ public class SerieServiceTest {
 
     @MockBean
     SerieRepository repositoryMock;
+
+    @MockBean
+    GenreRepository genreRepository;
 
     SerieEntity serie;
 
@@ -74,8 +79,18 @@ public class SerieServiceTest {
     @Test
     public void trouverToutesLesSeries_should_return_2_elements() {
         // Given
+        // genre
+        GenreEntity genre = new GenreEntity();
+        genre.setId(1L);
+        GenreEntity genre2 = new GenreEntity();
+        genre2.setId(2L);
+        List<GenreEntity> genreEntityList = new ArrayList<>();
+        genreEntityList.add(genre);
+        genreEntityList.add(genre2);
+
         SerieEntity serie2 = new SerieEntity();
         serie2.setId(2L);
+        serie2.setGenreList(genreEntityList);
 
         serieService.creerSerie(serie2);
 

@@ -32,8 +32,20 @@
           </div>
         </a>
 
-        <div>
-          <p>Bienvenue !!</p>
+        <div class="fs-5">
+          Bienvenue !!
+          <div *ngIf="afficherPseudo()" class="d-inline">
+            <a class="deconnexion" [routerLink]="['logout']">
+              <div *ngIf="afficherPseudo()" class="badge bg-dark bg-gradient m-1">
+                <div class="tooltiptext badge px-2 bg-dark-subtle text-dark text-center">
+                  <i class="fa-solid fa-right-from-bracket pe-2"></i>
+                  Déconnexion
+                </div>
+                <span class="ps-2"> {{(preferences$ | async)?.pseudo + "  "}}</span>
+                <i class="fa-solid fa-plug pe-2"></i>
+              </div>
+            </a>
+          </div>
         </div>
 
 

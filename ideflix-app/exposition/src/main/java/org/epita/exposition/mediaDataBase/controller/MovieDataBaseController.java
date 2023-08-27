@@ -33,7 +33,7 @@ public class MovieDataBaseController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/rechercheFilm/{query}")
-    public ResponseEntity<List<MediaDataBaseResponseDto>> rechercherMedias(@PathVariable("query") String query){
+    public ResponseEntity<List<MediaDataBaseResponseDto>> rechercherMedias(@PathVariable("query") String query) {
 
 //        logger.debug("IdeFlix - recherche des films pour " + query);
 
@@ -41,12 +41,12 @@ public class MovieDataBaseController {
                 .status(HttpStatus.OK)
                 .body(this.movieDataBaseMapper
                         .mapListEntityToDto(
-                        this.movieDataBaseService.searchMovies(query)));
+                                this.movieDataBaseService.searchMovies(query)));
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/detailFilm/{id}")
-    public ResponseEntity<MediaDataBaseResponseDto> trouverFilmSelonId(@PathVariable("id") long id){
+    public ResponseEntity<MediaDataBaseResponseDto> trouverFilmSelonId(@PathVariable("id") long id) {
 
 //        logger.debug("IdeFlix - recherche du détail d'un film pour Id: " + id);
 
@@ -59,7 +59,7 @@ public class MovieDataBaseController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/suggestionsFilm/{page}")
-    public ResponseEntity<List<MediaDataBaseResponseDto>> trouverSuggestionFilmsParPage(@PathVariable("page") int page){
+    public ResponseEntity<List<MediaDataBaseResponseDto>> trouverSuggestionFilmsParPage(@PathVariable("page") int page) {
 
 //        logger.debug("IdeFlix - recherche Des suggestions de films de la page: " + page);
 
@@ -69,5 +69,21 @@ public class MovieDataBaseController {
                         .mapListEntityToDto(
                                 this.movieDataBaseService.searchSuggestedMovies(page)));
     }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/suggestionsFilm/{email}/{page}")
+    public ResponseEntity<List<MediaDataBaseResponseDto>> trouverSuggestionFilmsParPageSelonPreferences(
+            @PathVariable("email") String email,
+            @PathVariable("page") int page) {
+
+//        logger.debug("IdeFlix - recherche Des suggestions de films de la page: " + page);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(this.movieDataBaseMapper
+                        .mapListEntityToDto(
+                                this.movieDataBaseService.searchSuggestedMoviesSelonPreferences(email, page)));
+    }
+
 
 }

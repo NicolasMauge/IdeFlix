@@ -1,9 +1,11 @@
 package org.epita.exposition.controller.media;
 
+import io.swagger.annotations.ApiOperation;
 import org.epita.application.media.film.FilmService;
 import org.epita.domaine.media.FilmEntity;
 import org.epita.exposition.common.Mapper;
 import org.epita.exposition.dto.media.FilmDto;
+import org.epita.exposition.iam.utilisateuriam.dto.UtilisateurIamCreationReponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,11 +46,12 @@ public class FilmController {
                     this.filmService.trouverFilmParId(id));
     }*/
 
+    @ApiOperation(value = "Lister tous les films stockés en base")
     @GetMapping
     public List<FilmDto> trouverTousLesFilms() {
         return this.filmMapper
-            .mapListEntityToDto(
-                this.filmService.trouverTousLesFilms());
+                .mapListEntityToDto(
+                        this.filmService.trouverTousLesFilms());
     }
 
     /*
