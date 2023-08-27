@@ -23,7 +23,8 @@
         <ideflix-iam.version>1.0-SNAPSHOT</ideflix-iam.version>
         <springboot.version>2.7.15</springboot.version>
         <postgresql.version>42.5.4</postgresql.version>
-        <springfox.version>3.0.0</springfox.version>
+        <!--        <springfox.version>3.0.0</springfox.version>-->
+        <springdoc.version>1.7.0</springdoc.version>
         <java-jwt.version>4.4.0</java-jwt.version>
         <junit.version>5.9.3</junit.version>
         <assertj.version>3.24.2</assertj.version>
@@ -92,17 +93,19 @@
             </dependency>
 
 
+            <!--            SWAGGER-->
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-boot-starter</artifactId>
-                <version>${springfox.version}</version>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${springfox.version}</version>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-security</artifactId>
+                <version>${springdoc.version}</version>
             </dependency>
+
 
             <dependency>
                 <groupId>org.epita</groupId>

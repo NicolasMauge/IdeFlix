@@ -2,7 +2,6 @@ package org.epita.ideflixiam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -18,7 +17,7 @@ public class IdeflixIamMain {
 
         logger.info("==========================================================");
         logger.info("= Démarrage Ideflix IAM                                  =");
-        logger.info("= http://localhost:8080/api/v1/iam/swagger-ui/           =");
+        logger.info("= http://localhost:8080/api/v1/iam/swagger-ui.html       =");
         logger.info("==========================================================");
     }
 }
