@@ -9,13 +9,15 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {StarComponent} from "./components/star/star.component";
 import {ChargementEnCoursComponent} from './components/chargement-en-cours/chargement-en-cours.component';
 import {ChargementSuiteComponent} from './components/chargement-suite/chargement-suite.component';
+import { IndisponibleComponent } from './components/indisponible/indisponible.component';
 
 @NgModule({
   declarations: [
     NavbarComponent,
     StarComponent,
     ChargementEnCoursComponent,
-    ChargementSuiteComponent
+    ChargementSuiteComponent,
+    IndisponibleComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import {ChargementSuiteComponent} from './components/chargement-suite/chargement
     NavbarComponent,
     StarComponent,
     ChargementEnCoursComponent,
-    ChargementSuiteComponent
+    ChargementSuiteComponent,
+    IndisponibleComponent
   ],
 
   providers: [

@@ -34,7 +34,8 @@ export class ErrorInterceptor implements HttpInterceptor {
                   this.messageSvc.show(`Vous n'êtes pas autorisé(e)`, 'info')
                   break;
                 case 404:
-                  this.messageSvc.show(`La ressource n'est pas disponible`, 'error')
+                  this.messageSvc.show(`La ressource n'est pas disponible`, 'error');
+                  this.route.navigate(['/indisponible']);
                   break;
                 case 409:
                   this.messageSvc.show(`Le compte existe déjà, veuillez vous connecter`, 'info')
@@ -45,7 +46,8 @@ export class ErrorInterceptor implements HttpInterceptor {
                   break;
 
                 default:
-                  this.messageSvc.show('Erreur serveur', 'error')
+                  this.messageSvc.show('Erreur serveur', 'error');
+                  this.route.navigate(['/indisponible']);
               }
             }
           },
