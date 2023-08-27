@@ -17,7 +17,7 @@
 
 
       <div class="mb-3">
-        <label for="pwd-id" class="form-label">Votre password</label>
+        <label for="pwd-id" class="form-label">Votre mot de passe</label>
         <input id="pwd-id" formControlName="motDePasse" type="password" class="form-control">
         <p *ngIf="loginForm.controls['motDePasse'].hasError('required') && isFormSubmitted"
            class="error">Veuillez renseigner un mot de passe</p>
