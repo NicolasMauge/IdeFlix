@@ -14,7 +14,7 @@
 
             <img [title]="media.titre" [src]="media.image_paysage | printImg" [alt]="media.titre">
             <div class="card-body">
-              <div class = "d-flex justify-content-center align-items-center">
+              <div class="d-flex justify-content-center align-items-center">
                 <h2><span class="badge rounded-pill text-bg-warning">{{ media.typeMedia }}</span></h2>
               </div>
               <h2>{{ media.titre }}</h2>
@@ -22,28 +22,21 @@
               <p>{{ media.resume | slice:0:300 }}{{ media.resume.length > 300 ? '...' : '' }}</p>
             </div>
 
-              <div clas="card-footer">
+            <div clas="card-footer">
                 <span *ngFor="let genre of media.genres" class="badge badge-large rounded-pill text-bg-secondary">
                  {{ genre.nomGenre }}
                 </span>
-              </div>
+            </div>
 
           </div>
         </div>
       </div>
-      <!--      <app-actionbar (pageSuivanteEvent)="chargerLaSuite()"></app-actionbar>-->
     </div>
-    <div class="text-center" *ngIf="medias.length==0">
-      <div class="spinner-border text-warning grand-spinner-border" role="status"><i
-        class="fa-solid fa-dog grand-chien-border"></i>
-        <span class="sr-only">Chargement en cours...</span>
-      </div>
+    <div *ngIf="medias.length==0">
+      <app-chargement-en-cours [message]="'Chargement en cours...'"></app-chargement-en-cours>
     </div>
-    <div class="text-center" id="chargement_encours" *ngIf="afficheChargementSuite">
-      <div class="spinner-grow text-warning grand-spinner-grow" role="status">
-        <i class="fa-solid fa-dog grand-chien-grow"></i>
-        <span class="sr-only">Chargement de la suite...</span>
-      </div>
+    <div class="text-center" *ngIf="afficheChargementSuite">
+      <app-chargement-suite></app-chargement-suite>
     </div>
   </div>
 

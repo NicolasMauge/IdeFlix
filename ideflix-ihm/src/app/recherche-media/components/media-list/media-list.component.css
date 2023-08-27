@@ -34,36 +34,4 @@ div {
 }
 
 
-.grand-spinner-border {
-  width: 50px !important;
-  height: 50px !important;
-  --bs-spinner-animation-speed: 1.2s; /* ralentissement (le plus grand, le plus lent)*/
-  --bs-spinner-border-width: 0; /* suppression de la bordure : on ne garde que le chien */
-}
-
-.grand-chien-border {
-  display: inline-block;
-  font-size: 50px;
-  z-index: 100;
-  /*transform: scale(-1, 1);*/
-  /*transform: rotate(180deg);*/
-}
-
-.grand-chien-grow {
-  display: inline-block;
-  font-size: 50px;
-  translate: -25px -25px;
-  z-index: 100;
-  /*transform: rotate(180deg);*/
-}
-
-.grand-spinner-grow {
-  width: 0px !important;
-  height: 0px !important;
-  --bs-spinner-vertical-align: -25px;
-  --bs-spinner-animation-speed: 1.2s; /* ralentissement (le plus grand, le plus lent)*/
-  --bs-spinner-border-width: 0; /* suppression de la bordure : on ne garde que le chien */
-  --bs-spinner-width: 0rem;
-  --bs-spinner-height: 0rem;
-}
 

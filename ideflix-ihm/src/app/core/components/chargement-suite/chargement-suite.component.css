@@ -1,0 +1,19 @@
+/* spinner/chien : pour faire patienter pendant le chargement de la suite */
+div#grand-spinner-grow {
+  width: 0px !important;
+  height: 0px !important;
+  --bs-spinner-vertical-align: -25px;
+  --bs-spinner-animation-speed: 1.2s; /* ralentissement (le plus grand, le plus lent)*/
+  --bs-spinner-border-width: 0; /* suppression de la bordure : on ne garde que le chien */
+  --bs-spinner-width: 0rem;
+  --bs-spinner-height: 0rem;
+}
+
+i#grand-chien-grow {
+  display: inline-block;
+  font-size: 50px;
+  translate: -25px -25px;
+  z-index: 100;
+  /*transform: rotate(180deg);*/
+}
+
