@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
@@ -85,7 +86,7 @@ public class GenreController {
             @ApiResponse(responseCode = "403", description = "Non autorisé."),
     })
     @GetMapping("/utilisateur/{email}")
-    public ResponseEntity<TreeSet<GenreDto>> trouverGenreParEmailUtilisateur(@PathVariable("email") String email) {
+    public ResponseEntity<TreeSet<GenreDto>> trouverGenreParEmailUtilisateur(@Email @PathVariable("email") String email) {
         List<FilmSelectionneEntity> filmSelectionne = this.filmSelectionneService
                 .trouverFilmsSelectionnesParEmailUtilisateur(email);
         List<SerieSelectionneeEntity> serieSelectionnee = this.serieSelectionneeService
