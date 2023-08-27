@@ -8,7 +8,6 @@ import {RouterModule} from "@angular/router";
 import {LogoutComponent} from './components/logout/logout.component';
 import {CoreModule} from "../core/core.module";
 
-
 @NgModule({
   declarations: [
     AccueilComponent,

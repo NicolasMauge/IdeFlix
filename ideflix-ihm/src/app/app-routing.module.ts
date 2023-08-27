@@ -11,6 +11,8 @@ import {DetailMediaComponent} from "./selection-media/components/detail-media/de
 import {AdminUtilisateursComponent} from "./admin/components/admin-utilisateurs/admin-utilisateurs.component";
 import {adminGuard} from "./core/guards/admin.guard";
 import {LogoutComponent} from "./auth/components/logout/logout.component";
+import {IndisponibleComponent} from "./core/components/indisponible/indisponible.component";
+import {PageNonTrouveeComponent} from "./core/components/page-non-trouvee/page-non-trouvee.component";
 
 // tableau des routes
 const routes: Routes = [
@@ -22,7 +24,9 @@ const routes: Routes = [
   {path: 'search', component: MediaListComponent, canActivate: [authGuard]},
   {path: 'adminUtilisateurs', component: AdminUtilisateursComponent, canActivate: [adminGuard]},
   {path: 'mesPreferences', component: MesPreferencesComponent, canActivate: [authGuard]},
-  {path: 'selection/:typeMedia/:movieId', component: DetailMediaComponent, canActivate: [authGuard]}
+  {path: 'selection/:typeMedia/:movieId', component: DetailMediaComponent, canActivate: [authGuard]},
+  {path: 'indisponible', component: IndisponibleComponent, canActivate: [authGuard]},
+  {path: '**', component: PageNonTrouveeComponent}
 ];
 
 @NgModule({
