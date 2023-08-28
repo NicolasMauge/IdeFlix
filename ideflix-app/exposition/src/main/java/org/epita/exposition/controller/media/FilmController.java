@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/film")
-@Tag(name = "Média / Films")
+@Tag(name = "Média", description = "Endpoints permettant de gérer les données communes entre les utilisateurs au sein d'IdeFlix.")
 public class FilmController {
     private FilmService filmService;
     private Mapper<FilmEntity, FilmDto> filmMapper;

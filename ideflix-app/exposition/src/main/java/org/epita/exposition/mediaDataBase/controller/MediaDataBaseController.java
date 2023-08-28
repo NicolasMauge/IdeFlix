@@ -29,7 +29,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/MovieDataBase")
-@Tag(name = "Média Database")
+@Tag(name = "Média Database", description = "Endpoints permettant de récupérer les données du fournisseur de données.")
 public class MediaDataBaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(MovieDataBaseController.class);

@@ -30,7 +30,7 @@ import java.util.TreeSet;
 
 @RestController
 @RequestMapping("/genre")
-@Tag(name = "Média / Genre")
+@Tag(name = "Média")
 public class GenreController {
     private GenreService genreService;
     private Mapper<GenreEntity, GenreDto> genreMapper;
