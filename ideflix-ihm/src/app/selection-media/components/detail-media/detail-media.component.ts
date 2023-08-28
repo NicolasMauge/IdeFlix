@@ -69,8 +69,8 @@ export class DetailMediaComponent {
   setSaison(numeroSaison: number) {
     this.image = this.media.saisons[numeroSaison].image_portraitSaison;
 
-    this.typeResume = "Résumé de la saison "+numeroSaison;
-    this.resume = this.media.saisons[numeroSaison].resumeSaison;
+    this.typeResume = (this.media.saisons[numeroSaison].resumeSaison!="")?"Résumé de la saison "+numeroSaison:"Résumé de la série";
+    this.resume = (this.media.saisons[numeroSaison].resumeSaison!="")?this.media.saisons[numeroSaison].resumeSaison:this.media.resume;
 
     this.typeDateSortie = "Date de sortie de la saison "+numeroSaison;
     this.dateSortie = this.media.saisons[numeroSaison].dateSortieSaison;
