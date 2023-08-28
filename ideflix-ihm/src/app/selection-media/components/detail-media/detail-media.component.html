@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class = "pt-3 pb-5">
-    <h1 class="text-center text-white">Ajouter/Modifier un film</h1>
+    <h1 class="text-center text-white">Ajouter/Modifier {{typeMediaStr}}</h1>
   </div>
 
   <div>
@@ -16,7 +16,7 @@
 
       <div class="col-9 align-self-center">
         <div class="row">
-          <div class="col-6">
+          <div class="col-12">
             <h2>Genres</h2>
             <span *ngFor="let genre of genreList" class="badge badge-large rounded-pill text-bg-secondary">
                             {{genre.nomGenre}}

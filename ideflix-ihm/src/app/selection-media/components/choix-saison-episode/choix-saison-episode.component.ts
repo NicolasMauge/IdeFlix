@@ -42,7 +42,7 @@ export class ChoixSaisonEpisodeComponent {
   saisonCurrent: number = 1;
   episodeCurrent: number = 1;
 
-  constructor(/*private formBuilder: FormBuilder*/) {
+  constructor() {
   }
 
   ngOnInit() {
@@ -54,9 +54,6 @@ export class ChoixSaisonEpisodeComponent {
 
     this.mediaSelectionne.subscribe((data:MediaSelectionneDtoModel[]) => {
       if(data.length>0) {
-        //console.log("dans choix saison");
-        //console.log(data[0]);
-
         this.saisonCurrent = data[0].numeroSaison;
         this.episodeCurrent = data[0].numeroEpisode;
 
@@ -67,7 +64,7 @@ export class ChoixSaisonEpisodeComponent {
     this.defineListeSaisons();
     this.defineListeEpisodes();
 
-    console.log(this.media);
+    //console.log(this.media);
     this.emitToParent();
   }
 
@@ -98,7 +95,7 @@ export class ChoixSaisonEpisodeComponent {
     this.episodeCurrent = 1;
   }
   nombreEpisodesSaison(numeroSaison: number) {
-    return this.media.saisons[numeroSaison].nombreEpisodes;
+    return (this.media.saisons)?this.media.saisons[numeroSaison].nombreEpisodes:0;
   }
 
   emitToParent() {
@@ -107,6 +104,8 @@ export class ChoixSaisonEpisodeComponent {
       idSaisonTmdb: this.media.saisons[this.saisonCurrent].idDatabaseSaison.toString(),
       episode: this.episodeCurrent
     };
+
+    //console.log(this.avancementSerie);
 
     this.emitterParent.emit(this.avancementSerie);
   }
