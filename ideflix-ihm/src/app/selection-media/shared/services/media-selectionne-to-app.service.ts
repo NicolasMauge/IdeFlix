@@ -11,7 +11,6 @@ export class MediaSelectionneToAppService {
   IDEFLIX_API = environment.IDEFLIX_SERVER;
   private _mediaSelectionne$ = new BehaviorSubject(<MediaSelectionneDtoModel[]>([]));
 
-
   constructor(private http: HttpClient) { }
 
   saveToApp(media:MediaSelectionneDtoModel): Observable<any> {
@@ -30,22 +29,22 @@ export class MediaSelectionneToAppService {
     return this._mediaSelectionne$.asObservable();
   }
 
-  trouveMediaSelectionnePourEmailEtIdTmdb(email: string, idTmdb: string) {
+  trouveMediaSelectionnePourEmailEtIdTmdb(email: string, idTmdb: string): Observable<MediaSelectionneDtoModel[]> {
     let endpoint = '/mediaselectionne/utilisateur/'+email+"/idtmdb/"+idTmdb;
 
-    this.http.get<String[]>(this.IDEFLIX_API + endpoint)
+    return this.http.get<String[]>(this.IDEFLIX_API + endpoint)
       .pipe(
         map(
           (listMediaSelectionneApi: any) =>
             listMediaSelectionneApi.map((mediaSelectionneApi: any) => {
-              /*console.log("dans service");
-              console.log(mediaSelectionneApi);
-              console.log(new MediaSelectionneDtoModel(mediaSelectionneApi));*/
+              console.log("coucou avant l'init 2");
+              console.log(new MediaSelectionneDtoModel(mediaSelectionneApi));
+
               return new MediaSelectionneDtoModel(mediaSelectionneApi);
             }
         ))
-      )
-      .subscribe((data: MediaSelectionneDtoModel[])=> this._mediaSelectionne$.next(data));
+      );
+      //.subscribe((data: MediaSelectionneDtoModel[])=> this._mediaSelectionne$.next(data));
   }
 
   deleteFromApp(email: string, idTmdb: string):Observable<any> {

@@ -8,14 +8,13 @@ import {MediaToAppService} from "../../shared/services/media-to-app.service";
 import {GenreToAppService} from "../../shared/services/genre-to-app.service";
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {concatMap, Observable, of} from "rxjs";
+import {concatMap, Observable} from "rxjs";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogEtiquettesComponent} from "../dialog-etiquettes/dialog-etiquettes.component";
 import {MapIhmService} from "../../../shared/services/map-ihm-service";
 import {SerieCurrentSaisonEpisode} from "../choix-saison-episode/choix-saison-episode.component";
 import {EtiquetteCoreService} from "../../../core/services/etiquettes/etiquette-core.service";
-import {MediaMaListeService} from "../../../ma-liste-de-selection/services/media-ma-liste.service";
 
 
 export interface DialogData {
@@ -121,8 +120,8 @@ export class AjoutMediaComponent {
   }
 
   loadMediaSelectionne() {
-    this.mediaSelectionneToAppService.trouveMediaSelectionnePourEmailEtIdTmdb(this.email!, this.media.idDataBase.toString());
-    this.mediaSelectionne$ = this.mediaSelectionneToAppService.mediaSelectionne$;
+    this.mediaSelectionne$ = this.mediaSelectionneToAppService.trouveMediaSelectionnePourEmailEtIdTmdb(this.email!, this.media.idDataBase.toString());
+    //this.mediaSelectionne$ = this.mediaSelectionneToAppService.mediaSelectionne$;
   }
 
   loadEtiquettes() {
