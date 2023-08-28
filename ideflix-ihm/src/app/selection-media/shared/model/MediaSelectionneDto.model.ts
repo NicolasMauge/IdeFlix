@@ -1,4 +1,5 @@
 import {EtiquetteModel} from "./Etiquette.model";
+import {MediaAppOutModel} from "./MediaAppOut.model";
 
 export class MediaSelectionneDtoModel {
   typeMedia: string;
@@ -6,7 +7,7 @@ export class MediaSelectionneDtoModel {
   dateSelection: Date;
   etiquetteList: EtiquetteModel[];
   statutMedia: string;
-  mediaIdTmdb: string;
+  media: MediaAppOutModel;
   email: string;
   dateModification: Date;
   numeroSaison: number;
@@ -20,7 +21,7 @@ export class MediaSelectionneDtoModel {
     this.dateSelection = mediaFromIhm.dateSelection;
     this.etiquetteList = mediaFromIhm.etiquetteList;
     this.statutMedia = mediaFromIhm.statutMedia;
-    this.mediaIdTmdb = mediaFromIhm.mediaIdTmdb;
+    this.media = mediaFromIhm.media;
     this.email = mediaFromIhm.email;
     this.dateModification = mediaFromIhm.dateModification;
     this.numeroSaison = mediaFromIhm.numeroSaison;
