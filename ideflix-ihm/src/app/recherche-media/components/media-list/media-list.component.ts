@@ -49,6 +49,10 @@ export class MediaListComponent implements OnInit, OnDestroy {
       this.sub = this.mediaSvc.medias$.subscribe((data: MediaDatabaseModel[]) => {
         this.medias = [...this.medias, ...data]; // Pour cumuler les pages supplémentaires dans la même page
         this.afficheChargementSuite = false;
+        // charger la suite directement sans attendre Scroll si la liste est trop petite
+        if (data.length<5) {
+          this.chargerLaSuite();
+        }
       });
     } else {
       //console.log('email non présent dans le localstorage');
