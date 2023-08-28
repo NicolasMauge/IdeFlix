@@ -4,6 +4,7 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {BehaviorSubject, map, Observable, tap} from "rxjs";
 import {PreferenceModel} from "../../models/preference.model";
 import {MessageService} from "../common/message.service";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class MesPreferencesService {
   preferencesVides = {email: 'toto', pseudo: ' ', genreList: []};
 
   constructor(private http: HttpClient,
-              private messageSvc: MessageService) {
+              private messageSvc: MessageService,
+              private route: Router) {
   }
 
   registerPreferences(data: any): Observable<any> {
@@ -52,9 +54,10 @@ export class MesPreferencesService {
         error: (err: unknown) => {
           if (err instanceof HttpErrorResponse) {
             if (err.status == 404) {
-              this.messageSvc.show('Vous n\'avez pas de préférences', 'info');
               // On vide les préférences précédentes (au cas où IdeFlix est utilisé par une autre personne) :
               this._preferences$.next(this.preferencesVides);
+              this.messageSvc.show('Vous n\'avez pas de préférences', 'info');
+              this.route.navigate(['/mesPreferences']);
             }
           }
         }
