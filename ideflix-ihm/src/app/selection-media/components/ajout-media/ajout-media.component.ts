@@ -15,6 +15,7 @@ import {DialogEtiquettesComponent} from "../dialog-etiquettes/dialog-etiquettes.
 import {MapIhmService} from "../../../shared/services/map-ihm-service";
 import {SerieCurrentSaisonEpisode} from "../choix-saison-episode/choix-saison-episode.component";
 import {EtiquetteCoreService} from "../../../core/services/etiquettes/etiquette-core.service";
+import {MediaSelectionneCompletDtoModel} from "../../shared/model/MediaSelectionneCompletDto.model";
 
 
 export interface DialogData {
@@ -35,7 +36,7 @@ export class AjoutMediaComponent {
   statusEnum = Status;
 
   etiquettes$!: Observable<EtiquetteModel[]>;
-  mediaSelectionne$!: Observable<MediaSelectionneDtoModel[]>
+  mediaSelectionne$!: Observable<MediaSelectionneCompletDtoModel[]>
 
   email: string|null = "";
 
@@ -71,8 +72,6 @@ export class AjoutMediaComponent {
       avancement: [null]
     });
 
-    //console.log(this.media);
-
     if (this.email !== null) {
       this.loadEtiquettes();
       this.loadMediaSelectionne();
@@ -84,7 +83,7 @@ export class AjoutMediaComponent {
       this.userForm.get('status')?.setValue(Status.ToSee);
       this.userForm.get('etiquettes')?.setValue([]);
 
-      this.mediaSelectionne$.subscribe((data:MediaSelectionneDtoModel[]) => {
+      this.mediaSelectionne$.subscribe((data:MediaSelectionneCompletDtoModel[]) => {
         if(data.length > 0) {
           this.initializeDefaultValues(data[0]);
         }
@@ -97,7 +96,7 @@ export class AjoutMediaComponent {
     }
   }
 
-  initializeDefaultValues(mediaSelectionne: MediaSelectionneDtoModel) {
+  initializeDefaultValues(mediaSelectionne: MediaSelectionneCompletDtoModel) {
     this.buttonAdd = false;
     this.buttonModify = true;
     this.buttonDelete = true;
@@ -138,7 +137,6 @@ export class AjoutMediaComponent {
     //event.preventDefault();
 
     if (this.userForm.value.status != '') {
-      //console.log("dans submit")
       //sauvegarde de la partie genre
       this.genreService.saveToApp(this.media.genres.map((genre: any) => new GenreAppModel(genre)))
         .pipe(
