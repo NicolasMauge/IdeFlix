@@ -1,17 +1,22 @@
 package org.epita.exposition.controller.media;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import org.epita.application.media.genre.GenreService;
 import org.epita.application.selection.filmselectionne.FilmSelectionneService;
 import org.epita.application.selection.serieselectionnee.SerieSelectionneeService;
+import org.epita.domaine.common.IamErreurHabilitationException;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.epita.domaine.selection.SerieSelectionneeEntity;
+import org.epita.exposition.common.ErrorModel;
 import org.epita.exposition.common.Mapper;
 import org.epita.exposition.dto.media.GenreDto;
+import org.epita.exposition.iam.securite.Habilitations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -83,33 +88,37 @@ public class GenreController {
             description = "Chaque id TMDB est unique. Le résultat est trié par ordre alphabétique du nom du genre.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK."),
-            @ApiResponse(responseCode = "403", description = "Non autorisé."),
+            @ApiResponse(responseCode = "403", description = "Utilisateur non autorisé. L'email du demandeur n'est pas l'email demandé.", content = @Content(schema = @Schema(implementation = ErrorModel.class))),
     })
     @GetMapping("/utilisateur/{email}")
-    public ResponseEntity<TreeSet<GenreDto>> trouverGenreParEmailUtilisateur(@Email @PathVariable("email") String email) {
-        List<FilmSelectionneEntity> filmSelectionne = this.filmSelectionneService
-                .trouverFilmsSelectionnesParEmailUtilisateur(email);
-        List<SerieSelectionneeEntity> serieSelectionnee = this.serieSelectionneeService
-                .trouverSeriesSelectionneesParEmailUtilisateur(email);
+    public ResponseEntity<TreeSet<GenreDto>> trouverGenreParEmailUtilisateur(@Email @PathVariable("email") String email) throws IamErreurHabilitationException {
 
-        List<GenreDto> genreDtoList = new ArrayList<>();
-        filmSelectionne.forEach(f -> f.getMediaAudioVisuelEntity().getGenreList().forEach(genreEntity -> genreDtoList.add(genreMapper.mapEntityToDto(genreEntity))));
-        serieSelectionnee.forEach(s -> s.getMediaAudioVisuelEntity().getGenreList().forEach(genreEntity -> genreDtoList.add(genreMapper.mapEntityToDto(genreEntity))));
+        if (Habilitations.isHabilitationCorrecte(email)) {
+            List<FilmSelectionneEntity> filmSelectionne = this.filmSelectionneService
+                    .trouverFilmsSelectionnesParEmailUtilisateur(email);
+            List<SerieSelectionneeEntity> serieSelectionnee = this.serieSelectionneeService
+                    .trouverSeriesSelectionneesParEmailUtilisateur(email);
 
-        TreeSet<GenreDto> genreSet = new TreeSet<>((genre1, genre2) -> {
-            if (genre1 == null || genre2 == null) return 1;
-            if (genre1.getIdTmdb().equals(genre2.getIdTmdb()))
-                return 0; // même id TMDB = identique
-            else {
-                int compare = genre1.getNomGenre().compareTo(genre2.getNomGenre());
-                if (compare < 0) return -1;
-                else if (compare > 0) return 1;
-                else if (genre1.getNomGenre().compareTo(genre2.getNomGenre()) > 0) return 1;
-                else return -1;
-            }
-        });
-        genreSet.addAll(genreDtoList);
-        return ResponseEntity.status(HttpStatus.OK).body(genreSet);
+            List<GenreDto> genreDtoList = new ArrayList<>();
+            filmSelectionne.forEach(f -> f.getMediaAudioVisuelEntity().getGenreList().forEach(genreEntity -> genreDtoList.add(genreMapper.mapEntityToDto(genreEntity))));
+            serieSelectionnee.forEach(s -> s.getMediaAudioVisuelEntity().getGenreList().forEach(genreEntity -> genreDtoList.add(genreMapper.mapEntityToDto(genreEntity))));
+
+            TreeSet<GenreDto> genreSet = new TreeSet<>((genre1, genre2) -> {
+                if (genre1 == null || genre2 == null) return 1;
+                if (genre1.getIdTmdb().equals(genre2.getIdTmdb()))
+                    return 0; // même id TMDB = identique
+                else {
+                    int compare = genre1.getNomGenre().compareTo(genre2.getNomGenre());
+                    if (compare < 0) return -1;
+                    else if (compare > 0) return 1;
+                    else if (genre1.getNomGenre().compareTo(genre2.getNomGenre()) > 0) return 1;
+                    else return -1;
+                }
+            });
+            genreSet.addAll(genreDtoList);
+            return ResponseEntity.status(HttpStatus.OK).body(genreSet);
+        } else
+            throw new IamErreurHabilitationException("IdeFlix - " + email + " non habilité");
     }
 
     @GetMapping

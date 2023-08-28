@@ -1,17 +1,22 @@
 package org.epita.exposition.controller.utilisateur;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.epita.application.media.genre.GenreService;
 import org.epita.application.utilisateur.preferences.PreferencesUtilisateurService;
+import org.epita.domaine.common.IamErreurHabilitationException;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.utilisateur.PreferencesUtilisateurEntity;
+import org.epita.exposition.common.ErrorModel;
 import org.epita.exposition.common.Mapper;
 import org.epita.exposition.common.ResponseEntityCommune;
 import org.epita.exposition.dto.common.ReponseCommuneDto;
 import org.epita.exposition.dto.media.GenreDto;
 import org.epita.exposition.dto.utilisateur.PreferencesUtilisateurDto;
+import org.epita.exposition.iam.securite.Habilitations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -19,7 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
+import javax.validation.constraints.Email;
 
 
 @RestController
@@ -99,11 +104,25 @@ public class PreferencesUtilisateurController {
     }
 */
 
+    @Operation(summary = "Récupération des préférences d'un utilisateur.",
+            method = "trouverPreferencesUtilisateurParEmailUtilisateur",
+            description = "Seul l'utilisateur lui-même est autorisé à récupérer ses préférences.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK."),
+            @ApiResponse(responseCode = "403", description = "Utilisateur non autorisé. L'email du demandeur n'est pas l'email demandé.", content = @Content(schema = @Schema(implementation = ErrorModel.class))),
+    })
     @GetMapping("/utilisateur/{email}")
-    public PreferencesUtilisateurDto trouverPreferencesUtilisateurParEmailUtilisateur(@Valid @PathVariable("email") String email) {
-        return this.preferencesUtilisateurMapper
-                .mapEntityToDto(
-                        this.preferencesUtilisateurService
-                                .trouverPreferenceUtilisateurParEmailUtilisateur(email));
+    public PreferencesUtilisateurDto trouverPreferencesUtilisateurParEmailUtilisateur(@Email @PathVariable("email") String email) throws IamErreurHabilitationException {
+
+        boolean habilitationCorrecte = Habilitations.isHabilitationCorrecte(email);
+
+        if (habilitationCorrecte)
+            return this.preferencesUtilisateurMapper
+                    .mapEntityToDto(
+                            this.preferencesUtilisateurService
+                                    .trouverPreferenceUtilisateurParEmailUtilisateur(email));
+
+        else
+            throw new IamErreurHabilitationException("IdeFlix - " + email + " non habilité");
     }
 }

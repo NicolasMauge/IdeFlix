@@ -10,9 +10,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class Habilitations {
 
     public static boolean isHabilitationCorrecte(String email) {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        Authentication authentication = securityContext.getAuthentication();
-        return authentication.getPrincipal().equals(email);
+        if (email == null)
+            return false;
+        else {
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            Authentication authentication = securityContext.getAuthentication();
+
+            String emailConnecte = (String) authentication.getPrincipal();
+            if (emailConnecte == null)
+                return false;
+            else
+                return authentication.getPrincipal().equals(email);
+        }
     }
 
 }
