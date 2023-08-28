@@ -11,4 +11,6 @@ public final class ConstantesUtiles {
     //public static final List<String> ORIGINES_IDEFLIX = Collections.unmodifiableList(Arrays.asList(ORIGINE_IDEFLIX_IHM, ORIGINE_IDEFLIX_APP));
 
     public static final String ORIGINES_IDEFLIX_STRING = "{" + ORIGINE_IDEFLIX_IHM + ", " + ORIGINE_IDEFLIX_APP + "}";
+
+    public static final Long EXPIRATION_SESSION_MINUTES = 30L; // délai après login pour l'expiration du JWT
 }
