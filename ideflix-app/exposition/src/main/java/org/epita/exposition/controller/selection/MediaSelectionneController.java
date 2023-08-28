@@ -1,17 +1,25 @@
 package org.epita.exposition.controller.selection;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.epita.application.selection.filmselectionne.FilmSelectionneService;
 import org.epita.application.selection.serieselectionnee.SerieSelectionneeService;
+import org.epita.domaine.common.IamErreurHabilitationException;
 import org.epita.domaine.media.GenreEntity;
 import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.epita.domaine.selection.MediaSelectionneEntity;
 import org.epita.domaine.selection.SerieSelectionneeEntity;
+import org.epita.exposition.common.ErrorModel;
 import org.epita.exposition.common.Mapper;
 import org.epita.exposition.controller.media.GenreController;
 import org.epita.exposition.dto.common.TypeMedia;
 import org.epita.exposition.dto.media.GenreDto;
 import org.epita.exposition.dto.selection.MediaSelectionneCompletDto;
 import org.epita.exposition.dto.selection.MediaSelectionneDto;
+import org.epita.exposition.iam.securite.Habilitations;
 import org.epita.exposition.mapper.media.genre.GenreMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,57 +59,88 @@ public class MediaSelectionneController {
         return new ResponseEntity<>("Media sélectionné créé", HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Récupération des médias d'un utilisateur.",
+            method = "trouverTousLesMediaParUtilisateur",
+            description = "Seul l'utilisateur lui-même est autorisé à récupérer ses médias sélectionnés (films et séries).")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK."),
+            @ApiResponse(responseCode = "403", description = "Utilisateur non autorisé. L'email du demandeur n'est pas l'email demandé.", content = @Content(schema = @Schema(implementation = ErrorModel.class))),
+    })
     @GetMapping("/utilisateur/{email}")
-    public List<MediaSelectionneCompletDto> trouverTousLesMediaParUtilisateur(@PathVariable("email") String email) {
-        List<MediaSelectionneCompletDto> filmSelectionne = this.filmCompletMapper.mapListEntityToDto(
-                this.filmSelectionneService
-                        .trouverFilmsSelectionnesParEmailUtilisateur(email));
-        List<MediaSelectionneCompletDto> serieSelectionnee = this.serieCompletMapper.mapListEntityToDto(
-                this.serieSelectionneeService
-                        .trouverSeriesSelectionneesParEmailUtilisateur(email));
+    public List<MediaSelectionneCompletDto> trouverTousLesMediaParUtilisateur(@PathVariable("email") String email) throws IamErreurHabilitationException {
 
-        List<MediaSelectionneCompletDto> mediaDtoList = new ArrayList<>();
-        filmSelectionne.stream().forEach(f -> mediaDtoList.add(f));
-        serieSelectionnee.stream().forEach(s -> mediaDtoList.add(s));
+        if (Habilitations.isHabilitationCorrecte(email)) {
+            List<MediaSelectionneCompletDto> filmSelectionne = this.filmCompletMapper.mapListEntityToDto(
+                    this.filmSelectionneService
+                            .trouverFilmsSelectionnesParEmailUtilisateur(email));
+            List<MediaSelectionneCompletDto> serieSelectionnee = this.serieCompletMapper.mapListEntityToDto(
+                    this.serieSelectionneeService
+                            .trouverSeriesSelectionneesParEmailUtilisateur(email));
 
-        return mediaDtoList;
+            List<MediaSelectionneCompletDto> mediaDtoList = new ArrayList<>();
+            filmSelectionne.stream().forEach(f -> mediaDtoList.add(f));
+            serieSelectionnee.stream().forEach(s -> mediaDtoList.add(s));
+
+            return mediaDtoList;
+        } else
+            throw new IamErreurHabilitationException("IdeFlix - " + email + " non habilité");
     }
 
 
+    @Operation(summary = "Récupération des médias d'un utilisateur pour un identifiant TMDB donné.",
+            method = "trouverMediasParUtilisateurEtIdTmdb",
+            description = "Seul l'utilisateur lui-même est autorisé à récupérer ses médias sélectionnés (films et séries).")
     @GetMapping("/utilisateur/{email}/idtmdb/{idTmdb}")
     public List<MediaSelectionneCompletDto> trouverMediasParUtilisateurEtIdTmdb(@PathVariable("email") String email,
-                                                                                @PathVariable("idTmdb") String idTmdb) {
-        List<FilmSelectionneEntity> filmList = this.filmSelectionneService.trouverFilmSelectionnesParEmailUtilisateurEtIdTmdb(email, idTmdb);
+                                                                                @PathVariable("idTmdb") String idTmdb)
+            throws IamErreurHabilitationException {
 
-        if (filmList.size() > 0) {
-            return this.filmCompletMapper.mapListEntityToDto(filmList);
-        }
+        if (Habilitations.isHabilitationCorrecte(email)) {
+            List<FilmSelectionneEntity> filmList = this.filmSelectionneService.trouverFilmSelectionnesParEmailUtilisateurEtIdTmdb(email, idTmdb);
 
-        List<SerieSelectionneeEntity> serieList = this.serieSelectionneeService.trouverSeriesSelectionneesParEmailUtilisateurEtIdTmdb(email, idTmdb);
+            if (filmList.size() > 0) {
+                return this.filmCompletMapper.mapListEntityToDto(filmList);
+            }
 
-        if (serieList.size() > 0) {
-            return this.serieCompletMapper.mapListEntityToDto(serieList);
-        }
+            List<SerieSelectionneeEntity> serieList = this.serieSelectionneeService.trouverSeriesSelectionneesParEmailUtilisateurEtIdTmdb(email, idTmdb);
 
-        return new ArrayList<>();
+            if (serieList.size() > 0) {
+                return this.serieCompletMapper.mapListEntityToDto(serieList);
+            }
+
+            return new ArrayList<>();
+        } else
+            throw new IamErreurHabilitationException("IdeFlix - " + email + " non habilité");
     }
 
+    @Operation(summary = "Effacer un film d'un utilisateur.",
+            method = "supprimerMediaSelectionneePourIdTmdb",
+            description = "Seul l'utilisateur lui-même est autorisé à effacer un média sélectionné.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK."),
+            @ApiResponse(responseCode = "403", description = "Utilisateur non autorisé. L'email du demandeur n'est pas l'email demandé.", content = @Content(schema = @Schema(implementation = ErrorModel.class))),
+    })
     @DeleteMapping("/{email}/{idTmdb}")
     public ResponseEntity<String> supprimerMediaSelectionneePourIdTmdb(@PathVariable("email") String email,
-                                                                       @PathVariable("idTmdb") String idTmdb) {
-        System.out.println("suppression");
-        List<FilmSelectionneEntity> films = this.filmSelectionneService.trouverFilmSelectionnesParEmailUtilisateurEtIdTmdb(email, idTmdb);
-        if (films.size() > 0) {
-            this.filmSelectionneService.supprimerFilmSelectionneParId(films.get(0).getId());
-            return new ResponseEntity<>("Media sélectionné supprimé", HttpStatus.ACCEPTED);
-        }
+                                                                       @PathVariable("idTmdb") String idTmdb)
+            throws IamErreurHabilitationException {
 
-        List<SerieSelectionneeEntity> series = this.serieSelectionneeService.trouverSeriesSelectionneesParEmailUtilisateurEtIdTmdb(email, idTmdb);
-        if (series.size() > 0) {
-            this.serieSelectionneeService.supprimerSerieSelectionneeParId(series.get(0).getId());
-            return new ResponseEntity<>("Media sélectionné supprimé", HttpStatus.ACCEPTED);
-        }
+        if (Habilitations.isHabilitationCorrecte(email)) {
+            System.out.println("suppression");
+            List<FilmSelectionneEntity> films = this.filmSelectionneService.trouverFilmSelectionnesParEmailUtilisateurEtIdTmdb(email, idTmdb);
+            if (films.size() > 0) {
+                this.filmSelectionneService.supprimerFilmSelectionneParId(films.get(0).getId());
+                return new ResponseEntity<>("Media sélectionné supprimé", HttpStatus.ACCEPTED);
+            }
 
-        return new ResponseEntity<>("Media sélectionné supprimé", HttpStatus.ACCEPTED);
+            List<SerieSelectionneeEntity> series = this.serieSelectionneeService.trouverSeriesSelectionneesParEmailUtilisateurEtIdTmdb(email, idTmdb);
+            if (series.size() > 0) {
+                this.serieSelectionneeService.supprimerSerieSelectionneeParId(series.get(0).getId());
+                return new ResponseEntity<>("Media sélectionné supprimé", HttpStatus.ACCEPTED);
+            }
+
+            return new ResponseEntity<>("Media sélectionné supprimé", HttpStatus.ACCEPTED);
+        } else
+            throw new IamErreurHabilitationException("IdeFlix - " + email + " non habilité");
     }
 }

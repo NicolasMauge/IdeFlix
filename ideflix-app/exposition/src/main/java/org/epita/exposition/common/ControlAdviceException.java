@@ -70,6 +70,12 @@ public class ControlAdviceException extends ResponseEntityExceptionHandler {
     }
 
 
+    @ExceptionHandler
+    @ResponseBody
+    public ResponseEntity<Object> handleIamErreurHabilitation(final IamErreurHabilitationException ex) {
+        return getResponseEntity("Habilitation : l'utilisateur n'est pas autorisé à accéder à cette ressource.", HttpStatus.FORBIDDEN, ex);
+    }
+
     // ========================================================================================
     // Exceptions de validation :
 
