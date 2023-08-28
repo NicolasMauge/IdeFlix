@@ -51,7 +51,6 @@ public class SecurityConfiguration {
     @Value("${server.servlet.context-path}")
     private String contextPath;
 
-
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration authenticationConfiguration) throws Exception {

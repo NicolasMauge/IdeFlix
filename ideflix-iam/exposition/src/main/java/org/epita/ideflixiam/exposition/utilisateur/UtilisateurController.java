@@ -13,6 +13,7 @@ import org.epita.ideflixiam.application.exception.UtilisateurInexistantException
 import org.epita.ideflixiam.application.utilisateur.UtilisateurService;
 import org.epita.ideflixiam.domaine.UtilisateurEntity;
 import org.epita.ideflixiam.exceptions.MessageExceptionDto;
+import org.epita.ideflixiam.securite.Dechiffreur;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,6 +50,10 @@ public class UtilisateurController {
     @Value("${org.epita.ideflixiam.admin.password}")
     private String motDePasseAdmin;
 
+    @Value("${org.epita.ideflixiam.secretiam}")
+    public String SECRET_IAM;
+
+
     public UtilisateurController(UtilisateurService utilisateurService, UtilisateurConvertisseur utilisateurConvertisseur) {
         this.utilisateurService = utilisateurService;
         this.utilisateurConvertisseur = utilisateurConvertisseur;
@@ -75,6 +80,15 @@ public class UtilisateurController {
     public ResponseEntity<UtilisateurSimpleDto> creerUtilisateur(@RequestBody UtilisateurEntreeDto utilisateurEntreeDto) throws IdeFlixIamException {
 
         logger.debug("IAM - Création de l'utilisateur " + utilisateurEntreeDto.getEmail());
+
+        Dechiffreur dechiffreur = new Dechiffreur(this.SECRET_IAM);
+
+        logger.trace("IAM - chiffré   : " + utilisateurEntreeDto.getMotDePasse());
+
+        String motDePasseClair = dechiffreur.dechiffrer(utilisateurEntreeDto.getMotDePasse(), utilisateurEntreeDto.getEmail());
+        logger.trace("IAM - déchiffré : " + motDePasseClair);
+
+        utilisateurEntreeDto.setMotDePasse(motDePasseClair);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

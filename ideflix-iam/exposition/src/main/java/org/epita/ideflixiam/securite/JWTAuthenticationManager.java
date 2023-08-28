@@ -41,6 +41,8 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
     private String SECRET_IAM;
     private UtilisateurService utilisateurService;
 
+    Dechiffreur dechiffreur;
+
     public JWTAuthenticationManager(AuthenticationManager authenticationManager,
                                     String secretIam,
                                     UtilisateurService utilisateurService,
@@ -49,6 +51,7 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
         this.SECRET_IAM = secretIam;
         this.utilisateurService = utilisateurService;
         this.utilisateurConvertisseur = utilisateurConvertisseur;
+        this.dechiffreur = new Dechiffreur(this.SECRET_IAM);
     }
 
 
@@ -76,7 +79,7 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
                 .authenticate(
                         new UsernamePasswordAuthenticationToken(
                                 utilisateurDto.getEmail(),
-                                utilisateurDto.getMotDePasse()));
+                                dechiffreur.dechiffrer(utilisateurDto.getMotDePasse(), utilisateurDto.getEmail())));
     }
 
     protected void successfulAuthentication(HttpServletRequest request,
