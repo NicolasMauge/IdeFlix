@@ -1,5 +1,6 @@
 package org.epita.exposition.mediaDataBase.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.epita.application.mediaDataBase.serieDataBase.SerieDataBaseService;
 import org.epita.exposition.mediaDataBase.dto.MediaDataBaseResponseDto;
 import org.epita.exposition.mediaDataBase.dto.SerieDataBaseResponseDto;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/MovieDataBase")
+@Tag(name = "Média Database")
 public class SerieDataBaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(SerieDataBaseController.class);

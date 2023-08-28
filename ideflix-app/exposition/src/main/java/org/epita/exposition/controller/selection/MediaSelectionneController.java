@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.epita.application.selection.filmselectionne.FilmSelectionneService;
 import org.epita.application.selection.serieselectionnee.SerieSelectionneeService;
 import org.epita.domaine.common.IamErreurHabilitationException;
@@ -30,6 +31,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/mediaselectionne")
+@Tag(name = "Sélection / Média")
 public class MediaSelectionneController {
     Mapper<FilmSelectionneEntity, MediaSelectionneDto> filmMapper;
     Mapper<FilmSelectionneEntity, MediaSelectionneCompletDto> filmCompletMapper;
@@ -49,14 +51,26 @@ public class MediaSelectionneController {
     }
 
     @PostMapping()
-    public ResponseEntity<String> creerMediaSelectionne(@RequestBody MediaSelectionneDto mediaSelectionneDto) {
-        if (mediaSelectionneDto.getTypeMedia() == TypeMedia.FILM) {
-            this.filmSelectionneService.creerFilmSelectionne(this.filmMapper.mapDtoToEntity(mediaSelectionneDto));
-        } else if (mediaSelectionneDto.getTypeMedia() == TypeMedia.SERIE) {
-            this.serieSelectionneeService.creerSerieSelectionnee(this.serieMapper.mapDtoToEntity(mediaSelectionneDto));
-        }
+    @Operation(summary = "Ajouter un média sélectionné.",
+            method = "creerMediaSelectionne",
+            description = "Ajout d'un média dans la sélection de l'utilisateur. Seul l'utilisateur lui-même est autorisé à ajouter un film ou une série dans sa sélection.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK.", content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "403", description = "Utilisateur non autorisé. L'email du demandeur n'est pas l'email fourni.", content = @Content(schema = @Schema(implementation = ErrorModel.class))),
+    })
+    public ResponseEntity<String> creerMediaSelectionne(@RequestBody MediaSelectionneDto mediaSelectionneDto) throws IamErreurHabilitationException {
 
-        return new ResponseEntity<>("Media sélectionné créé", HttpStatus.CREATED);
+        if (mediaSelectionneDto == null || mediaSelectionneDto.getEmail().isEmpty() || Habilitations.isHabilitationCorrecte(mediaSelectionneDto.getEmail())) {
+
+            if (mediaSelectionneDto.getTypeMedia() == TypeMedia.FILM) {
+                this.filmSelectionneService.creerFilmSelectionne(this.filmMapper.mapDtoToEntity(mediaSelectionneDto));
+            } else if (mediaSelectionneDto.getTypeMedia() == TypeMedia.SERIE) {
+                this.serieSelectionneeService.creerSerieSelectionnee(this.serieMapper.mapDtoToEntity(mediaSelectionneDto));
+            }
+
+            return new ResponseEntity<>("Media sélectionné créé", HttpStatus.CREATED);
+        } else
+            throw new IamErreurHabilitationException("IdeFlix - " + mediaSelectionneDto.getEmail() + " non habilité");
     }
 
     @Operation(summary = "Récupération des médias d'un utilisateur.",

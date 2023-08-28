@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.epita.application.iam.service.UtilisateurIamService;
 import org.epita.exposition.common.ResponseEntityCommune;
 import org.epita.exposition.dto.common.ReponseCommuneDto;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/iam")
+@Tag(name = "Utilisateur / Compte")
 public class UtilisateurIamController {
 
     private static final Logger logger = LoggerFactory.getLogger(UtilisateurIamController.class);
@@ -98,7 +100,7 @@ public class UtilisateurIamController {
 
     // ============================================== Administration ===================================================
     @Operation(summary = "Consulter la liste des utilisateurs", method = "getAllUtilisateurs",
-            description = "Cette ressource permet à un administrateur de récupérer la liste des utilisateurs")
+            description = "Cette ressource permet à un administrateur de récupérer la liste des utilisateurs.")
     @CrossOrigin(origins = "http://locahost:4200")
     @GetMapping("/admin/utilisateur/all")
     ResponseEntity<List<UtilisateurIamDto>> getAllUtilisateurs(
@@ -114,6 +116,8 @@ public class UtilisateurIamController {
     }
 
     @DeleteMapping("/admin/utilisateur/{email}")
+    @Operation(summary = "Supprimer un utilisateur", method = "deleteUtilisateur",
+            description = "Cette ressource permet à un administrateur de supprimer un utilisateur.")
     ResponseEntity<ReponseCommuneDto> deleteUtilisateur(
             @RequestHeader(value = "Authorization") String authorizationHeader,
             @PathVariable("email") String email

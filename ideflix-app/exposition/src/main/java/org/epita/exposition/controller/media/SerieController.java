@@ -1,7 +1,14 @@
 package org.epita.exposition.controller.media;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.epita.application.media.serie.SerieService;
 import org.epita.domaine.media.SerieEntity;
+import org.epita.exposition.common.ErrorModel;
 import org.epita.exposition.common.Mapper;
 import org.epita.exposition.dto.media.SerieDto;
 import org.springframework.http.HttpStatus;
@@ -12,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/serie")
+@Tag(name = "Média / Série")
 public class SerieController {
     private SerieService serieService;
     private Mapper<SerieEntity, SerieDto> serieMapper;
@@ -29,6 +37,12 @@ public class SerieController {
     }
 */
 
+    @Operation(summary = "Création d'une série.",
+            method = "creerSerie",
+            description = "Création d'une série.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "OK.", content = @Content(schema = @Schema(implementation = String.class))),
+    })
     @PostMapping
     public ResponseEntity<String> creerSerie(@RequestBody SerieDto serieDto) {
         this.serieService

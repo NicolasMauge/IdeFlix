@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
 import org.epita.application.media.genre.GenreService;
 import org.epita.application.selection.filmselectionne.FilmSelectionneService;
 import org.epita.application.selection.serieselectionnee.SerieSelectionneeService;
@@ -28,6 +30,7 @@ import java.util.TreeSet;
 
 @RestController
 @RequestMapping("/genre")
+@Tag(name = "Média / Genre")
 public class GenreController {
     private GenreService genreService;
     private Mapper<GenreEntity, GenreDto> genreMapper;
@@ -88,7 +91,7 @@ public class GenreController {
             description = "Chaque id TMDB est unique. Le résultat est trié par ordre alphabétique du nom du genre.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK."),
-            @ApiResponse(responseCode = "403", description = "Utilisateur non autorisé. L'email du demandeur n'est pas l'email demandé.", content = @Content(schema = @Schema(implementation = ErrorModel.class))),
+            @ApiResponse(responseCode = "403", description = "Utilisateur non autorisé. L'email du demandeur n'est pas l'email fourni.", content = @Content(schema = @Schema(implementation = ErrorModel.class))),
     })
     @GetMapping("/utilisateur/{email}")
     public ResponseEntity<TreeSet<GenreDto>> trouverGenreParEmailUtilisateur(@Email @PathVariable("email") String email) throws IamErreurHabilitationException {

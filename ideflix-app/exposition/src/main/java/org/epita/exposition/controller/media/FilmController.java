@@ -1,8 +1,15 @@
 package org.epita.exposition.controller.media;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
 import org.epita.application.media.film.FilmService;
 import org.epita.domaine.media.FilmEntity;
+import org.epita.exposition.common.ErrorModel;
 import org.epita.exposition.common.Mapper;
 import org.epita.exposition.dto.media.FilmDto;
 import org.springframework.http.HttpStatus;
@@ -13,6 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/film")
+@Tag(name = "Média / Films")
 public class FilmController {
     private FilmService filmService;
     private Mapper<FilmEntity, FilmDto> filmMapper;
@@ -30,6 +38,12 @@ public class FilmController {
     }
 */
     @PostMapping
+    @Operation(summary = "Ajout d'un film dans IdeFlix",
+            method = "creerFilm",
+            description = "Les données de ce film serviront de référence pour tous les utilisateurs qui ajouteront ce film.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "OK.", content = @Content(schema = @Schema(implementation = String.class)))
+    })
     public ResponseEntity<String> creerFilm(@RequestBody FilmDto filmDto) {
         this.filmService
                 .creerFilm(

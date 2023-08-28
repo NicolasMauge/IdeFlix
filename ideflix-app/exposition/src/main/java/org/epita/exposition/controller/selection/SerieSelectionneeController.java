@@ -1,5 +1,6 @@
 package org.epita.exposition.controller.selection;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.epita.application.selection.serieselectionnee.SerieSelectionneeService;
 import org.epita.application.utilisateur.utilisateur.UtilisateurService;
 import org.epita.domaine.selection.SerieSelectionneeEntity;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/serieselectionnee")
+@Tag(name = "Sélection / Série")
 public class SerieSelectionneeController {
     private SerieSelectionneeService serieSelectionneeService;
     private UtilisateurService utilisateurService;

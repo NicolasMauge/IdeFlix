@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.epita.application.media.genre.GenreService;
 import org.epita.application.utilisateur.preferences.PreferencesUtilisateurService;
 import org.epita.domaine.common.IamErreurHabilitationException;
@@ -29,6 +30,7 @@ import javax.validation.constraints.Email;
 
 @RestController
 @RequestMapping("/preferences")
+@Tag(name = "Utilisateur / Préférences")
 public class PreferencesUtilisateurController {
     static final Logger logger = LoggerFactory.getLogger(PreferencesUtilisateurController.class);
 

@@ -1,5 +1,6 @@
 package org.epita.exposition.controller.selection;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.epita.application.selection.filmselectionne.FilmSelectionneService;
 import org.epita.application.utilisateur.utilisateur.UtilisateurService;
 import org.epita.domaine.selection.FilmSelectionneEntity;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/filmselectionne")
+@Tag(name = "Sélection / Film")
 public class FilmSelectionneController {
     private FilmSelectionneService filmSelectionneService;
     private UtilisateurService utilisateurService;
