@@ -47,9 +47,9 @@ public class MediaDataBaseController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/suggestionsFilmEtSerie/{email}/{page}")
-    @Operation(summary = "Récupération des films et séries suggérées",
+    @Operation(summary = "Récupérer les films et séries suggérés",
             method = "trouverSuggestionFilmsEtSeriesParPageSelonPreferences",
-            description = "Les suggestions tiennent compte des préférences de l'utilisateur.")
+            description = "Le fournisseur de données envoie ses suggestions (cumul de films et de séries).")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK."),
             @ApiResponse(responseCode = "403", description = "Utilisateur non autorisé. L'email du demandeur n'est pas l'email fourni.", content = @Content(schema = @Schema(implementation = ErrorModel.class))),

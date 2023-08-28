@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class FilmDto {
-    @Schema(description = "Identifiant TMDB du film", example = "603")
+    @Schema(description = "Identifiant du film chez le fournisseur de données", example = "603")
     private String idTmdb;
     @Schema(description = "Titre du film", example = "Matrix")
     private String titre;
@@ -15,9 +15,9 @@ public class FilmDto {
     @Schema(description = "Durée du film en minutes", example = "135")
     private int duree;
 
-    @Schema(description = "Chemin de l'affiche dans TMDB au format portrait", example = "/pEoqbqtLc4CcwDUDqxmEDSWpWTZ.jpg")
+    @Schema(description = "Nom du fichier précédé d'un slash pour l'affiche au format portrait chez le fournisseur de données", example = "/pEoqbqtLc4CcwDUDqxmEDSWpWTZ.jpg")
     private String cheminAffichePortrait;
-    @Schema(description = "Chemin de l'affiche dans TMDB au format paysage", example = "/oMsxZEvz9a708d49b6UdZK1KAo5.jpg")
+    @Schema(description = "Nom du fichier précédé d'un slash pour l'affiche au format paysage chez le fournisseur de données", example = "/oMsxZEvz9a708d49b6UdZK1KAo5.jpg")
     private String cheminAffichePaysage;
 
     @Schema(description = "Score TMDB", example = "8")

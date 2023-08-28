@@ -1,5 +1,6 @@
 package org.epita.exposition.mediaDataBase.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.epita.application.mediaDataBase.serieDataBase.SerieDataBaseService;
 import org.epita.exposition.mediaDataBase.dto.MediaDataBaseResponseDto;
@@ -35,6 +36,10 @@ public class SerieDataBaseController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
+    @Operation(summary = "Récupérer une liste de séries filtrée chez le fournisseur de données.",
+            method = "rechercherMedias",
+            description = "La liste de série est filtrée selon les caractères fournis en paramètre."
+    )
     @GetMapping("/rechercheSerie/{query}")
     public ResponseEntity<List<MediaDataBaseResponseDto>> rechercherMedias(@PathVariable("query") String query) {
 
@@ -48,6 +53,10 @@ public class SerieDataBaseController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
+    @Operation(summary = "Récupérer les détails d'une série.",
+            method = "rechercherMedias",
+            description = "Le fournisseur de données envoie les détails de la série demandé."
+    )
     @GetMapping("/detailSerie/{id}")
     public ResponseEntity<SerieDataBaseResponseDto> trouverSerieSelonId(@PathVariable("id") long id) {
 

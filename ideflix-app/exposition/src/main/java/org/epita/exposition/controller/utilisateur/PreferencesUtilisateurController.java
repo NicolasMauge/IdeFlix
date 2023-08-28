@@ -30,7 +30,7 @@ import javax.validation.constraints.Email;
 
 @RestController
 @RequestMapping("/preferences")
-@Tag(name = "Utilisateur / Préférences")
+@Tag(name = "Utilisateur")
 public class PreferencesUtilisateurController {
     static final Logger logger = LoggerFactory.getLogger(PreferencesUtilisateurController.class);
 

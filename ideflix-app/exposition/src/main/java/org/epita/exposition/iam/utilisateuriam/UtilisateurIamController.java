@@ -22,7 +22,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/iam")
-@Tag(name = "Utilisateur / Compte")
 public class UtilisateurIamController {
 
     private static final Logger logger = LoggerFactory.getLogger(UtilisateurIamController.class);
@@ -47,6 +46,7 @@ public class UtilisateurIamController {
     })
     @CrossOrigin(origins = "http://locahost:4200")
     @PostMapping("/utilisateur")
+    @Tag(name = "Utilisateur")
     public ResponseEntity<UtilisateurIamCreationReponseDto> creerUtilisateurIam(@Valid @RequestBody @Validated UtilisateurIamCreationDto utilisateurIamCreationDto) {
 
         logger.debug("IdeFlix - Création de l'utilisateur " + utilisateurIamCreationDto.getEmail());
@@ -71,6 +71,7 @@ public class UtilisateurIamController {
             @ApiResponse(responseCode = "503", description = "Un problème de communication avec l'IAM a eu lieu.")
     })
     @CrossOrigin(origins = "http://locahost:4200")
+    @Tag(name = "Utilisateur")
     ResponseEntity<UtilisateurIamLoginReponseDto> login(@Valid @RequestBody UtilisateurIamLoginDto utilisateurIamLoginDto) {
 
         logger.debug("IdeFlix - Connexion de l'utilisateur " + utilisateurIamLoginDto.getEmail());
@@ -84,7 +85,7 @@ public class UtilisateurIamController {
     }
 
     // ======================================== Déconnexion d'un utilisateur ===========================================
-    @Operation(summary = "Déconnexion", method = "logout")
+    @Operation(summary = "Se déconnecter.", method = "logout")
     @SecurityRequirements(value = {})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Déconnexion réussie.")
@@ -92,6 +93,7 @@ public class UtilisateurIamController {
     )
     @CrossOrigin(origins = "http://locahost:4200")
     @PostMapping("/logout")
+    @Tag(name = "Utilisateur")
     ResponseEntity<ReponseCommuneDto> logout(@RequestBody String chaineVide) {
         logger.debug("IdeFlix - Déconnexion");
         return ResponseEntityCommune.get("Déconnexion IdeFlix", HttpStatus.OK);
@@ -99,10 +101,15 @@ public class UtilisateurIamController {
 
 
     // ============================================== Administration ===================================================
-    @Operation(summary = "Consulter la liste des utilisateurs", method = "getAllUtilisateurs",
+    @Operation(summary = "Consulter la liste des utilisateurs.", method = "getAllUtilisateurs",
             description = "Cette ressource permet à un administrateur de récupérer la liste des utilisateurs.")
     @CrossOrigin(origins = "http://locahost:4200")
     @GetMapping("/admin/utilisateur/all")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Liste des utilisateurs fournies."),
+            @ApiResponse(responseCode = "403", description = "Utilisateur non autorisé.")
+    })
+    @Tag(name = "Utilisateur - Administration")
     ResponseEntity<List<UtilisateurIamDto>> getAllUtilisateurs(
             @RequestHeader(value = "Authorization") String authorizationHeader
 
@@ -116,8 +123,13 @@ public class UtilisateurIamController {
     }
 
     @DeleteMapping("/admin/utilisateur/{email}")
-    @Operation(summary = "Supprimer un utilisateur", method = "deleteUtilisateur",
+    @Operation(summary = "Supprimer un utilisateur.", method = "deleteUtilisateur",
             description = "Cette ressource permet à un administrateur de supprimer un utilisateur.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Effacement réussi."),
+            @ApiResponse(responseCode = "403", description = "Utilisateur non autorisé.")
+    })
+    @Tag(name = "Utilisateur - Administration")
     ResponseEntity<ReponseCommuneDto> deleteUtilisateur(
             @RequestHeader(value = "Authorization") String authorizationHeader,
             @PathVariable("email") String email

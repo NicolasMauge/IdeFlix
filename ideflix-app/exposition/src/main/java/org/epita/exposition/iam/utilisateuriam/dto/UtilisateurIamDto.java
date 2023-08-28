@@ -6,9 +6,9 @@ import java.util.List;
 
 public class UtilisateurIamDto {
     private String nom;
-    @Schema(name = "Prénom de l'utilisateur.", example = "Charles", required = true)
+    @Schema(description = "Prénom de l'utilisateur.", example = "Charles", required = true)
     private String prenom;
-    @Schema(name = "Email de l'utilisateur", example = "charles.dupont@example.org", required = true)
+    @Schema(description = "Email de l'utilisateur", example = "charles.dupont@example.org", required = true)
     private String email;
 
     private List<RoleIamDto> roles;

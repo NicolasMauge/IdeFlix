@@ -10,7 +10,7 @@ import java.util.List;
 public class MediaDto {
     @Schema(description = "Identifiant du fournisseur de données (The Movie Database).")
     private String idTmdb;
-    @Schema(description = "Type de média (série ou film).", allowableValues = {"FILM", "SERIE"})
+    @Schema(description = "Type de média (série ou film).")
     private TypeMedia typeMedia;
     @Schema(description = "Titre du média")
     private String titre;
