@@ -8,14 +8,14 @@ import {MediaToAppService} from "../../shared/services/media-to-app.service";
 import {GenreToAppService} from "../../shared/services/genre-to-app.service";
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {concatMap, Observable, of} from "rxjs";
+import {concatMap, Observable} from "rxjs";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogEtiquettesComponent} from "../dialog-etiquettes/dialog-etiquettes.component";
 import {MapIhmService} from "../../../shared/services/map-ihm-service";
 import {SerieCurrentSaisonEpisode} from "../choix-saison-episode/choix-saison-episode.component";
 import {EtiquetteCoreService} from "../../../core/services/etiquettes/etiquette-core.service";
-import {MediaMaListeService} from "../../../ma-liste-de-selection/services/media-ma-liste.service";
+import {MediaSelectionneCompletDtoModel} from "../../shared/model/MediaSelectionneCompletDto.model";
 
 
 export interface DialogData {
@@ -36,7 +36,7 @@ export class AjoutMediaComponent {
   statusEnum = Status;
 
   etiquettes$!: Observable<EtiquetteModel[]>;
-  mediaSelectionne$!: Observable<MediaSelectionneDtoModel[]>
+  mediaSelectionne$!: Observable<MediaSelectionneCompletDtoModel[]>
 
   email: string|null = "";
 
@@ -72,8 +72,6 @@ export class AjoutMediaComponent {
       avancement: [null]
     });
 
-    //console.log(this.media);
-
     if (this.email !== null) {
       this.loadEtiquettes();
       this.loadMediaSelectionne();
@@ -85,7 +83,7 @@ export class AjoutMediaComponent {
       this.userForm.get('status')?.setValue(Status.ToSee);
       this.userForm.get('etiquettes')?.setValue([]);
 
-      this.mediaSelectionne$.subscribe((data:MediaSelectionneDtoModel[]) => {
+      this.mediaSelectionne$.subscribe((data:MediaSelectionneCompletDtoModel[]) => {
         if(data.length > 0) {
           this.initializeDefaultValues(data[0]);
         }
@@ -98,7 +96,7 @@ export class AjoutMediaComponent {
     }
   }
 
-  initializeDefaultValues(mediaSelectionne: MediaSelectionneDtoModel) {
+  initializeDefaultValues(mediaSelectionne: MediaSelectionneCompletDtoModel) {
     this.buttonAdd = false;
     this.buttonModify = true;
     this.buttonDelete = true;
@@ -121,8 +119,8 @@ export class AjoutMediaComponent {
   }
 
   loadMediaSelectionne() {
-    this.mediaSelectionneToAppService.trouveMediaSelectionnePourEmailEtIdTmdb(this.email!, this.media.idDataBase.toString());
-    this.mediaSelectionne$ = this.mediaSelectionneToAppService.mediaSelectionne$;
+    this.mediaSelectionne$ = this.mediaSelectionneToAppService.trouveMediaSelectionnePourEmailEtIdTmdb(this.email!, this.media.idDataBase.toString());
+    //this.mediaSelectionne$ = this.mediaSelectionneToAppService.mediaSelectionne$;
   }
 
   loadEtiquettes() {
@@ -139,7 +137,6 @@ export class AjoutMediaComponent {
     //event.preventDefault();
 
     if (this.userForm.value.status != '') {
-      //console.log("dans submit")
       //sauvegarde de la partie genre
       this.genreService.saveToApp(this.media.genres.map((genre: any) => new GenreAppModel(genre)))
         .pipe(

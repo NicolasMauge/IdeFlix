@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MediaDatabaseModel} from "../../../core/models/media-database.model";
 import {Observable} from "rxjs";
-import {MediaSelectionneDtoModel} from "../../shared/model/MediaSelectionneDto.model";
+import {MediaSelectionneCompletDtoModel} from "../../shared/model/MediaSelectionneCompletDto.model";
 
 export interface SerieCurrentSaisonEpisode {
   saison: number,
@@ -31,7 +31,7 @@ export interface SaisonEpisode {
 })
 export class ChoixSaisonEpisodeComponent {
   @Input() media!: MediaDatabaseModel;
-  @Input() mediaSelectionne!: Observable<MediaSelectionneDtoModel[]>
+  @Input() mediaSelectionne!: Observable<MediaSelectionneCompletDtoModel[]>
 
   @Output() emitterParent = new EventEmitter<SerieCurrentSaisonEpisode>();
   //saisonForm!: FormGroup;
@@ -52,7 +52,7 @@ export class ChoixSaisonEpisodeComponent {
       episode: this.episodeCurrent
     };
 
-    this.mediaSelectionne.subscribe((data:MediaSelectionneDtoModel[]) => {
+    this.mediaSelectionne.subscribe((data:MediaSelectionneCompletDtoModel[]) => {
       if(data.length>0) {
         this.saisonCurrent = data[0].numeroSaison;
         this.episodeCurrent = data[0].numeroEpisode;
@@ -64,7 +64,6 @@ export class ChoixSaisonEpisodeComponent {
     this.defineListeSaisons();
     this.defineListeEpisodes();
 
-    //console.log(this.media);
     this.emitToParent();
   }
 
@@ -104,8 +103,6 @@ export class ChoixSaisonEpisodeComponent {
       idSaisonTmdb: this.media.saisons[this.saisonCurrent].idDatabaseSaison.toString(),
       episode: this.episodeCurrent
     };
-
-    //console.log(this.avancementSerie);
 
     this.emitterParent.emit(this.avancementSerie);
   }

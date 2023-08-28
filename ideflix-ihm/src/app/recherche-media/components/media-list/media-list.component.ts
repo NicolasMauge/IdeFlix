@@ -51,7 +51,7 @@ export class MediaListComponent implements OnInit, OnDestroy {
         this.afficheChargementSuite = false;
       });
     } else {
-      console.log('email non présent dans le localstorage');
+      //console.log('email non présent dans le localstorage');
       this.messageSvc.show('erreur de connexion - veuillez vous reconnecter', 'error')
       this.route.navigate(['/login']);
     }
