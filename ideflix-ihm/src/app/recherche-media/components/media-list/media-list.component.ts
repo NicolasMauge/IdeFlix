@@ -50,7 +50,7 @@ export class MediaListComponent implements OnInit, OnDestroy {
         this.medias = [...this.medias, ...data]; // Pour cumuler les pages supplémentaires dans la même page
         this.afficheChargementSuite = false;
         // charger la suite directement sans attendre Scroll si la liste est trop petite
-        if (data.length<5) {
+        if (data.length<5 && this.medias.length<20) {
           this.chargerLaSuite();
         }
       });
@@ -70,7 +70,11 @@ export class MediaListComponent implements OnInit, OnDestroy {
     this.afficheChargementSuite = true;
     const email = localStorage.getItem('email');
     if (email !== null) {
-      this.mediaSvc.getMoviesFromApi(email, this.page);
+      if(this.page<400){
+        this.mediaSvc.getMoviesFromApi(email, this.page);
+      } else {
+        console.log('nombre maximum de pages recherchées est atteint');
+      }
     } else {
       console.log('email non présent dans le localstorage');
       this.messageSvc.show('erreur de connexion - veuillez vous reconnecter', 'error')

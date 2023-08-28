@@ -6,7 +6,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.epita.domaine.common.MediaDataBaseException;
 import org.epita.domaine.media.GenreEntity;
-import org.epita.domaine.mediaDataBase.GenreDataBase;
 import org.epita.infrastructure.mediaDataBase.apidto.AllGenresResponseDto;
 import org.epita.infrastructure.mediaDataBase.mapper.GenreApiMapper;
 import org.slf4j.Logger;
@@ -117,5 +116,4 @@ public class GenreDataBaseRepositoryImpl implements GenreDataBaseRepository {
             throw new RuntimeException(e);
         }
     }
-
 }
