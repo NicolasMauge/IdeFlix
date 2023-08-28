@@ -37,9 +37,6 @@ export class MediaSelectionneToAppService {
         map(
           (listMediaSelectionneApi: any) =>
             listMediaSelectionneApi.map((mediaSelectionneApi: any) => {
-              console.log("coucou avant l'init 2");
-              console.log(new MediaSelectionneDtoModel(mediaSelectionneApi));
-
               return new MediaSelectionneDtoModel(mediaSelectionneApi);
             }
         ))
