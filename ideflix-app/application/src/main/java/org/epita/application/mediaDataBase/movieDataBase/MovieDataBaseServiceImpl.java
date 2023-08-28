@@ -63,6 +63,10 @@ public class MovieDataBaseServiceImpl implements MovieDataBaseService {
 
             listeGenresPreferes = preferencesUtilisateur.getGenreList();
 
+            for (GenreEntity genre : listeGenresPreferes) {
+                System.out.println("id: " + genre.getId() + ", idTmdb: " + genre.getIdTmdb() + ", nomGenre: " + genre.getNomGenre());
+            }
+
             if (listeGenresPreferes.isEmpty()) {
                 preferencesExistent = false;
             } else {
@@ -77,6 +81,8 @@ public class MovieDataBaseServiceImpl implements MovieDataBaseService {
         } catch (EntityNotFoundException e) {
             preferencesExistent = false;
         }
+
+        System.out.println("préférences existent: " + preferencesExistent + "pour email: " + email);
 
 
         List<Integer> finalListIdDatabaseGenresPreferes = listIdDatabaseGenresPreferes;

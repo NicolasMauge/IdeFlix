@@ -123,7 +123,7 @@ public class SerieDataBaseRepositoryImpl implements SerieDataBaseRepository{
             if (response.isSuccessful()) {
                 String jsonResponse = response.body().string(); // réponse JSON brute en tant que chaîne
                 SearchSeriesResponseDto searchSeriesResponseDto = objectMapper.readValue(jsonResponse, SearchSeriesResponseDto.class);
-                System.out.println("retour repository: " + serieApiMapper.mapSearchSeriesResponseDtoToEntityList(searchSeriesResponseDto));
+//                System.out.println("retour repository: " + serieApiMapper.mapSearchSeriesResponseDtoToEntityList(searchSeriesResponseDto));
                 return serieApiMapper.mapSearchSeriesResponseDtoToEntityList(searchSeriesResponseDto);
 
             } else {
