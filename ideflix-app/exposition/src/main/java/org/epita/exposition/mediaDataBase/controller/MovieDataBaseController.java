@@ -57,7 +57,7 @@ public class MovieDataBaseController {
                                 this.movieDataBaseService.findMovieById(id)));
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+/*    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/suggestionsFilm/{page}")
     public ResponseEntity<List<MediaDataBaseResponseDto>> trouverSuggestionFilmsParPage(@PathVariable("page") int page) {
 
@@ -68,9 +68,9 @@ public class MovieDataBaseController {
                 .body(this.movieDataBaseMapper
                         .mapListEntityToDto(
                                 this.movieDataBaseService.searchSuggestedMovies(page)));
-    }
+    }*/
 
-    @CrossOrigin(origins = "http://localhost:4200")
+/*    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/suggestionsFilm/{email}/{page}")
     public ResponseEntity<List<MediaDataBaseResponseDto>> trouverSuggestionFilmsParPageSelonPreferences(
             @PathVariable("email") String email,
@@ -83,7 +83,7 @@ public class MovieDataBaseController {
                 .body(this.movieDataBaseMapper
                         .mapListEntityToDto(
                                 this.movieDataBaseService.searchSuggestedMoviesSelonPreferences(email, page)));
-    }
+    }*/
 
 
 }

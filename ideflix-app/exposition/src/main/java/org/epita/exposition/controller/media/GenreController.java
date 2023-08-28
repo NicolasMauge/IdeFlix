@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
@@ -36,12 +37,15 @@ public class GenreController {
         this.serieSelectionneeService = serieSelectionneeService;
     }
 
+/*
     @GetMapping("/health-check")
     public ResponseEntity<String> healthCheck() {
         //return "UP";
         return new ResponseEntity<>("UP", HttpStatus.OK);
     }
+*/
 
+/*
     @PostMapping
     public ResponseEntity<String> creerGenre(@RequestBody GenreDto genreDto) {
         this.genreService
@@ -50,6 +54,7 @@ public class GenreController {
 
         return new ResponseEntity<>("Genre créé", HttpStatus.CREATED);
     }
+*/
 
     @PostMapping("/masse")
     public ResponseEntity<String> creerPlusieursGenres(@RequestBody List<GenreDto> genreDtoList) {
@@ -63,12 +68,14 @@ public class GenreController {
         return new ResponseEntity<>("Genres créés", HttpStatus.CREATED);
     }
 
+/*
     @GetMapping("/{idtmdb}")
     public GenreDto trouverGenreParIdTmdb(@PathVariable("idtmdb") String idTmdb) {
         return this.genreMapper
                 .mapEntityToDto(
                         this.genreService.trouverGenreByIdTmdb(idTmdb));
     }
+*/
 
 
     @Operation(summary = "Récupération des genres des films et séries d'un utilisateur.",
@@ -79,7 +86,7 @@ public class GenreController {
             @ApiResponse(responseCode = "403", description = "Non autorisé."),
     })
     @GetMapping("/utilisateur/{email}")
-    public ResponseEntity<TreeSet<GenreDto>> trouverGenreParEmailUtilisateur(@PathVariable("email") String email) {
+    public ResponseEntity<TreeSet<GenreDto>> trouverGenreParEmailUtilisateur(@Email @PathVariable("email") String email) {
         List<FilmSelectionneEntity> filmSelectionne = this.filmSelectionneService
                 .trouverFilmsSelectionnesParEmailUtilisateur(email);
         List<SerieSelectionneeEntity> serieSelectionnee = this.serieSelectionneeService
@@ -114,10 +121,10 @@ public class GenreController {
                         this.genreService.trouverTousLesGenres());
     }
 
-    @DeleteMapping("/{id}")
+/*    @DeleteMapping("/{id}")
     public ResponseEntity<String> supprimerGenre(@PathVariable("id") Long id) {
         this.genreService.supprimerGenreParId(id);
 
         return new ResponseEntity<>("Genre supprimé", HttpStatus.OK);
-    }
+    }*/
 }

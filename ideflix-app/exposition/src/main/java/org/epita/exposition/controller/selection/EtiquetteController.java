@@ -25,12 +25,15 @@ public class EtiquetteController {
         this.etiquetteMapper = etiquetteMapper;
     }
 
+/*
     @GetMapping("/health-check")
     public ResponseEntity<String> healthCheck() {
         //return "UP";
         return new ResponseEntity<>("UP", HttpStatus.OK);
     }
+*/
 
+/*
     @PostMapping
     public ResponseEntity<String> creerEtiquette(@RequestBody EtiquetteDto etiquetteDto) {
         this.etiquetteService
@@ -39,6 +42,7 @@ public class EtiquetteController {
 
         return new ResponseEntity<String>("Etiquette créée", HttpStatus.CREATED);
     }
+*/
 
     @PostMapping("/utilisateur/{email}")
     public ResponseEntity<String> creerEtiquetteParEmail(@PathVariable("email") String email, @RequestBody EtiquetteDto etiquetteDto) {
@@ -52,26 +56,32 @@ public class EtiquetteController {
         return new ResponseEntity<String>("Etiquette créée", HttpStatus.CREATED);
     }
 
+/*
     @GetMapping("/{id}")
     public EtiquetteDto trouverEtiquetteParId(@PathVariable("id") Long id) {
         return this.etiquetteMapper
                 .mapEntityToDto(
                         this.etiquetteService.trouverEtiquetteParId(id));
     }
+*/
 
+/*
     @GetMapping
     public List<EtiquetteDto> trouverToutesLesEtiquettes() {
         return this.etiquetteMapper
                 .mapListEntityToDto(
                         this.etiquetteService.trouverToutesLesEtiquettes());
     }
+*/
 
+/*
     @DeleteMapping("/{id}")
     public ResponseEntity<String> supprimerEtiquetteParId(@PathVariable("id") Long id) {
         this.etiquetteService.supprimerEtiquetteParId(id);
 
         return new ResponseEntity<String>("Etiquette supprimée", HttpStatus.OK);
     }
+*/
 
     @GetMapping("/utilisateur/{email}")
     public List<EtiquetteDto> trouverEtiquetteParEmailUtilisateur(@PathVariable("email") String email) {

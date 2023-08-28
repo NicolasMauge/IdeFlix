@@ -24,11 +24,13 @@ public class SerieSelectionneeController {
         this.serieSelectionneeMapper = serieSelectionneeMapper;
     }
 
+/*
     @GetMapping("/health-check")
     public ResponseEntity<String> healthCheck() {
         //return "UP";
         return new ResponseEntity<>("UP", HttpStatus.OK);
     }
+*/
 
     /* Utiliser MediaSelectionneController
     @PostMapping
@@ -40,6 +42,7 @@ public class SerieSelectionneeController {
         return new ResponseEntity<String>("Série sélectionnée créée", HttpStatus.CREATED);
     }*/
 
+/*
     @GetMapping("/{id}")
     public SerieSelectionneeDto trouverSerieSelectionneeParId(@PathVariable("id") Long id) {
         return this.serieSelectionneeMapper
@@ -47,7 +50,9 @@ public class SerieSelectionneeController {
                     this.serieSelectionneeService
                             .trouverSerieSelectionneeParId(id));
     }
+*/
 
+/*
     @GetMapping
     public List<SerieSelectionneeDto> trouverToutesLesSeriesSelectionnees() {
         return this.serieSelectionneeMapper
@@ -55,19 +60,22 @@ public class SerieSelectionneeController {
                     this.serieSelectionneeService
                             .trouverToutesLesSeriesSelectionnees());
     }
+*/
 
+/*
     @DeleteMapping("{id}")
     public ResponseEntity<String> supprimerSerieSelectionneeParId(@PathVariable("id") Long id) {
         this.serieSelectionneeService.supprimerSerieSelectionneeParId(id);
 
         return new ResponseEntity<String>("Série sélectionnée supprimée", HttpStatus.OK);
     }
+*/
 
-    @GetMapping("/utilisateur/{email}")
+/*    @GetMapping("/utilisateur/{email}")
     public List<SerieSelectionneeDto> trouverSerieSelectionneesParEmailUtilisateur(@PathVariable("email") String email) {
         return this.serieSelectionneeMapper
                 .mapListEntityToDto(
                     this.serieSelectionneeService
                         .trouverSeriesSelectionneesParEmailUtilisateur(email));
-    }
+    }*/
 }
