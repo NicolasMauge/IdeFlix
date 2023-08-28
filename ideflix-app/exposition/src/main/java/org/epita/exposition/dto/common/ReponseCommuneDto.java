@@ -4,10 +4,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 public class ReponseCommuneDto {
 
-    @Schema(name = "Statut HTTP", example = "200 OK")
+    @Schema(description = "Statut HTTP", example = "200 OK")
     private String httpStatus;
 
-    @Schema(name = "Information complémentaire", example = "Opération effectuée.")
+    @Schema(description = "Information complémentaire", example = "Opération effectuée.")
     private String message;
 
     public ReponseCommuneDto(String message, String httpStatus) {
