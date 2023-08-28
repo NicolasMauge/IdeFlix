@@ -22,6 +22,7 @@ export class DetailMediaComponent {
   movieId!: number;
   media!:MediaDatabaseModel;
   typeMedia!:string;
+  typeMediaStr! : string;
   image : string = "";
   resume: string = "";
   dateSortie: Date = new Date();
@@ -34,6 +35,7 @@ export class DetailMediaComponent {
   ngOnInit() {
     this.movieId = this.route.snapshot.params['movieId'];
     this.typeMedia = this.route.snapshot.params['typeMedia'];
+    this.typeMediaStr = this.typeMedia=="FILM"?"un film":"une série";
 
     if(this.typeMedia == "FILM") {
       this.movieService.getDetailsMovie(this.movieId).subscribe(
@@ -88,7 +90,7 @@ export class DetailMediaComponent {
   }
 
   get titre(): string|null {
-    return(this.media && this.media.titre) ? this.media.titre : null;
+    return(this.media && this.media.titre) ? this.media.titre : "image du média";
   }
 
   get dateSortie$(): Date|null {
