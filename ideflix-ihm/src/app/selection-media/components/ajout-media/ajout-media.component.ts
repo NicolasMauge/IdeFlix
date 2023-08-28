@@ -15,6 +15,7 @@ import {DialogEtiquettesComponent} from "../dialog-etiquettes/dialog-etiquettes.
 import {MapIhmService} from "../../../shared/services/map-ihm-service";
 import {SerieCurrentSaisonEpisode} from "../choix-saison-episode/choix-saison-episode.component";
 import {EtiquetteCoreService} from "../../../core/services/etiquettes/etiquette-core.service";
+import {MediaMaListeService} from "../../../ma-liste-de-selection/services/media-ma-liste.service";
 
 
 export interface DialogData {
@@ -53,7 +54,7 @@ export class AjoutMediaComponent {
   ajoutEtiquette: string | undefined;
 
   constructor(private etiquetteService:EtiquetteCoreService,
-              private mediaAppService:MediaSelectionneToAppService,
+              private mediaSelectionneToAppService:MediaSelectionneToAppService,
               private mediaService: MediaToAppService,
               private genreService: GenreToAppService,
               private formBuilder: FormBuilder,
@@ -120,8 +121,8 @@ export class AjoutMediaComponent {
   }
 
   loadMediaSelectionne() {
-    this.mediaAppService.trouveMediaSelectionnePourEmailEtIdTmdb(this.email!, this.media.idDataBase.toString());
-    this.mediaSelectionne$ = this.mediaAppService.mediaSelectionne$;
+    this.mediaSelectionneToAppService.trouveMediaSelectionnePourEmailEtIdTmdb(this.email!, this.media.idDataBase.toString());
+    this.mediaSelectionne$ = this.mediaSelectionneToAppService.mediaSelectionne$;
   }
 
   loadEtiquettes() {
@@ -164,9 +165,9 @@ export class AjoutMediaComponent {
 
             const mediaSelectionne = new MediaSelectionneDtoModel(mediaSelectionneObject);
 
-            this.mediaAppService.saveToApp(mediaSelectionne); // Appel sans retour d'Observable
+            return this.mediaSelectionneToAppService.saveToApp(mediaSelectionne); // Appel sans retour d'Observable
 
-            return of(null); // Retourne un observable qui émet une valeur nulle
+            //return of(null); // Retourne un observable qui émet une valeur nulle
           })
           )
           .subscribe(() => {
@@ -214,8 +215,9 @@ export class AjoutMediaComponent {
   // ******************************************************************
 
   OnSubmitDelete() {
-    this.mediaAppService.deleteFromApp(this.email!, this.media.idDataBase.toString());
-    this.route.navigate(['/maListe']);
+    this.mediaSelectionneToAppService.deleteFromApp(this.email!, this.media.idDataBase.toString()).subscribe(()=>{
+      this.route.navigate(['/maListe']);
+    } );
   }
 
   openDialog(): void {
@@ -236,6 +238,6 @@ export class AjoutMediaComponent {
   setAvancement(saisonEpisodeCourant: SerieCurrentSaisonEpisode) {
     this.userForm.get('avancement')?.setValue(saisonEpisodeCourant);
 
-    this.emitterParentNumeroSaison.emit(saisonEpisodeCourant.saison);;
+    this.emitterParentNumeroSaison.emit(saisonEpisodeCourant.saison);
   }
 }

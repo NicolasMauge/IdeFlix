@@ -14,10 +14,10 @@ export class MediaSelectionneToAppService {
 
   constructor(private http: HttpClient) { }
 
-  saveToApp(media:MediaSelectionneDtoModel) {
+  saveToApp(media:MediaSelectionneDtoModel): Observable<any> {
     let endpoint = '/mediaselectionne';
 
-    this.http.post(this.IDEFLIX_API + endpoint, media, {responseType: 'text'}).subscribe();
+    return this.http.post(this.IDEFLIX_API + endpoint, media, {responseType: 'text'});
   }
 
   getMediaSelectionnePourEmailEtIdTmdb(): MediaSelectionneDtoModel[] {
@@ -48,9 +48,9 @@ export class MediaSelectionneToAppService {
       .subscribe((data: MediaSelectionneDtoModel[])=> this._mediaSelectionne$.next(data));
   }
 
-  deleteFromApp(email: string, idTmdb: string) {
+  deleteFromApp(email: string, idTmdb: string):Observable<any> {
     let endpoint = '/mediaselectionne/'+email+"/"+idTmdb;
 
-    this.http.delete(this.IDEFLIX_API + endpoint, {observe: "body", responseType: 'arraybuffer'}).subscribe();
+    return this.http.delete(this.IDEFLIX_API + endpoint, {observe: "body", responseType: 'arraybuffer'});
   }
 }

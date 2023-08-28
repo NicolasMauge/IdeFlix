@@ -22,6 +22,7 @@ export class DetailMediaComponent {
   movieId!: number;
   media!:MediaDatabaseModel;
   typeMedia!:string;
+  typeMediaStr! : string;
   image : string = "";
   resume: string = "";
   dateSortie: Date = new Date();
@@ -34,6 +35,7 @@ export class DetailMediaComponent {
   ngOnInit() {
     this.movieId = this.route.snapshot.params['movieId'];
     this.typeMedia = this.route.snapshot.params['typeMedia'];
+    this.typeMediaStr = this.typeMedia=="FILM"?"un film":"une série";
 
     if(this.typeMedia == "FILM") {
       this.movieService.getDetailsMovie(this.movieId).subscribe(
@@ -67,8 +69,8 @@ export class DetailMediaComponent {
   setSaison(numeroSaison: number) {
     this.image = this.media.saisons[numeroSaison].image_portraitSaison;
 
-    this.typeResume = "Résumé de la saison "+numeroSaison;
-    this.resume = this.media.saisons[numeroSaison].resumeSaison;
+    this.typeResume = (this.media.saisons[numeroSaison].resumeSaison!="")?"Résumé de la saison "+numeroSaison:"Résumé de la série";
+    this.resume = (this.media.saisons[numeroSaison].resumeSaison!="")?this.media.saisons[numeroSaison].resumeSaison:this.media.resume;
 
     this.typeDateSortie = "Date de sortie de la saison "+numeroSaison;
     this.dateSortie = this.media.saisons[numeroSaison].dateSortieSaison;
@@ -88,7 +90,7 @@ export class DetailMediaComponent {
   }
 
   get titre(): string|null {
-    return(this.media && this.media.titre) ? this.media.titre : null;
+    return(this.media && this.media.titre) ? this.media.titre : "image du média";
   }
 
   get dateSortie$(): Date|null {
