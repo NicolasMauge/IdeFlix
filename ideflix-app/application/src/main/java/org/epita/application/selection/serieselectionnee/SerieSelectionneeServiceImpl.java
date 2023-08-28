@@ -3,9 +3,7 @@ package org.epita.application.selection.serieselectionnee;
 import org.epita.application.media.film.FilmServiceImpl;
 import org.epita.application.media.serie.SerieService;
 import org.epita.domaine.common.EntityNotFoundException;
-import org.epita.domaine.media.FilmEntity;
 import org.epita.domaine.media.SerieEntity;
-import org.epita.domaine.selection.FilmSelectionneEntity;
 import org.epita.domaine.selection.SerieSelectionneeEntity;
 import org.epita.domaine.utilisateur.UtilisateurEntity;
 import org.epita.infrastructure.media.SerieRepository;
@@ -14,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -94,6 +91,9 @@ public class SerieSelectionneeServiceImpl implements SerieSelectionneeService {
 
         Optional<SerieSelectionneeEntity> seriesOpt = this.serieSelectionneeRepository.findSerieSelectionneeEntityByUtilisateurEntity_EmailAndMediaAudioVisuelEntity_IdTmdb(email, idTmdb);
         if (seriesOpt.isPresent()) {
+            logger.debug("IdeFlix - trouverFilmSelectionnesParEmailUtilisateurEtIdTmdb - film sélectionné trouvé : {idTmdb : "
+                    + seriesOpt.get().getMediaAudioVisuelEntity().getIdTmdb() + ", statut : "
+                    + seriesOpt.get().getStatutMediaEntity()+"}");
             seriesList.add(seriesOpt.get());
         }
 

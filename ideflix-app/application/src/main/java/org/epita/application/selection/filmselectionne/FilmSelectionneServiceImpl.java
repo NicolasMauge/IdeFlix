@@ -92,6 +92,9 @@ public class FilmSelectionneServiceImpl implements FilmSelectionneService {
 
         Optional<FilmSelectionneEntity> filmOpt = this.filmSelectionneRepository.findFilmSelectionneEntityByUtilisateurEntity_EmailAndMediaAudioVisuelEntity_IdTmdb(email, idTmdb);
         if (filmOpt.isPresent()) {
+            logger.debug("IdeFlix - trouverFilmSelectionnesParEmailUtilisateurEtIdTmdb - film sélectionné trouvé : {idTmdb : "
+                    + filmOpt.get().getMediaAudioVisuelEntity().getIdTmdb() + ", statut : "
+                    + filmOpt.get().getStatutMediaEntity()+"}");
             filmList.add(filmOpt.get());
         }
 
