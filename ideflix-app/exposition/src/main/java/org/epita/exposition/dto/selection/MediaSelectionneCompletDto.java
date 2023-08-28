@@ -1,5 +1,6 @@
 package org.epita.exposition.dto.selection;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.epita.domaine.selection.StatutMediaEntity;
 import org.epita.exposition.dto.common.TypeMedia;
 import org.epita.exposition.dto.media.MediaDto;
@@ -8,17 +9,30 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class MediaSelectionneCompletDto {
+    @Schema(description = "Type de média (série ou film).")
     private TypeMedia typeMedia;
+    @Schema(description = "Réservé pour usage futur")
     private Boolean avisPouce;
+    @Schema(description = "Date d'ajout dans la liste de l'utilisateur")
     private LocalDate dateSelection;
+    @Schema(description = "Liste des étiquettes mises par l'utilisateur sur le média")
     private List<EtiquetteDto> etiquetteList;
+    @Schema(description = "Statut du média choisi par l'utilisateur")
     private StatutMediaEntity statutMedia;
+    @Schema(description = "Media sélectionné par l'utilisateur")
     private MediaDto media;
+    @Schema(description = "email de l'utilisateur")
     private String email;
+    @Schema(description = "Date de modification de cette sélection par l'utilisateur.")
     private LocalDate dateModification;
+
+    @Schema(description = "Numéro de la saison (série).")
     private int numeroSaison;
+    @Schema(description = "Identifiant de la saison (série) chez le fournisseur de données.")
     private String idTmdbSaison;
+    @Schema(description = "Numéro de l'épisode (série).")
     private int numeroEpisode;
+    @Schema(description = "Identifiant de l'épisode' (série) chez le fournisseur de données.")
     private String idTmdbEpisode;
 
     public MediaSelectionneCompletDto() {

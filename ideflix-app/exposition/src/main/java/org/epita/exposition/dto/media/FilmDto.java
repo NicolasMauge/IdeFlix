@@ -6,24 +6,24 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class FilmDto {
-    @Schema(name = "Identifiant TMDB du film", example = "603")
+    @Schema(description = "Identifiant du film chez le fournisseur de données", example = "603")
     private String idTmdb;
-    @Schema(name = "Titre du film", example = "Matrix")
+    @Schema(description = "Titre du film", example = "Matrix")
     private String titre;
-    @Schema(name = "Date de sortie du film", example = "1999-03-30")
+    @Schema(description = "Date de sortie du film", example = "1999-03-30")
     private LocalDate dateSortie;
-    @Schema(name = "Durée en minutes", example = "135")
+    @Schema(description = "Durée du film en minutes", example = "135")
     private int duree;
 
-    @Schema(name = "Chemin de l'affiche dans TMDB au format portrait", example = "/pEoqbqtLc4CcwDUDqxmEDSWpWTZ.jpg")
+    @Schema(description = "Nom du fichier précédé d'un slash pour l'affiche au format portrait chez le fournisseur de données", example = "/pEoqbqtLc4CcwDUDqxmEDSWpWTZ.jpg")
     private String cheminAffichePortrait;
-    @Schema(name = "Chemin de l'affiche dans TMDB au format paysage", example = "/oMsxZEvz9a708d49b6UdZK1KAo5.jpg")
+    @Schema(description = "Nom du fichier précédé d'un slash pour l'affiche au format paysage chez le fournisseur de données", example = "/oMsxZEvz9a708d49b6UdZK1KAo5.jpg")
     private String cheminAffichePaysage;
 
-    @Schema(name = "Score TMDB", example = "8")
+    @Schema(description = "Score TMDB", example = "8")
     private int noteTmdb;
 
-    @Schema(name = "Liste des genres du film")
+    @Schema(description = "Liste des genres du film")
     private List<GenreDto> genreList;
 
     public FilmDto() {

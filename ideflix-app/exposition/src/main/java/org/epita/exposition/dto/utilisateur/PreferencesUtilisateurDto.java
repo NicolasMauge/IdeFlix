@@ -1,13 +1,16 @@
 package org.epita.exposition.dto.utilisateur;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.epita.exposition.dto.media.GenreDto;
 
 import java.util.List;
 
 public class PreferencesUtilisateurDto {
+    @Schema(description = "Pseudo choisi par l'utilisateur.")
     private String pseudo;
+    @Schema(description = "Email de l'utilisateur.")
     private String email;
-
+    @Schema(description = "Liste des genres de séries et de films choisis par l'utilisateur.")
     private List<GenreDto> genreList;
 
     public PreferencesUtilisateurDto() {

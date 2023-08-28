@@ -1,13 +1,17 @@
 package org.epita.exposition.dto.media;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.epita.exposition.dto.media.GenreDto;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class SerieDto {
+    @Schema(description = "Identifiant de la série chez le fournisseur de données")
     private String idTmdb;
+    @Schema(description = "Titre de la série")
     private String titre;
+    @Schema(description = "Date de sortie de la série", example = "2021-04-17")
     private LocalDate dateSortie;
     private int duree;
     private String cheminAffichePortrait;

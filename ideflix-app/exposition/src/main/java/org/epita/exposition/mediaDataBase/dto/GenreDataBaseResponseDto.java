@@ -6,9 +6,9 @@ public class GenreDataBaseResponseDto {
 
     // DTO en réponse vers IHM
 
-    @Schema(name = "identifiant de la movie Data Base", example = "18", required = true)
+    @Schema(description = "identifiant de la movie Data Base", example = "18", requiredMode = Schema.RequiredMode.REQUIRED)
     private int idDataBase;
-    @Schema(name = "nom du genre", example = "Action", required = true)
+    @Schema(description = "nom du genre", example = "Action", requiredMode = Schema.RequiredMode.REQUIRED)
     private String nomGenre;
 
     public GenreDataBaseResponseDto() {

@@ -8,27 +8,35 @@ import java.util.List;
 public class MediaDataBaseResponseDto {
 
     // DTO en réponse vers IHM
-    @Schema(name = "identifiant du media dans la movie Data Base", example = "8265", required = true)
+    @Schema(description = "identifiant du media dans la movie Data Base", example = "8265", requiredMode = Schema.RequiredMode.REQUIRED)
     private long idDataBase;
-    @Schema(name = "titre du media", example = "Bienvenue chez les Ch'tis", required = true)
+    @Schema(description = "titre du media", example = "Bienvenue chez les Ch'tis", requiredMode = Schema.RequiredMode.REQUIRED)
     private String titre;
-    @Schema(name = "date de sortie du media", example = "2008-02-20", required = true)
+    @Schema(description = "date de sortie du media", example = "2008-02-20", requiredMode = Schema.RequiredMode.REQUIRED)
     private String dateSortie;
 
+    @Schema(description = "Durée en minutes", example = "123")
     private int duree;
 
+    @Schema(description = "Résumé")
     private String resume;
 
+    @Schema(description = "Chemin de l'affiche au format portrait")
     private String cheminAffichePortrait;
 
+    @Schema(description = "Chemin de l'affiche au format paysage")
     private String cheminAffichePaysage;
 
+    @Schema(description = "Note du média par les utilisateurs de The Movie Database")
     private float noteDataBase;
 
+    @Schema(description = "Liste des genres")
     private List<GenreDataBaseResponseDto> genreDataBaseResponseDtos;
 
+    @Schema(description = "Type de média : film ou série")
     private TypeMedia typeMedia;
 
+    @Schema(description = "Pour les séries, nombre de saisons")
     private int nombreSaisons;
 
     public MediaDataBaseResponseDto() {

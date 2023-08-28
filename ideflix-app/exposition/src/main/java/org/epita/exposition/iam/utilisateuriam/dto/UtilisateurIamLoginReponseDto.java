@@ -6,13 +6,18 @@ import java.util.List;
 
 public class UtilisateurIamLoginReponseDto {
     private String nom;
-    @Schema(name = "Prénom de l'utilisateur.", example = "Charles", required = true)
+    @Schema(description = "Prénom de l'utilisateur.", example = "Charles",
+            requiredMode = Schema.RequiredMode.REQUIRED)
     private String prenom;
-    @Schema(name = "Email de l'utilisateur", example = "charles.dupont@example.org", required = true)
+    @Schema(description = "Email de l'utilisateur", example = "charles.dupont@example.org",
+            requiredMode = Schema.RequiredMode.REQUIRED)
     private String email;
 
+    @Schema(description = "Liste des rôles de l'utilisateur", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<RoleIamDto> listeRoleIamDto;
 
+    @Schema(description = "Token de l'utilisateur. Il faudra ensuite mettre se token précédé du mot Bearer dans l'en-tête Authorization de la plupart des requêtes.",
+            requiredMode = Schema.RequiredMode.REQUIRED)
     private String jwt; // on le met dans le body dans la réponse au login suite conseil Frédéric Lossignol et techlead
 
     public UtilisateurIamLoginReponseDto(String nom, String prenom, String email, List<RoleIamDto> listeRoleIamDto, String jwt) {

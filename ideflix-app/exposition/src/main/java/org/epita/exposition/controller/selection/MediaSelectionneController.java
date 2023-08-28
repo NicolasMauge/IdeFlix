@@ -31,7 +31,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/mediaselectionne")
-@Tag(name = "Sélection / Média")
+@Tag(name = "Sélection", description = "Endpoints permettant la gestion par l'utilisateur de sa sélection de médias (films et séries).")
 public class MediaSelectionneController {
     Mapper<FilmSelectionneEntity, MediaSelectionneDto> filmMapper;
     Mapper<FilmSelectionneEntity, MediaSelectionneCompletDto> filmCompletMapper;
@@ -51,7 +51,7 @@ public class MediaSelectionneController {
     }
 
     @PostMapping()
-    @Operation(summary = "Ajouter un média sélectionné.",
+    @Operation(summary = "Ajouter un média dans ma sélection.",
             method = "creerMediaSelectionne",
             description = "Ajout d'un média dans la sélection de l'utilisateur. Seul l'utilisateur lui-même est autorisé à ajouter un film ou une série dans sa sélection.")
     @ApiResponses(value = {
@@ -73,7 +73,7 @@ public class MediaSelectionneController {
             throw new IamErreurHabilitationException("IdeFlix - " + mediaSelectionneDto.getEmail() + " non habilité");
     }
 
-    @Operation(summary = "Récupération des médias d'un utilisateur.",
+    @Operation(summary = "Récupérer les médias de ma sélection.",
             method = "trouverTousLesMediaParUtilisateur",
             description = "Seul l'utilisateur lui-même est autorisé à récupérer ses médias sélectionnés (films et séries).")
     @ApiResponses(value = {

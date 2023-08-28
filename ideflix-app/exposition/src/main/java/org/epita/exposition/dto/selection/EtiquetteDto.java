@@ -1,8 +1,14 @@
 package org.epita.exposition.dto.selection;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class EtiquetteDto {
+
+    @Schema(description = "Identifiant interne d'une étiquette dans IdeFlix.")
     private Long id;
+    @Schema(description = "Libellé de l'étiquette choisi par l'utilisateur", example = "Santé")
     private String nomTag;
+    @Schema(description = "Identifiant interne d'un utilisateur dans IdeFlix.")
     private Long idUtilisateur;
 
     public EtiquetteDto() {

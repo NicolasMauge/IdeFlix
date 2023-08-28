@@ -10,15 +10,22 @@ public class SaisonDataBaseResponseDto {
 
     // DTO en réponse vers IHM
 
-    @Schema(name = "date de sortie de la série", example = "2008-02-20", required = true)
+    @Schema(description = "Date de sortie de la série", example = "2008-02-20", required = true)
     private LocalDate dateSortie;
+
+    @Schema(description = "Nom d'épisodes dans la saison")
     private int nombreEpisodes;
-    @Schema(name = "identifiant de la movie Data Base", example = "693", required = true)
+    @Schema(description = "Identifiant de la movie Data Base", example = "693", required = true)
     private long idDataBase;
     private String titre;
+    @Schema(description = "Résumé de la saison")
     private String resume;
+    @Schema(description = "Nom du fichier précédé d'un slash pour l'affiche au format portrait chez le fournisseur de données", example = "/pEoqbqtLc4CcwDUDqxmEDSWpWTZ.jpg")
     private String cheminAffichePortrait;
+
+    @Schema(description = "Numéro de la saison.")
     private int numeroSaison;
+    @Schema(description = "Score chez le fournisseur de données")
     private float noteDataBase;
 
     public SaisonDataBaseResponseDto() {

@@ -30,7 +30,7 @@ import javax.validation.constraints.Email;
 
 @RestController
 @RequestMapping("/preferences")
-@Tag(name = "Utilisateur / Préférences")
+@Tag(name = "Utilisateur")
 public class PreferencesUtilisateurController {
     static final Logger logger = LoggerFactory.getLogger(PreferencesUtilisateurController.class);
 
@@ -57,12 +57,20 @@ public class PreferencesUtilisateurController {
     @PostMapping(value = "", produces = {"application/json"}, consumes = {"application/json"})
     @Operation(summary = "Créer les préférences d'un utilisateur",
             description = "Permet de stocker le pseudo et les genres préférés de l'utilisateur.")
-    public ResponseEntity<ReponseCommuneDto> creerPreferencesUtilisateur(@RequestBody PreferencesUtilisateurDto preferencesUtilisateurDto) {
-        this.preferencesUtilisateurService
-                .creerPreferencesUtilisateur(
-                        this.preferencesUtilisateurMapper.mapDtoToEntity(preferencesUtilisateurDto));
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Préférences créées."),
+            @ApiResponse(responseCode = "403", description = "Utilisateur non autorisé. L'email du demandeur n'est pas l'email fourni dans les préférences.", content = @Content(schema = @Schema(implementation = ErrorModel.class))),
+    })
+    public ResponseEntity<ReponseCommuneDto> creerPreferencesUtilisateur(@RequestBody PreferencesUtilisateurDto preferencesUtilisateurDto) throws IamErreurHabilitationException {
 
-        return ResponseEntityCommune.get("Préférences utilisateur créées", HttpStatus.CREATED);
+        if (Habilitations.isHabilitationCorrecte(preferencesUtilisateurDto.getEmail())) {
+            this.preferencesUtilisateurService
+                    .creerPreferencesUtilisateur(
+                            this.preferencesUtilisateurMapper.mapDtoToEntity(preferencesUtilisateurDto));
+
+            return ResponseEntityCommune.get("Préférences utilisateur créées", HttpStatus.CREATED);
+        } else
+            throw new IamErreurHabilitationException("IdeFlix - " + preferencesUtilisateurDto.getEmail() + " non habilité");
     }
 
 /*

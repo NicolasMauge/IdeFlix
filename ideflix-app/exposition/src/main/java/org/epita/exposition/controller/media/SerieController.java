@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/serie")
-@Tag(name = "Média / Série")
+@Tag(name = "Média")
 public class SerieController {
     private SerieService serieService;
     private Mapper<SerieEntity, SerieDto> serieMapper;
@@ -37,9 +37,9 @@ public class SerieController {
     }
 */
 
-    @Operation(summary = "Création d'une série.",
+    @Operation(summary = "Ajout d'une série dans IdeFlix.",
             method = "creerSerie",
-            description = "Création d'une série.")
+            description = "Création d'une série (données communes entre les utilisateurs).")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "OK.", content = @Content(schema = @Schema(implementation = String.class))),
     })

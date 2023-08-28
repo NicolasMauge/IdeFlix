@@ -1,8 +1,13 @@
 package org.epita.exposition.common;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class ErrorModel {
+    @Schema(description = "Code HTTP de la réponse", example = "200 OK")
     private String code;
+    @Schema(description = "Message d'erreur.")
     private String message;
+    @Schema(description = "Complément d'information.")
     private String description;
 
     public ErrorModel(String code, String message, String description) {

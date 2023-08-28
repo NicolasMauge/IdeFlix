@@ -30,7 +30,6 @@ import java.util.TreeSet;
 
 @RestController
 @RequestMapping("/genre")
-@Tag(name = "Média / Genre")
 public class GenreController {
     private GenreService genreService;
     private Mapper<GenreEntity, GenreDto> genreMapper;
@@ -65,6 +64,7 @@ public class GenreController {
 */
 
     @PostMapping("/masse")
+    @Tag(name = "Média")
     public ResponseEntity<String> creerPlusieursGenres(@RequestBody List<GenreDto> genreDtoList) {
         genreDtoList
                 .stream()
@@ -86,7 +86,7 @@ public class GenreController {
 */
 
 
-    @Operation(summary = "Récupération des genres des films et séries d'un utilisateur.",
+    @Operation(summary = "Récupération des genres des films et séries sélectionnés par un utilisateur.",
             method = "trouverGenreParEmailUtilisateur",
             description = "Chaque id TMDB est unique. Le résultat est trié par ordre alphabétique du nom du genre.")
     @ApiResponses(value = {
@@ -94,6 +94,7 @@ public class GenreController {
             @ApiResponse(responseCode = "403", description = "Utilisateur non autorisé. L'email du demandeur n'est pas l'email fourni.", content = @Content(schema = @Schema(implementation = ErrorModel.class))),
     })
     @GetMapping("/utilisateur/{email}")
+    @Tag(name = "Sélection")
     public ResponseEntity<TreeSet<GenreDto>> trouverGenreParEmailUtilisateur(@Email @PathVariable("email") String email) throws IamErreurHabilitationException {
 
         if (Habilitations.isHabilitationCorrecte(email)) {
@@ -127,6 +128,7 @@ public class GenreController {
     @GetMapping
     @Operation(summary = "Récupérer tous les genres.", method = "trouverTousLesGenres", description = "Ce point d'accès permet d'initialiser l'application avec la liste complète des genres de TMDB.")
     @SecurityRequirements(value = {})
+    @Tag(name = "Média")
     public List<GenreDto> trouverTousLesGenres() {
         return this.genreMapper
                 .mapListEntityToDto(

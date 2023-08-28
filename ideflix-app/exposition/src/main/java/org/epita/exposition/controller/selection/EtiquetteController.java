@@ -23,7 +23,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/etiquette")
-@Tag(name = "Sélection / Etiquette")
+@Tag(name = "Utilisateur", description = "Endpoints permettant à l'utilisateur de gérer son compte et les données de son profil (étiquettes, préférences).")
 public class EtiquetteController {
     private EtiquetteService etiquetteService;
     private UtilisateurService utilisateurService;
@@ -54,9 +54,9 @@ public class EtiquetteController {
     }
 */
 
-    @Operation(summary = "Création d'une étiquette pour l'utilisateur",
+    @Operation(summary = "Ajouter une étiquette dans ma liste.",
             method = "creerEtiquetteParEmail",
-            description = "L'étiquette a été ajoutée dans la liste des étiquettes de l'utilisateur.")
+            description = "L'étiquette est ajoutée dans la liste des étiquettes de l'utilisateur.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "OK : étiquette créée pour l'utilisateur."),
             @ApiResponse(responseCode = "403", description = "Utilisateur non autorisé. L'email du demandeur n'est pas l'email fourni.", content = @Content(schema = @Schema(implementation = ErrorModel.class))),
@@ -105,7 +105,7 @@ public class EtiquetteController {
     }
 */
 
-    @Operation(summary = "Récupération des étiquettes de l'utilisateur",
+    @Operation(summary = "Récupérer la liste de mes étiquettes.",
             method = "creerEtiquetteParEmail",
             description = "La liste des étiquettes de l'utilisateur est fournie par ce endpoint.")
     @ApiResponses(value = {

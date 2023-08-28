@@ -1,5 +1,6 @@
 package org.epita.exposition.mediaDataBase.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.epita.application.mediaDataBase.movieDataBase.MovieDataBaseService;
 import org.epita.domaine.mediaDataBase.MovieDataBase;
@@ -34,6 +35,10 @@ public class MovieDataBaseController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
+    @Operation(summary = "Récupérer une liste de films filtrées chez le fournisseur de données.",
+            method = "rechercherMedias",
+            description = "La liste est filtrée selon la requête fournie en paramètre."
+    )
     @GetMapping("/rechercheFilm/{query}")
     public ResponseEntity<List<MediaDataBaseResponseDto>> rechercherMedias(@PathVariable("query") String query) {
 
@@ -47,6 +52,10 @@ public class MovieDataBaseController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
+    @Operation(summary = "Récupérer les détails d'un film",
+            method = "rechercherMedias",
+            description = "Le fournisseur de données envoie les détails du film demandé."
+    )
     @GetMapping("/detailFilm/{id}")
     public ResponseEntity<MediaDataBaseResponseDto> trouverFilmSelonId(@PathVariable("id") long id) {
 
