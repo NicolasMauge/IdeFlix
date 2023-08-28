@@ -15,7 +15,8 @@ public final class ConstantesSecurite {
 
 
     public final static String[] PATH_GET_ANONYME_WHITELIST = {
-            "/genre"
+            "/genre",
+            "/health-check"
     };
 
 
