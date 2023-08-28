@@ -105,7 +105,7 @@ export class ChoixSaisonEpisodeComponent {
       episode: this.episodeCurrent
     };
 
-    console.log(this.avancementSerie);
+    //console.log(this.avancementSerie);
 
     this.emitterParent.emit(this.avancementSerie);
   }
