@@ -25,8 +25,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.epita.ideflixiam.common.ConstantesUtiles.EXPIRATION_SESSION_MINUTES;
 
 public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilter {
 
@@ -36,6 +41,8 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
     private String SECRET_IAM;
     private UtilisateurService utilisateurService;
 
+    Dechiffreur dechiffreur;
+
     public JWTAuthenticationManager(AuthenticationManager authenticationManager,
                                     String secretIam,
                                     UtilisateurService utilisateurService,
@@ -44,6 +51,7 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
         this.SECRET_IAM = secretIam;
         this.utilisateurService = utilisateurService;
         this.utilisateurConvertisseur = utilisateurConvertisseur;
+        this.dechiffreur = new Dechiffreur(this.SECRET_IAM);
     }
 
 
@@ -71,7 +79,7 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
                 .authenticate(
                         new UsernamePasswordAuthenticationToken(
                                 utilisateurDto.getEmail(),
-                                utilisateurDto.getMotDePasse()));
+                                dechiffreur.dechiffrer(utilisateurDto.getMotDePasse(), utilisateurDto.getEmail())));
     }
 
     protected void successfulAuthentication(HttpServletRequest request,
@@ -86,8 +94,12 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
             roles.add(au.getAuthority());
         });
 
+        OffsetDateTime odt = OffsetDateTime.now();
+        ZoneOffset zoneOffset = odt.getOffset(); // On récupère le fuseau horaire pour calculer le moment d'expiration du token
+
         String jwt = JWT.create().withSubject(springUser.getUsername())
                 .withArrayClaim("roles", roles.toArray(new String[roles.size()]))
+                .withExpiresAt(LocalDateTime.now().plusMinutes(EXPIRATION_SESSION_MINUTES).toInstant(zoneOffset))
                 .sign(Algorithm.HMAC256(this.SECRET_IAM));
         response.addHeader("Authorization", "Bearer " + jwt); // on passe par le body car on ne sait pas lire le header depuis Angular
 

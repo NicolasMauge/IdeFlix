@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.epita.application.iam.service.UtilisateurIamService;
 import org.epita.exposition.common.ResponseEntityCommune;
 import org.epita.exposition.dto.common.ReponseCommuneDto;
+import org.epita.exposition.iam.securite.Chiffreur;
+import org.epita.exposition.iam.securite.IdeFlixSecurityConfiguration;
 import org.epita.exposition.iam.utilisateuriam.dto.*;
 import org.epita.exposition.iam.utilisateuriam.mapper.UtilisateurIamMapper;
 import org.slf4j.Logger;
@@ -28,11 +30,14 @@ public class UtilisateurIamController {
 
     UtilisateurIamService utilisateurIamService;
     UtilisateurIamMapper utilisateurIamMapper;
+    Chiffreur chiffreur;
 
     public UtilisateurIamController(UtilisateurIamService utilisateurIamService,
-                                    UtilisateurIamMapper utilisateurIamMapper) {
+                                    UtilisateurIamMapper utilisateurIamMapper,
+                                    Chiffreur chiffreur) {
         this.utilisateurIamService = utilisateurIamService;
         this.utilisateurIamMapper = utilisateurIamMapper;
+        this.chiffreur = chiffreur;
     }
 
     // ======================================== Créer un utilisateur =============================================
@@ -50,6 +55,11 @@ public class UtilisateurIamController {
     public ResponseEntity<UtilisateurIamCreationReponseDto> creerUtilisateurIam(@Valid @RequestBody @Validated UtilisateurIamCreationDto utilisateurIamCreationDto) {
 
         logger.debug("IdeFlix - Création de l'utilisateur " + utilisateurIamCreationDto.getEmail());
+
+        String mdpChiffre = chiffreur.chiffrer(utilisateurIamCreationDto.getMotDePasse(),
+                utilisateurIamCreationDto.getEmail());
+
+        utilisateurIamCreationDto.setMotDePasse(mdpChiffre);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -75,6 +85,13 @@ public class UtilisateurIamController {
     ResponseEntity<UtilisateurIamLoginReponseDto> login(@Valid @RequestBody UtilisateurIamLoginDto utilisateurIamLoginDto) {
 
         logger.debug("IdeFlix - Connexion de l'utilisateur " + utilisateurIamLoginDto.getEmail());
+
+        logger.debug(utilisateurIamLoginDto.getMotDePasse());
+        String mdpChiffre = chiffreur.chiffrer(utilisateurIamLoginDto.getMotDePasse(),
+                utilisateurIamLoginDto.getEmail());
+
+        utilisateurIamLoginDto.setMotDePasse(mdpChiffre);
+        logger.debug(mdpChiffre);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
