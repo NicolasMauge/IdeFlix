@@ -166,8 +166,7 @@
                     <version>3.5.0</version>
                     <configuration>
                         <source>17</source>
-                        <!--                        <target>17</target>-->
-                        <!-- Default configuration for all reports -->
+                        <!-- configuration pour tous les modules  -->
                         <noqualifier>all</noqualifier>
                         <destDir>javadoc</destDir>
                     </configuration>
@@ -177,16 +176,8 @@
                             <goals>
                                 <goal>aggregate</goal>
                             </goals>
-                            <configuration>
-                                <!-- Specific configuration for the aggregate report -->
-                                <reportOutputDirectory>/temp</reportOutputDirectory>
-                                <destDir>javadoc</destDir>
-                            </configuration>
                         </execution>
                     </executions>
-                    <!--                    <tags>-->
-                    <!--                        ...-->
-                    <!--                    </tags>-->
                 </plugin>
             </plugins>
         </pluginManagement>
