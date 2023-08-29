@@ -37,7 +37,6 @@ public class EpisodeDataBaseRepositoryImpl implements EpisodeDataBaseRepository 
     public EpisodeSerieDataBase searchEpisodeByIdSeriesAndNumberSeasonAndEpisodeNumber(long id, int numberSeason, int numberEpisode) {
 
 //        https://api.themoviedb.org/3/tv/1408/season/8/episode/1?language=fr-FR'
-
         String url = BASE_URL + "tv/" + id + "/season/" + numberSeason + "/episode/" + numberEpisode + "?&api_key=" + tmdbConfig.getTmdbApiKey() +  "&language=" + LANGUAGE;
 
         logger.debug("recherche détail de l'épisode " + numberEpisode + " de la saison " + numberSeason + " de la série d'id " + id + " via appel url: " + url);
@@ -60,8 +59,7 @@ public class EpisodeDataBaseRepositoryImpl implements EpisodeDataBaseRepository 
                 throw handleErrorResponse(response.code(), " recherche du détail de l'épisode " + numberEpisode + " pour la saison " + numberSeason + " de la série d'idTmdb: " + id);
             }
         } catch (Throwable e) {
-            throw new MediaDataBaseException("APP - Tmdb - Echec recherche du détail d'un  épisode " +  numberEpisode + "," +
-                    " saison " + numberSeason + " et id série :  " + id + " avec un code retour API: " + e);
+            throw new RuntimeException(e);
         }
     }
 

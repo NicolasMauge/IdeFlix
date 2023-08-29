@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.io.IOException;
 import java.util.List;
 
 @Repository
@@ -51,6 +50,7 @@ public class GenreDataBaseRepositoryImpl implements GenreDataBaseRepository {
     private List<GenreEntity> searchAllGenresEntity(String endpoint) {
         String url = BASE_URL + endpoint + "?api_key=" + tmdbConfig.getTmdbApiKey() + "&language=" + LANGUAGE;
 
+
         String itemType = endpoint.contains("movie") ? "films" : "séries";
         logger.debug("recherche liste genres des " + itemType + " via appel url: " + url);
 
@@ -71,7 +71,7 @@ public class GenreDataBaseRepositoryImpl implements GenreDataBaseRepository {
                 throw handleErrorResponse(response.code(), "recherche de la liste de tous les genres" );
             }
         } catch (Throwable e) {
-            throw new MediaDataBaseException("APP - Tmdb - Echec recherche liste des genres pour " + itemType + " avec un code retour API: " + e);
+            throw new RuntimeException(e);
         }
     }
 

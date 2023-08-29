@@ -42,7 +42,6 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
     public List<MovieDataBase> searchAllMovieDataBaseWithQuery(String query) {
         String url = BASE_URL + "search/movie?query=" + query + "&api_key=" + tmdbConfig.getTmdbApiKey() + "&include_adult=" + INCLUDE_ADULT + "&language=" + LANGUAGE;
 
-
         logger.debug("recherche liste des films trouvés selon la chaîne de caractères " + query + " via appel url: " + url);
 
         OkHttpClient client = new OkHttpClient();
@@ -63,14 +62,13 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
                 throw handleErrorResponse(response.code(), "recherche de tous les films trouvés ayant dans leur titre la chaine de caractères: " + query);
             }
         } catch (Throwable e) {
-            throw new MediaDataBaseException("Echec recherche liste de films avec caractères:  " + query + " avec un code retour API: " + e);
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public MovieDataBase findDetailMovieDataBase(long idTmdb) {
         String url = BASE_URL + "movie/" + idTmdb + "?&api_key=" + tmdbConfig.getTmdbApiKey() + "&language=" + LANGUAGE;
-
 
         logger.debug("recherche du détail d'un film selon id" + idTmdb + " via appel url: " + url);
 
@@ -92,7 +90,7 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
                 throw handleErrorResponse(response.code(), "recherche du détail du Film d'id Tmdb: " + idTmdb);
             }
         } catch (Throwable e) {
-            throw new MediaDataBaseException("APP - Tmdb - Echec recherche du détail du film d'Id Tmdb:  " + idTmdb + " avec un code retour API: " + e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -105,8 +103,7 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
                 + "&page=" + page
                 + "&sort_by=" + "popularity.desc"
                 + "&with_origin_country=" + "FR%7CUS";  //pays d'origine des séries France et USA;
-        https:
-//api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=1&sort_by=popularity.desc&with_origin_country=FR%7CUS'
+        https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=1&sort_by=popularity.desc&with_origin_country=FR%7CUS'
 
         logger.debug("recherche d'une suggestion de films page: " + page + " via appel url: " + url);
 
@@ -128,7 +125,7 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
                 throw handleErrorResponse(response.code(), "recherche de la liste des films suggérés pour la page n°: " + page);
             }
         } catch (Throwable e) {
-            throw new MediaDataBaseException("APP - Tmdb - Echec recherche suggestion de films de la page:  " + page + " avec un code retour API: " + e);
+            throw new RuntimeException(e);
         }
     }
 

@@ -1,5 +1,6 @@
 package org.epita.infrastructure.mediaDataBase;
 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -59,16 +60,15 @@ public class SerieDataBaseRepositoryImpl implements SerieDataBaseRepository{
                 throw handleErrorResponse(response.code(), "recherche de toutes les séries trouvées ayant dans leur titre la chaine de caractères: " + query);
             }
         } catch (Throwable e) {
-            throw new MediaDataBaseException("Echec recherche liste de films avec caractères:  " + query + " avec un code retour API: " + e);
+            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public SerieDataBase findDetailSerieDataBase(long idTmdb) {
+    public SerieDataBase findDetailSerieDataBase(long idTmdb)  {
 
         //https://api.themoviedb.org/3/tv/693?&api_key=5f871496b04d6b713429ccba8a599149&language=fr-FR
         String url = BASE_URL + "tv/" + idTmdb + "?&api_key=" + tmdbConfig.getTmdbApiKey() +  "&language=" + LANGUAGE;
-
 
         logger.debug("recherche détail d'une série selon id" + idTmdb + " via appel url: " + url);
 
@@ -87,10 +87,11 @@ public class SerieDataBaseRepositoryImpl implements SerieDataBaseRepository{
                 return serieApiMapper.mapDetailSerieResponseDtoToEntity(detailSerieResponseDto);
 
             } else {
+                System.out.println("dans le else");
                 throw handleErrorResponse(response.code(), "recherche du détail de la série d'id Tmdb: " + idTmdb);
             }
         } catch (Throwable e) {
-            throw new MediaDataBaseException("APP - Tmdb - Echec recherche du détail de la série d'Id TMDB:  " +  idTmdb + " avec un code retour API: " + e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -126,7 +127,7 @@ public class SerieDataBaseRepositoryImpl implements SerieDataBaseRepository{
                 throw handleErrorResponse(response.code(), "recherche de la liste des séries suggérées pour la page n°: " + page);
             }
         } catch (Throwable e) {
-            throw new MediaDataBaseException("APP - Tmdb - Echec recherche suggestion de séries de la page:  " + page + " avec un code retour API: " + e);
+            throw new RuntimeException(e);
         }
     }
 
