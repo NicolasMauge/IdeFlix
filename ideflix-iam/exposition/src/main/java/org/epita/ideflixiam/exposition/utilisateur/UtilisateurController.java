@@ -64,7 +64,6 @@ public class UtilisateurController {
      * Cette méthode permet de s'enrôler comme utilisateur standard quand on n'est pas connecté.
      * (L'email ne doit pas être déjà associé à un autre compte).
      *
-     * @param : UtilisateurEntreeDto
      * @return : UtilisateurSimpleDto
      */
 
