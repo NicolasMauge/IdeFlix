@@ -1,21 +1,28 @@
 package org.epita.infrastructure.utilisateur.iam.apidto;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 
+/**
+ * Cette classe décrit les données fournies à l'IAM par l'APP lors de la création d'un utilisateur.
+ */
 public class UtilisateurIamCreationApiDto {
     @Email(message = "email invalide", regexp = "^[a-zA-Z0-9_!#&*+.-]+@[a-zA-Z0-9.-]+$")
     private String nom;
     private String prenom;
     private String email;
-    @NotEmpty(message = "Mot de passe obligatoire")
-    private String motDePasse;
+    private String motDePasseChiffre;
 
-    public UtilisateurIamCreationApiDto(String nom, String prenom, String email, String motDePasse) {
+    /**
+     * @param nom
+     * @param prenom
+     * @param email
+     * @param motDePasseChiffre Le mot de passe est chiffré par l'APP avant d'être transmis à l'IAM.
+     */
+    public UtilisateurIamCreationApiDto(String nom, String prenom, String email, String motDePasseChiffre) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
-        this.motDePasse = motDePasse;
+        this.motDePasseChiffre = motDePasseChiffre;
     }
 
     public UtilisateurIamCreationApiDto() {
@@ -45,11 +52,11 @@ public class UtilisateurIamCreationApiDto {
         this.email = email;
     }
 
-    public String getMotDePasse() {
-        return motDePasse;
+    public String getMotDePasseChiffre() {
+        return motDePasseChiffre;
     }
 
-    public void setMotDePasse(String motDePasse) {
-        this.motDePasse = motDePasse;
+    public void setMotDePasseChiffre(String motDePasseChiffre) {
+        this.motDePasseChiffre = motDePasseChiffre;
     }
 }
