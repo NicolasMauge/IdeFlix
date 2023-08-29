@@ -1,20 +1,13 @@
 package org.epita.infrastructure.utilisateur.iam.apidto;
 
-/**
- * Cette classe est utilisée par l'APP en entrée de l'IAM lors du login de l'utilisateur.
- */
 public class UtilisateurIamLoginApiDto {
 
     private String email;
-    private String motDePasseChiffre;
+    private String motDePasse;
 
-    /**
-     * @param email
-     * @param motDePasseChiffre Le mot de passe est chiffré par l'APP avant d'être transmis à l'IAM. (voir la classe Chiffreur.class)
-     */
-    public UtilisateurIamLoginApiDto(String email, String motDePasseChiffre) {
+    public UtilisateurIamLoginApiDto(String email, String motDePasse) {
         this.email = email;
-        this.motDePasseChiffre = motDePasseChiffre;
+        this.motDePasse = motDePasse;
     }
 
     public UtilisateurIamLoginApiDto() {
@@ -28,11 +21,11 @@ public class UtilisateurIamLoginApiDto {
         this.email = email;
     }
 
-    public String getMotDePasseChiffre() {
-        return motDePasseChiffre;
+    public String getMotDePasse() {
+        return motDePasse;
     }
 
-    public void setMotDePasseChiffre(String motDePasseChiffre) {
-        this.motDePasseChiffre = motDePasseChiffre;
+    public void setMotDePasse(String motDePasse) {
+        this.motDePasse = motDePasse;
     }
 }
