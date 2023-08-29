@@ -21,14 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthCheck {
 
     @Operation(summary = "Vérifie l'état de l'application",
-            description = "Retour OK si l'application est en service.")
+            description = "Répond si l'application est en service uniquement.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK : étiquette créée pour l'utilisateur.")
     })
     @SecurityRequirements(value = {})
     @GetMapping
     public ResponseEntity<String> getHealthCheck() {
-        return new ResponseEntity<>("IdeFix APP est en service.", HttpStatus.OK);
+        return new ResponseEntity<>("IdeFlix APP est en service.", HttpStatus.OK);
     }
 
 
