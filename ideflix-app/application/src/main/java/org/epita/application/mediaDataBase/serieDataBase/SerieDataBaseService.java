@@ -1,5 +1,7 @@
 package org.epita.application.mediaDataBase.serieDataBase;
 
+import org.epita.domaine.common.MediaDataBaseNonTrouveException;
+import org.epita.domaine.common.MediaDataBaseUnAuthorizedAccessException;
 import org.epita.domaine.mediaDataBase.SerieDataBase;
 
 import java.util.List;

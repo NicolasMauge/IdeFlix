@@ -34,9 +34,9 @@ public class SerieDataBaseServiceImpl implements SerieDataBaseService {
     }
 
     @Override
-    public SerieDataBase findSerieById(long Id) {
+    public SerieDataBase findSerieById(long Id)  {
         logger.debug("recherche détail d'une série selon id" + Id);
-        return serieDataBaseRepository.findDetailSerieDataBase(Id);
+            return serieDataBaseRepository.findDetailSerieDataBase(Id);
     }
 
     @Override
@@ -54,14 +54,11 @@ public class SerieDataBaseServiceImpl implements SerieDataBaseService {
 
         logger.debug("recherche suggestion des séries selon préférences utilisateur (" + email + "), page: " + page);
         List<SerieDataBase> serieDataBaseList = serieDataBaseRepository.searchSuggestedSerieDataBase(page);
-        System.out.println("liste serie suggéré:" + serieDataBaseList);
-
 
         try {
             preferencesUtilisateur = preferencesUtilisateurService.trouverPreferenceUtilisateurParEmailUtilisateur(email);
 
             listeGenresPreferes = preferencesUtilisateur.getGenreList();
-            System.out.println("liste des préférences: " + listeGenresPreferes);
 
             if (listeGenresPreferes.isEmpty()) {
                 preferencesExistent = false;
