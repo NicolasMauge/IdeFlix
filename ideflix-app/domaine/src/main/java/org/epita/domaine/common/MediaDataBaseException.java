@@ -9,7 +9,6 @@ public class MediaDataBaseException extends BusinessException{
 
     public MediaDataBaseException(String message) {
         super(message);
-        logger.error("APP - API MovieDataBase - " + message);
-
+        logger.error("APP - API MovieDataBase - Erreur lors de la communication avec l'API externe : " + message);
     }
 }

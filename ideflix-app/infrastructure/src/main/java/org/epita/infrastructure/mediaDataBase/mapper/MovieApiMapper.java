@@ -87,7 +87,6 @@ public class MovieApiMapper {
 
         if (detailMovieResponseDto.getRelease_date() != null && !detailMovieResponseDto.getRelease_date().isEmpty()) {
             dateSortie = LocalDate.parse(detailMovieResponseDto.getRelease_date(), dateFormatter);
-            System.out.println("date sortie: " + dateSortie);
         } else {
             dateSortie = LocalDate.of(1900, 1, 1); // valeur par défaut quand date inexistante
         }

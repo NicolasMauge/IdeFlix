@@ -54,14 +54,11 @@ public class SerieDataBaseServiceImpl implements SerieDataBaseService {
 
         logger.debug("recherche suggestion des séries selon préférences utilisateur (" + email + "), page: " + page);
         List<SerieDataBase> serieDataBaseList = serieDataBaseRepository.searchSuggestedSerieDataBase(page);
-        System.out.println("liste serie suggéré:" + serieDataBaseList);
-
 
         try {
             preferencesUtilisateur = preferencesUtilisateurService.trouverPreferenceUtilisateurParEmailUtilisateur(email);
 
             listeGenresPreferes = preferencesUtilisateur.getGenreList();
-            System.out.println("liste des préférences: " + listeGenresPreferes);
 
             if (listeGenresPreferes.isEmpty()) {
                 preferencesExistent = false;

@@ -5,6 +5,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.epita.domaine.common.MediaDataBaseException;
+import org.epita.domaine.common.MediaDataBaseNonTrouveException;
+import org.epita.domaine.common.MediaDataBaseUnAuthorizedAccessException;
 import org.epita.domaine.mediaDataBase.MovieDataBase;
 import org.epita.infrastructure.mediaDataBase.apidto.DetailMovieResponseDto;
 import org.epita.infrastructure.mediaDataBase.apidto.SearchMoviesResponseDto;
@@ -13,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.io.IOException;
 import java.util.List;
 
 
@@ -41,9 +42,8 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
     public List<MovieDataBase> searchAllMovieDataBaseWithQuery(String query) {
         String url = BASE_URL + "search/movie?query=" + query + "&api_key=" + tmdbConfig.getTmdbApiKey() + "&include_adult=" + INCLUDE_ADULT + "&language=" + LANGUAGE;
 
-        System.out.println(url);
 
-        logger.debug("recherche liste films selon " + query);
+        logger.debug("recherche liste des films trouvés selon la chaîne de caractères " + query + " via appel url: " + url);
 
         OkHttpClient client = new OkHttpClient();
 
@@ -60,10 +60,10 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
                 return movieApiMapper.mapSearchMoviesResponseDtoToEntityList(searchMoviesResponseDto);
 
             } else {
-                throw new MediaDataBaseException("APP - Tmdb - Echec recherche liste de films avec caractères:  " + query + " avec un code retour API: " + response.code());
+                throw handleErrorResponse(response.code(), "recherche de tous les films trouvés ayant dans leur titre la chaine de caractères: " + query);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable e) {
+            throw new MediaDataBaseException("Echec recherche liste de films avec caractères:  " + query + " avec un code retour API: " + e);
         }
     }
 
@@ -71,9 +71,8 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
     public MovieDataBase findDetailMovieDataBase(long idTmdb) {
         String url = BASE_URL + "movie/" + idTmdb + "?&api_key=" + tmdbConfig.getTmdbApiKey() + "&language=" + LANGUAGE;
 
-        System.out.println(url);
 
-        logger.debug("recherche détail d'un films selon id" + idTmdb);
+        logger.debug("recherche du détail d'un film selon id" + idTmdb + " via appel url: " + url);
 
         OkHttpClient client = new OkHttpClient();
 
@@ -86,15 +85,14 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 String jsonResponse = response.body().string(); // réponse JSON brute en tant que chaîne
-//                System.out.println("retour: " + jsonResponse);
                 DetailMovieResponseDto detailMovieResponseDto = objectMapper.readValue(jsonResponse, DetailMovieResponseDto.class);
                 return movieApiMapper.mapDetailMovieResponseDtoToEntity(detailMovieResponseDto);
 
             } else {
-                throw new MediaDataBaseException("APP - Tmdb - Echec recherche du détail du film d'Id TMDB:  " + idTmdb + " avec un code retour API: " + response.code());
+                throw handleErrorResponse(response.code(), "recherche du détail du Film d'id Tmdb: " + idTmdb);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable e) {
+            throw new MediaDataBaseException("APP - Tmdb - Echec recherche du détail du film d'Id Tmdb:  " + idTmdb + " avec un code retour API: " + e);
         }
     }
 
@@ -107,10 +105,10 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
                 + "&page=" + page
                 + "&sort_by=" + "popularity.desc"
                 + "&with_origin_country=" + "FR%7CUS";  //pays d'origine des séries France et USA;
-        https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=1&sort_by=popularity.desc&with_origin_country=FR%7CUS'
-        System.out.println(url);
+        https:
+//api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=1&sort_by=popularity.desc&with_origin_country=FR%7CUS'
 
-        logger.debug("recherche d'un suggestion de films page: " + page);
+        logger.debug("recherche d'une suggestion de films page: " + page + " via appel url: " + url);
 
         OkHttpClient client = new OkHttpClient();
 
@@ -127,10 +125,20 @@ public class MovieDataBaseRepositoryImpl implements MovieDataBaseRepository {
                 return movieApiMapper.mapSearchMoviesResponseDtoToEntityList(searchMoviesResponseDto);
 
             } else {
-                throw new MediaDataBaseException("APP - Tmdb - Echec recherche suggestion de films de la page:  " + page + " avec un code retour API: " + response.code());
+                throw handleErrorResponse(response.code(), "recherche de la liste des films suggérés pour la page n°: " + page);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable e) {
+            throw new MediaDataBaseException("APP - Tmdb - Echec recherche suggestion de films de la page:  " + page + " avec un code retour API: " + e);
+        }
+    }
+
+    private Throwable handleErrorResponse(int statusCode, String message) {
+        if (statusCode == 404) {
+            throw new MediaDataBaseNonTrouveException(" pour cette recherche: " + message);
+        } else if (statusCode == 401) {
+            throw new MediaDataBaseUnAuthorizedAccessException("Accès non autorisé à l'API TMDB");
+        } else {
+            throw new MediaDataBaseException("Échec de l'appel " + message + " à l'API TMDB avec le code de réponse: " + statusCode);
         }
     }
 }

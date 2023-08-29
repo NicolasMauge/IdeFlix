@@ -76,6 +76,21 @@ public class ControlAdviceException extends ResponseEntityExceptionHandler {
         return getResponseEntity("Habilitation : l'utilisateur n'est pas autorisé à accéder à cette ressource.", HttpStatus.FORBIDDEN, ex);
     }
 
+    //========================================================================================
+    //Exceptions en réponse de MovieDataBase:
+    @ExceptionHandler
+    @ResponseBody
+    public ResponseEntity<Object> handleMovieDataBaseMediaNontrouveException(final MediaDataBaseNonTrouveException ex) {
+        return getResponseEntity("Media recherché non trouvé", HttpStatus.NOT_FOUND, ex);
+    }
+
+    @ExceptionHandler
+    @ResponseBody
+    public ResponseEntity<Object> handleMovieDataBaseUnAuthorizedAccessException(final MediaDataBaseUnAuthorizedAccessException ex) {
+        return getResponseEntity("l'accès à la ressource est non autorisé", HttpStatus.FORBIDDEN, ex);
+    }
+
+
     // ========================================================================================
     // Exceptions de validation :
 
