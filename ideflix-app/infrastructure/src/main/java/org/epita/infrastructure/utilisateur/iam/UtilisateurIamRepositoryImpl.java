@@ -15,6 +15,7 @@ import org.epita.domaine.common.IamException;
 import org.epita.domaine.common.IamUtilisateurExisteDejaException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -34,7 +35,9 @@ import java.util.Objects;
 @Repository
 public class UtilisateurIamRepositoryImpl implements UtilisateurIamRepository {
 
-    public static final String IAM_BASE_URL = "http://localhost:8080/api/v1/iam";
+    //public static final String IAM_BASE_URL = "http://localhost:8080/api/v1/iam";
+    @Value("${org.epita.ideflixapp.url-iam}")
+    public String IAM_BASE_URL;
 
     private static final Logger logger = LoggerFactory.getLogger(UtilisateurIamRepositoryImpl.class);
     UtilisateurIamApiMapper utilisateurIamApiMapper;

@@ -22,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -38,10 +39,9 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
     private final static Logger logger = LoggerFactory.getLogger(JWTAuthenticationManager.class);
     private final AuthenticationManager authenticationManager;
     UtilisateurConvertisseur utilisateurConvertisseur;
+    Dechiffreur dechiffreur;
     private String SECRET_IAM;
     private UtilisateurService utilisateurService;
-
-    Dechiffreur dechiffreur;
 
     public JWTAuthenticationManager(AuthenticationManager authenticationManager,
                                     String secretIam,
@@ -66,10 +66,21 @@ public class JWTAuthenticationManager extends UsernamePasswordAuthenticationFilt
         try {
             //Convertir le contenu du body de la requête en JSON
             // vers un objet java en utilisant Jackson
-            utilisateurDto = mapper
-                    .readValue(request.getInputStream(), UtilisateurEntreeDto.class);
+            ServletInputStream src = request.getInputStream();
+            logger.debug("IAM - attemptAuthentication : request.getQueryString() :" + request.getQueryString());
+            logger.debug("IAM - attemptAuthentication : inputstream : " + src.readAllBytes().toString());
 
-            //logger.debug("IAM - attemptAuthentification : " + utilisateurDto.getEmail());
+            String requeteStr = mapper
+                    .readValue(src, String.class);
+
+            logger.debug("IAM - requeteStr : " + requeteStr);
+
+            utilisateurDto = mapper
+                    .readValue(src, UtilisateurEntreeDto.class);
+
+
+            logger.debug("IAM - attemptAuthentication : " + utilisateurDto.getEmail());
+
 
         } catch (IOException e) {
             throw new ErreurFormatLoginException("Echec de lecture du JSON fourni en entrée.");

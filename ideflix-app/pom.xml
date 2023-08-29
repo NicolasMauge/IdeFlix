@@ -244,4 +244,12 @@
         </pluginManagement>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <uniqueVersion>true</uniqueVersion>
+            <id>AucunId</id>
+            <name>Repo Local</name>
+            <url>file:/temp</url>
+        </repository>
+    </distributionManagement>
 </project>
