@@ -188,7 +188,7 @@
             <uniqueVersion>true</uniqueVersion>
             <id>AucunId</id>
             <name>Repo Local</name>
-            <url>file:/temp/iam</url>
+            <url>file:/temp/mvn_deploy_iam</url>
         </repository>
     </distributionManagement>
 
