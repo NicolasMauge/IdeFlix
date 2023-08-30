@@ -249,7 +249,7 @@
             <uniqueVersion>true</uniqueVersion>
             <id>AucunId</id>
             <name>Repo Local</name>
-            <url>file:/temp</url>
+            <url>file:/temp/mvn_deploy_app</url>
         </repository>
     </distributionManagement>
 </project>
