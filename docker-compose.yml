@@ -1,28 +1,15 @@
 version: '3'
 services:
-  postgresql_ideflix:
-    image: postgres:15.2
-    volumes:
-      - /c/data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Equin?34
-
   iam_ideflix:
-    image: image_ideflix_iam:latest
+    image: stephaneeveille/ideflix_iam:latest
     #  configurations nécessaires pour l'API IAM
-    depends_on:
-    - postgresql_ideflix
     ports:
       - "8080:8080"
     volumes:
       - /c/temp/conf_iam:/conf_iam
 
   app_ideflix:
-    image: image_ideflix_app:latest
+    image: stephaneeveille/ideflix_app:latest
     # configurations nécessaires pour l'application back-end
     depends_on:
       - iam_ideflix
@@ -32,7 +19,7 @@ services:
     - /c/temp/conf_app:/conf_app
 
   frontend_ideflix:
-    image: ideflix-ihm-image:latest
+    image: stephaneeveille/ideflix_ihm:latest
     # s configurations nécessaires pour le front-end
     depends_on:
       - app_ideflix
