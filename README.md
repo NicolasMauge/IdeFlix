@@ -6,7 +6,11 @@ Projet EPITA septembre 2023
 ### Base PostgresSQL #1: 
 Si nécessaire, lancer Services et désactiver le service postgresql-x64-… (il redémarre automatiquement avec Windows) 
 
-- Créer un répertoire /data sur C:\ 
+- Créer un répertoire /data sur C:\
+(ou bien créer un volume avec la commande ci-dessous)
+```
+docker volume create postgres-volume
+```
 
 **Nous avons travaillé avec la version 15.2 depuis le début : récupérer l'image postgres de notre version :**
 
@@ -14,18 +18,48 @@ Si nécessaire, lancer Services et désactiver le service postgresql-x64-… (il
 
 
 **Pour lancer le SGBD en spécifiant bien l'utilisateur, le mot de passe et le répertoire de stockage sur le PC :**  
-
-`docker run -itd -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=SrixTo2B44 -p 5432:5432 -v /c/data:/var/lib/postgresql/data --name postgresql_ideflix postgres:15.2` 
-
-- Lancer PGADMIN qui va trouver le serveur. 
+```
+docker run -itd -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=SrixTo2B44 -p 5432:5432 -v /c/data:/var/lib/postgresql/data --name postgresql_ideflix postgres:15.2 
+```
+ou avec volume
+```
+docker run -itd -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=SrixTo2B44 -p 5432:5432 -v postgres-volume:/var/lib/postgresql/data --name postgresql_ideflix postgres:15.2 
+```
 
 **Créer les bases :**
 
+**Première méthode : lancer PGADMIN PgAdmin va trouver le serveur**
+Créer les tables :
 - ideflix_bdd 
-
 - ideflix_iam 
 
 >Remarque : la base est conservée dans /data même si le container est supprimé. 
+
+**Seconde méthode (en ligne de commande dans le docker) :**
+
+Aller dans le container :
+
+`docker exec -it postgresql_ideflix bash`
+
+Aller dans Postgres
+
+`psql -h localhost -U postgres`
+
+et coller
+
+`CREATE DATABASE ideflix_iam; GRANT ALL PRIVILEGES ON DATABASE ideflix_iam TO postgres; CREATE DATABASE ideflix_bdd; GRANT ALL PRIVILEGES ON DATABASE ideflix_bdd TO postgres;`
+
+Lister les bases
+
+`\l`
+
+Pour quitter Postgres
+
+`\q`
+
+Pour quitte le container :
+
+`exit`
 
 ### IAM #2
 
@@ -127,5 +161,6 @@ ENTRYPOINT ["nginx", "-g", "daemon off;"]
 
 ## Execution
 lancer le docker-compose.yml avec les images construites précédemment
-comande à lancer : 
+comande à lancer :
+
 `docker-compose up -d`
