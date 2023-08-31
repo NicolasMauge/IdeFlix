@@ -60,7 +60,7 @@ public class MediaSelectionneController {
     })
     public ResponseEntity<String> creerMediaSelectionne(@RequestBody MediaSelectionneDto mediaSelectionneDto) throws IamErreurHabilitationException {
 
-        if (mediaSelectionneDto == null || mediaSelectionneDto.getEmail().isEmpty() || Habilitations.isHabilitationCorrecte(mediaSelectionneDto.getEmail())) {
+        if (mediaSelectionneDto != null && !(mediaSelectionneDto.getEmail().isEmpty()) && Habilitations.isHabilitationCorrecte(mediaSelectionneDto.getEmail())) {
 
             if (mediaSelectionneDto.getTypeMedia() == TypeMedia.FILM) {
                 this.filmSelectionneService.creerFilmSelectionne(this.filmMapper.mapDtoToEntity(mediaSelectionneDto));
@@ -70,7 +70,7 @@ public class MediaSelectionneController {
 
             return new ResponseEntity<>("Media sélectionné créé", HttpStatus.CREATED);
         } else
-            throw new IamErreurHabilitationException("IdeFlix - " + mediaSelectionneDto.getEmail() + " non habilité");
+            throw new IamErreurHabilitationException("IdeFlix - non habilité");
     }
 
     @Operation(summary = "Récupérer les médias de ma sélection.",
