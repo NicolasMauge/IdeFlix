@@ -16,7 +16,7 @@ services:
     ports:
       - "8081:8081"
     volumes:
-    - /c/temp/conf_app:/conf_app
+      - /c/temp/conf_app:/conf_app
 
   frontend_ideflix:
     image: stephaneeveille/ideflix_ihm:latest
