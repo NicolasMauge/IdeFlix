@@ -9,8 +9,6 @@ import {MediaDatabaseModel} from "../../models/media-database.model";
 })
 export class MediaService {
 
-  // TMDB_API = 'https://api.themoviedb.org/3';
-  // TMDB_APIKEY = environment.APIKEY_TMDB;
   MOVIEDATABASE_API = environment.MOVIEDATABASE_SERVER;
 
   // private _movies$ = new BehaviorSubject(<MediaModel[]>([]));
@@ -109,5 +107,4 @@ export class MediaService {
         new MediaDatabaseModel(movieFromApi))
       )
   }
-
 }

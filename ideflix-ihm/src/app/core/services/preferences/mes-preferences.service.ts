@@ -12,8 +12,8 @@ import {Router} from "@angular/router";
 export class MesPreferencesService {
 
   IDEFLIX_API = environment.IDEFLIX_SERVER;
-  private _preferences$ = new BehaviorSubject<PreferenceModel>({email: 'toto', pseudo: ' ', genreList: []});
-  preferencesVides = {email: 'toto', pseudo: ' ', genreList: []};
+  private _preferences$ = new BehaviorSubject<PreferenceModel>({email: ' ', pseudo: ' ', genreList: []});
+  preferencesVides = {email: ' ', pseudo: ' ', genreList: []};
 
   constructor(private http: HttpClient,
               private messageSvc: MessageService,
@@ -22,7 +22,6 @@ export class MesPreferencesService {
 
   registerPreferences(data: any): Observable<any> {
     let endpoint = '/preferences';
-//    return this.http.post<any>(this.IDEFLIX_API + endpoint, data);
     const email = localStorage.getItem('email');
     if (email !== null) {
       this.getPreferencesFromApi(email);
@@ -33,24 +32,19 @@ export class MesPreferencesService {
     } else {
       return this.http.post<any>(this.IDEFLIX_API + endpoint, data);
     }
-
-
   }
 
   getPreferencesFromApi(email: string): void {
 
     let endpoint = '/preferences/utilisateur/' + email;
-    console.log("Récupération des préférences de " + email);
     this.http.get<PreferenceModel>(this.IDEFLIX_API + endpoint)
       .pipe(
         map((preferencesFromApi: any) =>
           new PreferenceModel(preferencesFromApi))
       )
       .subscribe({
-        next: (data: PreferenceModel) => {
-          this._preferences$.next(data);
-          console.log(this._preferences$);
-        },
+        next: (data: PreferenceModel) =>
+          this._preferences$.next(data),
         error: (err: unknown) => {
           if (err instanceof HttpErrorResponse) {
             if (err.status == 404) {
@@ -74,5 +68,4 @@ export class MesPreferencesService {
   getPreferences(): PreferenceModel {
     return this._preferences$.getValue();
   }
-
 }

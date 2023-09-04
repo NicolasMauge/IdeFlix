@@ -32,9 +32,7 @@ export class MediaMaListeService {
       )
       //on envoie la valeur suivante du flux de donnée (Observable est un flux)
       .subscribe((data: MediaMaListeModel[]) => {
-        console.log("data get: ", data)
         this._mediaMaListe$.next(data);
-        console.log("getMoviesFromApi: ", this.getValueOfMediaMaListe$() )
         this.originalMediaList = data});
   }
 
@@ -59,5 +57,4 @@ export class MediaMaListeService {
   reinitializedMediaList() {
     this._mediaMaListe$.next(this.originalMediaList);
   }
-
 }
