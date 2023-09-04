@@ -10,7 +10,7 @@ import {GenreModel} from "../../models/genre.model";
 export class GenreService {
 
   IDEFLIX_API = environment.IDEFLIX_SERVER;
-  // private genres: GenreModel[] = [];
+
   private _genres$ = new BehaviorSubject(<GenreModel[]>([]));
 
   constructor(private http: HttpClient) {}

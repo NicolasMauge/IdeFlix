@@ -10,7 +10,7 @@ import {HttpClient} from "@angular/common/http";
 export class EtiquetteCoreService {
 
   IDEFLIX_API = environment.IDEFLIX_SERVER;
-  // private genres: GenreModel[] = [];
+
   private _etiquettes$ = new BehaviorSubject(<EtiquetteModel[]>([]));
 
   constructor(private http: HttpClient) {}

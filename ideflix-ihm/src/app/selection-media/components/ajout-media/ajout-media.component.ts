@@ -47,7 +47,6 @@ export class AjoutMediaComponent {
   @Input() media!: MediaDatabaseModel;
   @Input() typeMedia!:string;
   @Output() emitterParentNumeroSaison = new EventEmitter<number>();
-  //@Output() emitterParentResume = new EventEmitter<string>();
 
   userForm!: FormGroup;
 
@@ -91,7 +90,6 @@ export class AjoutMediaComponent {
     }
     else {
       console.log('email non présent dans le localstorage');
-      //this.messageSvc.show('erreur de conexion - veuillez vous reconnecter', 'error')
       this.route.navigate(['/login']);
     }
   }
@@ -120,7 +118,6 @@ export class AjoutMediaComponent {
 
   loadMediaSelectionne() {
     this.mediaSelectionne$ = this.mediaSelectionneToAppService.trouveMediaSelectionnePourEmailEtIdTmdb(this.email!, this.media.idDataBase.toString());
-    //this.mediaSelectionne$ = this.mediaSelectionneToAppService.mediaSelectionne$;
   }
 
   loadEtiquettes() {
@@ -174,42 +171,6 @@ export class AjoutMediaComponent {
       }
     }
 
-  // **********************************************************
-  // OnSubmitAdd() {
-  //   //event.preventDefault();
-  //
-  //   if (this.userForm.value.status != '') {
-  //     //sauvegarde de la partie genre
-  //     this.genreService.saveToApp(this.media.genres.map((genre:any) => {return new GenreAppModel(genre);}))
-  //       .subscribe(() => this.mediaService.saveToApp(this.media, this.typeMedia)
-  //         .subscribe(() => {
-  //           //let statusApp = mapIhmStatusToBackendStatus(this.userForm.value.status);
-  //           let statusApp = this.mapStatus.mapIhmStatusToBackendStatus(this.userForm.value.status);
-  //
-  //           let mediaSelectionneObject = {
-  //             typeMedia: this.typeMedia,
-  //             avisPouce: false,
-  //             dateSelection: new Date(),
-  //             etiquetteList: this.userForm.value.etiquettes,
-  //             statutMedia: statusApp,
-  //             mediaIdTmdb: this.media.idDataBase,
-  //             email: this.email,
-  //             dateModification: new Date(),
-  //             numeroSaison: this.typeMedia=="SERIE"?this.userForm.value.avancement.saison:0,
-  //             idTmdbSaison: this.typeMedia=="SERIE"?this.userForm.value.avancement.idSaisonTmdb:"",
-  //             numeroEpisode: this.typeMedia=="SERIE"?this.userForm.value.avancement.episode:0,
-  //             idTmdbEpisode: ""
-  //           }
-  //
-  //           let mediaSelectionne = new MediaSelectionneDtoModel(mediaSelectionneObject);
-  //
-  //           this.mediaAppService.saveToApp(mediaSelectionne);
-  //         })
-  //       );
-  //   }
-  //   this.route.navigate(['/maListe']);
-  // }
-  // ******************************************************************
 
   OnSubmitDelete() {
     this.mediaSelectionneToAppService.deleteFromApp(this.email!, this.media.idDataBase.toString()).subscribe(()=>{

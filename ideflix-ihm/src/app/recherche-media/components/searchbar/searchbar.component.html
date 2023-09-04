@@ -1,20 +1,6 @@
 <div>
   <h1 class="text-center text-white">rechercher vos films et séries</h1>
 
-<!--  <div>-->
-<!--    <input #userInputMovie (keyup)="onKeyupStringOfMovie(userInputMovie.value)"-->
-<!--           class="form-control"-->
-<!--           type="text" placeholder="rechercher un film ...">-->
-
-<!--    &lt;!&ndash; afficher la liste des films&ndash;&gt;-->
-<!--    <ul *ngIf="mediasResult.length>0" class="list-group">-->
-<!--      <li *ngFor="let media of mediasResult"-->
-<!--          class="list-group-item list-group-item-action list-group-item-light">-->
-<!--        <a routerLink="/selection">{{ media.titre }}</a>-->
-<!--      </li>-->
-<!--    </ul>-->
-<!--  </div>-->
-
   <div>
     <input #userInputMovie (keyup)="onKeyupStringOfMovieWithDebounce(userInputMovie.value)"
            class="form-control"

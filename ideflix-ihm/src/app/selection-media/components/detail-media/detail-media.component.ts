@@ -55,14 +55,6 @@ export class DetailMediaComponent {
           this.dateSortie = this.media.dateSortie;
         });
     }
-    //CARO--- --- tests pour voir si GetDetail est OK et c'est bien OK !!!!-------
-    // this.movieService.getDetailsSerie(this.movieId).subscribe(
-    //   (data:MediaDatabaseModel) => {
-    //     this.media=data;
-    //     for (const saison of this.media.saisons) {
-    //       console.log("Saison:", saison);
-    //     }
-    //   });
   }
 
 

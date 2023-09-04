@@ -55,7 +55,6 @@
 
 
     <div *ngIf="!((mediaMaListe$ | async)?.length)" class="text-center">
-<!--      <app-chargement-en-cours [message]="'Chargement en cours...'"></app-chargement-en-cours>-->
       <h2>Vous n'avez aucun média dans votre sélection</h2>
       <button [routerLink]="['/search']" class="col-4 btn btn-primary">Recherche films et séries</button>
     </div>
