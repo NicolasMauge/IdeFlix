@@ -4,7 +4,6 @@ import {AuthService} from "../../services/auth.service";
 import {MessageService} from "../../../core/services/common/message.service";
 import {Router} from "@angular/router";
 import {MenuService} from "../../../core/services/common/menu.service";
-// import {MenuService} from "../../shared/services/menu.service";
 
 
 @Component({
@@ -48,29 +47,20 @@ export class RegisterComponent  {
     const motDePasse = registerForm.get('motDePasse')?.value;
     const confirmMotDePasse = registerForm.get('confirmMotDePasse')?.value;
 
-    console.log('confirmMotDePasse: ' + confirmMotDePasse);
-
       if (  motDePasse !== confirmMotDePasse) {
       registerForm.get('confirmMotDePasse')?.setErrors({ mismatch: true });
     } else {
       registerForm.get('confirmMotDePasse')?.setErrors(null);
     }
-    console.log(registerForm.get('confirmMotDePasse'));
   }
 
   register(event:Event) {
     event.preventDefault();
 
-    // console.log(this.registerForm);
-    console.log('isFormSubmitted: ' + this.isFormSubmitted);
-    console.log('valid:' + this.registerForm.valid)
-
     this.isFormSubmitted = true;
     if (this.registerForm.valid) {
-      // console.log('registerForm' + this.registerForm.value)
       this.authService.registerUser(this.registerForm.value)
         .subscribe({next : response => {
-            console.log('reponse register' + response)
             this.messageSvc.show('Compte créé', 'success')
             this.route.navigate(['/login']); //TODO redirigé vers la page des préférences ou LOGIN
           }})
@@ -79,4 +69,4 @@ export class RegisterComponent  {
       this.registerForm.reset();
     }
   }
-  }
+}
