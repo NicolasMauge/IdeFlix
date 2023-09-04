@@ -10,7 +10,6 @@ import {MediaSelectionneCompletDtoModel} from "../model/MediaSelectionneCompletD
 })
 export class MediaSelectionneToAppService {
   IDEFLIX_API = environment.IDEFLIX_SERVER;
-  //private _mediaSelectionne$ = new BehaviorSubject(<MediaSelectionneDtoModel[]>([]));
 
   constructor(private http: HttpClient) { }
 
@@ -19,17 +18,6 @@ export class MediaSelectionneToAppService {
 
     return this.http.post(this.IDEFLIX_API + endpoint, media, {responseType: 'text'});
   }
-
-  /*
-  getMediaSelectionnePourEmailEtIdTmdb(): MediaSelectionneDtoModel[] {
-    return this._mediaSelectionne$.getValue();
-  }
-
-  // getter setter
-  get mediaSelectionne$():Observable<MediaSelectionneDtoModel[]> {
-    //asObservable pour que personne ne puisse faire un next là-dessus. Avec un observable, on ne peut que souscrire.
-    return this._mediaSelectionne$.asObservable();
-  }*/
 
   trouveMediaSelectionnePourEmailEtIdTmdb(email: string, idTmdb: string): Observable<MediaSelectionneCompletDtoModel[]> {
     let endpoint = '/mediaselectionne/utilisateur/'+email+"/idtmdb/"+idTmdb;
@@ -43,7 +31,6 @@ export class MediaSelectionneToAppService {
             }
         ))
       );
-      //.subscribe((data: MediaSelectionneDtoModel[])=> this._mediaSelectionne$.next(data));
   }
 
   deleteFromApp(email: string, idTmdb: string):Observable<any> {
