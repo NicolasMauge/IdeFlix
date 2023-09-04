@@ -10,8 +10,6 @@ import {debounceTime, Subject} from "rxjs";
 })
 export class SearchbarComponent {
 
-  // mediasResult: MediaModel[] = [];
-
   moviesDataBaseResult: MediaDatabaseModel[] = [];
   seriesDataBaseResult: MediaDatabaseModel[] = [];
   private debounceSubjectForMovies = new Subject<string>();
@@ -41,34 +39,18 @@ export class SearchbarComponent {
       })
   }
 
-  // onKeyupStringOfMovie(userInput: string): void{
-  //   // requête GET à TMDB pour récupérer la liste des films
-  //   console.log('userInputMovie', userInput)
-  //   this.mediaSvc.searchMovies(userInput)
-  //     .subscribe((data:MediaModel[]) => {
-  //       (this.mediasResult = data);
-  //       console.log('keyup', this.mediasResult);
-  //     })
-  // }
-
   onKeyupStringOfMovie(userInput: string): void {
     // requête GET à TMDB pour récupérer la liste des films
-    console.log('userInputMovie', userInput)
     this.mediaSvc.searchMovies(userInput)
-      .subscribe((data: MediaDatabaseModel[]) => {
-        (this.moviesDataBaseResult = data);
-        console.log('keyup', this.moviesDataBaseResult);
-      })
+      .subscribe((data: MediaDatabaseModel[]) =>
+        this.moviesDataBaseResult = data )
   }
 
   onKeyupStringOfSerie(userInput: string): void {
     // requête GET à TMDB pour récupérer la liste des films
-    console.log('userInputSerie', userInput)
     this.mediaSvc.searchSeries(userInput)
-      .subscribe((data: MediaDatabaseModel[]) => {
-        (this.seriesDataBaseResult = data);
-        console.log('keyup', this.seriesDataBaseResult);
-      })
+      .subscribe((data: MediaDatabaseModel[]) =>
+        this.seriesDataBaseResult = data);
   }
 
   onKeyupStringOfMovieWithDebounce(value: string) {
